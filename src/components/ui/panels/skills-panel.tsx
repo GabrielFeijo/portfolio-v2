@@ -2,6 +2,14 @@ import { motion } from 'framer-motion'
 import { SKILLS } from '@/data/portfolio'
 import { Layout, Server, Terminal, Cpu } from 'lucide-react'
 
+const getLevelText = (level: number) => {
+  if (level >= 95) return 'EXPERT'
+  if (level >= 85) return 'ADVANCED'
+  if (level >= 75) return 'PROFICIENT'
+  if (level >= 60) return 'INTERMEDIATE'
+  return 'FAMILIAR'
+}
+
 export function SkillsPanel() {
   const categories = [
     { key: 'frontend', label: 'FRONTEND',       icon: Layout, color: '#00D4FF', skills: SKILLS.frontend },
@@ -98,7 +106,7 @@ function SkillBar({ skill, delay }: { skill: { name: string; level: number; colo
           <div className="w-2 h-2 rounded-full" style={{ background: skill.color, boxShadow: `0 0 6px ${skill.color}` }} />
           <span className="font-body-exo text-[13px] font-semibold text-[#F0F4FF]">{skill.name}</span>
         </div>
-        <span className="font-display text-[10px] tracking-[0.1em]" style={{ color: skill.color }}>{skill.level}%</span>
+        <span className="font-display text-[10px] tracking-[0.1em]" style={{ color: skill.color }}>{getLevelText(skill.level)}</span>
       </div>
 
       <div className="h-0.5 bg-[rgba(255,255,255,0.06)] rounded overflow-hidden">

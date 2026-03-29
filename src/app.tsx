@@ -54,7 +54,7 @@ export default function App() {
       <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
       <AnimatePresence>{showIntro && isLoaded && <IntroSequence />}</AnimatePresence>
       <AnimatePresence>{isLoaded && !showIntro && <HUD />}</AnimatePresence>
-      <AnimatePresence>{activePanel && <PlanetPanel />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <WarpEffect />
     </div>
   )
