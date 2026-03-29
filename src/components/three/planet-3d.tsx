@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, MutableRefObject } from 'react'
 import { useFrame, extend } from '@react-three/fiber'
-import { Text } from '@react-three/drei'
+import { Text, Billboard } from '@react-three/drei'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import type { Planet } from '@/data/portfolio'
@@ -67,7 +67,7 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
   
   const meshRef = useRef<THREE.Mesh>(null)
   const groupRef = useRef<THREE.Group>(null)
-  const glowRef = useRef<THREE.Mesh>(null) // We use glowing particles now instead of big mesh, or small rim.
+  const glowRef = useRef<THREE.Mesh>(null)
   const atmoRef = useRef<THREE.Mesh>(null)
   
   const planetMatRef = useRef<THREE.ShaderMaterial>(null)
@@ -110,9 +110,10 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
     }
   })
 
-  const handleClick = () => {
-    if (activePlanet === planet.id) openPanel(planet.id as any)
-    else setActivePlanet(planet.id)
+  const handleClick = (e: any) => {
+    e.stopPropagation()
+    setActivePlanet(planet.id)
+    openPanel(planet.id as any)
   }
 
   const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color])
@@ -182,7 +183,7 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
         {planet.size > 3.0 && <SmallMoon size={planet.size} color={planet.color} lightDir={uLightDir} />}
 
         {(hovered || isActive) && (
-          <group position={[0, planet.size + 3.5, 0]}>
+          <Billboard position={[0, planet.size + 3.5, 0]}>
             <Text
               fontSize={0.68}
               color={planet.glowColor}
@@ -203,7 +204,7 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
             >
               {planet.subtitle}
             </Text>
-          </group>
+          </Billboard>
         )}
 
         {isActive && <OrbitParticles color={planet.glowColor} size={planet.size} />}
