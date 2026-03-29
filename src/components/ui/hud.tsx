@@ -27,53 +27,49 @@ export function HUD() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 100 }}
+      className="fixed inset-0 pointer-events-none z-[100]"
     >
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 56,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 28px',
-        background: 'linear-gradient(to bottom, rgba(0,0,8,0.85) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(0,212,255,0.07)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-7
+                      bg-gradient-to-b from-[rgba(0,0,8,0.88)] to-transparent
+                      border-b border-[rgba(0,212,255,0.07)]">
+        <div className="flex items-center gap-3.5">
           <motion.div
-            animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            style={{ fontSize: 20, color: '#00D4FF' }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            className="text-[#00D4FF] text-xl"
           >◈</motion.div>
           <div>
-            <div style={{ fontFamily: 'Orbitron, monospace', fontSize: 14, fontWeight: 700, color: '#F0F4FF', letterSpacing: '0.15em' }}>
+            <div className="font-display text-[13px] font-bold text-[#F0F4FF] tracking-[0.15em]">
               {DEVELOPER.name.toUpperCase()}
             </div>
-            <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#00D4FF', letterSpacing: '0.3em', marginTop: 1 }}>
+            <div className="font-mono-space text-[9px] text-[#00D4FF] tracking-[0.3em] mt-0.5">
               {DEVELOPER.title.toUpperCase()}
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 2, repeat: Infinity }}
-            style={{ width: 6, height: 6, borderRadius: '50%', background: '#00FF88' }} />
-          <span style={{ fontFamily: 'Space Mono, monospace', fontSize: 10, color: '#00FF88', letterSpacing: '0.2em' }}>
+        <div className="flex items-center gap-2">
+          <motion.div
+            animate={{ opacity: [1, 0.2, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+            className="w-2 h-2 rounded-full bg-[#00FF88]"
+          />
+          <span className="font-mono-space text-[10px] text-[#00FF88] tracking-[0.2em]">
             AVAILABLE FOR WORK
           </span>
         </div>
 
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 11, color: 'rgba(240,244,255,0.45)', letterSpacing: '0.15em' }}>
+        <div className="text-right">
+          <div className="font-mono-space text-[11px] text-[rgba(240,244,255,0.45)] tracking-[0.15em]">
             {time.toLocaleTimeString('en-US', { hour12: false })} UTC
           </div>
-          <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: 'rgba(0,212,255,0.35)', letterSpacing: '0.1em', marginTop: 2 }}>
+          <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.35)] tracking-[0.1em] mt-0.5">
             X:{String(coords.x).padStart(4, '0')} Y:{String(coords.y).padStart(4, '0')}
           </div>
         </div>
       </div>
 
-      <div style={{
-        position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)',
-        display: 'flex', flexDirection: 'column', gap: 7,
-        pointerEvents: 'auto',
-      }}>
+      <div className="absolute left-5 top-1/2 -translate-y-1/2 flex flex-col gap-2 pointer-events-auto">
         {PLANETS.map((planet, i) => {
           const isActive = activePlanet === planet.id
           return (
@@ -86,50 +82,54 @@ export function HUD() {
               onClick={() => handlePlanetNav(planet.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
+              className="flex items-center gap-3 rounded-lg px-4 py-2.5 min-w-[180px] transition-all duration-300
+                         backdrop-blur-xl cursor-none border text-left"
               style={{
-                display: 'flex', alignItems: 'center', gap: 11,
                 background: isActive ? `rgba(${hr(planet.glowColor)},0.18)` : 'rgba(2,2,21,0.65)',
-                border: `1px solid ${isActive ? planet.glowColor : 'rgba(0,212,255,0.13)'}`,
-                borderRadius: 8, padding: '9px 15px',
-                cursor: 'none', backdropFilter: 'blur(12px)',
-                boxShadow: isActive ? `0 0 18px ${planet.glowColor}35` : 'none',
-                minWidth: 175,
-                transition: 'background 0.25s, border-color 0.25s',
+                borderColor: isActive ? planet.glowColor : 'rgba(0,212,255,0.13)',
+                boxShadow: isActive ? `0 0 20px ${planet.glowColor}30` : 'none',
               }}
             >
               <motion.div
-                animate={{ scale: isActive ? [1, 1.4, 1] : 1 }}
+                animate={{ scale: isActive ? [1, 1.5, 1] : 1 }}
                 transition={{ duration: 1.8, repeat: isActive ? Infinity : 0 }}
-                style={{ width: 9, height: 9, borderRadius: '50%', background: planet.color, boxShadow: `0 0 7px ${planet.glowColor}`, flexShrink: 0 }}
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ background: planet.color, boxShadow: `0 0 8px ${planet.glowColor}` }}
               />
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontFamily: 'Orbitron, monospace', fontSize: 9, fontWeight: 700, color: isActive ? planet.glowColor : '#F0F4FF', letterSpacing: '0.22em' }}>
+              <div>
+                <div
+                  className="font-display text-[9px] font-bold tracking-[0.22em]"
+                  style={{ color: isActive ? planet.glowColor : '#F0F4FF' }}
+                >
                   {planet.name}
                 </div>
-                <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 7, color: isActive ? 'rgba(240,244,255,0.65)' : 'rgba(240,244,255,0.3)', letterSpacing: '0.1em', marginTop: 2 }}>
+                <div
+                  className="font-mono-space text-[7px] tracking-[0.1em] mt-0.5"
+                  style={{ color: isActive ? 'rgba(240,244,255,0.65)' : 'rgba(240,244,255,0.3)' }}
+                >
                   {planet.subtitle.toUpperCase()}
                 </div>
               </div>
               {isActive && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  style={{ marginLeft: 'auto', color: planet.glowColor, fontSize: 9 }}>▶</motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="ml-auto text-[9px]"
+                  style={{ color: planet.glowColor }}
+                >▶</motion.div>
               )}
             </motion.button>
           )
         })}
       </div>
 
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: 44,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 28px',
-        background: 'linear-gradient(to top, rgba(0,0,8,0.85) 0%, transparent 100%)',
-        borderTop: '1px solid rgba(0,212,255,0.07)',
-      }}>
-        <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: 'rgba(0,212,255,0.45)', letterSpacing: '0.2em' }}>
+      <div className="absolute bottom-0 left-0 right-0 h-11 flex items-center justify-between px-7
+                      bg-gradient-to-t from-[rgba(0,0,8,0.88)] to-transparent
+                      border-t border-[rgba(0,212,255,0.07)]">
+        <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.45)] tracking-[0.2em]">
           ◈ MOVE MOUSE · CLICK PLANET · CLICK AGAIN TO ENTER
         </div>
-        <div style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: 'rgba(240,244,255,0.2)', letterSpacing: '0.15em' }}>
+        <div className="font-mono-space text-[9px] text-[rgba(240,244,255,0.2)] tracking-[0.15em]">
           {DEVELOPER.location.toUpperCase()} · FULL STACK DEVELOPER
         </div>
         <motion.button
@@ -137,12 +137,9 @@ export function HUD() {
           onClick={() => setHelpVisible(v => !v)}
           onMouseEnter={() => setCursorVariant('link')}
           onMouseLeave={() => setCursorVariant('default')}
-          style={{
-            background: 'rgba(0,212,255,0.07)', border: '1px solid rgba(0,212,255,0.2)',
-            color: 'rgba(0,212,255,0.6)', fontFamily: 'Space Mono, monospace',
-            fontSize: 9, letterSpacing: '0.2em', padding: '5px 12px',
-            borderRadius: 4, cursor: 'none', pointerEvents: 'auto',
-          }}
+          className="pointer-events-auto cursor-none font-mono-space text-[9px] tracking-[0.2em]
+                     bg-[rgba(0,212,255,0.07)] border border-[rgba(0,212,255,0.2)]
+                     text-[rgba(0,212,255,0.6)] rounded px-3 py-1.5 hover:bg-[rgba(0,212,255,0.14)] transition-colors"
         >
           [ ? HELP ]
         </motion.button>
@@ -150,12 +147,11 @@ export function HUD() {
 
       {activePlanet && !helpVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-          style={{
-            position: 'absolute', bottom: 55, right: 28,
-            fontFamily: 'Space Mono, monospace', fontSize: 10,
-            color: '#00D4FF', letterSpacing: '0.2em', pointerEvents: 'none',
-          }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          className="absolute bottom-14 right-7 font-mono-space text-[10px]
+                     text-[#00D4FF] tracking-[0.2em] pointer-events-none"
         >
           ↑ CLICK AGAIN TO ENTER PLANET
         </motion.div>
@@ -163,29 +159,27 @@ export function HUD() {
 
       {helpVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          style={{
-            position: 'absolute', bottom: 60, right: 20,
-            background: 'rgba(2,2,21,0.92)', border: '1px solid rgba(0,212,255,0.25)',
-            borderRadius: 10, padding: '18px 22px',
-            pointerEvents: 'auto', backdropFilter: 'blur(20px)',
-            minWidth: 240,
-          }}
+          initial={{ opacity: 0, y: 10, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="absolute bottom-14 right-5 pointer-events-auto rounded-xl p-5
+                     bg-[rgba(2,2,21,0.95)] border border-[rgba(0,212,255,0.25)]
+                     backdrop-blur-2xl min-w-[260px]"
+          style={{ boxShadow: '0 0 40px rgba(0,212,255,0.1)' }}
         >
-          <div style={{ fontFamily: 'Orbitron, monospace', fontSize: 10, color: '#00D4FF', letterSpacing: '0.3em', marginBottom: 14 }}>
+          <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">
             NAVIGATION
           </div>
           {[
-            ['HOVER', 'See planet name'],
+            ['HOVER',    'See planet name'],
             ['CLICK ×1', 'Focus camera on planet'],
             ['CLICK ×2', 'Open planet details'],
             ['LEFT NAV', 'Quick-jump to section'],
-            ['ESC / ✕', 'Close panel & return'],
-            ['← →', 'Navigate between planets'],
+            ['ESC / ✕',  'Close panel & return'],
+            ['← →',      'Navigate between planets'],
           ].map(([key, val]) => (
-            <div key={key} style={{ display: 'flex', justifyContent: 'space-between', gap: 20, marginBottom: 8 }}>
-              <span style={{ fontFamily: 'Space Mono, monospace', fontSize: 9, color: '#00D4FF', letterSpacing: '0.15em' }}>{key}</span>
-              <span style={{ fontFamily: 'Exo 2, sans-serif', fontSize: 11, color: 'rgba(240,244,255,0.55)' }}>{val}</span>
+            <div key={key} className="flex justify-between gap-6 mb-2.5 last:mb-0">
+              <span className="font-mono-space text-[9px] text-[#00D4FF] tracking-[0.15em]">{key}</span>
+              <span className="font-body-exo text-[11px] text-[rgba(240,244,255,0.55)]">{val}</span>
             </div>
           ))}
         </motion.div>

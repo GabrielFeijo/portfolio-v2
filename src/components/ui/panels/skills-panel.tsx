@@ -3,30 +3,22 @@ import { SKILLS } from '@/data/portfolio'
 
 export function SkillsPanel() {
   const categories = [
-    { key: 'frontend', label: 'FRONTEND', icon: '◈', color: '#00D4FF', skills: SKILLS.frontend },
-    { key: 'backend', label: 'BACKEND', icon: '⬡', color: '#00FF88', skills: SKILLS.backend },
-    { key: 'devops', label: 'DEVOPS & TOOLS', icon: '⚙', color: '#FFB800', skills: SKILLS.devops },
+    { key: 'frontend', label: 'FRONTEND',       icon: '◈', color: '#00D4FF', skills: SKILLS.frontend },
+    { key: 'backend',  label: 'BACKEND',         icon: '⬡', color: '#00FF88', skills: SKILLS.backend },
+    { key: 'devops',   label: 'DEVOPS & TOOLS',  icon: '⚙', color: '#FFB800', skills: SKILLS.devops },
+  ]
+
+  const extras = [
+    'Figma','GraphQL','React Native','Prisma','Socket.io',
+    'Swagger','ESLint','Vitest','Webpack','CI/CD',
+    'Agile','Scrum','Git Flow','TDD','Clean Architecture',
   ]
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      style={{ display: 'flex', flexDirection: 'column', gap: 28 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-7">
       <div>
-        <div style={{
-          fontFamily: 'Space Mono, monospace',
-          fontSize: 11, color: '#00FF88',
-          letterSpacing: '0.3em', marginBottom: 8,
-        }}>
-          ◈ TECHNOLOGY ARSENAL
-        </div>
-        <p style={{
-          fontFamily: 'Exo 2, sans-serif',
-          fontSize: 14, color: 'rgba(240,244,255,0.55)',
-          lineHeight: 1.7,
-        }}>
+        <div className="font-mono-space text-[11px] text-[#00FF88] tracking-[0.3em] mb-2">◈ TECHNOLOGY ARSENAL</div>
+        <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.55)] leading-snug">
           Technologies and tools mastered across the full stack spectrum.
         </p>
       </div>
@@ -38,38 +30,20 @@ export function SkillsPanel() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: ci * 0.15 }}
         >
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            marginBottom: 16,
-          }}>
-            <div style={{
-              width: 30, height: 30,
-              background: `${cat.color}15`,
-              border: `1px solid ${cat.color}30`,
-              borderRadius: 6,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: cat.color, fontSize: 14,
-            }}>
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="w-8 h-8 flex items-center justify-center rounded-md text-sm"
+              style={{ background: `${cat.color}15`, border: `1px solid ${cat.color}30`, color: cat.color }}
+            >
               {cat.icon}
             </div>
-            <span style={{
-              fontFamily: 'Orbitron, monospace',
-              fontSize: 11, fontWeight: 700,
-              color: cat.color, letterSpacing: '0.3em',
-            }}>
+            <span className="font-display text-[11px] font-bold tracking-[0.3em]" style={{ color: cat.color }}>
               {cat.label}
             </span>
-            <div style={{
-              flex: 1, height: 1,
-              background: `linear-gradient(90deg, ${cat.color}30, transparent)`,
-            }} />
+            <div className="flex-1 h-px ml-1" style={{ background: `linear-gradient(90deg, ${cat.color}30, transparent)` }} />
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-            gap: 10,
-          }}>
+          <div className="grid gap-2.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
             {cat.skills.map((skill, si) => (
               <SkillBar key={skill.name} skill={skill} delay={si * 0.07} />
             ))}
@@ -81,41 +55,18 @@ export function SkillsPanel() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        style={{
-          background: 'rgba(0,212,255,0.04)',
-          border: '1px solid rgba(0,212,255,0.12)',
-          borderRadius: 12, padding: 20,
-        }}
+        className="bg-[rgba(0,212,255,0.04)] border border-[rgba(0,212,255,0.12)] rounded-xl p-5"
       >
-        <div style={{
-          fontFamily: 'Orbitron, monospace',
-          fontSize: 10, color: '#00D4FF',
-          letterSpacing: '0.3em', marginBottom: 14,
-        }}>
-          ◈ ALSO FLUENT IN
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {[
-            'Figma', 'GraphQL', 'React Native', 'Prisma', 'Socket.io',
-            'Swagger', 'ESLint', 'Vitest', 'Webpack', 'CI/CD',
-            'Agile', 'Scrum', 'Git Flow', 'TDD', 'Clean Architecture',
-          ].map((skill) => (
+        <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-3.5">◈ ALSO FLUENT IN</div>
+        <div className="flex flex-wrap gap-2">
+          {extras.map(skill => (
             <motion.span
               key={skill}
               whileHover={{ scale: 1.08, y: -2 }}
-              style={{
-                fontFamily: 'Space Mono, monospace',
-                fontSize: 9, letterSpacing: '0.15em',
-                padding: '5px 12px',
-                background: 'rgba(0,212,255,0.06)',
-                border: '1px solid rgba(0,212,255,0.2)',
-                borderRadius: 20,
-                color: 'rgba(240,244,255,0.6)',
-                cursor: 'none',
-              }}
-            >
-              {skill}
-            </motion.span>
+              className="font-mono-space text-[9px] tracking-[0.15em] px-3 py-1.5 cursor-none
+                         bg-[rgba(0,212,255,0.06)] border border-[rgba(0,212,255,0.2)]
+                         rounded-full text-[rgba(240,244,255,0.6)] transition-colors hover:bg-[rgba(0,212,255,0.12)]"
+            >{skill}</motion.span>
           ))}
         </div>
       </motion.div>
@@ -129,60 +80,33 @@ function SkillBar({ skill, delay }: { skill: { name: string; level: number; colo
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      style={{
-        background: 'rgba(2,2,21,0.6)',
-        border: '1px solid rgba(255,255,255,0.06)',
-        borderRadius: 8, padding: '12px 14px',
-        position: 'relative', overflow: 'hidden',
-      }}
+      className="relative overflow-hidden rounded-lg px-3.5 py-3
+                 bg-[rgba(2,2,21,0.6)] border border-[rgba(255,255,255,0.06)]"
     >
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${skill.level}%` }}
         transition={{ delay: delay + 0.3, duration: 1, ease: 'easeOut' }}
-        style={{
-          position: 'absolute', left: 0, top: 0, bottom: 0,
-          background: `linear-gradient(90deg, ${skill.color}12, transparent)`,
-          borderRadius: 8,
-        }}
+        className="absolute left-0 top-0 bottom-0 rounded-lg"
+        style={{ background: `linear-gradient(90deg, ${skill.color}14, transparent)` }}
       />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{
-            width: 7, height: 7, borderRadius: '50%',
-            background: skill.color,
-            boxShadow: `0 0 6px ${skill.color}`,
-          }} />
-          <span style={{
-            fontFamily: 'Exo 2, sans-serif',
-            fontSize: 13, fontWeight: 600,
-            color: '#F0F4FF',
-          }}>
-            {skill.name}
-          </span>
+      <div className="relative flex justify-between items-center mb-2">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full" style={{ background: skill.color, boxShadow: `0 0 6px ${skill.color}` }} />
+          <span className="font-body-exo text-[13px] font-semibold text-[#F0F4FF]">{skill.name}</span>
         </div>
-        <span style={{
-          fontFamily: 'Orbitron, monospace',
-          fontSize: 10, color: skill.color,
-          letterSpacing: '0.1em',
-        }}>
-          {skill.level}%
-        </span>
+        <span className="font-display text-[10px] tracking-[0.1em]" style={{ color: skill.color }}>{skill.level}%</span>
       </div>
 
-      <div style={{
-        height: 3, background: 'rgba(255,255,255,0.06)',
-        borderRadius: 2, overflow: 'hidden', position: 'relative',
-      }}>
+      <div className="h-0.5 bg-[rgba(255,255,255,0.06)] rounded overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${skill.level}%` }}
           transition={{ delay: delay + 0.3, duration: 1.2, ease: 'easeOut' }}
+          className="h-full rounded"
           style={{
-            height: '100%',
             background: `linear-gradient(90deg, ${skill.color}80, ${skill.color})`,
-            borderRadius: 2,
             boxShadow: `0 0 6px ${skill.color}`,
           }}
         />
