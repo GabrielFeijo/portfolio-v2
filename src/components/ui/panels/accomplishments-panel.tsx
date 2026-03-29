@@ -1,12 +1,8 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
+import * as LucideIcons from 'lucide-react'
 import { Trophy, GraduationCap, Cloud, Handshake, Smartphone, Edit3, Award, LucideIcon } from 'lucide-react'
-
-const getIcon = (category: string) => {
-  const map: Record<string, LucideIcon> = { Award: Trophy, Education: GraduationCap, Milestone: Cloud, Experience: Handshake, Mobile: Smartphone, Content: Edit3 }
-  return map[category] || Award
-}
 
 function hexRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -59,10 +55,13 @@ export function AccomplishmentsPanel() {
               transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
               className="mb-3.5 flex justify-center opacity-90"
             >
-              {React.createElement(getIcon(item.category), { size: 34, color: item.color, className: `drop-shadow-[0_0_8px_${item.color}80]` })}
+              {(() => {
+                const IconComp = (LucideIcons as any)[item.icon] || LucideIcons.Award
+                return <IconComp size={34} color={item.color} className={`drop-shadow-[0_0_8px_${item.color}80]`} />
+              })()}
             </motion.div>
 
-            <div className="font-display text-[11px] font-bold text-[#F0F4FF] tracking-[0.1em] mb-2 leading-snug">
+            <div className="font-display text-[11px] font-bold text-[#F0F4FF] tracking-widest mb-2 leading-snug">
               {item.title}
             </div>
             <p className="font-body-exo text-[11px] leading-snug text-[rgba(240,244,255,0.5)]">
@@ -96,12 +95,12 @@ export function AccomplishmentsPanel() {
                 <div className="w-2 h-2 rounded-full" style={{ background: cert.color, boxShadow: `0 0 8px ${cert.color}` }} />
                 <div>
                   <div className="font-body-exo text-[13px] font-semibold text-[#F0F4FF]">{cert.name}</div>
-                  <div className="font-mono-space text-[9px] text-[rgba(240,244,255,0.4)] tracking-[0.1em] mt-0.5">
+                  <div className="font-mono-space text-[9px] text-[rgba(240,244,255,0.4)] tracking-widest mt-0.5">
                     {cert.issuer}
                   </div>
                 </div>
               </div>
-              <div className="font-display text-[12px] font-bold tracking-[0.1em]" style={{ color: cert.color }}>
+              <div className="font-display text-[12px] font-bold tracking-widest" style={{ color: cert.color }}>
                 {cert.year}
               </div>
             </motion.div>

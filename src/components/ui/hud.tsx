@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import * as LucideIcons from 'lucide-react'
+import { MapPin, Cpu, Globe, Rocket } from 'lucide-react'
 import { useSpaceStore, PanelType } from '@/store/space-store'
 import { PLANETS, DEVELOPER } from '@/data/portfolio'
 
@@ -27,11 +29,11 @@ export function HUD() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-0 pointer-events-none z-[100]"
+      className="fixed inset-0 pointer-events-none z-100"
     >
       <div className="absolute top-0 left-0 right-0 h-16 flex items-center justify-between px-8
-                      bg-gradient-to-b from-[rgba(5,5,20,0.9)] to-transparent
-                      border-b border-[rgba(255,255,255,0.05)] backdrop-blur-sm z-[100]">
+                      bg-linear-to-b from-[rgba(5,5,20,0.9)] to-transparent
+                      border-b border-[rgba(255,255,255,0.05)] backdrop-blur-sm z-100">
         <div className="flex items-center gap-3.5">
           <motion.div
             animate={{ rotate: 360 }}
@@ -63,7 +65,7 @@ export function HUD() {
           <div className="font-mono-space text-[11px] text-[rgba(240,244,255,0.45)] tracking-[0.15em]">
             {time.toLocaleTimeString('en-US', { hour12: false })} UTC
           </div>
-          <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.35)] tracking-[0.1em] mt-0.5">
+          <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.35)] tracking-widest mt-0.5">
             X:{String(coords.x).padStart(4, '0')} Y:{String(coords.y).padStart(4, '0')}
           </div>
         </div>
@@ -93,7 +95,7 @@ export function HUD() {
               <motion.div
                 animate={{ scale: isActive ? [1, 1.4, 1] : 1 }}
                 transition={{ duration: 2, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
-                className="w-3 h-3 rounded-full flex-shrink-0"
+                className="w-3 h-3 rounded-full shrink-0"
                 style={{ background: planet.color, boxShadow: `0 0 12px ${planet.glowColor}` }}
               />
               <div>
@@ -116,7 +118,9 @@ export function HUD() {
                   animate={{ opacity: 1 }}
                   className="ml-auto text-[9px]"
                   style={{ color: planet.glowColor }}
-                >▶</motion.div>
+                >
+                  <LucideIcons.ChevronRight size={10} />
+                </motion.div>
               )}
             </motion.button>
           )
@@ -124,7 +128,7 @@ export function HUD() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-11 flex items-center justify-between px-7
-                      bg-gradient-to-t from-[rgba(0,0,8,0.88)] to-transparent
+                      bg-linear-to-t from-[rgba(0,0,8,0.88)] to-transparent
                       border-t border-[rgba(0,212,255,0.07)]">
         <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.45)] tracking-[0.2em]">
           ◈ DRAG MOUSE TO LOOK · CLICK PLANET TO ENTER
@@ -147,31 +151,37 @@ export function HUD() {
 
 
 
-      {helpVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 15, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="glass-strong absolute bottom-14 right-5 pointer-events-auto p-6 min-w-[280px]"
-        >
-          <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">
-            NAVIGATION
-          </div>
-          {[
-            ['HOVER',    'See planet name'],
-            ['CLICK',    'Enter planet details'],
-            ['LEFT NAV', 'Quick-jump to section'],
-            ['ESC / ✕',  'Close panel & return'],
-            ['← →',      'Navigate between planets'],
-          ].map(([key, val]) => (
-            <div key={key} className="flex justify-between gap-6 mb-2.5 last:mb-0">
-              <span className="font-mono-space text-[9px] text-[#00D4FF] tracking-[0.15em]">{key}</span>
-              <span className="font-body-exo text-[11px] text-[rgba(240,244,255,0.55)]">{val}</span>
+      {
+        helpVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="glass-strong absolute bottom-14 right-5 pointer-events-auto p-6 min-w-[280px]"
+          >
+            <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">
+              NAVIGATION
             </div>
-          ))}
-        </motion.div>
-      )}
-    </motion.div>
+            {[
+              ['HOVER', 'See planet name'],
+              ['CLICK', 'Enter planet details'],
+              ['LEFT NAV', 'Quick-jump to section'],
+              ['ESC / ✕', 'Close panel & return'],
+              ['← →', 'Navigate between planets'],
+            ].map(([key, val]) => (
+              <div key={key} className="flex justify-between gap-6 mb-2.5 last:mb-0">
+                <span className="font-mono-space text-[9px] text-[#00D4FF] tracking-[0.15em]">{key}</span>
+                <span className="font-body-exo text-[11px] text-[rgba(240,244,255,0.55)]">{val}</span>
+              </div>
+            ))}
+            <div className="flex items-center gap-1.5 opacity-60 mt-4">
+              <MapPin size={10} className="text-[#00D4FF]" />
+              <span className="font-mono-space text-[9px] tracking-[0.2em]">{DEVELOPER.location.toUpperCase()}</span>
+            </div>
+          </motion.div>
+        )
+      }
+    </motion.div >
   )
 }
 

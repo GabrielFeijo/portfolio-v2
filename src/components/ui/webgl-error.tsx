@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { AlertTriangle, Monitor, RefreshCw } from 'lucide-react'
 
 export function WebGLError() {
   return (
@@ -21,7 +22,9 @@ export function WebGLError() {
           boxShadow: '0 0 40px rgba(255,69,0,0.15)',
         }}
       >
-        <div className="text-[52px] mb-5" style={{ filter: 'drop-shadow(0 0 12px #FF4500)' }}>⚠️</div>
+        <div className="text-[52px] mb-5 text-[#FF4500]" style={{ filter: 'drop-shadow(0 0 12px #FF4500)' }}>
+          <AlertTriangle size={64} />
+        </div>
 
         <h1 className="font-display text-[22px] font-extrabold text-[#FF4500]
                        tracking-[0.2em] uppercase mb-4">

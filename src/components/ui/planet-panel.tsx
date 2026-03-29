@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useSpaceStore, PanelType } from '@/store/space-store'
+import * as LucideIcons from 'lucide-react'
 import { PLANETS } from '@/data/portfolio'
 import { AboutPanel } from './panels/about-panel'
 import { SkillsPanel } from './panels/skills-panel'
@@ -41,12 +42,12 @@ export function PlanetPanel() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] pointer-events-none flex"
+      className="fixed inset-0 z-200 pointer-events-none flex"
     >
       {/* Invisible backdrop for closing when clicking outside the panel */}
-      <div 
-        className="absolute inset-0 pointer-events-auto cursor-none" 
-        onClick={closePanel} 
+      <div
+        className="absolute inset-0 pointer-events-auto cursor-none"
+        onClick={closePanel}
         onMouseEnter={() => setCursorVariant('default')}
       />
 
@@ -54,7 +55,7 @@ export function PlanetPanel() {
       <div className="absolute top-0 left-0 right-0 h-0.5 pointer-events-none"
         style={{ background: `linear-gradient(90deg,transparent,${planet.glowColor}80,transparent)`, boxShadow: `0 0 20px ${planet.glowColor}` }}
       />
-      
+
       {/* Spacer to push panel to the right */}
       <div className="flex-1" />
 
@@ -85,7 +86,7 @@ export function PlanetPanel() {
 
         {/* High-End Header */}
         <div
-          className="flex flex-col px-10 py-10 flex-shrink-0 relative"
+          className="flex flex-col px-10 py-10 shrink-0 relative"
           style={{
             background: `radial-gradient(120% 100% at top left, ${planet.glowColor}25, transparent)`,
             borderBottom: `1px solid ${planet.glowColor}15`,
@@ -101,20 +102,27 @@ export function PlanetPanel() {
             className="absolute top-6 right-6 w-9 h-9 rounded-full flex items-center justify-center cursor-none
                        bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)]
                        text-[#F0F4FF] hover:bg-[rgba(255,255,255,0.15)] transition-colors z-10"
-          >✕</motion.button>
+          >
+            <LucideIcons.X size={18} />
+          </motion.button>
 
           <div className="flex items-center gap-4 mb-4">
             <motion.div
               animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-2.5 h-2.5 rounded-full"
-              style={{ background: planet.color, boxShadow: `0 0 16px ${planet.glowColor}` }}
-            />
+              className="p-1 px-1.5 rounded-md flex items-center justify-center"
+              style={{ background: `${planet.color}20`, border: `1px solid ${planet.glowColor}40` }}
+            >
+              {(() => {
+                const IconComp = (LucideIcons as any)[planet.icon] || LucideIcons.HelpCircle
+                return <IconComp size={14} style={{ color: planet.color, filter: `drop-shadow(0 0 8px ${planet.glowColor})` }} />
+              })()}
+            </motion.div>
             <div className="font-mono-space text-[10px] text-[rgba(240,244,255,0.6)] tracking-[0.3em]">
               {planet.subtitle.toUpperCase()}
             </div>
           </div>
-          
+
           <div
             className="font-display text-[38px] font-black tracking-widest uppercase leading-none"
             style={{ color: planet.color, textShadow: `0 0 40px ${planet.glowColor}60` }}
@@ -135,11 +143,11 @@ export function PlanetPanel() {
         </div>
 
         {/* Navigation Footer */}
-        <div className="flex justify-between px-10 py-6 flex-shrink-0 relative z-10"
-             style={{ 
-               background: `linear-gradient(to top, rgba(0,0,5,0.8), transparent)`,
-               borderTop: `1px solid ${planet.glowColor}15` 
-             }}>
+        <div className="flex justify-between px-10 py-6 shrink-0 relative z-10"
+          style={{
+            background: `linear-gradient(to top, rgba(0,0,5,0.8), transparent)`,
+            borderTop: `1px solid ${planet.glowColor}15`
+          }}>
           {prev ? (
             <motion.button
               whileHover={{ x: -6 }}
@@ -149,7 +157,10 @@ export function PlanetPanel() {
               className="cursor-none font-display font-bold text-[10px] tracking-[0.2em] px-5 py-2.5 rounded-full
                          transition-colors hover:bg-[rgba(255,255,255,0.05)] flex items-center gap-2"
               style={{ border: `1px solid ${prev.glowColor}30`, color: prev.glowColor }}
-            >← <span className="opacity-70">{prev.name}</span></motion.button>
+            >
+              <LucideIcons.ChevronLeft size={14} />
+              <span className="opacity-70">{prev.name}</span>
+            </motion.button>
           ) : <div />}
 
           {next ? (
@@ -161,7 +172,10 @@ export function PlanetPanel() {
               className="cursor-none font-display font-bold text-[10px] tracking-[0.2em] px-5 py-2.5 rounded-full
                          transition-colors hover:bg-[rgba(255,255,255,0.05)] flex items-center gap-2"
               style={{ border: `1px solid ${next.glowColor}30`, color: next.glowColor }}
-            ><span className="opacity-70">{next.name}</span> →</motion.button>
+            >
+              <span className="opacity-70">{next.name}</span>
+              <LucideIcons.ChevronRight size={14} />
+            </motion.button>
           ) : <div />}
         </div>
       </motion.div>
