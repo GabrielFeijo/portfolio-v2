@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { useSpaceStore } from '@/store/space-store'
+import { useSpaceStore, PanelType } from '@/store/space-store'
 import { PLANETS, DEVELOPER } from '@/data/portfolio'
 
 export function HUD() {
@@ -18,7 +18,7 @@ export function HUD() {
 
   const handlePlanetNav = (id: string) => {
     setActivePlanet(id)
-    setTimeout(() => openPanel(id as any), 800)
+    setTimeout(() => openPanel(id as PanelType), 800)
   }
 
   return (

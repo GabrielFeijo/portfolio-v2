@@ -2,12 +2,12 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 const phases = [
-  'INITIALIZING WARP DRIVE...',
-  'CALIBRATING STAR CHARTS...',
-  'LOADING PLANETARY DATA...',
-  'SYNCHRONIZING ORBIT PATHS...',
-  'ESTABLISHING COMM LINK...',
-  'LAUNCH SEQUENCE READY',
+  'SYNCHRONIZING NEURAL LINK...',
+  'DECRYPTING STELLAR DATA...',
+  'CALIBRATING QUANTUM CORES...',
+  'ESTABLISHING SUB-SPACE COMM...',
+  'MAPPING PLANETARY SECTORS...',
+  'SYSTEMS ONLINE',
 ]
 
 export function LoadingScreen() {
@@ -32,94 +32,89 @@ export function LoadingScreen() {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.04 }}
-      transition={{ duration: 0.9, ease: 'easeInOut' }}
+      exit={{ opacity: 0, filter: 'blur(20px)' }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-0 z-[1000] flex flex-col items-center justify-center font-display
-                 bg-[radial-gradient(ellipse_at_center,#020215_0%,#000008_100%)]"
+                 bg-[#000005]"
     >
-      <div className="absolute inset-0 pointer-events-none"
+      {/* Background geometric grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px)',
-          backgroundSize: '52px 52px',
+          backgroundImage: 'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
         }}
       />
 
-      <div className="absolute top-5 left-5 w-8 h-8 border-t-2 border-l-2 border-[rgba(0,212,255,0.4)]" />
-      <div className="absolute top-5 right-5 w-8 h-8 border-t-2 border-r-2 border-[rgba(0,212,255,0.4)]" />
-      <div className="absolute bottom-5 left-5 w-8 h-8 border-b-2 border-l-2 border-[rgba(0,212,255,0.4)]" />
-      <div className="absolute bottom-5 right-5 w-8 h-8 border-b-2 border-r-2 border-[rgba(0,212,255,0.4)]" />
+      {/* Extreme corner accents */}
+      <div className="absolute top-10 left-10 w-12 h-px bg-[rgba(0,212,255,0.3)]" />
+      <div className="absolute top-10 left-10 w-px h-12 bg-[rgba(0,212,255,0.3)]" />
+      <div className="absolute bottom-10 right-10 w-12 h-px bg-[rgba(0,212,255,0.3)]" />
+      <div className="absolute bottom-10 right-10 w-px h-12 bg-[rgba(0,212,255,0.3)]" />
 
-      <div className="relative w-48 h-48 mb-12">
-        {[0, 1, 2].map(i => (
-          <motion.div
-            key={i}
-            animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-            transition={{ duration: 3 + i * 1.6, repeat: Infinity, ease: 'linear' }}
-            className="absolute rounded-full border"
-            style={{
-              inset: `${i * 18}px`,
-              borderColor: `rgba(0,212,255,${0.5 - i * 0.12})`,
-              boxShadow: `0 0 ${14 + i * 6}px rgba(0,212,255,0.2)`,
-            }}
-          />
-        ))}
+      {/* Center Minimalist Glyph */}
+      <div className="relative w-64 h-64 mb-16 flex items-center justify-center">
         <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-0"
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#00D4FF]"
-            style={{ boxShadow: '0 0 8px #00D4FF' }}
-          />
-        </motion.div>
-
-        <div className="absolute inset-0 flex items-center justify-center">
+          animate={{ rotate: 360, opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0 rounded-full border border-[rgba(0,212,255,0.1)]"
+          style={{ borderStyle: 'dashed' }}
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-8 rounded-full border border-[rgba(0,212,255,0.05)]"
+        />
+        
+        <div className="relative flex flex-col items-center">
           <motion.div
-            animate={{ scale: [1, 1.12, 1], opacity: [0.85, 1, 0.85] }}
-            transition={{ duration: 2.2, repeat: Infinity }}
-            className="text-[60px]"
-            style={{ filter: 'drop-shadow(0 0 22px #00D4FF)' }}
-          >🚀</motion.div>
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="text-[10px] font-mono-space tracking-[0.8em] text-[#00D4FF] mb-2 translate-x-1"
+          >
+            LOADING
+          </motion.div>
+          <div className="font-display text-4xl font-black text-white tracking-widest flex items-center gap-2">
+            <span className="opacity-20">0</span>
+            <span className="text-[#00D4FF] drop-shadow-[0_0_12px_rgba(0,212,255,0.5)]">
+              {Math.floor(progress).toString().padStart(2, '0')}
+            </span>
+          </div>
         </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="text-[clamp(22px,4vw,30px)] font-bold tracking-[0.3em] text-[#F0F4FF] mb-2 uppercase"
-        style={{ textShadow: '0 0 30px rgba(0,212,255,0.5)' }}
-      >
-        Gabriel Feijó
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.55 }}
-        transition={{ delay: 0.5 }}
-        className="font-mono-space text-[11px] tracking-[0.4em] text-[#00D4FF] mb-12"
-      >
-        SPACE PORTFOLIO v2.0
-      </motion.div>
-
-      <motion.div
-        key={phase}
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="font-mono-space text-[11px] tracking-[0.22em] text-[#00FF88] mb-5 h-4"
-      >
-        {phases[phase]}
-      </motion.div>
-
-      <div className="w-80 h-0.5 bg-[rgba(0,212,255,0.15)] rounded overflow-hidden relative">
+      <div className="flex flex-col items-center max-w-xs w-full">
         <motion.div
-          className="absolute left-0 top-0 bottom-0 rounded bg-gradient-to-r from-[#00D4FF] to-[#6B21E8]"
-          style={{ width: `${progress}%`, boxShadow: '0 0 12px #00D4FF' }}
-        />
-      </div>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center mb-10"
+        >
+          <div className="font-display text-[18px] font-black tracking-[0.4em] text-white uppercase mb-1">
+            Gabriel Feijó
+          </div>
+          <div className="font-mono-space text-[9px] tracking-[0.3em] text-[rgba(240,244,255,0.3)] uppercase">
+            Systems Architecture // Space Portfolio
+          </div>
+        </motion.div>
 
-      <div className="font-mono-space text-[11px] text-[rgba(240,244,255,0.4)] tracking-[0.2em] mt-3">
-        {Math.floor(progress).toString().padStart(3, '0')}%
+        {/* Ultra-thin progress bar */}
+        <div className="w-full h-px bg-[rgba(255,255,255,0.05)] relative mb-4">
+          <motion.div
+            className="absolute left-0 top-0 bottom-0 bg-[#00D4FF]"
+            style={{ 
+              width: `${progress}%`, 
+              boxShadow: '0 0 10px rgba(0,212,255,0.8), 0 0 20px rgba(0,212,255,0.3)' 
+            }}
+          />
+        </div>
+
+        <motion.div
+          key={phase}
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="font-mono-space text-[9px] tracking-[0.3em] text-[#00FF88] opacity-60 uppercase"
+        >
+          {phases[phase]}
+        </motion.div>
       </div>
     </motion.div>
   )

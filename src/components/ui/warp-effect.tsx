@@ -19,7 +19,7 @@ export function WarpEffect() {
     const cy = canvas.height / 2
 
     const stars: { x: number; y: number; z: number; pz: number; color: string }[] = []
-    const starColors = ['#00D4FF', '#FFFFFF', '#6B21E8', '#FFB800', '#00FF88']
+    const starColors = ['#FFFFFF', '#BAE6FD', '#0EA5E9', '#F0F9FF']
 
     for (let i = 0; i < 900; i++) {
       stars.push({
@@ -55,9 +55,8 @@ export function WarpEffect() {
         const brightness = 1 - star.z / canvas.width
 
         ctx.beginPath()
-        ctx.strokeStyle = star.color.replace(')', `,${brightness})`).replace('rgb(', 'rgba(').replace('#', 'rgba(') + brightness + ')'
         ctx.strokeStyle = star.color
-        ctx.globalAlpha = brightness
+        ctx.globalAlpha = brightness * 0.8
         ctx.lineWidth   = size
         ctx.moveTo(px, py)
         ctx.lineTo(sx, sy)

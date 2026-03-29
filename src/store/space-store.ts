@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type PanelType = 'about' | 'skills' | 'projects' | 'experience' | 'accomplishments' | 'contact' | null
+export type PanelType = 'about' | 'skills' | 'projects' | 'experience' | 'accomplishments' | 'contact' | null
 
 interface SpaceStore {
   activePlanet: string | null

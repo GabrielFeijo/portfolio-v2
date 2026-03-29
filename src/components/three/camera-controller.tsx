@@ -23,7 +23,7 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
     controls.mouseButtons.right = 0 
     controls.mouseButtons.wheel = 16
     controls.minDistance = 25
-    controls.maxDistance = 140
+    controls.maxDistance = 240
 
     setWarpActive(true)
     setTimeout(() => setWarpActive(false), 800)
@@ -38,8 +38,12 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
         const offsetDist = planet.size * 3.2 + 12
         const angle = planetAngles.current[planet.id]
         const px = Math.cos(angle) * planet.orbitRadius
+        const py = planet.orbitY || 0
         const pz = Math.sin(angle) * planet.orbitRadius
-        controls.setLookAt(px, planet.size + 4, pz + offsetDist, px, 0, pz, true)
+        
+        // Offset the camera look-at to the right, pushing the planet to the left area
+        const xOffset = 6.0 
+        controls.setLookAt(px + xOffset, py + planet.size + 4, pz + offsetDist, px + xOffset, py, pz, true)
       }
     } else {
       controls.setLookAt(0, 24, 62, 0, 0, 0, true)

@@ -1,8 +1,8 @@
 import { useRef, useState, useMemo, MutableRefObject } from 'react'
-import { useFrame, extend } from '@react-three/fiber'
+import { useFrame, extend, ThreeEvent } from '@react-three/fiber'
 import { Text, Billboard } from '@react-three/drei'
 import * as THREE from 'three'
-import { useSpaceStore } from '@/store/space-store'
+import { useSpaceStore, PanelType } from '@/store/space-store'
 import type { Planet } from '@/data/portfolio'
 import { AdvancedAtmosphereMaterial, AAA_PlanetMaterial } from './planet-shaders'
 
@@ -87,6 +87,7 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
     if (groupRef.current && !activePanel) {
       const angle = angleRef.current[planet.id]
       groupRef.current.position.x = Math.cos(angle) * planet.orbitRadius
+      groupRef.current.position.y = planet.orbitY || 0
       groupRef.current.position.z = Math.sin(angle) * planet.orbitRadius
       
       const pos = groupRef.current.position
@@ -110,10 +111,10 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
     }
   })
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation()
     setActivePlanet(planet.id)
-    setTimeout(() => openPanel(planet.id as any), 800)
+    setTimeout(() => openPanel(planet.id as PanelType), 800)
   }
 
   const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color])
@@ -121,12 +122,12 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
 
   return (
     <>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, planet.orbitY || 0, 0]}>
         <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 192]} />
-        <meshBasicMaterial color={planet.color} transparent opacity={0.04} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={planet.color} transparent opacity={0.02} side={THREE.DoubleSide} />
       </mesh>
 
-      <group ref={groupRef} position={[planet.orbitRadius, 0, 0]}>
+      <group ref={groupRef} position={[planet.orbitRadius, planet.orbitY || 0, 0]}>
         
         <mesh ref={atmoRef} scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}>
           <sphereGeometry args={[1, 64, 64]} />

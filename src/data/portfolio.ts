@@ -22,110 +22,163 @@ export interface Planet {
   orbitRadius: number
   orbitSpeed: number
   rotationSpeed: number
+  orbitY?: number
   atmosphereColor: string
   icon: string
   description: string
   type: 'rocky' | 'gas' | 'ice' | 'lava' | 'crystal' | 'oceanic' | 'forest' | 'star'
 }
 
+export interface SkillItem {
+  name: string
+  level: number
+  color: string
+}
+
+export interface Project {
+  id: string
+  name: string
+  description: string
+  tech: string[]
+  github: string
+  live: string
+  color: string
+  featured: boolean
+  year: number
+  category: string
+}
+
+export interface Experience {
+  id: string
+  role: string
+  company: string
+  period: string
+  type: string
+  description: string
+  achievements: string[]
+  tech: string[]
+  color: string
+}
+
+export interface Accomplishment {
+  icon: string
+  title: string
+  description: string
+  color: string
+  category: string
+}
+
+export interface Certificate {
+  name: string
+  issuer: string
+  year: number
+  color: string
+}
+
 export const PLANETS: Planet[] = [
   {
     id: 'about',
     name: 'ORIGIN',
-    subtitle: 'About Me',
-    color: '#4169E1',
-    glowColor: '#00D4FF',
-    atmosphereColor: '#1E40AF',
+    subtitle: 'Biography',
+    color: '#3B82F6', 
+    glowColor: '#60A5FA',
+    atmosphereColor: '#1D4ED8',
     size: 2.8,
-    orbitRadius: 12,
-    orbitSpeed: 0.15,
+    orbitRadius: 28,
+    orbitSpeed: 0.12,
     rotationSpeed: 0.3,
-    icon: '👨‍🚀',
+    orbitY: 0.5,
+    icon: '👤',
     type: 'oceanic',
-    description: 'The birthplace of the developer — explore the origin story',
+    description: 'The narrative core — access the biological and professional records.',
   },
   {
     id: 'skills',
     name: 'NEXUS',
-    subtitle: 'Skills & Tech',
-    color: '#00FF88',
-    glowColor: '#00FF88',
+    subtitle: 'Arsenal',
+    color: '#10B981', 
+    glowColor: '#34D399',
     atmosphereColor: '#065F46',
     size: 3.2,
-    orbitRadius: 18,
-    orbitSpeed: 0.1,
+    orbitRadius: 42,
+    orbitSpeed: 0.08,
     rotationSpeed: 0.5,
+    orbitY: -0.8,
     icon: '⚡',
     type: 'crystal',
-    description: 'Energy core of technologies mastered',
+    description: 'Central synaptic node containing classified technology knowledge.',
   },
   {
     id: 'projects',
     name: 'FORGE',
-    subtitle: 'Projects',
-    color: '#FF8C00',
-    glowColor: '#FFB800',
-    ringColor: '#FFB800',
+    subtitle: 'Artifacts',
+    color: '#F59E0B', 
+    glowColor: '#FBBF24',
+    ringColor: '#F59E0B',
     hasRings: true,
     atmosphereColor: '#92400E',
     size: 3.8,
-    orbitRadius: 26,
-    orbitSpeed: 0.07,
+    orbitRadius: 60,
+    orbitSpeed: 0.06,
     rotationSpeed: 0.2,
-    icon: '🔥',
+    orbitY: 1.2,
+    icon: '🛠️',
     type: 'lava',
-    description: 'The grand forge where projects are born from fire',
+    description: 'The industrial furnace where visions are tempered into reality.',
   },
   {
     id: 'experience',
     name: 'CHRONOS',
-    subtitle: 'Experience',
-    color: '#FF4500',
-    glowColor: '#FF6B35',
+    subtitle: 'Timeline',
+    color: '#EF4444', 
+    glowColor: '#F87171',
     atmosphereColor: '#7F1D1D',
     size: 2.4,
-    orbitRadius: 35,
-    orbitSpeed: 0.05,
+    orbitRadius: 82,
+    orbitSpeed: 0.045,
     rotationSpeed: 0.4,
+    orbitY: -1.5,
     icon: '⏳',
     type: 'rocky',
-    description: 'Time-worn planet where professional journeys are etched',
+    description: 'Archive of established operational missions and professional growth.',
   },
   {
     id: 'accomplishments',
     name: 'AETHER',
-    subtitle: 'Achievements',
-    color: '#6B21E8',
-    glowColor: '#A855F7',
-    ringColor: '#C084FC',
+    subtitle: 'Logbook',
+    color: '#8B5CF6', 
+    glowColor: '#A78BFA',
+    ringColor: '#8B5CF6',
     hasRings: true,
     atmosphereColor: '#4C1D95',
     size: 4.2,
-    orbitRadius: 46,
-    orbitSpeed: 0.035,
+    orbitRadius: 108,
+    orbitSpeed: 0.03,
     rotationSpeed: 0.15,
+    orbitY: 0.8,
     icon: '🏆',
     type: 'gas',
-    description: 'The gas giant of accomplishments and recognition',
+    description: 'Registry of galactic recognition, awards, and major milestones.',
   },
   {
     id: 'contact',
     name: 'BEACON',
-    subtitle: 'Contact',
-    color: '#FF1493',
-    glowColor: '#FF69B4',
+    subtitle: 'Transceiver',
+    color: '#EC4899', 
+    glowColor: '#F472B6',
     atmosphereColor: '#831843',
     size: 2.0,
-    orbitRadius: 59,
-    orbitSpeed: 0.025,
+    orbitRadius: 138,
+    orbitSpeed: 0.02,
     rotationSpeed: 0.6,
+    orbitY: -0.5,
     icon: '📡',
     type: 'ice',
-    description: 'Signal beacon for cross-universe communication',
+    description: 'Sub-space communication array for deep universe contact.',
   },
 ]
 
-export const SKILLS = {
+export const SKILLS: Record<string, SkillItem[]> = {
   frontend: [
     { name: 'React', level: 95, color: '#61DAFB' },
     { name: 'TypeScript', level: 92, color: '#3178C6' },
@@ -152,7 +205,7 @@ export const SKILLS = {
   ],
 }
 
-export const PROJECTS = [
+export const PROJECTS: Project[] = [
   {
     id: 'arsenal-academy',
     name: 'Arsenal Academy',
@@ -227,7 +280,7 @@ export const PROJECTS = [
   },
 ]
 
-export const EXPERIENCE = [
+export const EXPERIENCE: Experience[] = [
   {
     id: 'cit',
     role: 'Full Stack Developer',
@@ -310,7 +363,7 @@ export const EXPERIENCE = [
   },
 ]
 
-export const ACCOMPLISHMENTS = [
+export const ACCOMPLISHMENTS: Accomplishment[] = [
   {
     icon: '🏆',
     title: 'Top 10 Squads — Embarque Digital',
@@ -369,7 +422,7 @@ export const ACCOMPLISHMENTS = [
   },
 ]
 
-export const CERTIFICATES = [
+export const CERTIFICATES: Certificate[] = [
   {
     name: 'Aperfeiçoamento em Desenvolvimento Back-end',
     issuer: 'Faculdade Senac',

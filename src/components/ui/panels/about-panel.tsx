@@ -45,15 +45,15 @@ export function AboutPanel() {
         <div className="flex-1 min-w-[200px]">
           <motion.h1
             variants={item}
-            className="font-display text-[clamp(22px,3vw,32px)] font-black tracking-[0.1em] mb-2
+            className="font-display text-[clamp(26px,4vw,38px)] font-black tracking-[0.05em] mb-2
                        bg-gradient-to-r from-[#00D4FF] to-[#6B21E8] bg-clip-text text-transparent"
           >
             {DEVELOPER.name}
           </motion.h1>
-          <div className="font-mono-space text-[11px] text-[#00D4FF] tracking-[0.28em] mb-4">
+          <div className="font-mono-space text-[12px] text-[#00D4FF] tracking-[0.2em] mb-5 font-semibold">
             {DEVELOPER.title.toUpperCase()} · {DEVELOPER.location.toUpperCase()}
           </div>
-          <p className="font-body-exo text-[13px] leading-relaxed text-[rgba(240,244,255,0.7)] max-w-[480px]">
+          <p className="font-body-exo text-[15px] leading-relaxed text-[rgba(240,244,255,0.7)] max-w-[480px]">
             {DEVELOPER.bio}
           </p>
         </div>
@@ -86,19 +86,20 @@ export function AboutPanel() {
 
       <motion.div
         variants={item}
-        className="glass p-6"
+        className="p-6 rounded-2xl"
+        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}
       >
-        <div className="font-display text-[11px] text-[#00D4FF] tracking-[0.3em] mb-4 flex items-center gap-2">
-          <BrainCircuit size={16} /> MISSION BRIEF
+        <div className="font-display text-[12px] text-[#00D4FF] tracking-[0.2em] mb-4 flex items-center gap-2">
+          <BrainCircuit size={18} /> MISSION BRIEF
         </div>
-        <p className="font-body-exo text-[13px] leading-[2] text-[rgba(240,244,255,0.7)] mb-3">
+        <p className="font-body-exo text-[15px] leading-[1.8] text-[rgba(240,244,255,0.75)] mb-4">
           I'm a passionate{' '}
-          <span className="text-[#00FF88]">Full Stack Developer</span> from{' '}
-          <span className="text-[#00D4FF]">Recife, Brazil</span>, dedicated to building
+          <span className="text-[#00FF88] font-semibold">Full Stack Developer</span> from{' '}
+          <span className="text-[#00D4FF] font-semibold">Recife, Brazil</span>, dedicated to building
           scalable, performant web applications. My journey spans from crafting pixel-perfect
           frontends to architecting robust backend systems.
         </p>
-        <p className="font-body-exo text-[13px] leading-[2] text-[rgba(240,244,255,0.7)]">
+        <p className="font-body-exo text-[15px] leading-[1.8] text-[rgba(240,244,255,0.75)]">
           I believe in <span className="text-[#FFB800]">clean code</span>,{' '}
           <span className="text-[#FF1493]">thoughtful UX</span>, and{' '}
           <span className="text-[#00FF88]">continuous learning</span>. When I'm not coding,
@@ -107,7 +108,7 @@ export function AboutPanel() {
       </motion.div>
 
       <motion.div variants={item}
-        className="text-center font-display text-[12px] text-[rgba(0,212,255,0.5)] tracking-[0.2em] italic px-5">
+        className="text-center font-display text-[14px] text-[rgba(0,212,255,0.6)] tracking-[0.15em] italic px-5 py-4">
         "{DEVELOPER.tagline}"
       </motion.div>
 

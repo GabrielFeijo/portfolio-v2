@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
-import { Trophy, GraduationCap, Cloud, Handshake, Smartphone, Edit3, Award } from 'lucide-react'
+import { Trophy, GraduationCap, Cloud, Handshake, Smartphone, Edit3, Award, LucideIcon } from 'lucide-react'
 
 const getIcon = (category: string) => {
-  const map: Record<string, any> = { Award: Trophy, Education: GraduationCap, Milestone: Cloud, Experience: Handshake, Mobile: Smartphone, Content: Edit3 }
+  const map: Record<string, LucideIcon> = { Award: Trophy, Education: GraduationCap, Milestone: Cloud, Experience: Handshake, Mobile: Smartphone, Content: Edit3 }
   return map[category] || Award
 }
 

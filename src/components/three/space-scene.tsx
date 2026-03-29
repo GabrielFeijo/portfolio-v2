@@ -52,8 +52,8 @@ export function SpaceScene() {
         />
       ))}
 
-      <AsteroidBelt innerRadius={37} outerRadius={41} count={320} color="#886644" />
-      <AsteroidBelt innerRadius={73} outerRadius={79} count={150} color="#445566" />
+      <AsteroidBelt innerRadius={50} outerRadius={54} count={320} color="#886644" />
+      <AsteroidBelt innerRadius={94} outerRadius={100} count={150} color="#445566" />
 
       <fog attach="fog" args={['#000008', 130, 650]} />
 
