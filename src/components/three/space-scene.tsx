@@ -8,12 +8,11 @@ import { Sun3D, ShootingStar } from './sun-3d'
 import { AsteroidBelt } from './asteroid-belt'
 import { Nebula } from './nebula'
 import { PLANETS } from '@/data/portfolio'
+import { CameraController } from './camera-controller'
 
 export function SpaceScene() {
   const { camera } = useThree()
-  const { activePlanet, activePanel, setIsLoaded } = useSpaceStore()
-  const camTarget = useRef(new THREE.Vector3(0, 22, 64))
-  const lookTarget = useRef(new THREE.Vector3(0, 0, 0))
+  const { setIsLoaded } = useSpaceStore()
   const planetAngles = useRef<Record<string, number>>(
     Object.fromEntries(PLANETS.map((p, i) => [p.id, (i * Math.PI * 2) / PLANETS.length + 0.3]))
   )
@@ -24,30 +23,7 @@ export function SpaceScene() {
   }, [setIsLoaded])
 
   useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime()
     PLANETS.forEach(p => { planetAngles.current[p.id] += delta * p.orbitSpeed * 0.1 })
-
-    if (!activePanel) {
-      if (activePlanet) {
-        const planet = PLANETS.find(p => p.id === activePlanet)
-        if (planet) {
-          const angle = planetAngles.current[planet.id]
-          const px = Math.cos(angle) * planet.orbitRadius
-          const pz = Math.sin(angle) * planet.orbitRadius
-          camTarget.current.set(px, planet.size + 7, pz + planet.size * 2.8 + 10)
-          lookTarget.current.set(px, 0, pz)
-        }
-      } else {
-        camTarget.current.set(
-          Math.sin(t * 0.04) * 4,
-          24 + Math.sin(t * 0.07) * 2.5,
-          62 + Math.cos(t * 0.05) * 3
-        )
-        lookTarget.current.set(Math.sin(t * 0.02) * 2, 0, 0)
-      }
-      camera.position.lerp(camTarget.current, delta * 1.6)
-      camera.lookAt(lookTarget.current)
-    }
   })
 
   return (
@@ -80,6 +56,9 @@ export function SpaceScene() {
       <AsteroidBelt innerRadius={73} outerRadius={79} count={150} color="#445566" />
 
       <fog attach="fog" args={['#000008', 130, 650]} />
+
+      <CameraController planetAngles={planetAngles} />
+
     </>
   )
 }
