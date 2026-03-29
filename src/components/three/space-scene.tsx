@@ -18,7 +18,7 @@ export function SpaceScene() {
   )
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLoaded(true), 2200)
+    const t = setTimeout(() => setIsLoaded(true), 100)
     return () => clearTimeout(t)
   }, [setIsLoaded])
 

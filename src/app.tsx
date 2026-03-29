@@ -8,7 +8,6 @@ import { HUD } from '@/components/ui/hud'
 import { CustomCursor } from '@/components/ui/custom-cursor'
 import { IntroSequence } from '@/components/ui/intro-sequence'
 import { PlanetPanel } from '@/components/ui/planet-panel'
-import { LoadingScreen } from '@/components/ui/loading-screen'
 import { WarpEffect } from '@/components/ui/warp-effect'
 import { WebGLError } from '@/components/ui/webgl-error'
 import { isWebGLAvailable } from '@/utils/webgl-check'
@@ -51,7 +50,6 @@ export default function App() {
         </Suspense>
       </Canvas>
 
-      <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
       <AnimatePresence>{showIntro && isLoaded && <IntroSequence />}</AnimatePresence>
       <AnimatePresence>{isLoaded && !showIntro && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
