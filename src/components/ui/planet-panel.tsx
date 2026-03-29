@@ -58,12 +58,12 @@ export function PlanetPanel() {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.94, y: -14 }}
         transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-        className="relative flex flex-col overflow-hidden rounded-2xl"
+        className="glass-strong relative flex flex-col overflow-hidden"
         style={{
           width: '92%', maxWidth: 960, maxHeight: '90vh',
-          background: 'rgba(2,2,21,0.97)',
-          border: `1px solid ${planet.glowColor}30`,
-          boxShadow: `0 0 80px ${planet.glowColor}15, 0 0 160px ${planet.glowColor}06`,
+          borderColor: `${planet.glowColor}30`,
+          borderTopColor: `${planet.glowColor}60`,
+          boxShadow: `0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 ${planet.glowColor}40, 0 0 120px ${planet.glowColor}08`,
         }}
       >
         {[

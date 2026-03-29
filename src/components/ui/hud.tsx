@@ -17,8 +17,8 @@ export function HUD() {
   }, [])
 
   const handlePlanetNav = (id: string) => {
-    if (activePlanet === id) { openPanel(id as any) }
-    else { setActivePlanet(id); closePanel() }
+    setActivePlanet(id)
+    openPanel(id as any)
   }
 
   return (
@@ -29,9 +29,9 @@ export function HUD() {
       transition={{ duration: 0.8 }}
       className="fixed inset-0 pointer-events-none z-[100]"
     >
-      <div className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-7
-                      bg-gradient-to-b from-[rgba(0,0,8,0.88)] to-transparent
-                      border-b border-[rgba(0,212,255,0.07)]">
+      <div className="absolute top-0 left-0 right-0 h-16 flex items-center justify-between px-8
+                      bg-gradient-to-b from-[rgba(5,5,20,0.9)] to-transparent
+                      border-b border-[rgba(255,255,255,0.05)] backdrop-blur-sm z-[100]">
         <div className="flex items-center gap-3.5">
           <motion.div
             animate={{ rotate: 360 }}
@@ -77,35 +77,35 @@ export function HUD() {
               key={planet.id}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.08 + 0.2 }}
-              whileHover={{ x: 8, transition: { duration: 0.15 } }}
+              transition={{ delay: i * 0.08 + 0.2, type: 'spring', stiffness: 200, damping: 20 }}
+              whileHover={{ x: 12, scale: 1.02, transition: { duration: 0.2 } }}
               onClick={() => handlePlanetNav(planet.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="flex items-center gap-3 rounded-lg px-4 py-2.5 min-w-[180px] transition-all duration-300
-                         backdrop-blur-xl cursor-none border text-left"
+              className={`flex items-center gap-4 px-5 py-3.5 min-w-[220px] transition-all duration-300
+                         cursor-none border text-left rounded-2xl
+                         ${isActive ? 'glass-strong' : 'glass hover:bg-[rgba(20,20,40,0.4)]'}`}
               style={{
-                background: isActive ? `rgba(${hr(planet.glowColor)},0.18)` : 'rgba(2,2,21,0.65)',
-                borderColor: isActive ? planet.glowColor : 'rgba(0,212,255,0.13)',
-                boxShadow: isActive ? `0 0 20px ${planet.glowColor}30` : 'none',
+                borderColor: isActive ? planet.glowColor : 'rgba(255,255,255,0.1)',
+                boxShadow: isActive ? `0 0 30px ${planet.glowColor}25, inset 0 1px 0 rgba(255,255,255,0.2)` : '',
               }}
             >
               <motion.div
-                animate={{ scale: isActive ? [1, 1.5, 1] : 1 }}
-                transition={{ duration: 1.8, repeat: isActive ? Infinity : 0 }}
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ background: planet.color, boxShadow: `0 0 8px ${planet.glowColor}` }}
+                animate={{ scale: isActive ? [1, 1.4, 1] : 1 }}
+                transition={{ duration: 2, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
+                className="w-3 h-3 rounded-full flex-shrink-0"
+                style={{ background: planet.color, boxShadow: `0 0 12px ${planet.glowColor}` }}
               />
               <div>
                 <div
-                  className="font-display text-[9px] font-bold tracking-[0.22em]"
+                  className="font-display text-[10px] font-bold tracking-[0.25em]"
                   style={{ color: isActive ? planet.glowColor : '#F0F4FF' }}
                 >
                   {planet.name}
                 </div>
                 <div
-                  className="font-mono-space text-[7px] tracking-[0.1em] mt-0.5"
-                  style={{ color: isActive ? 'rgba(240,244,255,0.65)' : 'rgba(240,244,255,0.3)' }}
+                  className="font-mono-space text-[8px] tracking-[0.15em] mt-1"
+                  style={{ color: isActive ? 'rgba(240,244,255,0.8)' : 'rgba(240,244,255,0.4)' }}
                 >
                   {planet.subtitle.toUpperCase()}
                 </div>
@@ -127,7 +127,7 @@ export function HUD() {
                       bg-gradient-to-t from-[rgba(0,0,8,0.88)] to-transparent
                       border-t border-[rgba(0,212,255,0.07)]">
         <div className="font-mono-space text-[9px] text-[rgba(0,212,255,0.45)] tracking-[0.2em]">
-          ◈ MOVE MOUSE · CLICK PLANET · CLICK AGAIN TO ENTER
+          ◈ DRAG MOUSE TO LOOK · CLICK PLANET TO ENTER
         </div>
         <div className="font-mono-space text-[9px] text-[rgba(240,244,255,0.2)] tracking-[0.15em]">
           {DEVELOPER.location.toUpperCase()} · FULL STACK DEVELOPER
@@ -145,34 +145,21 @@ export function HUD() {
         </motion.button>
       </div>
 
-      {activePlanet && !helpVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0 }}
-          className="absolute bottom-14 right-7 font-mono-space text-[10px]
-                     text-[#00D4FF] tracking-[0.2em] pointer-events-none"
-        >
-          ↑ CLICK AGAIN TO ENTER PLANET
-        </motion.div>
-      )}
+
 
       {helpVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 10, scale: 0.97 }}
+          initial={{ opacity: 0, y: 15, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="absolute bottom-14 right-5 pointer-events-auto rounded-xl p-5
-                     bg-[rgba(2,2,21,0.95)] border border-[rgba(0,212,255,0.25)]
-                     backdrop-blur-2xl min-w-[260px]"
-          style={{ boxShadow: '0 0 40px rgba(0,212,255,0.1)' }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          className="glass-strong absolute bottom-14 right-5 pointer-events-auto p-6 min-w-[280px]"
         >
           <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">
             NAVIGATION
           </div>
           {[
             ['HOVER',    'See planet name'],
-            ['CLICK ×1', 'Focus camera on planet'],
-            ['CLICK ×2', 'Open planet details'],
+            ['CLICK',    'Enter planet details'],
             ['LEFT NAV', 'Quick-jump to section'],
             ['ESC / ✕',  'Close panel & return'],
             ['← →',      'Navigate between planets'],
