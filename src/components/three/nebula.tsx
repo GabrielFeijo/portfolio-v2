@@ -2,130 +2,185 @@ import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-export function Nebula() {
-  const ref1 = useRef<THREE.Mesh>(null)
-  const ref2 = useRef<THREE.Mesh>(null)
-  const ref3 = useRef<THREE.Mesh>(null)
+function makeNebulaCanvas(
+  colors: string[],
+  blobCount: number,
+  alphaRange: [number, number],
+  seed: number
+): THREE.CanvasTexture {
+  const SIZE = 1024
+  const c = document.createElement('canvas')
+  c.width = SIZE; c.height = SIZE
+  const ctx = c.getContext('2d')!
+  ctx.clearRect(0, 0, SIZE, SIZE)
 
-  const nebulaTexture = useMemo(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 512
-    canvas.height = 512
-    const ctx = canvas.getContext('2d')!
-    
-    ctx.fillStyle = 'transparent'
-    ctx.clearRect(0, 0, 512, 512)
-    
-    for (let i = 0; i < 20; i++) {
-      const x = Math.random() * 512
-      const y = Math.random() * 512
-      const r = 50 + Math.random() * 150
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, r)
-      gradient.addColorStop(0, `rgba(107, 33, 232, ${0.1 + Math.random() * 0.1})`)
-      gradient.addColorStop(0.5, `rgba(30, 64, 175, ${0.05 + Math.random() * 0.05})`)
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-      ctx.fillStyle = gradient
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, Math.PI * 2)
-      ctx.fill()
+  let s = seed
+  const rand = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646 }
+
+  for (let i = 0; i < blobCount; i++) {
+    const x = rand() * SIZE
+    const y = rand() * SIZE
+    const r = 60 + rand() * 200
+    const colorIdx = Math.floor(rand() * colors.length)
+    const alpha = alphaRange[0] + rand() * (alphaRange[1] - alphaRange[0])
+
+    const grd = ctx.createRadialGradient(x, y, 0, x, y, r)
+    grd.addColorStop(0, colors[colorIdx].replace(')', `,${alpha})`).replace('rgb(', 'rgba('))
+    grd.addColorStop(0.4, colors[colorIdx].replace(')', `,${alpha * 0.4})`).replace('rgb(', 'rgba('))
+    grd.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = grd
+    ctx.beginPath()
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.scale(1, 0.5 + rand() * 1.0)
+    ctx.rotate(rand() * Math.PI * 2)
+    ctx.arc(0, 0, r, 0, Math.PI * 2)
+    ctx.restore()
+    ctx.fill()
+  }
+
+  for (let i = 0; i < 800; i++) {
+    const x = rand() * SIZE
+    const y = rand() * SIZE
+    const colorIdx = Math.floor(rand() * colors.length)
+    const alpha = 0.03 + rand() * 0.08
+    ctx.fillStyle = colors[colorIdx].replace(')', `,${alpha})`).replace('rgb(', 'rgba(')
+    ctx.beginPath()
+    ctx.arc(x, y, rand() * 2, 0, Math.PI * 2)
+    ctx.fill()
+  }
+
+  const tex = new THREE.CanvasTexture(c)
+  return tex
+}
+
+function NebulaParticles({
+  position,
+  color,
+  count,
+  spread,
+}: {
+  position: [number, number, number]
+  color: string
+  count: number
+  spread: number
+}) {
+  const ref = useRef<THREE.Points>(null)
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3)
+    for (let i = 0; i < count; i++) {
+      arr[i * 3]     = (Math.random() - 0.5) * spread
+      arr[i * 3 + 1] = (Math.random() - 0.5) * spread * 0.4
+      arr[i * 3 + 2] = (Math.random() - 0.5) * spread
     }
-
-    const texture = new THREE.CanvasTexture(canvas)
-    return texture
-  }, [])
-
-  const nebulaTexture2 = useMemo(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 512
-    canvas.height = 512
-    const ctx = canvas.getContext('2d')!
-    ctx.clearRect(0, 0, 512, 512)
-    
-    for (let i = 0; i < 15; i++) {
-      const x = Math.random() * 512
-      const y = Math.random() * 512
-      const r = 80 + Math.random() * 120
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, r)
-      gradient.addColorStop(0, `rgba(0, 212, 255, ${0.08 + Math.random() * 0.08})`)
-      gradient.addColorStop(0.5, `rgba(0, 50, 100, ${0.04})`)
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-      ctx.fillStyle = gradient
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, Math.PI * 2)
-      ctx.fill()
-    }
-
-    return new THREE.CanvasTexture(canvas)
-  }, [])
-
-  const nebulaTexture3 = useMemo(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 512
-    canvas.height = 512
-    const ctx = canvas.getContext('2d')!
-    ctx.clearRect(0, 0, 512, 512)
-    
-    for (let i = 0; i < 10; i++) {
-      const x = Math.random() * 512
-      const y = Math.random() * 512
-      const r = 100 + Math.random() * 150
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, r)
-      gradient.addColorStop(0, `rgba(255, 20, 147, ${0.06 + Math.random() * 0.06})`)
-      gradient.addColorStop(0.6, `rgba(100, 0, 50, ${0.03})`)
-      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-      ctx.fillStyle = gradient
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, Math.PI * 2)
-      ctx.fill()
-    }
-
-    return new THREE.CanvasTexture(canvas)
-  }, [])
+    return arr
+  }, [count, spread])
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime() * 0.02
-    if (ref1.current) { ref1.current.rotation.z = t * 0.5; ref1.current.rotation.x = t * 0.2 }
-    if (ref2.current) { ref2.current.rotation.z = -t * 0.3; ref2.current.rotation.y = t * 0.1 }
-    if (ref3.current) { ref3.current.rotation.y = t * 0.4; ref3.current.rotation.z = t * 0.15 }
+    if (ref.current) {
+      ref.current.rotation.y = state.clock.getElapsedTime() * 0.005
+    }
   })
 
   return (
+    <points ref={ref} position={position}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        color={color}
+        size={0.35}
+        transparent
+        opacity={0.18}
+        blending={THREE.AdditiveBlending}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
+  )
+}
+
+function NebulaLayer({
+  texture,
+  position,
+  rotation,
+  scale,
+  speed,
+}: {
+  texture: THREE.Texture
+  position: [number, number, number]
+  rotation: [number, number, number]
+  scale: [number, number]
+  speed: [number, number, number]
+}) {
+  const ref = useRef<THREE.Mesh>(null)
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime() * 0.008
+    if (ref.current) {
+      ref.current.rotation.x = rotation[0] + t * speed[0]
+      ref.current.rotation.y = rotation[1] + t * speed[1]
+      ref.current.rotation.z = rotation[2] + t * speed[2]
+    }
+  })
+
+  return (
+    <mesh ref={ref} position={position} rotation={rotation}>
+      <planeGeometry args={scale} />
+      <meshBasicMaterial
+        map={texture}
+        transparent
+        opacity={1}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
+  )
+}
+
+export function Nebula() {
+  const textures = useMemo(() => [
+    makeNebulaCanvas(['rgb(107,33,232)', 'rgb(139,68,255)', 'rgb(80,20,180)'], 25, [0.08, 0.18], 42),
+    makeNebulaCanvas(['rgb(0,100,255)', 'rgb(30,60,175)', 'rgb(0,180,255)'], 20, [0.06, 0.14], 77),
+    makeNebulaCanvas(['rgb(255,20,147)', 'rgb(220,50,130)', 'rgb(180,0,80)'], 18, [0.05, 0.12], 123),
+    makeNebulaCanvas(['rgb(0,200,180)', 'rgb(0,150,140)', 'rgb(0,100,100)'], 15, [0.05, 0.1], 55),
+    makeNebulaCanvas(['rgb(255,180,0)', 'rgb(200,120,0)', 'rgb(255,220,80)'], 14, [0.04, 0.09], 88),
+    makeNebulaCanvas(['rgb(40,10,100)', 'rgb(100,30,180)', 'rgb(15,5,60)'], 30, [0.1, 0.22], 200),
+    makeNebulaCanvas(['rgb(200,30,10)', 'rgb(255,80,20)', 'rgb(150,10,5)'], 16, [0.05, 0.11], 33),
+    makeNebulaCanvas(['rgb(0,212,255)', 'rgb(0,150,200)', 'rgb(80,230,255)'], 18, [0.05, 0.12], 66),
+    makeNebulaCanvas(['rgb(60,20,120)', 'rgb(90,40,160)', 'rgb(40,10,80)'], 35, [0.06, 0.15], 99),
+  ], [])
+
+  const layers = useMemo(() => [
+    { texIdx: 0, pos: [-80, 20, -220] as [number,number,number],    rot: [0.4, 0.1, 0.2] as [number,number,number],  scale: [420, 320] as [number,number], speed: [0.4, 0.1, 0.3] as [number,number,number] },
+    { texIdx: 1, pos: [140, -30, -260] as [number,number,number],   rot: [-0.3, 0.4, 0.1] as [number,number,number], scale: [380, 300] as [number,number], speed: [-0.2, 0.3, 0.1] as [number,number,number] },
+    { texIdx: 2, pos: [20, 70, -310] as [number,number,number],     rot: [0.2, 0.2, 0.5] as [number,number,number],  scale: [520, 400] as [number,number], speed: [0.3, -0.2, 0.2] as [number,number,number] },
+    { texIdx: 3, pos: [-160, -50, -280] as [number,number,number],  rot: [0.6, -0.2, 0.3] as [number,number,number], scale: [340, 260] as [number,number], speed: [0.2, 0.4, -0.1] as [number,number,number] },
+    { texIdx: 4, pos: [200, 80, -350] as [number,number,number],    rot: [-0.2, 0.5, -0.1] as [number,number,number],scale: [450, 350] as [number,number], speed: [-0.3, 0.2, 0.4] as [number,number,number] },
+    { texIdx: 5, pos: [0, -80, -180] as [number,number,number],     rot: [0.8, 0.0, 0.0] as [number,number,number],  scale: [600, 450] as [number,number], speed: [0.15, 0.25, -0.2] as [number,number,number] },
+    { texIdx: 6, pos: [-220, 40, -320] as [number,number,number],   rot: [0.3, 0.7, 0.2] as [number,number,number],  scale: [360, 280] as [number,number], speed: [0.35, -0.15, 0.3] as [number,number,number] },
+    { texIdx: 7, pos: [100, -100, -240] as [number,number,number],  rot: [-0.4, -0.3, 0.6] as [number,number,number],scale: [400, 310] as [number,number], speed: [-0.2, 0.3, 0.15] as [number,number,number] },
+    { texIdx: 8, pos: [50, 120, -400] as [number,number,number],    rot: [0.1, 0.3, 0.0] as [number,number,number],  scale: [700, 550] as [number,number], speed: [0.1, 0.1, 0.1] as [number,number,number] },
+  ], [])
+
+  return (
     <group>
-      <mesh ref={ref1} position={[-80, 20, -200]} rotation={[0.5, 0, 0]}>
-        <planeGeometry args={[400, 300]} />
-        <meshBasicMaterial
-          map={nebulaTexture}
-          transparent
-          opacity={1}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
+      {layers.map((layer, i) => (
+        <NebulaLayer
+          key={i}
+          texture={textures[layer.texIdx]}
+          position={layer.pos}
+          rotation={layer.rot}
+          scale={layer.scale}
+          speed={layer.speed}
         />
-      </mesh>
+      ))}
 
-      <mesh ref={ref2} position={[120, -30, -250]} rotation={[-0.3, 0.5, 0]}>
-        <planeGeometry args={[350, 280]} />
-        <meshBasicMaterial
-          map={nebulaTexture2}
-          transparent
-          opacity={1}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-
-      <mesh ref={ref3} position={[0, 60, -300]} rotation={[0.2, 0.2, 0.4]}>
-        <planeGeometry args={[500, 400]} />
-        <meshBasicMaterial
-          map={nebulaTexture3}
-          transparent
-          opacity={1}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+      <NebulaParticles position={[-80, 20, -220]}  color="#6B21E8" count={300} spread={200} />
+      <NebulaParticles position={[140, -30, -260]} color="#00D4FF" count={250} spread={180} />
+      <NebulaParticles position={[0, 70, -310]}    color="#FF1493" count={200} spread={220} />
+      <NebulaParticles position={[60, -50, -180]}  color="#FFB800" count={180} spread={160} />
     </group>
   )
 }

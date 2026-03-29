@@ -1,110 +1,170 @@
-import { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import { Sphere, MeshDistortMaterial } from '@react-three/drei'
+import { useRef, useMemo } from 'react'
+import { useFrame, extend } from '@react-three/fiber'
+import { Sphere, Sparkles } from '@react-three/drei'
 import * as THREE from 'three'
+import { SunMaterial } from './planet-shaders'
+
+extend({ SunMaterial })
+
+declare module '@react-three/fiber' {
+  interface ThreeElements {
+    sunMaterial: JSX.IntrinsicElements['shaderMaterial'] & {
+      uColorPrimary?: THREE.Color
+      uColorSecondary?: THREE.Color
+      uIntensity?: number
+      uTime?: number
+    }
+  }
+}
 
 export function Sun3D() {
   const sunRef = useRef<THREE.Mesh>(null)
-  const coronaRef = useRef<THREE.Mesh>(null)
-  const glowRef = useRef<THREE.Mesh>(null)
+  const sunMatRef = useRef<THREE.ShaderMaterial>(null)
+  
+  const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
+  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []) // Deep orange/red
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
-    
+
     if (sunRef.current) {
-      sunRef.current.rotation.y += 0.003
+      sunRef.current.rotation.y += 0.002
       sunRef.current.rotation.z += 0.001
     }
 
-    if (coronaRef.current) {
-      coronaRef.current.rotation.y -= 0.002
-      coronaRef.current.rotation.x += 0.001
-      const scale = 1 + Math.sin(t * 2) * 0.02
-      coronaRef.current.scale.setScalar(scale)
-    }
-
-    if (glowRef.current) {
-      const scale = 1 + Math.sin(t * 1.5) * 0.05
-      glowRef.current.scale.setScalar(scale)
+    if (sunMatRef.current) {
+      sunMatRef.current.uniforms.uTime.value = t
     }
   })
 
   return (
     <group>
-      <Sphere ref={glowRef} args={[7, 32, 32]}>
+      <Sphere args={[16 + Math.random(), 32, 32]}>
         <meshBasicMaterial
-          color="#FFF5E0"
+          color="#FF9933"
           transparent
-          opacity={0.05}
-          side={THREE.BackSide}
-        />
-      </Sphere>
-
-      <Sphere ref={coronaRef} args={[5.5, 32, 32]}>
-        <meshBasicMaterial
-          color="#FF8800"
-          transparent
-          opacity={0.15}
+          opacity={0.03}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </Sphere>
 
-      <Sphere ref={sunRef} args={[4.5, 64, 64]}>
-        <MeshDistortMaterial
-          color="#FFA500"
-          emissive="#FF6600"
-          emissiveIntensity={2}
-          distort={0.3}
-          speed={2}
-          roughness={0.8}
+      <Sphere args={[6.5, 32, 32]}>
+        <meshBasicMaterial
+          color="#FF5500"
+          transparent
+          opacity={0.12}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </Sphere>
 
-      {Array.from({ length: 8 }).map((_, i) => {
-        const angle = (i / 8) * Math.PI * 2
-        const r = 5 + Math.random() * 2
+      <mesh ref={sunRef}>
+        <sphereGeometry args={[4.5, 128, 128]} />
+        <sunMaterial
+          ref={sunMatRef}
+          uColorPrimary={colPrimary}
+          uColorSecondary={colSecondary}
+          uIntensity={4.5} // High intensity for true HDR Bloom
+        />
+      </mesh>
+
+      {Array.from({ length: 12 }).map((_, i) => {
+        const angle = (i / 12) * Math.PI * 2
+        const r = 4.8 + (i % 3) * 0.4
         return (
           <SolarFlare
             key={i}
-            position={[Math.cos(angle) * r, Math.sin(angle) * r, 0]}
+            basePos={[Math.cos(angle) * r, Math.sin(angle) * r, Math.sin(angle * 0.4) * r * 0.6]}
             delay={i * 0.3}
+            size={0.15 + (i % 4) * 0.08}
           />
         )
       })}
 
-      <pointLight
-        position={[0, 0, 0]}
-        intensity={6}
-        color="#FFF5E0"
-        distance={300}
-        decay={1.5}
-      />
+      <Sparkles count={250} scale={[13, 13, 13]} size={3.5} speed={0.8} color="#FFEECC" opacity={0.6} />
+      <Sparkles count={150} scale={[8, 8, 8]} size={5} speed={0.5} color="#FF6600" opacity={0.8} />
+
+      <pointLight position={[0, 0, 0]} intensity={18} color="#FFEFD5" distance={450} decay={1.5} />
+      <pointLight position={[0, 0, 0]} intensity={6} color="#FF4500" distance={80} decay={2.5} />
     </group>
   )
 }
 
-function SolarFlare({ position, delay }: { position: [number, number, number], delay: number }) {
+interface SolarFlareProps {
+  basePos: [number, number, number]
+  delay: number
+  size: number
+}
+
+function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
   const ref = useRef<THREE.Mesh>(null)
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime() + delay
     if (ref.current) {
-      ref.current.scale.setScalar(0.5 + Math.sin(t * 2) * 0.3)
-      ref.current.position.x = position[0] + Math.sin(t) * 0.5
-      ref.current.position.y = position[1] + Math.cos(t * 0.8) * 0.5
+      const pulse = 0.6 + Math.abs(Math.sin(t * 1.5)) * 0.8
+      ref.current.scale.setScalar(pulse)
+      ref.current.position.set(
+        basePos[0] + Math.sin(t * 1.2) * 0.8,
+        basePos[1] + Math.cos(t * 0.9) * 0.8,
+        basePos[2] + Math.sin(t * 1.4) * 0.6
+      )
     }
   })
 
   return (
-    <mesh ref={ref} position={position}>
-      <sphereGeometry args={[0.3, 8, 8]} />
-      <meshBasicMaterial
-        color="#FFAA00"
-        transparent
-        opacity={0.6}
-        blending={THREE.AdditiveBlending}
-      />
+    <mesh ref={ref} position={basePos}>
+      <sphereGeometry args={[size, 16, 16]} />
+      <meshBasicMaterial color="#FFB800" transparent opacity={0.9} blending={THREE.AdditiveBlending} depthWrite={false} />
     </mesh>
+  )
+}
+
+export function ShootingStar() {
+  const ref = useRef<THREE.Group>(null)
+  const trailRef = useRef<THREE.Mesh>(null)
+
+  const { start, dir, delay } = useMemo(() => ({
+    start: new THREE.Vector3(
+      (Math.random() - 0.5) * 400,
+      60 + Math.random() * 100,
+      (Math.random() - 0.5) * 300 - 100
+    ),
+    dir: new THREE.Vector3(
+      -0.8 + Math.random() * 0.6,
+      -0.3 - Math.random() * 0.5,
+      -0.2 + Math.random() * 0.5
+    ).normalize(),
+    delay: Math.random() * 15,
+  }), [])
+
+  useFrame((state) => {
+    const t = (state.clock.getElapsedTime() + delay) % 18
+    if (ref.current) {
+      if (t < 2.5) {
+        const progress = t / 2.5
+        ref.current.position.copy(start).addScaledVector(dir, progress * 240)
+        ref.current.visible = progress > 0.05
+        if (trailRef.current) trailRef.current.scale.set(1, 1, 1 + progress * 35)
+      } else {
+        ref.current.visible = false
+      }
+    }
+  })
+
+  return (
+    <group ref={ref}>
+      <mesh>
+        <sphereGeometry args={[0.2, 8, 8]} />
+        <meshBasicMaterial color="#FFFFFF" transparent opacity={1.0} blending={THREE.AdditiveBlending} />
+      </mesh>
+      <mesh ref={trailRef} position={[0, 0, 1.0]}>
+        <cylinderGeometry args={[0.08, 0.0, 2, 8]} />
+        <meshBasicMaterial color="#00D4FF" transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
+      </mesh>
+    </group>
   )
 }
