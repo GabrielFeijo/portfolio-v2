@@ -19,7 +19,7 @@ const PANELS: Record<string, ComponentType> = {
 }
 
 export function PlanetPanel() {
-  const { activePanel, closePanel, openPanel, setCursorVariant } = useSpaceStore()
+  const { activePanel, closePanel, openPanel, setActivePlanet, setCursorVariant } = useSpaceStore()
   if (!activePanel) return null
 
   const planet = PLANETS.find(p => p.id === activePanel)
@@ -29,6 +29,12 @@ export function PlanetPanel() {
   const idx = PLANETS.findIndex(p => p.id === activePanel)
   const prev = PLANETS[idx - 1]
   const next = PLANETS[idx + 1]
+
+  const handleNav = (id: string) => {
+    setActivePlanet(id)
+    closePanel() // Hide current panel immediately
+    setTimeout(() => openPanel(id as any), 800) // Wait for warp
+  }
 
   return (
     <motion.div
@@ -127,7 +133,7 @@ export function PlanetPanel() {
           {prev ? (
             <motion.button
               whileHover={{ x: -4 }}
-              onClick={() => openPanel(prev.id as any)}
+              onClick={() => handleNav(prev.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
               className="cursor-none font-mono-space text-[9px] tracking-[0.22em] px-4 py-1.5 rounded
@@ -139,7 +145,7 @@ export function PlanetPanel() {
           {next ? (
             <motion.button
               whileHover={{ x: 4 }}
-              onClick={() => openPanel(next.id as any)}
+              onClick={() => handleNav(next.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
               className="cursor-none font-mono-space text-[9px] tracking-[0.22em] px-4 py-1.5 rounded

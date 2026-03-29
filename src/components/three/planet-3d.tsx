@@ -113,7 +113,7 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
   const handleClick = (e: any) => {
     e.stopPropagation()
     setActivePlanet(planet.id)
-    openPanel(planet.id as any)
+    setTimeout(() => openPanel(planet.id as any), 800)
   }
 
   const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color])

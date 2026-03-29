@@ -18,7 +18,7 @@ export function HUD() {
 
   const handlePlanetNav = (id: string) => {
     setActivePlanet(id)
-    openPanel(id as any)
+    setTimeout(() => openPanel(id as any), 800)
   }
 
   return (
