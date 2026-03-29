@@ -46,7 +46,7 @@ export const useSpaceStore = create<SpaceStore>((set) => ({
   showHUD: true,
   setShowHUD: (show) => set({ showHUD: show }),
   
-  showIntro: true,
+  showIntro: false,
   setShowIntro: (show) => set({ showIntro: show }),
   
   soundEnabled: false,

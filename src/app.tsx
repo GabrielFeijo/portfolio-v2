@@ -6,7 +6,7 @@ import { useSpaceStore } from '@/store/space-store'
 import { SpaceScene } from '@/components/three/space-scene'
 import { HUD } from '@/components/ui/hud'
 import { CustomCursor } from '@/components/ui/custom-cursor'
-import { IntroSequence } from '@/components/ui/intro-sequence'
+import { LoadingScreen } from '@/components/ui/loading-screen'
 import { PlanetPanel } from '@/components/ui/planet-panel'
 import { WarpEffect } from '@/components/ui/warp-effect'
 import { WebGLError } from '@/components/ui/webgl-error'
@@ -50,7 +50,7 @@ export default function App() {
         </Suspense>
       </Canvas>
 
-      <AnimatePresence>{showIntro && isLoaded && <IntroSequence />}</AnimatePresence>
+      <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
       <AnimatePresence>{isLoaded && !showIntro && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <WarpEffect />
