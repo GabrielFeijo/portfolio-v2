@@ -6,10 +6,9 @@ export function AboutPanel() {
   const { setCursorVariant } = useSpaceStore()
 
   const stats = [
-    { label: 'YEARS EXP', value: '3+', color: '#00D4FF' },
-    { label: 'PROJECTS', value: '50+', color: '#00FF88' },
-    { label: 'CLIENTS', value: '30+', color: '#FFB800' },
-    { label: 'COMMITS', value: '2K+', color: '#FF1493' },
+    { label: 'YEARS EXP', value: '4+', color: '#00D4FF' },
+    { label: 'PROJECTS', value: '80+', color: '#00FF88' },
+    { label: 'COMMITS', value: '7K+', color: '#FF1493' },
   ]
 
   const containerVariants = {
@@ -108,7 +107,7 @@ export function AboutPanel() {
         variants={itemVariants}
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 12,
         }}
       >
