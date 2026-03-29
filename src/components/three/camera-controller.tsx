@@ -40,8 +40,7 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
         const px = Math.cos(angle) * planet.orbitRadius
         const py = planet.orbitY || 0
         const pz = Math.sin(angle) * planet.orbitRadius
-        
-        // Offset the camera look-at to the right, pushing the planet to the left area
+
         const xOffset = 6.0 
         controls.setLookAt(px + xOffset, py + planet.size + 4, pz + offsetDist, px + xOffset, py, pz, true)
       }

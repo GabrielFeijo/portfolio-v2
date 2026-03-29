@@ -33,8 +33,8 @@ export function PlanetPanel() {
 
   const handleNav = (id: string) => {
     setActivePlanet(id)
-    closePanel() // Hide current panel immediately
-    setTimeout(() => openPanel(id as PanelType), 800) // Wait for warp
+    closePanel() 
+    setTimeout(() => openPanel(id as PanelType), 800) 
   }
 
   return (
@@ -44,22 +44,19 @@ export function PlanetPanel() {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-200 pointer-events-none flex"
     >
-      {/* Invisible backdrop for closing when clicking outside the panel */}
+      
       <div
         className="absolute inset-0 pointer-events-auto cursor-none"
         onClick={closePanel}
         onMouseEnter={() => setCursorVariant('default')}
       />
 
-      {/* Decorative Gradient Line representing the orbit cut */}
       <div className="absolute top-0 left-0 right-0 h-0.5 pointer-events-none"
         style={{ background: `linear-gradient(90deg,transparent,${planet.glowColor}80,transparent)`, boxShadow: `0 0 20px ${planet.glowColor}` }}
       />
 
-      {/* Spacer to push panel to the right */}
       <div className="flex-1" />
 
-      {/* The Dashboard Panel */}
       <motion.div
         initial={{ x: '100%', opacity: 0.5 }}
         animate={{ x: 0, opacity: 1 }}
@@ -73,9 +70,9 @@ export function PlanetPanel() {
           borderLeft: `1px solid ${planet.glowColor}40`,
           boxShadow: `-40px 0 100px rgba(0,0,0,0.7), inset 1px 0 0 ${planet.glowColor}60, -80px 0 200px ${planet.glowColor}15`,
         }}
-        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+        onClick={(e) => e.stopPropagation()} 
       >
-        {/* Subtle grid texture inside the panel */}
+        
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(${planet.glowColor} 1px, transparent 1px),
@@ -84,7 +81,6 @@ export function PlanetPanel() {
           }}
         />
 
-        {/* High-End Header */}
         <div
           className="flex flex-col px-10 py-10 shrink-0 relative"
           style={{
@@ -92,7 +88,7 @@ export function PlanetPanel() {
             borderBottom: `1px solid ${planet.glowColor}15`,
           }}
         >
-          {/* Close button top right */}
+          
           <motion.button
             whileHover={{ scale: 1.15, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
@@ -134,15 +130,13 @@ export function PlanetPanel() {
           </div>
         </div>
 
-        {/* Scrollable Content Area */}
         <div
           className="flex-1 overflow-y-auto px-10 py-8 relative z-10"
-          style={{ scrollbarWidth: 'none' }} // ultra clean no scrollbar visually
+          style={{ scrollbarWidth: 'none' }} 
         >
           <PanelContent />
         </div>
 
-        {/* Navigation Footer */}
         <div className="flex justify-between px-10 py-6 shrink-0 relative z-10"
           style={{
             background: `linear-gradient(to top, rgba(0,0,5,0.8), transparent)`,

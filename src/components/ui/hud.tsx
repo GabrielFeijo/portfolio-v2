@@ -149,8 +149,6 @@ export function HUD() {
         </motion.button>
       </div>
 
-
-
       {
         helpVisible && (
           <motion.div

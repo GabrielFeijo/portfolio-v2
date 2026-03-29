@@ -23,7 +23,7 @@ float snoise(vec3 v){
              i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
            + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
            + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
-  float n_ = 1.0/7.0; // N=7
+  float n_ = 1.0/7.0; 
   vec3  ns = n_ * D.wyz - D.xzx;
   vec4 j = p - 49.0 * floor(p * ns.z *ns.z);
   vec4 x_ = floor(j * ns.z);
@@ -128,7 +128,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
   {
     uTime: 0,
     uColor: new THREE.Color(),
-    uType: 0, // 0=rocky, 1=oceanic, 2=lava, 3=crystal, 4=gas, 5=ice
+    uType: 0, 
     uLightDir: new THREE.Vector3(1, 0.5, 0.5).normalize(),
   },
 `
@@ -150,10 +150,10 @@ export const AAA_PlanetMaterial = shaderMaterial(
 
     vec3 transformed = position;
     
-    if (uType == 0 || uType == 3 || uType == 5) { // Rocky/Crystal/Ice
+    if (uType == 0 || uType == 3 || uType == 5) { 
       float disp = fbm(position * 3.0 + uTime * 0.02) * 0.02;
       transformed += normal * disp;
-    } else if (uType == 2) { // Lava
+    } else if (uType == 2) { 
       float disp = fbm_ridged(position * 2.0) * 0.03;
       transformed += normal * disp;
     }
@@ -186,7 +186,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
     
     float ambient = 0.05;
 
-    if (uType == 0) { // ROCKY
+    if (uType == 0) { 
       float n = fbm(nPos * 4.0);
       float craters = fbm_ridged(nPos * 8.0);
       baseColor = mix(uColor * 0.4, uColor, n + craters * 0.2);
@@ -195,7 +195,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       diffuse = max(diffuse - craters * 0.3, 0.0);
     }
     
-    else if (uType == 1) { // OCEANIC
+    else if (uType == 1) { 
       float n = fbm(nPos * 3.0);
       
       float landMask = smoothstep(0.1, 0.3, n);
@@ -205,7 +205,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       vec3 landColor = mix(vec3(0.1, 0.4, 0.2), vec3(0.4, 0.3, 0.1), fbm(nPos * 10.0));
       
       baseColor = mix(waterColor, landColor, landMask);
-      roughness = mix(0.1, 0.85, landMask); // water shiny, land rough
+      roughness = mix(0.1, 0.85, landMask); 
       metalness = mix(0.5, 0.0, landMask);
       
       float clouds = fbm(nPos * 5.0 + uTime * 0.05);
@@ -220,7 +220,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       }
     }
     
-    else if (uType == 2) { // LAVA
+    else if (uType == 2) { 
       float cracks = fbm_ridged(nPos * 4.0);
       float heat = smoothstep(0.3, 0.7, cracks);
       float crust = fbm(nPos * 8.0);
@@ -231,11 +231,11 @@ export const AAA_PlanetMaterial = shaderMaterial(
       float magmaFlow = snoise(nPos * 5.0 + uTime * 0.2) * 0.5 + 0.5;
       vec3 magmaColor = mix(vec3(1.0, 0.2, 0.0), vec3(1.0, 0.8, 0.1), magmaFlow);
       
-      emissive = magmaColor * heat * 3.5; // Very bright for Bloom
+      emissive = magmaColor * heat * 3.5; 
       roughness = 0.9 - heat * 0.5;
     }
     
-    else if (uType == 3) { // CRYSTAL
+    else if (uType == 3) { 
       float fac = fbm_ridged(nPos * 6.0);
       baseColor = mix(uColor * 0.3, uColor * 1.5, fac);
       
@@ -246,7 +246,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       emissive = uColor * fac * pulse * 0.5;
     }
     
-    else if (uType == 4) { // GAS GIANT
+    else if (uType == 4) { 
       vec3 q = vec3(fbm(nPos + vec3(0.0, uTime * 0.02, 0.0)),
                     fbm(nPos + vec3(5.2, 1.3, uTime * 0.05)),
                     fbm(nPos + vec3(1.1, uTime * 0.03, 7.5)));
@@ -258,7 +258,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       
       vec3 col1 = uColor;
       vec3 col2 = mix(uColor, vec3(1.0), 0.5);
-      vec3 col3 = mix(uColor, vec3(0.2), 0.5); // darker bands
+      vec3 col3 = mix(uColor, vec3(0.2), 0.5); 
       
       if (n < 0.3) baseColor = mix(col3, col1, n / 0.3);
       else if (n < 0.6) baseColor = mix(col1, col2, (n - 0.3)/0.3);
@@ -268,7 +268,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
       metalness = 0.0;
     }
     
-    else if (uType == 5) { // ICE
+    else if (uType == 5) { 
       float ice = fbm(nPos * 5.0);
       float cracks = fbm_ridged(nPos * 12.0);
       baseColor = mix(vec3(0.7, 0.9, 1.0), vec3(1.0, 1.0, 1.0), ice);
@@ -349,7 +349,7 @@ export const SunMaterial = shaderMaterial(
     vec3 color = mix(uColorSecondary, uColorPrimary, noise);
     
     float flare = smoothstep(0.6, 1.0, noise);
-    color += vec3(1.0, 0.9, 0.6) * flare * 2.5; // push above 1.0 for Bloom
+    color += vec3(1.0, 0.9, 0.6) * flare * 2.5; 
     
     gl_FragColor = vec4(color * uIntensity, 1.0);
   }

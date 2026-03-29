@@ -37,7 +37,7 @@ export function LoadingScreen() {
       className="fixed inset-0 z-[1000] flex flex-col items-center justify-center font-display
                  bg-[#000005]"
     >
-      {/* Background geometric grid */}
+      
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage: 'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
@@ -45,13 +45,11 @@ export function LoadingScreen() {
         }}
       />
 
-      {/* Extreme corner accents */}
       <div className="absolute top-10 left-10 w-12 h-px bg-[rgba(0,212,255,0.3)]" />
       <div className="absolute top-10 left-10 w-px h-12 bg-[rgba(0,212,255,0.3)]" />
       <div className="absolute bottom-10 right-10 w-12 h-px bg-[rgba(0,212,255,0.3)]" />
       <div className="absolute bottom-10 right-10 w-px h-12 bg-[rgba(0,212,255,0.3)]" />
 
-      {/* Center Minimalist Glyph */}
       <div className="relative w-64 h-64 mb-16 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360, opacity: [0.2, 0.5, 0.2] }}
@@ -92,11 +90,10 @@ export function LoadingScreen() {
             Gabriel Feijó
           </div>
           <div className="font-mono-space text-[9px] tracking-[0.3em] text-[rgba(240,244,255,0.3)] uppercase">
-            Systems Architecture // Space Portfolio
+            Systems Architecture 
           </div>
         </motion.div>
 
-        {/* Ultra-thin progress bar */}
         <div className="w-full h-px bg-[rgba(255,255,255,0.05)] relative mb-4">
           <motion.div
             className="absolute left-0 top-0 bottom-0 bg-[#00D4FF]"

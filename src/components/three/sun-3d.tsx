@@ -22,7 +22,7 @@ export function Sun3D() {
   const sunMatRef = useRef<THREE.ShaderMaterial>(null)
   
   const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
-  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []) // Deep orange/red
+  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []) 
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
@@ -67,7 +67,7 @@ export function Sun3D() {
           ref={sunMatRef}
           uColorPrimary={colPrimary}
           uColorSecondary={colSecondary}
-          uIntensity={4.5} // High intensity for true HDR Bloom
+          uIntensity={4.5} 
         />
       </mesh>
 
