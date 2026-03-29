@@ -1,5 +1,12 @@
 import { motion } from 'framer-motion'
+import React from 'react'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
+import { Trophy, GraduationCap, Cloud, Handshake, Smartphone, Edit3, Award } from 'lucide-react'
+
+const getIcon = (category: string) => {
+  const map: Record<string, any> = { Award: Trophy, Education: GraduationCap, Milestone: Cloud, Experience: Handshake, Mobile: Smartphone, Content: Edit3 }
+  return map[category] || Award
+}
 
 function hexRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -12,8 +19,8 @@ export function AccomplishmentsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-7">
       <div>
-        <div className="font-mono-space text-[11px] text-[#A855F7] tracking-[0.3em] mb-2">
-          ◈ AETHER ARCHIVES — HONORS & MILESTONES
+        <div className="font-display text-[11px] text-[#A855F7] tracking-[0.3em] mb-2 flex items-center gap-2">
+          <Award size={14} /> AETHER ARCHIVES — HONORS & MILESTONES
         </div>
         <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.5)] leading-snug">
           A constellation of achievements earned across the development universe.
@@ -28,11 +35,10 @@ export function AccomplishmentsPanel() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.08 }}
             whileHover={{ y: -8, scale: 1.02 }}
-            className="relative overflow-hidden rounded-xl text-center cursor-none"
+            className="relative overflow-hidden rounded-xl text-center cursor-none p-5
+                       glass transition-colors hover:bg-[rgba(20,20,40,0.4)]"
             style={{
-              background: `rgba(${hexRgb(item.color)}, 0.06)`,
               border: `1px solid ${item.color}22`,
-              padding: '20px 16px',
             }}
           >
             <div className="absolute top-0 left-0 right-0 h-px"
@@ -51,9 +57,9 @@ export function AccomplishmentsPanel() {
             <motion.div
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 3 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
-              className="text-[38px] mb-3.5"
+              className="mb-3.5 flex justify-center opacity-90"
             >
-              {item.icon}
+              {React.createElement(getIcon(item.category), { size: 34, color: item.color, className: `drop-shadow-[0_0_8px_${item.color}80]` })}
             </motion.div>
 
             <div className="font-display text-[11px] font-bold text-[#F0F4FF] tracking-[0.1em] mb-2 leading-snug">
@@ -68,7 +74,9 @@ export function AccomplishmentsPanel() {
 
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <div className="font-display text-[11px] text-[#A855F7] tracking-[0.3em]">◈ CERTIFICATIONS</div>
+          <div className="font-display text-[11px] text-[#A855F7] tracking-[0.3em] flex items-center gap-2">
+            <GraduationCap size={14} /> CERTIFICATIONS
+          </div>
           <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, #A855F730, transparent)' }} />
         </div>
 
@@ -81,7 +89,7 @@ export function AccomplishmentsPanel() {
               transition={{ delay: i * 0.1 + 0.4 }}
               whileHover={{ x: 6 }}
               className="flex items-center justify-between rounded-r-xl p-4 cursor-none
-                         bg-[rgba(2,2,21,0.7)] border border-[rgba(255,255,255,0.07)]"
+                         glass border border-[rgba(255,255,255,0.07)]"
               style={{ borderLeft: `3px solid ${cert.color}` }}
             >
               <div className="flex items-center gap-3.5">

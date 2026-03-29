@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PROJECTS } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
+import { Flame, Code2, ExternalLink } from 'lucide-react'
 
 function hexRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -22,8 +23,8 @@ export function ProjectsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
       <div>
-        <div className="font-mono-space text-[11px] text-[#FFB800] tracking-[0.3em] mb-3">
-          ◈ PROJECT FORGE — {PROJECTS.length} MISSIONS COMPLETED
+        <div className="font-display text-[11px] text-[#FFB800] tracking-[0.3em] mb-3 flex items-center gap-2">
+          <Flame size={14} /> PROJECT FORGE — {PROJECTS.length} MISSIONS COMPLETED
         </div>
         <div className="flex gap-2 flex-wrap">
           {categories.map(cat => (
@@ -59,9 +60,8 @@ export function ProjectsPanel() {
               onClick={() => setSelected(isSelected ? null : project.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="relative overflow-hidden rounded-xl p-4.5 cursor-none transition-colors duration-300"
+              className={`relative overflow-hidden rounded-xl p-4.5 cursor-none transition-colors duration-300 ${isSelected ? 'glass-strong' : 'glass'}`}
               style={{
-                background: isSelected ? `rgba(${hexRgb(project.color)}, 0.12)` : 'rgba(2,2,21,0.7)',
                 border: `1px solid ${isSelected ? project.color : 'rgba(255,255,255,0.08)'}`,
                 padding: '18px',
               }}
@@ -111,9 +111,8 @@ export function ProjectsPanel() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="rounded-xl p-6"
+            className="rounded-xl p-6 glass-strong"
             style={{
-              background: `rgba(${hexRgb(selectedProject.color)}, 0.06)`,
               border: `1px solid ${selectedProject.color}30`,
             }}
           >
@@ -142,18 +141,18 @@ export function ProjectsPanel() {
               {selectedProject.github !== '#' && (
                 <a href={selectedProject.github} target="_blank" rel="noopener noreferrer"
                   onMouseEnter={() => setCursorVariant('link')} onMouseLeave={() => setCursorVariant('default')}
-                  className="font-mono-space text-[10px] tracking-[0.2em] text-[#F0F4FF] cursor-none no-underline
+                  className="flex items-center gap-2 font-mono-space text-[10px] tracking-[0.2em] text-[#F0F4FF] cursor-none no-underline
                              border border-[rgba(240,244,255,0.2)] px-4 py-2 rounded hover:bg-[rgba(255,255,255,0.06)] transition-colors">
-                  ⬡ GITHUB
+                  <Code2 size={12} /> GITHUB
                 </a>
               )}
               {selectedProject.live !== '#' && (
                 <a href={selectedProject.live} target="_blank" rel="noopener noreferrer"
                   onMouseEnter={() => setCursorVariant('link')} onMouseLeave={() => setCursorVariant('default')}
-                  className="font-mono-space text-[10px] tracking-[0.2em] cursor-none no-underline
+                  className="flex items-center gap-2 font-mono-space text-[10px] tracking-[0.2em] cursor-none no-underline
                              px-4 py-2 rounded transition-colors"
                   style={{ color: selectedProject.color, border: `1px solid ${selectedProject.color}50` }}>
-                  ◈ LIVE DEMO
+                  <ExternalLink size={12} /> LIVE DEMO
                 </a>
               )}
             </div>

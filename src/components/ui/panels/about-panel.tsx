@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
+import { User, Code2, Briefcase, Mail, Globe, BrainCircuit } from 'lucide-react'
 
 const container = {
   hidden: { opacity: 0 },
@@ -32,11 +33,13 @@ export function AboutPanel() {
             transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
             className="absolute inset-[-20px] rounded-full border border-[rgba(0,212,255,0.15)]"
           />
-          <div className="w-28 h-28 rounded-full flex items-center justify-center text-[56px]
+          <div className="w-28 h-28 rounded-full flex items-center justify-center
                           bg-gradient-to-br from-[#1E40AF] to-[#6B21E8]
                           border-2 border-[rgba(0,212,255,0.35)]"
             style={{ boxShadow: '0 0 32px rgba(0,212,255,0.3)' }}
-          >👨‍💻</div>
+          >
+            <User size={48} className="text-[#00D4FF] drop-shadow-[0_0_10px_rgba(0,212,255,0.8)]" />
+          </div>
         </div>
 
         <div className="flex-1 min-w-[200px]">
@@ -83,9 +86,11 @@ export function AboutPanel() {
 
       <motion.div
         variants={item}
-        className="bg-[rgba(0,212,255,0.04)] border border-[rgba(0,212,255,0.12)] rounded-xl p-6"
+        className="glass p-6"
       >
-        <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">◈ MISSION BRIEF</div>
+        <div className="font-display text-[11px] text-[#00D4FF] tracking-[0.3em] mb-4 flex items-center gap-2">
+          <BrainCircuit size={16} /> MISSION BRIEF
+        </div>
         <p className="font-body-exo text-[13px] leading-[2] text-[rgba(240,244,255,0.7)] mb-3">
           I'm a passionate{' '}
           <span className="text-[#00FF88]">Full Stack Developer</span> from{' '}
@@ -106,31 +111,36 @@ export function AboutPanel() {
         "{DEVELOPER.tagline}"
       </motion.div>
 
-      <motion.div variants={item} className="flex gap-3 flex-wrap justify-center">
+      <motion.div variants={item} className="flex gap-4 flex-wrap justify-center mt-2">
         {[
-          { label: '⬡ GITHUB',   href: DEVELOPER.github,              color: '#F0F4FF' },
-          { label: '◈ LINKEDIN', href: DEVELOPER.linkedin,             color: '#0A66C2' },
-          { label: '✉ EMAIL',    href: `mailto:${DEVELOPER.email}`,    color: '#00FF88' },
-          { label: '⊙ WEBSITE',  href: DEVELOPER.website,              color: '#00D4FF' },
-        ].map(link => (
+          { label: 'GITHUB',   href: DEVELOPER.github,              color: '#F0F4FF', icon: Code2 },
+          { label: 'LINKEDIN', href: DEVELOPER.linkedin,             color: '#0A66C2', icon: Briefcase },
+          { label: 'EMAIL',    href: `mailto:${DEVELOPER.email}`,    color: '#00FF88', icon: Mail },
+          { label: 'WEBSITE',  href: DEVELOPER.website,              color: '#00D4FF', icon: Globe },
+        ].map(link => {
+          const Icon = link.icon;
+          return (
           <motion.a
             key={link.label}
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.06, y: -2 }}
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onMouseEnter={() => setCursorVariant('link')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="font-mono-space text-[10px] tracking-[0.25em] px-5 py-2.5 rounded
-                       bg-[rgba(2,2,21,0.8)] cursor-none no-underline transition-all"
+            className="flex items-center gap-2 font-mono-space text-[10px] tracking-[0.25em] px-5 py-2.5 rounded
+                       glass cursor-none no-underline transition-all"
             style={{
               border: `1px solid ${link.color}38`,
               color: link.color,
               boxShadow: `0 0 14px ${link.color}18`,
             }}
-          >{link.label}</motion.a>
-        ))}
+          >
+            <Icon size={14} />
+            {link.label}
+          </motion.a>
+        )})}
       </motion.div>
     </motion.div>
   )

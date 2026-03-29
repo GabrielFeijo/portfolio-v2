@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EXPERIENCE } from '@/data/portfolio'
+import { Hourglass, ChevronRight, Briefcase } from 'lucide-react'
 
 export function ExperiencePanel() {
   const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id)
@@ -8,8 +9,8 @@ export function ExperiencePanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
       <div>
-        <div className="font-mono-space text-[11px] text-[#FF4500] tracking-[0.3em] mb-2">
-          ◈ CHRONOS RECORD — PROFESSIONAL TIMELINE
+        <div className="font-display text-[11px] text-[#FF4500] tracking-[0.3em] mb-2 flex items-center gap-2">
+          <Hourglass size={14} /> CHRONOS RECORD — PROFESSIONAL TIMELINE
         </div>
         <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.5)] leading-snug">
           A chronicle of professional missions and conquered frontiers.
@@ -44,9 +45,8 @@ export function ExperiencePanel() {
                 <motion.div
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
                   whileHover={{ x: 3 }}
-                  className="rounded-xl px-5 py-4 cursor-none transition-all duration-300"
+                  className={`rounded-xl px-5 py-4 cursor-none transition-all duration-300 ${isOpen ? 'glass-strong' : 'glass'}`}
                   style={{
-                    background: isOpen ? `${exp.color}10` : 'rgba(2,2,21,0.7)',
                     border: `1px solid ${isOpen ? exp.color + '40' : 'rgba(255,255,255,0.07)'}`,
                   }}
                 >
@@ -70,9 +70,9 @@ export function ExperiencePanel() {
                     </div>
                     <motion.div
                       animate={{ rotate: isOpen ? 90 : 0 }}
-                      className="text-[12px] flex-shrink-0"
+                      className="flex-shrink-0"
                       style={{ color: exp.color }}
-                    >▶</motion.div>
+                    ><ChevronRight size={14} /></motion.div>
                   </div>
 
                   <AnimatePresence>
@@ -94,7 +94,7 @@ export function ExperiencePanel() {
                           </div>
                           {exp.achievements.map((ach, ai) => (
                             <div key={ai} className="flex gap-2.5 mb-2 last:mb-0">
-                              <span className="text-[11px] flex-shrink-0 mt-0.5" style={{ color: exp.color }}>▸</span>
+                              <span className="flex-shrink-0 mt-0.5" style={{ color: exp.color }}><ChevronRight size={12} /></span>
                               <span className="font-body-exo text-[12px] text-[rgba(240,244,255,0.6)] leading-snug">{ach}</span>
                             </div>
                           ))}

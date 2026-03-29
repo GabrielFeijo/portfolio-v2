@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
+import { Code2, Briefcase, Mail, Globe, Send, Radio } from 'lucide-react'
 
 function hexRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16)
@@ -11,10 +12,10 @@ function hexRgb(hex: string) {
 }
 
 const contactLinks = [
-  { icon: '⬡', label: 'GITHUB',   href: DEVELOPER.github,              color: '#F0F4FF', desc: 'View my code' },
-  { icon: '◈', label: 'LINKEDIN', href: DEVELOPER.linkedin,             color: '#0A66C2', desc: 'Professional network' },
-  { icon: '✉', label: 'EMAIL',    href: `mailto:${DEVELOPER.email}`,    color: '#00FF88', desc: DEVELOPER.email },
-  { icon: '⊙', label: 'WEBSITE',  href: DEVELOPER.website,              color: '#00D4FF', desc: 'gabrielfeijo.com.br' },
+  { icon: Code2, label: 'GITHUB',   href: DEVELOPER.github,              color: '#F0F4FF', desc: 'View my code' },
+  { icon: Briefcase, label: 'LINKEDIN', href: DEVELOPER.linkedin,             color: '#0A66C2', desc: 'Professional network' },
+  { icon: Mail, label: 'EMAIL',    href: `mailto:${DEVELOPER.email}`,    color: '#00FF88', desc: DEVELOPER.email },
+  { icon: Globe, label: 'WEBSITE',  href: DEVELOPER.website,              color: '#00D4FF', desc: 'gabrielfeijo.com.br' },
 ]
 
 export function ContactPanel() {
@@ -33,8 +34,8 @@ export function ContactPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-7">
       <div>
-        <div className="font-mono-space text-[11px] text-[#FF69B4] tracking-[0.3em] mb-3">
-          ◈ BEACON SIGNAL — OPEN TRANSMISSION
+        <div className="font-display text-[11px] text-[#FF69B4] tracking-[0.3em] mb-3 flex items-center gap-2">
+          <Radio size={14} /> BEACON SIGNAL — OPEN TRANSMISSION
         </div>
         <motion.div
           animate={{ opacity: [0.7, 1, 0.7] }}
@@ -70,14 +71,14 @@ export function ContactPanel() {
             }}
           >
             <div
-              className="w-9 h-9 flex items-center justify-center rounded-lg flex-shrink-0 text-base"
+              className="w-9 h-9 flex items-center justify-center rounded-lg flex-shrink-0"
               style={{
                 background: `rgba(${hexRgb(link.color)}, 0.12)`,
                 border: `1px solid ${link.color}30`,
                 color: link.color,
               }}
             >
-              {link.icon}
+              <link.icon size={16} />
             </div>
             <div>
               <div className="font-display text-[10px] font-bold tracking-[0.2em]" style={{ color: link.color }}>
@@ -92,10 +93,12 @@ export function ContactPanel() {
       </div>
 
       <div
-        className="bg-[rgba(2,2,21,0.7)] rounded-xl p-6 relative"
+        className="glass rounded-xl p-6 relative"
         style={{ border: '1px solid rgba(255,105,180,0.2)' }}
       >
-        <div className="font-display text-[11px] text-[#FF69B4] tracking-[0.3em] mb-5">◈ DIRECT TRANSMISSION</div>
+        <div className="font-display text-[11px] text-[#FF69B4] tracking-[0.3em] mb-5 flex items-center gap-2">
+          <Send size={14} /> DIRECT TRANSMISSION
+        </div>
 
         <AnimatePresence mode="wait">
           {sent ? (
@@ -109,8 +112,10 @@ export function ContactPanel() {
               <motion.div
                 animate={{ scale: [1, 1.25, 1] }}
                 transition={{ duration: 0.5 }}
-                className="text-[52px]"
-              >📡</motion.div>
+                className="mb-2"
+              >
+                <Radio size={52} className="text-[#00FF88] drop-shadow-[0_0_15px_rgba(0,255,136,0.6)]" />
+              </motion.div>
               <div className="font-display text-[14px] text-[#00FF88] tracking-[0.2em]">
                 SIGNAL TRANSMITTED!
               </div>
@@ -179,14 +184,14 @@ export function ContactPanel() {
                 whileTap={{ scale: 0.98 }}
                 onMouseEnter={() => setCursorVariant('link')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="font-display text-[11px] font-bold tracking-[0.3em] text-[#F0F4FF]
+                className="flex items-center justify-center gap-2 font-display text-[11px] font-bold tracking-[0.3em] text-[#F0F4FF]
                            rounded-lg px-7 py-3.5 cursor-none border-0 transition-all"
                 style={{
                   background: 'linear-gradient(135deg, #FF1493, #FF69B4)',
                   boxShadow: '0 0 28px rgba(255,20,147,0.4)',
                 }}
               >
-                ◈ TRANSMIT SIGNAL
+                <Send size={14} /> TRANSMIT SIGNAL
               </motion.button>
             </motion.form>
           )}

@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
 import { SKILLS } from '@/data/portfolio'
+import { Layout, Server, Terminal, Cpu } from 'lucide-react'
 
 export function SkillsPanel() {
   const categories = [
-    { key: 'frontend', label: 'FRONTEND',       icon: '◈', color: '#00D4FF', skills: SKILLS.frontend },
-    { key: 'backend',  label: 'BACKEND',         icon: '⬡', color: '#00FF88', skills: SKILLS.backend },
-    { key: 'devops',   label: 'DEVOPS & TOOLS',  icon: '⚙', color: '#FFB800', skills: SKILLS.devops },
+    { key: 'frontend', label: 'FRONTEND',       icon: Layout, color: '#00D4FF', skills: SKILLS.frontend },
+    { key: 'backend',  label: 'BACKEND',         icon: Server, color: '#00FF88', skills: SKILLS.backend },
+    { key: 'devops',   label: 'DEVOPS & TOOLS',  icon: Terminal, color: '#FFB800', skills: SKILLS.devops },
   ]
 
   const extras = [
@@ -17,7 +18,9 @@ export function SkillsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-7">
       <div>
-        <div className="font-mono-space text-[11px] text-[#00FF88] tracking-[0.3em] mb-2">◈ TECHNOLOGY ARSENAL</div>
+        <div className="font-display text-[11px] text-[#00FF88] tracking-[0.3em] mb-2 flex items-center gap-2">
+          <Cpu size={14} /> TECHNOLOGY ARSENAL
+        </div>
         <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.55)] leading-snug">
           Technologies and tools mastered across the full stack spectrum.
         </p>
@@ -32,10 +35,10 @@ export function SkillsPanel() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="w-8 h-8 flex items-center justify-center rounded-md text-sm"
+              className="w-8 h-8 flex items-center justify-center rounded-md"
               style={{ background: `${cat.color}15`, border: `1px solid ${cat.color}30`, color: cat.color }}
             >
-              {cat.icon}
+              <cat.icon size={16} />
             </div>
             <span className="font-display text-[11px] font-bold tracking-[0.3em]" style={{ color: cat.color }}>
               {cat.label}
@@ -55,17 +58,17 @@ export function SkillsPanel() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="bg-[rgba(0,212,255,0.04)] border border-[rgba(0,212,255,0.12)] rounded-xl p-5"
+        className="glass p-6"
       >
-        <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-3.5">◈ ALSO FLUENT IN</div>
+        <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">ALSO FLUENT IN</div>
         <div className="flex flex-wrap gap-2">
           {extras.map(skill => (
             <motion.span
               key={skill}
               whileHover={{ scale: 1.08, y: -2 }}
               className="font-mono-space text-[9px] tracking-[0.15em] px-3 py-1.5 cursor-none
-                         bg-[rgba(0,212,255,0.06)] border border-[rgba(0,212,255,0.2)]
-                         rounded-full text-[rgba(240,244,255,0.6)] transition-colors hover:bg-[rgba(0,212,255,0.12)]"
+                         glass
+                         rounded-full text-[rgba(240,244,255,0.8)] transition-colors hover:bg-[rgba(0,212,255,0.12)]"
             >{skill}</motion.span>
           ))}
         </div>
@@ -80,8 +83,7 @@ function SkillBar({ skill, delay }: { skill: { name: string; level: number; colo
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="relative overflow-hidden rounded-lg px-3.5 py-3
-                 bg-[rgba(2,2,21,0.6)] border border-[rgba(255,255,255,0.06)]"
+      className="relative overflow-hidden rounded-lg px-3.5 py-3 glass"
     >
       <motion.div
         initial={{ width: 0 }}
