@@ -27,16 +27,11 @@ export default function App() {
     return () => document.removeEventListener('contextmenu', prevent)
   }, [])
 
-  if (hasWebGL === false) {
-    return <WebGLError />
-  }
-
-  if (hasWebGL === null) {
-    return null
-  }
+  if (hasWebGL === false) return <WebGLError />
+  if (hasWebGL === null) return null
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}>
+    <div className="relative w-screen h-screen overflow-hidden">
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
@@ -44,14 +39,11 @@ export default function App() {
       <CustomCursor />
 
       <Canvas
-        style={{ position: 'absolute', inset: 0 }}
-        camera={{ position: [0, 20, 60], fov: 60, near: 0.1, far: 2000 }}
-        dpr={[1, 2]}
-        gl={{
-          antialias: true,
-          alpha: false,
-          powerPreference: 'high-performance',
-        }}
+        className="absolute inset-0"
+        camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
+        dpr={[1, 1.8]}
+        gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
+        shadows
       >
         <Suspense fallback={null}>
           <SpaceScene />
@@ -59,22 +51,10 @@ export default function App() {
         </Suspense>
       </Canvas>
 
-      <AnimatePresence>
-        {!isLoaded && <LoadingScreen />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {showIntro && isLoaded && <IntroSequence />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isLoaded && !showIntro && <HUD />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {activePanel && <PlanetPanel />}
-      </AnimatePresence>
-
+      <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
+      <AnimatePresence>{showIntro && isLoaded && <IntroSequence />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && !showIntro && <HUD />}</AnimatePresence>
+      <AnimatePresence>{activePanel && <PlanetPanel />}</AnimatePresence>
       <WarpEffect />
     </div>
   )
