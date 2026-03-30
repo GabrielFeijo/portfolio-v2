@@ -27,10 +27,10 @@ export function SkillsPanel() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
 
       <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
+        <h2 className="text-lg font-semibold text-(--text-primary) mb-2">
           Skills & Expertise
         </h2>
-        <p className="text-sm text-[var(--text-secondary)]">
+        <p className="text-sm text-(--text-secondary)">
           Full-stack capabilities across frontend, backend, and infrastructure.
         </p>
       </div>
@@ -44,14 +44,14 @@ export function SkillsPanel() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="w-7 h-7 flex items-center justify-center rounded-md bg-[var(--accent-blue)] bg-opacity-10"
+              className="w-7 h-7 flex items-center justify-center rounded-md bg-(--accent-blue) bg-opacity-10"
             >
-              <cat.icon size={16} className="text-[var(--accent-blue-bright)]" />
+              <cat.icon size={16} className="text-(--accent-blue-bright)" />
             </div>
-            <span className="text-sm font-semibold text-[var(--text-primary)]">
+            <span className="text-sm font-semibold text-(--text-primary)">
               {cat.label}
             </span>
-            <div className="flex-1 h-px ml-2 bg-[var(--border)]" />
+            <div className="flex-1 h-px ml-2 bg-(--border)" />
           </div>
 
           <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
@@ -66,18 +66,18 @@ export function SkillsPanel() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="glass p-5 rounded-lg border border-[var(--border)]"
+        className="glass p-5 rounded-lg border border-(--border)"
       >
-        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">Also Proficient In</h3>
+        <h3 className="text-sm font-semibold text-(--text-primary) mb-3">Also Proficient In</h3>
         <div className="flex flex-wrap gap-2">
           {extras.map(skill => (
             <motion.span
               key={skill}
               whileHover={{ scale: 1.05 }}
               className="text-xs px-2.5 py-1.5 cursor-none
-                         bg-[var(--surface)] border border-[var(--border)]
-                         text-[var(--text-secondary)] rounded-md
-                         transition-colors hover:bg-[var(--surface-light)]"
+                         bg-(--surface) border border-(--border)
+                         text-(--text-secondary) rounded-md
+                         transition-colors hover:bg-(--surface-light)"
             >{skill}</motion.span>
           ))}
         </div>
@@ -94,25 +94,25 @@ function SkillBar({ skill, delay }: { skill: { name: string; level: number; colo
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="relative overflow-hidden rounded-lg px-3.5 py-3 glass border border-[var(--border)]"
+      className="relative overflow-hidden rounded-lg px-3.5 py-3 glass border border-(--border)"
     >
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${skill.level}%` }}
         transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
-        className="absolute left-0 top-0 bottom-0 rounded-lg bg-[var(--accent-blue)] opacity-5"
+        className="absolute left-0 top-0 bottom-0 rounded-lg bg-(--accent-blue) opacity-5"
       />
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-sm font-semibold text-[var(--text-primary)]">
+          <span className="text-sm font-semibold text-(--text-primary)">
             {skill.name}
           </span>
-          <span className="text-xs text-[var(--text-muted)] font-medium">
+          <span className="text-xs text-(--text-muted) font-medium">
             {levelText}
           </span>
         </div>
-        <div className="w-full h-1.5 bg-[var(--surface)] rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-(--surface) rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${skill.level}%` }}
