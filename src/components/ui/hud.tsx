@@ -58,49 +58,6 @@ export function HUD() {
         </div>
       </div>
 
-      {/* Sidebar Navigation */}
-      <div className="absolute left-6 top-28 flex flex-col gap-3 pointer-events-auto max-w-xs">
-        {PLANETS.map((planet, i) => {
-          const isActive = activePlanet === planet.id
-          return (
-            <motion.button
-              key={planet.id}
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.08 + 0.2, type: 'spring', stiffness: 200, damping: 20 }}
-              whileHover={{ x: 8, transition: { duration: 0.2 } }}
-              onClick={() => handlePlanetNav(planet.id)}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
-              className={`flex items-center gap-3 px-4 py-3.5 transition-all duration-200
-                         cursor-none border rounded-lg text-left
-                         ${isActive ? 'glass-strong' : 'glass hover:bg-[rgba(59,130,246,0.05)]'}`}
-              style={{
-                borderColor: isActive ? 'var(--accent-blue)' : 'var(--border)',
-              }}
-            >
-              <motion.div
-                animate={{ scale: isActive ? [1, 1.3, 1] : 1 }}
-                transition={{ duration: 2, repeat: isActive ? Infinity : 0 }}
-                className="w-2.5 h-2.5 rounded-full shrink-0"
-                style={{
-                  background: planet.color,
-                  boxShadow: `0 0 8px ${planet.color}33`
-                }}
-              />
-              <div>
-                <div className="font-display text-xs font-bold text-[var(--text-primary)]">
-                  {planet.name}
-                </div>
-                <div className="font-body-exo text-xs text-[var(--text-muted)] mt-0.5">
-                  {planet.subtitle}
-                </div>
-              </div>
-            </motion.button>
-          )
-        })}
-      </div>
-
       {/* Bottom Footer */}
       <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8
                       bg-linear-to-t from-[rgba(10,14,39,0.8)] to-transparent
