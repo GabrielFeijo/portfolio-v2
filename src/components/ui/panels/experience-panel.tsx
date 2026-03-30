@@ -1,26 +1,25 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EXPERIENCE } from '@/data/portfolio'
-import { Hourglass, ChevronRight, Briefcase } from 'lucide-react'
+import { ChevronRight, Calendar, Building2 } from 'lucide-react'
 
 export function ExperiencePanel() {
   const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id)
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+
       <div>
-        <div className="font-display text-[11px] text-[#FF4500] tracking-[0.3em] mb-2 flex items-center gap-2">
-          <Hourglass size={14} /> CHRONOS RECORD — PROFESSIONAL TIMELINE
-        </div>
-        <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.5)] leading-snug">
-          A chronicle of professional missions and conquered frontiers.
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
+          Experience
+        </h2>
+        <p className="text-sm text-[var(--text-secondary)]">
+          Professional roles and technical growth over the years.
         </p>
       </div>
 
       <div className="relative">
-        <div className="absolute left-5 top-0 bottom-0 w-px"
-          style={{ background: 'linear-gradient(to bottom, #FF4500, #FF450020)' }}
-        />
+        <div className="absolute left-5.5 top-0 bottom-0 w-px bg-[var(--border)]" />
 
         <div className="flex flex-col gap-4">
           {EXPERIENCE.map((exp, i) => {
@@ -28,51 +27,53 @@ export function ExperiencePanel() {
             return (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.12 }}
+                transition={{ delay: i * 0.1 }}
                 className="pl-14 relative"
               >
                 <div
-                  className="absolute left-3 top-5 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10"
+                  className="absolute left-[14px] top-5 w-3 h-3 rounded-full border-2 transition-all duration-300 z-10"
                   style={{
-                    background: isOpen ? exp.color : 'rgba(2,2,21,0.9)',
-                    borderColor: exp.color,
-                    boxShadow: isOpen ? `0 0 14px ${exp.color}` : 'none',
+                    background: isOpen ? 'var(--accent-blue)' : 'var(--deep-space)',
+                    borderColor: 'var(--accent-blue)',
                   }}
                 />
 
                 <motion.div
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
-                  whileHover={{ x: 3 }}
-                  className={`rounded-xl px-5 py-4 cursor-none transition-all duration-300 ${isOpen ? 'glass-strong' : 'glass'}`}
+                  whileHover={{ x: 2 }}
+                  className={`rounded-lg px-5 py-4 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
                   style={{
-                    border: `1px solid ${isOpen ? exp.color + '40' : 'rgba(255,255,255,0.07)'}`,
+                    borderColor: isOpen ? 'var(--accent-blue)' : 'var(--border)',
                   }}
                 >
                   <div className="flex justify-between items-start gap-3">
-                    <div>
-                      <div className="font-display text-[13px] font-bold text-[#F0F4FF] tracking-[0.1em] mb-1.5">
+                    <div className="flex-1">
+                      <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-2">
                         {exp.role}
-                      </div>
-                      <div className="flex gap-2.5 items-center flex-wrap">
-                        <span className="font-mono-space text-[10px] tracking-[0.15em]" style={{ color: exp.color }}>
+                      </h3>
+                      <div className="flex flex-wrap gap-3 items-center text-xs">
+                        <div className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+                          <Building2 size={14} />
                           {exp.company}
-                        </span>
-                        <span className="font-mono-space text-[8px] text-[rgba(240,244,255,0.3)]">{exp.period}</span>
-                        <span
-                          className="font-mono-space text-[7px] tracking-[0.2em] px-2 py-0.5 rounded-sm"
-                          style={{ color: exp.color, border: `1px solid ${exp.color}40` }}
-                        >
-                          {exp.type.toUpperCase()}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[var(--text-muted)]">
+                          <Calendar size={14} />
+                          {exp.period}
+                        </div>
+                        <span className="px-2 py-1 rounded bg-[var(--surface)] border border-[var(--border)]
+                                       text-[var(--text-muted)] font-medium">
+                          {exp.type}
                         </span>
                       </div>
                     </div>
                     <motion.div
                       animate={{ rotate: isOpen ? 90 : 0 }}
-                      className="flex-shrink-0"
-                      style={{ color: exp.color }}
-                    ><ChevronRight size={14} /></motion.div>
+                      className="flex-shrink-0 text-[var(--accent-blue-bright)]"
+                    >
+                      <ChevronRight size={16} />
+                    </motion.div>
                   </div>
 
                   <AnimatePresence>
@@ -81,30 +82,33 @@ export function ExperiencePanel() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <p className="font-body-exo text-[12px] leading-relaxed text-[rgba(240,244,255,0.65)] mt-4 mb-4">
+                        <p className="text-sm leading-relaxed text-[var(--text-secondary)] mt-4 mb-4">
                           {exp.description}
                         </p>
 
-                        <div className="bg-[rgba(0,0,8,0.5)] rounded-lg px-4 py-3.5 mb-4">
-                          <div className="font-mono-space text-[9px] text-[#00FF88] tracking-[0.25em] mb-2.5">
-                            KEY ACHIEVEMENTS
-                          </div>
-                          {exp.achievements.map((ach, ai) => (
-                            <div key={ai} className="flex gap-2.5 mb-2 last:mb-0">
-                              <span className="flex-shrink-0 mt-0.5" style={{ color: exp.color }}><ChevronRight size={12} /></span>
-                              <span className="font-body-exo text-[12px] text-[rgba(240,244,255,0.6)] leading-snug">{ach}</span>
+                        {exp.achievements.length > 0 && (
+                          <div className="bg-[var(--surface)] rounded-lg px-4 py-3.5 mb-4 border border-[var(--border)]">
+                            <div className="text-xs font-semibold text-[var(--accent-blue-bright)] tracking-wide mb-2.5">
+                              Key Achievements
                             </div>
-                          ))}
-                        </div>
+                            {exp.achievements.map((ach, ai) => (
+                              <div key={ai} className="flex gap-2.5 mb-2 last:mb-0">
+                                <ChevronRight size={14} className="flex-shrink-0 text-[var(--accent-blue-bright)] mt-0.5" />
+                                <span className="text-xs text-[var(--text-secondary)] leading-relaxed">{ach}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
 
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-2">
                           {exp.tech.map(t => (
                             <span key={t}
-                              className="font-mono-space text-[8px] tracking-[0.15em] px-2 py-1 rounded
-                                         text-[rgba(0,212,255,0.7)] border border-[rgba(0,212,255,0.2)]">
+                              className="text-xs px-2.5 py-1.5 rounded
+                                         bg-[var(--surface)] border border-[var(--border)]
+                                         text-[var(--text-secondary)]">
                               {t}
                             </span>
                           ))}
