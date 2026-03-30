@@ -1,62 +1,62 @@
 import { motion } from 'framer-motion'
 import { SKILLS } from '@/data/portfolio'
-import { Layout, Server, Terminal, Cpu } from 'lucide-react'
+import { Code2, Server, Wrench } from 'lucide-react'
 
 const getLevelText = (level: number) => {
-  if (level >= 95) return 'EXPERT'
-  if (level >= 85) return 'ADVANCED'
-  if (level >= 75) return 'PROFICIENT'
-  if (level >= 60) return 'INTERMEDIATE'
-  return 'FAMILIAR'
+  if (level >= 95) return 'Expert'
+  if (level >= 85) return 'Advanced'
+  if (level >= 75) return 'Proficient'
+  if (level >= 60) return 'Intermediate'
+  return 'Familiar'
 }
 
 export function SkillsPanel() {
   const categories = [
-    { key: 'frontend', label: 'FRONTEND',       icon: Layout, color: '#00D4FF', skills: SKILLS.frontend },
-    { key: 'backend',  label: 'BACKEND',         icon: Server, color: '#00FF88', skills: SKILLS.backend },
-    { key: 'devops',   label: 'DEVOPS & TOOLS',  icon: Terminal, color: '#FFB800', skills: SKILLS.devops },
+    { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend },
+    { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend },
+    { key: 'devops', label: 'DevOps & Tools', icon: Wrench, skills: SKILLS.devops },
   ]
 
   const extras = [
-    'Figma','GraphQL','React Native','Prisma','Socket.io',
-    'Swagger','ESLint','Vitest','Webpack','CI/CD',
-    'Agile','Scrum','Git Flow','TDD','Clean Architecture',
+    'Figma', 'GraphQL', 'React Native', 'Prisma', 'Socket.io',
+    'Swagger', 'ESLint', 'Vitest', 'Webpack', 'CI/CD',
+    'Agile', 'Scrum', 'Git Flow', 'TDD', 'Clean Architecture',
   ]
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-7">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+
       <div>
-        <div className="font-display text-[11px] text-[#00FF88] tracking-[0.3em] mb-2 flex items-center gap-2">
-          <Cpu size={14} /> TECHNOLOGY ARSENAL
-        </div>
-        <p className="font-body-exo text-[13px] text-[rgba(240,244,255,0.55)] leading-snug">
-          Technologies and tools mastered across the full stack spectrum.
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-2">
+          Skills & Expertise
+        </h2>
+        <p className="text-sm text-[var(--text-secondary)]">
+          Full-stack capabilities across frontend, backend, and infrastructure.
         </p>
       </div>
 
       {categories.map((cat, ci) => (
         <motion.div
           key={cat.key}
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: ci * 0.15 }}
+          transition={{ delay: ci * 0.12 }}
         >
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="w-8 h-8 flex items-center justify-center rounded-md"
-              style={{ background: `${cat.color}15`, border: `1px solid ${cat.color}30`, color: cat.color }}
+              className="w-7 h-7 flex items-center justify-center rounded-md bg-[var(--accent-blue)] bg-opacity-10"
             >
-              <cat.icon size={16} />
+              <cat.icon size={16} className="text-[var(--accent-blue-bright)]" />
             </div>
-            <span className="font-display text-[11px] font-bold tracking-[0.3em]" style={{ color: cat.color }}>
+            <span className="text-sm font-semibold text-[var(--text-primary)]">
               {cat.label}
             </span>
-            <div className="flex-1 h-px ml-1" style={{ background: `linear-gradient(90deg, ${cat.color}30, transparent)` }} />
+            <div className="flex-1 h-px ml-2 bg-[var(--border)]" />
           </div>
 
-          <div className="grid gap-2.5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
+          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
             {cat.skills.map((skill, si) => (
-              <SkillBar key={skill.name} skill={skill} delay={si * 0.07} />
+              <SkillBar key={skill.name} skill={skill} delay={si * 0.06} />
             ))}
           </div>
         </motion.div>
@@ -65,18 +65,19 @@ export function SkillsPanel() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="glass p-6"
+        transition={{ delay: 0.4 }}
+        className="glass p-5 rounded-lg border border-[var(--border)]"
       >
-        <div className="font-display text-[10px] text-[#00D4FF] tracking-[0.3em] mb-4">ALSO FLUENT IN</div>
+        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">Also Proficient In</h3>
         <div className="flex flex-wrap gap-2">
           {extras.map(skill => (
             <motion.span
               key={skill}
-              whileHover={{ scale: 1.08, y: -2 }}
-              className="font-mono-space text-[9px] tracking-[0.15em] px-3 py-1.5 cursor-none
-                         glass
-                         rounded-full text-[rgba(240,244,255,0.8)] transition-colors hover:bg-[rgba(0,212,255,0.12)]"
+              whileHover={{ scale: 1.05 }}
+              className="text-xs px-2.5 py-1.5 cursor-none
+                         bg-[var(--surface)] border border-[var(--border)]
+                         text-[var(--text-secondary)] rounded-md
+                         transition-colors hover:bg-[var(--surface-light)]"
             >{skill}</motion.span>
           ))}
         </div>
@@ -86,40 +87,40 @@ export function SkillsPanel() {
 }
 
 function SkillBar({ skill, delay }: { skill: { name: string; level: number; color: string }; delay: number }) {
+  const levelText = getLevelText(skill.level)
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="relative overflow-hidden rounded-lg px-3.5 py-3 glass"
+      className="relative overflow-hidden rounded-lg px-3.5 py-3 glass border border-[var(--border)]"
     >
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${skill.level}%` }}
-        transition={{ delay: delay + 0.3, duration: 1, ease: 'easeOut' }}
-        className="absolute left-0 top-0 bottom-0 rounded-lg"
-        style={{ background: `linear-gradient(90deg, ${skill.color}14, transparent)` }}
+        transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
+        className="absolute left-0 top-0 bottom-0 rounded-lg bg-[var(--accent-blue)] opacity-5"
       />
 
-      <div className="relative flex justify-between items-center mb-2">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: skill.color, boxShadow: `0 0 6px ${skill.color}` }} />
-          <span className="font-body-exo text-[13px] font-semibold text-[#F0F4FF]">{skill.name}</span>
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-sm font-semibold text-[var(--text-primary)]">
+            {skill.name}
+          </span>
+          <span className="text-xs text-[var(--text-muted)] font-medium">
+            {levelText}
+          </span>
         </div>
-        <span className="font-display text-[10px] tracking-[0.1em]" style={{ color: skill.color }}>{getLevelText(skill.level)}</span>
-      </div>
-
-      <div className="h-0.5 bg-[rgba(255,255,255,0.06)] rounded overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${skill.level}%` }}
-          transition={{ delay: delay + 0.3, duration: 1.2, ease: 'easeOut' }}
-          className="h-full rounded"
-          style={{
-            background: `linear-gradient(90deg, ${skill.color}80, ${skill.color})`,
-            boxShadow: `0 0 6px ${skill.color}`,
-          }}
-        />
+        <div className="w-full h-1.5 bg-[var(--surface)] rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${skill.level}%` }}
+            transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
+            className="h-full rounded-full"
+            style={{ background: skill.color }}
+          />
+        </div>
       </div>
     </motion.div>
   )
