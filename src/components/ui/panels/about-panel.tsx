@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { Code, Briefcase, Mail, ExternalLink } from 'lucide-react'
+import { Code, Briefcase, Mail } from 'lucide-react'
 
 const container = {
   hidden: { opacity: 0 },
@@ -15,17 +15,16 @@ export function AboutPanel() {
   return (
     <motion.div variants={container} initial="hidden" animate="visible" className="flex flex-col gap-12">
 
-      {/* Header with Avatar */}
       <motion.div variants={item} className="flex gap-8 items-start">
-        <div className="relative flex-shrink-0">
+        <div className="relative shrink-0">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-[-12px] rounded-full border border-[rgba(31,111,235,0.15)]"
+            className="absolute -inset-3 rounded-full border border-[rgba(31,111,235,0.15)]"
           />
           <div
             className="w-32 h-32 rounded-full flex items-center justify-center
-                       bg-gradient-to-br from-[#1F6FEB] to-[#58A6FF]
+                       bg-linear-to-br from-[#1F6FEB] to-[#58A6FF]
                        border border-[rgba(31,111,235,0.2)]"
           >
             <span className="text-5xl font-bold text-white">GF</span>
@@ -36,23 +35,22 @@ export function AboutPanel() {
           <motion.h1
             variants={item}
             className="text-4xl font-bold tracking-tight mb-2
-                       text-[var(--text-primary)]"
+                       text-(--text-primary)"
           >
             {DEVELOPER.name}
           </motion.h1>
           <motion.div variants={item} className="flex flex-col gap-3 mb-6">
             <div>
-              <div className="text-sm font-medium text-[var(--accent-blue-bright)]">{DEVELOPER.title}</div>
-              <div className="text-sm text-[var(--text-secondary)]">{DEVELOPER.location}</div>
+              <div className="text-sm font-medium text-(--accent-blue-bright)">{DEVELOPER.title}</div>
+              <div className="text-sm text-(--text-secondary)">{DEVELOPER.location}</div>
             </div>
           </motion.div>
-          <motion.p variants={item} className="text-[var(--text-secondary)] leading-relaxed text-sm max-w-md">
+          <motion.p variants={item} className="text-(--text-secondary) leading-relaxed text-sm max-w-md">
             {DEVELOPER.bio}
           </motion.p>
         </div>
       </motion.div>
 
-      {/* Social Links */}
       <motion.div variants={item} className="flex gap-4 flex-wrap">
         <motion.a
           href={DEVELOPER.github}
@@ -61,8 +59,8 @@ export function AboutPanel() {
           whileHover={{ scale: 1.05 }}
           onMouseEnter={() => setCursorVariant('link')}
           onMouseLeave={() => setCursorVariant('default')}
-          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
-                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-(--text-primary)
+                     border border-(--border) hover:border-(--accent-blue-bright)
                      transition-colors cursor-none"
         >
           <Code size={16} />
@@ -75,8 +73,8 @@ export function AboutPanel() {
           whileHover={{ scale: 1.05 }}
           onMouseEnter={() => setCursorVariant('link')}
           onMouseLeave={() => setCursorVariant('default')}
-          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
-                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-(--text-primary)
+                     border border-(--border) hover:border-(--accent-blue-bright)
                      transition-colors cursor-none"
         >
           <Briefcase size={16} />
@@ -87,8 +85,8 @@ export function AboutPanel() {
           whileHover={{ scale: 1.05 }}
           onMouseEnter={() => setCursorVariant('link')}
           onMouseLeave={() => setCursorVariant('default')}
-          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
-                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-(--text-primary)
+                     border border-(--border) hover:border-(--accent-blue-bright)
                      transition-colors cursor-none"
         >
           <Mail size={16} />
@@ -96,37 +94,35 @@ export function AboutPanel() {
         </motion.a>
       </motion.div>
 
-      {/* About Section */}
       <motion.div
         variants={item}
-        className="p-6 rounded-lg glass border border-[var(--border)]"
+        className="p-6 rounded-lg glass border border-(--border)"
       >
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+        <h2 className="text-lg font-semibold text-(--text-primary) mb-4">
           About
         </h2>
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+        <p className="text-sm text-(--text-secondary) leading-relaxed mb-4">
           I'm a full stack engineer with 4+ years building web applications at scale.
           My expertise spans React, TypeScript, Node.js, and cloud infrastructure.
         </p>
-        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+        <p className="text-sm text-(--text-secondary) leading-relaxed">
           I'm passionate about clean code, scalable architecture, and creating digital experiences that matter.
           Currently working with CI&T on innovative technologies, and always exploring new ways to solve complex problems.
         </p>
       </motion.div>
 
-      {/* Quick Stats */}
       <motion.div variants={item} className="grid grid-cols-3 gap-4">
-        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
-          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">4+</div>
-          <div className="text-xs text-[var(--text-muted)] font-medium">Years</div>
+        <div className="p-4 rounded-lg bg-(--surface-light) border border-(--border)">
+          <div className="text-2xl font-bold text-(--accent-blue-bright) mb-1">4+</div>
+          <div className="text-xs text-(--text-muted) font-medium">Years</div>
         </div>
-        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
-          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">10+</div>
-          <div className="text-xs text-[var(--text-muted)] font-medium">Companies</div>
+        <div className="p-4 rounded-lg bg-(--surface-light) border border-(--border)">
+          <div className="text-2xl font-bold text-(--accent-blue-bright) mb-1">10+</div>
+          <div className="text-xs text-(--text-muted) font-medium">Companies</div>
         </div>
-        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
-          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">50+</div>
-          <div className="text-xs text-[var(--text-muted)] font-medium">Projects</div>
+        <div className="p-4 rounded-lg bg-(--surface-light) border border-(--border)">
+          <div className="text-2xl font-bold text-(--accent-blue-bright) mb-1">50+</div>
+          <div className="text-xs text-(--text-muted) font-medium">Projects</div>
         </div>
       </motion.div>
 

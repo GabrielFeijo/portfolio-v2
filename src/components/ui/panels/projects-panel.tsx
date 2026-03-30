@@ -11,14 +11,12 @@ export function ProjectsPanel() {
 
   const categories = ['All', ...Array.from(new Set(PROJECTS.map(p => p.category)))]
   const filtered = filter === 'All' ? PROJECTS : PROJECTS.filter(p => p.category === filter)
-  const selectedProject = PROJECTS.find(p => p.id === selected)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
 
-      {/* Header */}
       <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-3">
+        <h2 className="text-lg font-semibold text-(--text-primary) mb-3">
           Projects & Work
         </h2>
         <div className="flex gap-2 flex-wrap">
@@ -42,7 +40,6 @@ export function ProjectsPanel() {
         </div>
       </div>
 
-      {/* Project Grid */}
       <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
         {filtered.map((project, i) => {
           const isSelected = selected === project.id
@@ -62,53 +59,48 @@ export function ProjectsPanel() {
                 borderColor: isSelected ? 'var(--accent-blue)' : 'var(--border)',
               }}
             >
-              {/* Featured Badge */}
               {project.featured && (
                 <div className="absolute top-4 right-4 text-xs font-semibold px-2 py-1 rounded
-                               bg-[var(--accent-blue)] text-white">
+                               bg-(--accent-blue) text-white">
                   Featured
                 </div>
               )}
 
-              {/* Title & Year */}
               <div className="mb-3">
-                <h3 className="text-sm font-bold text-[var(--text-primary)] mb-1">
+                <h3 className="text-sm font-bold text-(--text-primary) mb-1">
                   {project.name}
                 </h3>
-                <div className="text-xs text-[var(--text-muted)]">
+                <div className="text-xs text-(--text-muted)">
                   {project.year} • {project.category}
                 </div>
               </div>
 
-              {/* Description */}
-              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none">
+              <p className="text-sm text-(--text-secondary) leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none">
                 {project.description}
               </p>
 
-              {/* Tech Stack */}
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tech.slice(0, 3).map(t => (
                   <span key={t} className="text-xs px-2 py-1 rounded
-                                          bg-[var(--surface)] text-[var(--text-secondary)]
-                                          border border-[var(--border)]">
+                                          bg-(--surface) text-(--text-secondary)
+                                          border border-(--border)">
                     {t}
                   </span>
                 ))}
                 {project.tech.length > 3 && (
-                  <span className="text-xs px-2 py-1 text-[var(--text-muted)]">
+                  <span className="text-xs px-2 py-1 text-(--text-muted)">
                     +{project.tech.length - 3}
                   </span>
                 )}
               </div>
 
-              {/* Links */}
               <AnimatePresence>
                 {isSelected && (
                   <motion.div
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="flex gap-2 pt-4 border-t border-[var(--border)]"
+                    className="flex gap-2 pt-4 border-t border-(--border)"
                   >
                     <motion.a
                       href={project.live}
@@ -116,7 +108,7 @@ export function ProjectsPanel() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md
-                                 text-xs font-medium bg-[var(--accent-blue)] text-white cursor-none
+                                 text-xs font-medium bg-(--accent-blue) text-white cursor-none
                                  transition-colors hover:bg-[#0969DA]"
                     >
                       <ExternalLink size={14} />
@@ -128,8 +120,8 @@ export function ProjectsPanel() {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md
-                                 text-xs font-medium border border-[var(--border)] text-[var(--text-secondary)] cursor-none
-                                 transition-colors hover:bg-[var(--surface)]"
+                                 text-xs font-medium border border-(--border) text-(--text-secondary) cursor-none
+                                 transition-colors hover:bg-(--surface)"
                     >
                       <Code size={14} />
                       Code
