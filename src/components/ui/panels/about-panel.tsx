@@ -1,155 +1,135 @@
 import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { User, Code2, Briefcase, Mail, Globe, BrainCircuit } from 'lucide-react'
+import { Code, Briefcase, Mail, ExternalLink } from 'lucide-react'
 
 const container = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.09 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.12 } },
 }
-const item = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }
+const item = { hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }
 
 export function AboutPanel() {
   const { setCursorVariant } = useSpaceStore()
 
-  const stats = [
-    { label: 'YEARS EXP', value: '4+', color: '#00D4FF' },
-    { label: 'PROJECTS', value: '80+', color: '#00FF88' },
-    { label: 'COMMITS', value: '7K+', color: '#FF1493' },
-  ]
-
   return (
-    <motion.div variants={container} initial="hidden" animate="visible" className="flex flex-col gap-8">
+    <motion.div variants={container} initial="hidden" animate="visible" className="flex flex-col gap-12">
 
-      <motion.div variants={item} className="flex gap-8 items-center flex-wrap">
+      {/* Header with Avatar */}
+      <motion.div variants={item} className="flex gap-8 items-start">
         <div className="relative flex-shrink-0">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-[-10px] rounded-full border border-dashed border-[rgba(0,212,255,0.4)]"
+            transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
+            className="absolute inset-[-12px] rounded-full border border-[rgba(31,111,235,0.15)]"
           />
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-[-20px] rounded-full border border-[rgba(0,212,255,0.15)]"
-          />
-          <div className="w-28 h-28 rounded-full flex items-center justify-center
-                          bg-gradient-to-br from-[#1E40AF] to-[#6B21E8]
-                          border-2 border-[rgba(0,212,255,0.35)]"
-            style={{ boxShadow: '0 0 32px rgba(0,212,255,0.3)' }}
+          <div
+            className="w-32 h-32 rounded-full flex items-center justify-center
+                       bg-gradient-to-br from-[#1F6FEB] to-[#58A6FF]
+                       border border-[rgba(31,111,235,0.2)]"
           >
-            <User size={48} className="text-[#00D4FF] drop-shadow-[0_0_10px_rgba(0,212,255,0.8)]" />
+            <span className="text-5xl font-bold text-white">GF</span>
           </div>
         </div>
 
-        <div className="flex-1 min-w-[200px]">
+        <div className="flex-1 pt-2">
           <motion.h1
             variants={item}
-            className="font-display text-[clamp(26px,4vw,38px)] font-black tracking-[0.05em] mb-2
-                       bg-gradient-to-r from-[#00D4FF] to-[#6B21E8] bg-clip-text text-transparent"
+            className="text-4xl font-bold tracking-tight mb-2
+                       text-[var(--text-primary)]"
           >
             {DEVELOPER.name}
           </motion.h1>
-          <div className="font-mono-space text-[12px] text-[#00D4FF] tracking-[0.2em] mb-5 font-semibold">
-            {DEVELOPER.title.toUpperCase()} · {DEVELOPER.location.toUpperCase()}
-          </div>
-          <p className="font-body-exo text-[15px] leading-relaxed text-[rgba(240,244,255,0.7)] max-w-[480px]">
-            {DEVELOPER.bio}
-          </p>
-        </div>
-      </motion.div>
-
-      <motion.div variants={item} className="grid grid-cols-3 gap-3">
-        {stats.map(stat => (
-          <motion.div
-            key={stat.label}
-            whileHover={{ scale: 1.05, y: -4 }}
-            className="relative overflow-hidden rounded-xl text-center py-5 px-4"
-            style={{
-              background: `rgba(${hexRgb(stat.color)}, 0.08)`,
-              border: `1px solid ${stat.color}28`,
-            }}
-          >
-            <div className="absolute top-0 left-0 right-0 h-0.5"
-              style={{ background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)` }}
-            />
-            <div className="font-display text-[32px] font-black"
-              style={{ color: stat.color, textShadow: `0 0 22px ${stat.color}55` }}>
-              {stat.value}
-            </div>
-            <div className="font-mono-space text-[8px] tracking-[0.28em] text-[rgba(240,244,255,0.4)] mt-1.5">
-              {stat.label}
+          <motion.div variants={item} className="flex flex-col gap-3 mb-6">
+            <div>
+              <div className="text-sm font-medium text-[var(--accent-blue-bright)]">{DEVELOPER.title}</div>
+              <div className="text-sm text-[var(--text-secondary)]">{DEVELOPER.location}</div>
             </div>
           </motion.div>
-        ))}
+          <motion.p variants={item} className="text-[var(--text-secondary)] leading-relaxed text-sm max-w-md">
+            {DEVELOPER.bio}
+          </motion.p>
+        </div>
       </motion.div>
 
+      {/* Social Links */}
+      <motion.div variants={item} className="flex gap-4 flex-wrap">
+        <motion.a
+          href={DEVELOPER.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.05 }}
+          onMouseEnter={() => setCursorVariant('link')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
+                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+                     transition-colors cursor-none"
+        >
+          <Code size={16} />
+          GitHub
+        </motion.a>
+        <motion.a
+          href={DEVELOPER.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.05 }}
+          onMouseEnter={() => setCursorVariant('link')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
+                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+                     transition-colors cursor-none"
+        >
+          <Briefcase size={16} />
+          LinkedIn
+        </motion.a>
+        <motion.a
+          href={`mailto:${DEVELOPER.email}`}
+          whileHover={{ scale: 1.05 }}
+          onMouseEnter={() => setCursorVariant('link')}
+          onMouseLeave={() => setCursorVariant('default')}
+          className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg glass text-sm font-medium text-[var(--text-primary)]
+                     border border-[var(--border)] hover:border-[var(--accent-blue-bright)]
+                     transition-colors cursor-none"
+        >
+          <Mail size={16} />
+          Email
+        </motion.a>
+      </motion.div>
+
+      {/* About Section */}
       <motion.div
         variants={item}
-        className="p-6 rounded-2xl"
-        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}
+        className="p-6 rounded-lg glass border border-[var(--border)]"
       >
-        <div className="font-display text-[12px] text-[#00D4FF] tracking-[0.2em] mb-4 flex items-center gap-2">
-          <BrainCircuit size={18} /> MISSION BRIEF
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+          About
+        </h2>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
+          I'm a full stack engineer with 4+ years building web applications at scale.
+          My expertise spans React, TypeScript, Node.js, and cloud infrastructure.
+        </p>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+          I'm passionate about clean code, scalable architecture, and creating digital experiences that matter.
+          Currently working with CI&T on innovative technologies, and always exploring new ways to solve complex problems.
+        </p>
+      </motion.div>
+
+      {/* Quick Stats */}
+      <motion.div variants={item} className="grid grid-cols-3 gap-4">
+        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
+          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">4+</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium">Years</div>
         </div>
-        <p className="font-body-exo text-[15px] leading-[1.8] text-[rgba(240,244,255,0.75)] mb-4">
-          I'm a passionate{' '}
-          <span className="text-[#00FF88] font-semibold">Full Stack Developer</span> from{' '}
-          <span className="text-[#00D4FF] font-semibold">Recife, Brazil</span>, dedicated to building
-          scalable, performant web applications. My journey spans from crafting pixel-perfect
-          frontends to architecting robust backend systems.
-        </p>
-        <p className="font-body-exo text-[15px] leading-[1.8] text-[rgba(240,244,255,0.75)]">
-          I believe in <span className="text-[#FFB800]">clean code</span>,{' '}
-          <span className="text-[#FF1493]">thoughtful UX</span>, and{' '}
-          <span className="text-[#00FF88]">continuous learning</span>. When I'm not coding,
-          I contribute to open source and explore what's possible tomorrow.
-        </p>
+        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
+          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">10+</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium">Companies</div>
+        </div>
+        <div className="p-4 rounded-lg bg-[var(--surface-light)] border border-[var(--border)]">
+          <div className="text-2xl font-bold text-[var(--accent-blue-bright)] mb-1">50+</div>
+          <div className="text-xs text-[var(--text-muted)] font-medium">Projects</div>
+        </div>
       </motion.div>
 
-      <motion.div variants={item}
-        className="text-center font-display text-[14px] text-[rgba(0,212,255,0.6)] tracking-[0.15em] italic px-5 py-4">
-        "{DEVELOPER.tagline}"
-      </motion.div>
-
-      <motion.div variants={item} className="flex gap-4 flex-wrap justify-center mt-2">
-        {[
-          { label: 'GITHUB',   href: DEVELOPER.github,              color: '#F0F4FF', icon: Code2 },
-          { label: 'LINKEDIN', href: DEVELOPER.linkedin,             color: '#0A66C2', icon: Briefcase },
-          { label: 'EMAIL',    href: `mailto:${DEVELOPER.email}`,    color: '#00FF88', icon: Mail },
-          { label: 'WEBSITE',  href: DEVELOPER.website,              color: '#00D4FF', icon: Globe },
-        ].map(link => {
-          const Icon = link.icon;
-          return (
-          <motion.a
-            key={link.label}
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onMouseEnter={() => setCursorVariant('link')}
-            onMouseLeave={() => setCursorVariant('default')}
-            className="flex items-center gap-2 font-mono-space text-[10px] tracking-[0.25em] px-5 py-2.5 rounded
-                       glass cursor-none no-underline transition-all"
-            style={{
-              border: `1px solid ${link.color}38`,
-              color: link.color,
-              boxShadow: `0 0 14px ${link.color}18`,
-            }}
-          >
-            <Icon size={14} />
-            {link.label}
-          </motion.a>
-        )})}
-      </motion.div>
     </motion.div>
   )
-}
-
-function hexRgb(hex: string) {
-  const r = parseInt(hex.slice(1, 3), 16)
-  const g = parseInt(hex.slice(3, 5), 16)
-  const b = parseInt(hex.slice(5, 7), 16)
-  return `${r}, ${g}, ${b}`
 }
