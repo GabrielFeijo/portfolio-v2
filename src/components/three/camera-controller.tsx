@@ -10,8 +10,8 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
   const { camera } = useThree()
   const { activePlanet, activePanel, warpActive, setWarpActive } = useSpaceStore()
 
-  const idleCameraPos = useRef(new THREE.Vector3(-18, 28, 84))
-  const idleLookAt = useRef(new THREE.Vector3(8, -2, -10))
+  const idleCameraPos = useRef(new THREE.Vector3(-14, 24, 68))
+  const idleLookAt = useRef(new THREE.Vector3(5, -1, -8))
 
   useEffect(() => {
     if (!controlsRef.current) return
