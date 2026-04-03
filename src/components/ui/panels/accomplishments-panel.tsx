@@ -1,97 +1,104 @@
 import { motion } from 'framer-motion'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
 import * as LucideIcons from 'lucide-react'
-import { GraduationCap, Award } from 'lucide-react'
+import { GraduationCap, Award, Trophy } from 'lucide-react'
 
 export function AccomplishmentsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+      <section className="glass-strong p-6 sm:p-7">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+            <Trophy size={18} />
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Marcos relevantes</div>
+            <h2 className="text-2xl font-semibold text-(--text-primary)">Conquistas e reconhecimento</h2>
+          </div>
+        </div>
 
-      <div>
-        <h2 className="text-lg font-semibold text-(--text-primary) mb-2">
-          Achievements & Recognition
-        </h2>
-        <p className="text-sm text-(--text-secondary)">
-          Awards, certifications, and important milestones in my professional journey.
+        <p className="mt-4 text-sm text-(--text-secondary) leading-7 max-w-2xl">
+          Competições, formações e sinais claros de crescimento profissional ao longo da jornada.
         </p>
-      </div>
+      </section>
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
+      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
         {ACCOMPLISHMENTS.map((item, i) => (
-          <motion.div
+          <motion.article
             key={i}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.07 }}
+            transition={{ delay: i * 0.06 }}
             whileHover={{ y: -4 }}
-            className="relative overflow-hidden rounded-lg p-5 cursor-none
-                       glass border border-(--border) transition-all"
+            className="relative overflow-hidden rounded-3xl p-5 sm:p-6 cursor-none glass border border-(--border) transition-all"
           >
-            <div className="absolute top-0 left-0 right-0 h-px bg-(--border)" />
+            <div className="absolute inset-x-0 top-0 h-20 opacity-60 pointer-events-none" style={{ background: `linear-gradient(180deg, ${item.color}20, transparent)` }} />
 
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 2.5 + i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
-              className="mb-3.5 flex justify-start text-(--accent-blue-bright)"
-            >
-              {(() => {
-                const IconComp = (LucideIcons as any)[item.icon] || Award
-                return <IconComp size={28} />
-              })()}
-            </motion.div>
+            <div className="relative">
+              <motion.div
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 2.5 + i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
+                className="mb-4 flex justify-start text-(--accent-blue-bright)"
+              >
+                {(() => {
+                  const IconComp = (LucideIcons as any)[item.icon] || Award
+                  return (
+                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center border border-(--border)" style={{ background: `${item.color}18` }}>
+                      <IconComp size={20} style={{ color: item.color }} />
+                    </div>
+                  )
+                })()}
+              </motion.div>
 
-            <h3 className="text-sm font-bold text-(--text-primary) mb-1.5">
-              {item.title}
-            </h3>
-            <p className="text-xs text-(--text-secondary) leading-relaxed">
-              {item.description}
-            </p>
-
-            <div className="mt-3 pt-3 border-t border-(--border)">
-              <span className="text-xs font-medium px-2 py-1 rounded
-                             bg-(--surface) border border-(--border)
-                             text-(--text-muted)">
-                {item.category}
-              </span>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-(--text-muted) font-mono-space mb-2">{item.category}</div>
+              <h3 className="text-base font-semibold text-(--text-primary) mb-2">{item.title}</h3>
+              <p className="text-sm text-(--text-secondary) leading-7">{item.description}</p>
             </div>
-          </motion.div>
+          </motion.article>
         ))}
       </div>
 
       {CERTIFICATES.length > 0 && (
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <GraduationCap size={16} className="text-(--accent-blue-bright)" />
-            <h3 className="text-sm font-semibold text-(--text-primary)">
-              Certifications
-            </h3>
-            <div className="flex-1 h-px bg-(--border)" />
+        <section className="glass p-6 sm:p-7">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+              <GraduationCap size={18} />
+            </div>
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Formação complementar</div>
+              <h3 className="text-lg font-semibold text-(--text-primary)">Certificados</h3>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="space-y-4">
             {CERTIFICATES.map((cert, i) => (
-              <motion.div
+              <motion.article
                 key={i}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.08 + 0.3 }}
+                transition={{ delay: i * 0.06 + 0.2 }}
                 whileHover={{ x: 4 }}
-                className="flex items-center gap-3 p-4 rounded-lg cursor-none
-                           glass border border-(--border) transition-all"
+                className="flex items-start gap-4 p-4 rounded-[22px] cursor-none bg-[rgba(11,16,32,0.68)] border border-(--border) transition-all"
               >
-                <div className="w-2 h-2 rounded-full shrink-0"
-                  style={{ background: 'var(--accent-blue)' }}
-                />
+                {cert.image ? (
+                  <img src={cert.image} alt={cert.name} className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover shrink-0 border border-(--border)" />
+                ) : (
+                  <div className="w-3 h-3 rounded-full shrink-0 mt-2" style={{ background: 'var(--accent-blue)' }} />
+                )}
+
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-(--text-primary)">{cert.name}</div>
-                  <div className="text-xs text-(--text-muted)">
+                  <div className="text-base font-semibold text-(--text-primary)">{cert.name}</div>
+                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-(--accent-blue-bright) font-mono-space">
                     {cert.issuer} • {cert.year}
                   </div>
+                  {cert.description && (
+                    <p className="text-sm text-(--text-secondary) leading-7 mt-3">{cert.description}</p>
+                  )}
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-        </div>
+        </section>
       )}
     </motion.div>
   )

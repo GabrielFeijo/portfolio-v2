@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Cpu, ExternalLink } from 'lucide-react'
-import { useSpaceStore, PanelType } from '@/store/space-store'
+import { Cpu, ExternalLink, Orbit } from 'lucide-react'
+import { useSpaceStore } from '@/store/space-store'
 import { DEVELOPER } from '@/data/portfolio'
 
 export function HUD() {
@@ -21,19 +21,19 @@ export function HUD() {
       transition={{ duration: 0.6 }}
       className="fixed inset-0 pointer-events-none z-100"
     >
-      <div className="absolute top-0 left-0 right-0 h-20 flex items-center justify-between px-8
-                      bg-linear-to-b from-[rgba(10,14,39,0.8)] to-transparent
+      <div className="absolute top-0 left-0 right-0 min-h-20 flex items-start sm:items-center justify-between px-4 sm:px-8 py-4
+                      bg-linear-to-b from-[rgba(6,8,20,0.82)] to-transparent
                       border-b border-(--border) backdrop-blur-sm z-100 pointer-events-auto">
         <div className="flex items-center gap-4">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="text-(--accent-blue-bright) text-lg font-bold"
+            className="text-(--accent-blue-bright) text-lg font-bold shrink-0"
           >
             ●
           </motion.div>
           <div>
-            <div className="font-display text-sm font-semibold text-(--text-primary)">
+            <div className="font-display text-sm sm:text-base font-semibold tracking-[0.08em] text-(--text-primary)">
               {DEVELOPER.name}
             </div>
             <div className="text-xs text-(--text-muted)">
@@ -43,21 +43,27 @@ export function HUD() {
         </div>
 
         <div className="text-right">
-          <div className="font-mono-space text-xs text-(--text-secondary)">
-            {time.toLocaleTimeString('en-US', { hour12: false })} UTC
+          <div className="font-mono-space text-[11px] sm:text-xs text-(--text-secondary)">
+            {time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
           </div>
-          <div className="text-xs text-(--text-muted) mt-0.5">
+          <div className="text-[11px] sm:text-xs text-(--text-muted) mt-0.5">
             {DEVELOPER.location}
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8
-                      bg-linear-to-t from-[rgba(10,14,39,0.8)] to-transparent
+      <div className="absolute bottom-0 left-0 right-0 min-h-16 flex items-center justify-between gap-4 px-4 sm:px-8 py-4
+                      bg-linear-to-t from-[rgba(6,8,20,0.82)] to-transparent
                       border-t border-(--border) backdrop-blur-sm z-100 pointer-events-auto">
-        <div className="flex items-center gap-2 text-xs text-(--text-muted)">
-          <Cpu size={14} />
-          Portfolio v2.0
+        <div className="flex items-center gap-3 text-[11px] sm:text-xs text-(--text-muted)">
+          <span className="inline-flex items-center gap-2">
+            <Cpu size={14} />
+            Portfolio orbital
+          </span>
+          <span className="hidden sm:inline-flex items-center gap-2">
+            <Orbit size={14} />
+            Clique em um planeta para explorar
+          </span>
         </div>
 
         <div className="flex items-center gap-3">
@@ -72,7 +78,7 @@ export function HUD() {
                        text-(--text-secondary) hover:text-(--text-primary)
                        transition-colors cursor-none">
               <ExternalLink size={12} />
-              Source
+              Código
             </a>
           </motion.div>
         </div>

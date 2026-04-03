@@ -1,21 +1,20 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { Code, Briefcase, Mail, Globe, Send, MapPin } from 'lucide-react'
+import { Code, Briefcase, Mail, Globe, Send, MapPin, MessageSquareQuote } from 'lucide-react'
 
 const contactLinks = [
-  { icon: Code, label: 'GitHub', href: DEVELOPER.github, desc: 'Follow my work' },
-  { icon: Briefcase, label: 'LinkedIn', href: DEVELOPER.linkedin, desc: 'Professional profile' },
+  { icon: Code, label: 'GitHub', href: DEVELOPER.github, desc: 'Repositórios, estudos e projetos autorais' },
+  { icon: Briefcase, label: 'LinkedIn', href: DEVELOPER.linkedin, desc: 'Perfil profissional e networking' },
   { icon: Mail, label: 'Email', href: `mailto:${DEVELOPER.email}`, desc: DEVELOPER.email },
-  { icon: Globe, label: 'Website', href: DEVELOPER.website, desc: 'My portfolio' },
+  { icon: Globe, label: 'Website', href: DEVELOPER.website, desc: 'gabrielfeijo.com.br' },
 ]
 
 export function ContactPanel() {
   const { setCursorVariant } = useSpaceStore()
   const [sent, setSent] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [focused, setFocused] = useState<string | null>(null)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,22 +25,29 @@ export function ContactPanel() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-
-      <div>
-        <h2 className="text-lg font-semibold text-(--text-primary) mb-2">
-          Get In Touch
-        </h2>
-        <p className="text-sm text-(--text-secondary) leading-relaxed mb-4">
-          Feel free to reach out for opportunities, collaborations, or just to have a conversation about technology and engineering.
-        </p>
-        <div className="flex items-center gap-2 text-sm">
-          <MapPin size={16} className="text-(--accent-blue-bright)" />
-          <span className="text-(--text-secondary)">{DEVELOPER.location}</span>
+      <section className="glass-strong p-6 sm:p-7">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+            <MessageSquareQuote size={18} />
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Canal aberto</div>
+            <h2 className="text-2xl font-semibold text-(--text-primary)">Contato</h2>
+          </div>
         </div>
-      </div>
 
-      <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
-        {contactLinks.map(link => {
+        <p className="mt-4 text-sm text-(--text-secondary) leading-7 max-w-2xl">
+          Aberto para oportunidades, freelas, colaborações ou uma boa conversa sobre tecnologia, produto e engenharia.
+        </p>
+
+        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] border border-(--border) text-sm text-(--text-secondary)">
+          <MapPin size={16} className="text-(--accent-blue-bright)" />
+          {DEVELOPER.location}
+        </div>
+      </section>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {contactLinks.map((link) => {
           const Icon = link.icon
           return (
             <motion.a
@@ -53,86 +59,85 @@ export function ContactPanel() {
               whileTap={{ scale: 0.98 }}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="flex items-start gap-3 p-4 rounded-lg glass border border-(--border)
-                        no-underline cursor-none transition-all hover:border-(--accent-blue)"
+              className="flex items-start gap-4 p-5 rounded-[22px] glass border border-(--border) no-underline cursor-none transition-all hover:border-(--border-strong)"
             >
-              <Icon size={18} className="text-(--accent-blue-bright) shrink-0 mt-0.5" />
+              <div className="w-11 h-11 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] shrink-0">
+                <Icon size={18} className="text-(--accent-blue-bright)" />
+              </div>
+
               <div className="min-w-0">
-                <div className="text-sm font-semibold text-(--text-primary)">
-                  {link.label}
-                </div>
-                <div className="text-xs text-(--text-muted) mt-0.5 truncate">
-                  {link.desc}
-                </div>
+                <div className="text-sm font-semibold text-(--text-primary)">{link.label}</div>
+                <div className="text-xs text-(--text-muted) mt-1 leading-6">{link.desc}</div>
               </div>
             </motion.a>
           )
         })}
       </div>
 
-      <div className="glass rounded-lg p-6 border border-(--border)">
-        <h3 className="text-sm font-semibold text-(--text-primary) mb-4 flex items-center gap-2">
-          <Send size={16} />
-          Send a Message
-        </h3>
+      <section className="glass p-6 sm:p-7 border border-(--border)">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+            <Send size={18} />
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Mensagem rápida</div>
+            <h3 className="text-lg font-semibold text-(--text-primary)">Enviar mensagem</h3>
+          </div>
+        </div>
+
+        <p className="text-sm text-(--text-secondary) leading-7 mb-5">
+          Este formulário funciona como um atalho visual dentro do portfólio. Para contato imediato, GitHub, LinkedIn e email acima são os canais mais rápidos.
+        </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <input
-            type="text"
-            placeholder="Your name"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            onFocus={() => setFocused('name')}
-            onBlur={() => setFocused(null)}
-            required
-            className="px-3.5 py-2.5 rounded-lg bg-(--surface) border border-(--border)
-                     text-(--text-primary) text-sm placeholder-(--text-muted)
-                     transition-colors focus:outline-none focus:border-(--accent-blue)
-                     cursor-none"
-          />
+          <div className="grid gap-3 md:grid-cols-2">
+            <input
+              type="text"
+              placeholder="Seu nome"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
+              className="px-4 py-3 rounded-2xl bg-[rgba(11,16,32,0.7)] border border-(--border)
+                       text-(--text-primary) text-sm placeholder-(--text-muted)
+                       transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
+            />
 
-          <input
-            type="email"
-            placeholder="your@email.com"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            onFocus={() => setFocused('email')}
-            onBlur={() => setFocused(null)}
-            required
-            className="px-3.5 py-2.5 rounded-lg bg-(--surface) border border-(--border)
-                     text-(--text-primary) text-sm placeholder-(--text-muted)
-                     transition-colors focus:outline-none focus:border-(--accent-blue)
-                     cursor-none"
-          />
+            <input
+              type="email"
+              placeholder="voce@email.com"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+              className="px-4 py-3 rounded-2xl bg-[rgba(11,16,32,0.7)] border border-(--border)
+                       text-(--text-primary) text-sm placeholder-(--text-muted)
+                       transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
+            />
+          </div>
 
           <textarea
-            placeholder="Your message..."
+            placeholder="Conte brevemente sobre a oportunidade, projeto ou ideia."
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
-            onFocus={() => setFocused('message')}
-            onBlur={() => setFocused(null)}
-            rows={4}
+            rows={5}
             required
-            className="px-3.5 py-2.5 rounded-lg bg-(--surface) border border-(--border)
+            className="px-4 py-3 rounded-[22px] bg-[rgba(11,16,32,0.7)] border border-(--border)
                      text-(--text-primary) text-sm placeholder-(--text-muted) resize-none
-                     transition-colors focus:outline-none focus:border-(--accent-blue)
-                     cursor-none"
+                     transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
           />
 
           <motion.button
             type="submit"
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onMouseEnter={() => setCursorVariant('link')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="px-4 py-2.5 rounded-lg bg-(--accent-blue) text-white font-medium text-sm
-                     cursor-none transition-colors hover:bg-[#0969DA]"
+            className="px-4 py-3 rounded-2xl bg-(--accent-blue) text-white font-medium text-sm
+                     cursor-none transition-colors hover:bg-[#1f4fd1]"
           >
-            {sent ? '✓ Message sent!' : 'Send Message'}
+            {sent ? '✓ Mensagem recebida!' : 'Enviar mensagem'}
           </motion.button>
         </form>
-      </div>
-
+      </section>
     </motion.div>
   )
 }

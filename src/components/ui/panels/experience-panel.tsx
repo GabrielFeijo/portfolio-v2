@@ -1,25 +1,31 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EXPERIENCE } from '@/data/portfolio'
-import { ChevronRight, Calendar, Building2 } from 'lucide-react'
+import { ChevronRight, Calendar, Building2, BriefcaseBusiness } from 'lucide-react'
 
 export function ExperiencePanel() {
   const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+      <section className="glass-strong p-6 sm:p-7">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+            <BriefcaseBusiness size={18} />
+          </div>
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Linha do tempo</div>
+            <h2 className="text-2xl font-semibold text-(--text-primary)">Experiência profissional</h2>
+          </div>
+        </div>
 
-      <div>
-        <h2 className="text-lg font-semibold text-(--text-primary) mb-2">
-          Experience
-        </h2>
-        <p className="text-sm text-(--text-secondary)">
-          Professional roles and technical growth over the years.
+        <p className="mt-4 text-sm text-(--text-secondary) leading-7 max-w-2xl">
+          Histórico de atuação, contexto de negócio e principais entregas que marcaram minha evolução técnica.
         </p>
-      </div>
+      </section>
 
       <div className="relative">
-        <div className="absolute left-5.5 top-0 bottom-0 w-px bg-(--border)" />
+        <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-[linear-gradient(180deg,rgba(125,211,252,0.28),rgba(255,255,255,0.04))]" />
 
         <div className="flex flex-col gap-4">
           {EXPERIENCE.map((exp, i) => {
@@ -29,31 +35,31 @@ export function ExperiencePanel() {
                 key={exp.id}
                 initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="pl-14 relative"
+                transition={{ delay: i * 0.08 }}
+                className="pl-10 sm:pl-16 relative"
               >
                 <div
-                  className="absolute left-3.5 top-5 w-3 h-3 rounded-full border-2 transition-all duration-300 z-10"
+                  className="absolute left-[9px] sm:left-[17px] top-7 w-3.5 h-3.5 rounded-full border-2 transition-all duration-300 z-10"
                   style={{
                     background: isOpen ? 'var(--accent-blue)' : 'var(--deep-space)',
-                    borderColor: 'var(--accent-blue)',
+                    borderColor: 'var(--accent-blue-bright)',
+                    boxShadow: isOpen ? '0 0 20px rgba(125,211,252,0.4)' : 'none',
                   }}
                 />
 
-                <motion.div
+                <motion.article
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
-                  whileHover={{ x: 2 }}
-                  className={`rounded-lg px-5 py-4 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
-                  style={{
-                    borderColor: isOpen ? 'var(--accent-blue)' : 'var(--border)',
-                  }}
+                  whileHover={{ x: 3 }}
+                  className={`rounded-[24px] px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
+                  style={{ borderColor: isOpen ? 'var(--border-strong)' : 'var(--border)' }}
                 >
-                  <div className="flex justify-between items-start gap-3">
+                  <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-(--text-primary) mb-2">
-                        {exp.role}
-                      </h3>
-                      <div className="flex flex-wrap gap-3 items-center text-xs">
+                      <div className="text-[11px] uppercase tracking-[0.16em] text-(--accent-blue-bright) font-mono-space mb-2">
+                        {exp.type}
+                      </div>
+                      <h3 className="text-base sm:text-lg font-semibold text-(--text-primary)">{exp.role}</h3>
+                      <div className="mt-3 flex flex-wrap gap-3 items-center text-xs">
                         <div className="flex items-center gap-1.5 text-(--text-secondary)">
                           <Building2 size={14} />
                           {exp.company}
@@ -62,17 +68,14 @@ export function ExperiencePanel() {
                           <Calendar size={14} />
                           {exp.period}
                         </div>
-                        <span className="px-2 py-1 rounded bg-(--surface) border border-(--border)
-                                       text-(--text-muted) font-medium">
-                          {exp.type}
-                        </span>
                       </div>
                     </div>
+
                     <motion.div
                       animate={{ rotate: isOpen ? 90 : 0 }}
-                      className="shrink-0 text-(--accent-blue-bright)"
+                      className="shrink-0 text-(--accent-blue-bright) mt-1"
                     >
-                      <ChevronRight size={16} />
+                      <ChevronRight size={18} />
                     </motion.div>
                   </div>
 
@@ -82,41 +85,41 @@ export function ExperiencePanel() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.28 }}
                         className="overflow-hidden"
                       >
-                        <p className="text-sm leading-relaxed text-(--text-secondary) mt-4 mb-4">
-                          {exp.description}
-                        </p>
+                        <p className="text-sm leading-7 text-(--text-secondary) mt-5 mb-5">{exp.description}</p>
 
                         {exp.achievements.length > 0 && (
-                          <div className="bg-(--surface) rounded-lg px-4 py-3.5 mb-4 border border-(--border)">
-                            <div className="text-xs font-semibold text-(--accent-blue-bright) tracking-wide mb-2.5">
-                              Key Achievements
+                          <div className="bg-[rgba(11,16,32,0.68)] rounded-[20px] px-4 py-4 mb-4 border border-(--border)">
+                            <div className="text-[11px] font-semibold text-(--accent-blue-bright) tracking-[0.18em] uppercase font-mono-space mb-3">
+                              Principais entregas
                             </div>
-                            {exp.achievements.map((ach, ai) => (
-                              <div key={ai} className="flex gap-2.5 mb-2 last:mb-0">
-                                <ChevronRight size={14} className="shrink-0 text-(--accent-blue-bright) mt-0.5" />
-                                <span className="text-xs text-(--text-secondary) leading-relaxed">{ach}</span>
-                              </div>
-                            ))}
+                            <div className="flex flex-col gap-2">
+                              {exp.achievements.map((ach, ai) => (
+                                <div key={ai} className="flex gap-2.5">
+                                  <ChevronRight size={14} className="shrink-0 text-(--accent-blue-bright) mt-1" />
+                                  <span className="text-xs text-(--text-secondary) leading-6">{ach}</span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         )}
 
                         <div className="flex flex-wrap gap-2">
-                          {exp.tech.map(t => (
-                            <span key={t}
-                              className="text-xs px-2.5 py-1.5 rounded
-                                         bg-(--surface) border border-(--border)
-                                         text-(--text-secondary)">
-                              {t}
+                          {exp.tech.map((tech) => (
+                            <span
+                              key={tech}
+                              className="text-xs px-3 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] border border-(--border) text-(--text-secondary)"
+                            >
+                              {tech}
                             </span>
                           ))}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </motion.article>
               </motion.div>
             )
           })}
