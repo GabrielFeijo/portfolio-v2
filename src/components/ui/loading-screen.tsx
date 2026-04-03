@@ -34,10 +34,10 @@ export function LoadingScreen() {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, filter: 'blur(20px)' }}
       transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-[1000] flex flex-col items-center justify-center font-display
+      className="fixed inset-0 z-1000 flex flex-col items-center justify-center font-display
                  bg-[#000005]"
     >
-      
+
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage: 'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
@@ -62,7 +62,7 @@ export function LoadingScreen() {
           transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
           className="absolute inset-8 rounded-full border border-[rgba(0,212,255,0.05)]"
         />
-        
+
         <div className="relative flex flex-col items-center">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -97,9 +97,9 @@ export function LoadingScreen() {
         <div className="w-full h-px bg-[rgba(255,255,255,0.05)] relative mb-4">
           <motion.div
             className="absolute left-0 top-0 bottom-0 bg-[#00D4FF]"
-            style={{ 
-              width: `${progress}%`, 
-              boxShadow: '0 0 10px rgba(0,212,255,0.8), 0 0 20px rgba(0,212,255,0.3)' 
+            style={{
+              width: `${progress}%`,
+              boxShadow: '0 0 10px rgba(0,212,255,0.8), 0 0 20px rgba(0,212,255,0.3)'
             }}
           />
         </div>
