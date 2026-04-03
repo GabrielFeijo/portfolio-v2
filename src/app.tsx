@@ -13,7 +13,7 @@ import { WebGLError } from '@/components/ui/webgl-error'
 import { isWebGLAvailable } from '@/utils/webgl-check'
 
 export default function App() {
-  const { showIntro, activePanel, isLoaded } = useSpaceStore()
+  const { activePanel, isLoaded } = useSpaceStore()
   const [hasWebGL, setHasWebGL] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function App() {
       </Canvas>
 
       <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && !showIntro && <HUD />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <WarpEffect />
     </div>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { AlertTriangle, Monitor, RefreshCw } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 
 export function WebGLError() {
   return (
@@ -28,20 +28,20 @@ export function WebGLError() {
 
         <h1 className="font-display text-[22px] font-extrabold text-[#FF4500]
                        tracking-[0.2em] uppercase mb-4">
-          Hardware Incompatible
+          WebGL Indisponível
         </h1>
 
         <p className="text-[14px] text-[rgba(240,244,255,0.7)] leading-relaxed mb-6">
-          The mission requires <span className="text-[#00D4FF]">WebGL</span> to render the cosmic environment.
-          Your current browser or hardware does not support this technology, or it is disabled.
+          Este portfólio precisa de <span className="text-[#00D4FF]">WebGL</span> para renderizar o universo 3D.
+          Seu navegador, hardware ou configuração atual não está conseguindo disponibilizar esse recurso.
         </p>
 
         <div className="bg-[rgba(0,0,0,0.3)] rounded-lg p-4 text-left
                         font-mono-space text-[11px] text-[rgba(240,244,255,0.5)]">
-          <div className="text-[#FF4500] mb-2">◈ SYSTEM REQUIREMENTS</div>
-          <div>• Updated browser (Chrome, Firefox, Edge, Safari)</div>
-          <div>• Hardware acceleration enabled</div>
-          <div>• WebGL-compatible graphics driver</div>
+          <div className="text-[#FF4500] mb-2">◈ REQUISITOS</div>
+          <div>• Navegador atualizado: Chrome, Firefox, Edge ou Safari</div>
+          <div>• Aceleração de hardware ativada</div>
+          <div>• Driver gráfico compatível com WebGL</div>
         </div>
 
         <motion.button

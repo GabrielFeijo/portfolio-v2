@@ -10,18 +10,6 @@ interface SpaceStore {
   openPanel: (panel: PanelType) => void
   closePanel: () => void
   
-  isZooming: boolean
-  setIsZooming: (zooming: boolean) => void
-  
-  showHUD: boolean
-  setShowHUD: (show: boolean) => void
-  
-  showIntro: boolean
-  setShowIntro: (show: boolean) => void
-  
-  soundEnabled: boolean
-  toggleSound: () => void
-  
   cursorVariant: 'default' | 'planet' | 'link' | 'drag'
   setCursorVariant: (variant: 'default' | 'planet' | 'link' | 'drag') => void
   
@@ -39,18 +27,6 @@ export const useSpaceStore = create<SpaceStore>((set) => ({
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
   closePanel: () => set({ activePanel: null, activePlanet: null }),
-  
-  isZooming: false,
-  setIsZooming: (zooming) => set({ isZooming: zooming }),
-  
-  showHUD: true,
-  setShowHUD: (show) => set({ showHUD: show }),
-  
-  showIntro: false,
-  setShowIntro: (show) => set({ showIntro: show }),
-  
-  soundEnabled: false,
-  toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
   
   cursorVariant: 'default',
   setCursorVariant: (variant) => set({ cursorVariant: variant }),

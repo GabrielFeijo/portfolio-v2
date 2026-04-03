@@ -2,12 +2,12 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 const phases = [
-  'SYNCHRONIZING NEURAL LINK...',
-  'DECRYPTING STELLAR DATA...',
-  'CALIBRATING QUANTUM CORES...',
-  'ESTABLISHING SUB-SPACE COMM...',
-  'MAPPING PLANETARY SECTORS...',
-  'SYSTEMS ONLINE',
+  'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
+  'CARREGANDO ARQUIVOS DE PORTFÓLIO...',
+  'CALIBRANDO SINAIS DO UNIVERSO...',
+  'ESTABILIZANDO ORBITAS E PAINÉIS...',
+  'MAPEANDO SEÇÕES INTERATIVAS...',
+  'SISTEMA ONLINE',
 ]
 
 export function LoadingScreen() {
@@ -69,7 +69,7 @@ export function LoadingScreen() {
             animate={{ scale: 1, opacity: 1 }}
             className="text-[10px] font-mono-space tracking-[0.8em] text-[#00D4FF] mb-2 translate-x-1"
           >
-            LOADING
+            CARREGANDO
           </motion.div>
           <div className="font-display text-4xl font-black text-white tracking-widest flex items-center gap-2">
             <span className="opacity-20">0</span>
@@ -90,7 +90,7 @@ export function LoadingScreen() {
             Gabriel Feijó
           </div>
           <div className="font-mono-space text-[9px] tracking-[0.3em] text-[rgba(240,244,255,0.3)] uppercase">
-            Systems Architecture 
+            Full Stack Universe
           </div>
         </motion.div>
 
