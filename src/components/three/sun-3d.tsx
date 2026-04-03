@@ -41,9 +41,9 @@ export function Sun3D() {
     <group>
       <Sphere args={[16 + Math.random(), 32, 32]}>
         <meshBasicMaterial
-          color="#FF9933"
+          color="#ffd38a"
           transparent
-          opacity={0.03}
+          opacity={0.05}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -52,9 +52,9 @@ export function Sun3D() {
 
       <Sphere args={[6.5, 32, 32]}>
         <meshBasicMaterial
-          color="#FF5500"
+          color="#ff7a1a"
           transparent
-          opacity={0.12}
+          opacity={0.16}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -84,11 +84,11 @@ export function Sun3D() {
         )
       })}
 
-      <Sparkles count={250} scale={[13, 13, 13]} size={3.5} speed={0.8} color="#FFEECC" opacity={0.6} />
-      <Sparkles count={150} scale={[8, 8, 8]} size={5} speed={0.5} color="#FF6600" opacity={0.8} />
+      <Sparkles count={320} scale={[14, 14, 14]} size={3.8} speed={0.9} color="#FFF4D6" opacity={0.65} />
+      <Sparkles count={180} scale={[9, 9, 9]} size={5.4} speed={0.55} color="#FF7A1A" opacity={0.85} />
 
-      <pointLight position={[0, 0, 0]} intensity={18} color="#FFEFD5" distance={450} decay={1.5} />
-      <pointLight position={[0, 0, 0]} intensity={6} color="#FF4500" distance={80} decay={2.5} />
+      <pointLight position={[0, 0, 0]} intensity={22} color="#FFF1D8" distance={520} decay={1.45} />
+      <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />
     </group>
   )
 }

@@ -1,7 +1,6 @@
-import { useRef, useEffect } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useRef, useEffect, useMemo } from 'react'
+import { useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
-import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import { Planet3D } from './planet-3d'
 import { Sun3D, ShootingStar } from './sun-3d'
@@ -11,10 +10,13 @@ import { PLANETS } from '@/data/portfolio'
 import { CameraController } from './camera-controller'
 
 export function SpaceScene() {
-  const { camera } = useThree()
   const { setIsLoaded } = useSpaceStore()
+  const angleOffsets = useMemo(
+    () => Object.fromEntries(PLANETS.map((planet) => [planet.id, planet.orbitPhase ?? 0])),
+    [],
+  )
   const planetAngles = useRef<Record<string, number>>(
-    Object.fromEntries(PLANETS.map((p, i) => [p.id, (i * Math.PI * 2) / PLANETS.length + 0.3]))
+    Object.fromEntries(PLANETS.map((planet) => [planet.id, angleOffsets[planet.id]]))
   )
 
   useEffect(() => {
@@ -28,15 +30,26 @@ export function SpaceScene() {
 
   return (
     <>
-      <ambientLight intensity={0.06} color="#050520" />
+      <color attach="background" args={['#02030a']} />
 
-      <pointLight position={[90, 50, 50]} intensity={0.5} color="#00D4FF" distance={250} decay={1.5} />
-      <pointLight position={[-90, -40, -40]} intensity={0.3} color="#6B21E8" distance={220} decay={1.5} />
-      <pointLight position={[0, -90, 0]} intensity={0.2} color="#FF1493" distance={180} decay={2} />
-      <pointLight position={[-40, 60, 80]} intensity={0.15} color="#00FF88" distance={200} decay={2} />
+      <ambientLight intensity={0.12} color="#0b1020" />
+      <hemisphereLight intensity={0.24} color="#7dd3fc" groundColor="#050814" />
 
-      <Stars radius={600} depth={150} count={10000} factor={4} saturation={0.1} fade speed={0.2} />
-      <Stars radius={250} depth={80} count={4000} factor={2} saturation={0.4} fade speed={0.1} />
+      <pointLight position={[110, 70, 90]} intensity={0.8} color="#6ee7ff" distance={320} decay={1.7} />
+      <pointLight position={[-120, -50, -70]} intensity={0.45} color="#7c3aed" distance={280} decay={1.8} />
+      <pointLight position={[35, -110, 50]} intensity={0.28} color="#fb7185" distance={220} decay={2.1} />
+      <pointLight position={[-70, 95, 150]} intensity={0.24} color="#67e8f9" distance={260} decay={2.2} />
+      <spotLight
+        position={[0, 90, 120]}
+        angle={0.45}
+        penumbra={0.8}
+        intensity={0.55}
+        distance={360}
+        color="#dbeafe"
+      />
+
+      <Stars radius={780} depth={220} count={12000} factor={4.8} saturation={0.05} fade speed={0.16} />
+      <Stars radius={360} depth={120} count={5200} factor={2.6} saturation={0.3} fade speed={0.08} />
 
       <Nebula />
       <Sun3D />
@@ -47,15 +60,14 @@ export function SpaceScene() {
         <Planet3D
           key={planet.id}
           planet={planet}
-          initialAngle={planetAngles.current[planet.id]}
           angleRef={planetAngles}
         />
       ))}
 
-      <AsteroidBelt innerRadius={50} outerRadius={54} count={320} color="#886644" />
-      <AsteroidBelt innerRadius={94} outerRadius={100} count={150} color="#445566" />
+      <AsteroidBelt innerRadius={58} outerRadius={64} count={260} color="#6b7280" />
+      <AsteroidBelt innerRadius={126} outerRadius={132} count={110} color="#475569" />
 
-      <fog attach="fog" args={['#000008', 130, 650]} />
+      <fog attach="fog" args={['#02030a', 150, 760]} />
 
       <CameraController planetAngles={planetAngles} />
 

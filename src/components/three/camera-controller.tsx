@@ -7,11 +7,11 @@ import { PLANETS } from '@/data/portfolio'
 
 export function CameraController({ planetAngles }: { planetAngles: React.MutableRefObject<Record<string, number>> }) {
   const controlsRef = useRef<CameraControls>(null)
-  const { camera, pointer } = useThree()
+  const { camera } = useThree()
   const { activePlanet, activePanel, warpActive, setWarpActive } = useSpaceStore()
 
-  const idleCameraPos = useRef(new THREE.Vector3(0, 24, 62))
-  const idleLookAt = useRef(new THREE.Vector3(0, 0, 0))
+  const idleCameraPos = useRef(new THREE.Vector3(-18, 28, 84))
+  const idleLookAt = useRef(new THREE.Vector3(8, -2, -10))
 
   useEffect(() => {
     if (!controlsRef.current) return
@@ -23,7 +23,7 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
     controls.mouseButtons.right = 0 
     controls.mouseButtons.wheel = 16
     controls.minDistance = 25
-    controls.maxDistance = 240
+    controls.maxDistance = 260
 
     setWarpActive(true)
     setTimeout(() => setWarpActive(false), 800)
@@ -41,11 +41,19 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
         const py = planet.orbitY || 0
         const pz = Math.sin(angle) * planet.orbitRadius
 
-        const xOffset = 6.0 
-        controls.setLookAt(px + xOffset, py + planet.size + 4, pz + offsetDist, px + xOffset, py, pz, true)
+        const xOffset = 7.5
+        controls.setLookAt(px + xOffset, py + planet.size + 5, pz + offsetDist, px + xOffset * 0.45, py, pz, true)
       }
     } else {
-      controls.setLookAt(0, 24, 62, 0, 0, 0, true)
+      controls.setLookAt(
+        idleCameraPos.current.x,
+        idleCameraPos.current.y,
+        idleCameraPos.current.z,
+        idleLookAt.current.x,
+        idleLookAt.current.y,
+        idleLookAt.current.z,
+        true
+      )
     }
   }, [activePanel, activePlanet, planetAngles])
 
@@ -54,16 +62,16 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
     const controls = controlsRef.current
 
     if (!activePanel) {
-      controls.azimuthAngle -= delta * 0.03
+      controls.azimuthAngle -= delta * 0.022
     }
     
     const perspectiveCamera = camera as THREE.PerspectiveCamera;
     if (warpActive) {
       perspectiveCamera.fov = THREE.MathUtils.lerp(perspectiveCamera.fov, 95, delta * 5)
     } else if (activePanel) {
-      perspectiveCamera.fov = THREE.MathUtils.lerp(perspectiveCamera.fov, 50, delta * 3)
+      perspectiveCamera.fov = THREE.MathUtils.lerp(perspectiveCamera.fov, 48, delta * 3)
     } else {
-      perspectiveCamera.fov = THREE.MathUtils.lerp(perspectiveCamera.fov, 58, delta * 2)
+      perspectiveCamera.fov = THREE.MathUtils.lerp(perspectiveCamera.fov, 54, delta * 2)
     }
     camera.updateProjectionMatrix()
   })

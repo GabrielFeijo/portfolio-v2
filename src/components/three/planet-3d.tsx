@@ -26,7 +26,6 @@ declare module '@react-three/fiber' {
 
 interface Planet3DProps {
   planet: Planet
-  initialAngle: number
   angleRef: MutableRefObject<Record<string, number>>
 }
 
@@ -62,12 +61,11 @@ const TYPE_MAP: Record<string, number> = {
   ice: 5
 }
 
-export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
+export function Planet3D({ planet, angleRef }: Planet3DProps) {
   const { activePlanet, setActivePlanet, openPanel, setCursorVariant, activePanel } = useSpaceStore()
   
   const meshRef = useRef<THREE.Mesh>(null)
   const groupRef = useRef<THREE.Group>(null)
-  const glowRef = useRef<THREE.Mesh>(null)
   const atmoRef = useRef<THREE.Mesh>(null)
   
   const planetMatRef = useRef<THREE.ShaderMaterial>(null)
@@ -80,6 +78,8 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
   const planetTypeInt = TYPE_MAP[planet.type] ?? 0
 
   const uLightDir = useMemo(() => new THREE.Vector3(1, 0.4, 0.8).normalize(), [])
+  const orbitTilt = useMemo(() => (planet.orbitY ?? 0) * 0.0025, [planet.orbitY])
+  const orbitDrift = useMemo(() => 0.8 + planet.orbitRadius * 0.015, [planet.orbitRadius])
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime()
@@ -87,8 +87,10 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
     if (groupRef.current && !activePanel) {
       const angle = angleRef.current[planet.id]
       groupRef.current.position.x = Math.cos(angle) * planet.orbitRadius
-      groupRef.current.position.y = planet.orbitY || 0
+      groupRef.current.position.y = (planet.orbitY || 0) + Math.sin(t * 0.18 + angle * orbitDrift) * 1.2
       groupRef.current.position.z = Math.sin(angle) * planet.orbitRadius
+      groupRef.current.rotation.z = Math.sin(angle * 0.7) * orbitTilt
+      groupRef.current.rotation.x = Math.cos(angle * 0.5) * orbitTilt * 0.6
       
       const pos = groupRef.current.position
       uLightDir.set(-pos.x, 10.0, -pos.z).normalize()
@@ -122,9 +124,9 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
 
   return (
     <>
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, planet.orbitY || 0, 0]}>
+      <mesh rotation={[Math.PI / 2 + orbitTilt * 0.7, 0, orbitTilt]} position={[0, planet.orbitY || 0, 0]}>
         <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 192]} />
-        <meshBasicMaterial color={planet.color} transparent opacity={0.02} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={planet.color} transparent opacity={0.035} side={THREE.DoubleSide} />
       </mesh>
 
       <group ref={groupRef} position={[planet.orbitRadius, planet.orbitY || 0, 0]}>
@@ -137,7 +139,8 @@ export function Planet3D({ planet, initialAngle, angleRef }: Planet3DProps) {
             uIntensity={0.85}
             transparent
             depthWrite={false}
-            side={THREE.BackSide}            blending={THREE.AdditiveBlending}
+            side={THREE.BackSide}
+            blending={THREE.AdditiveBlending}
           />
         </mesh>
 
@@ -243,7 +246,8 @@ function SmallMoon({ size, color, lightDir }: { size: number; color: string, lig
           <aaaPlanetMaterial
             ref={matRef}
             uColor={baseCol}
-            uType={0}            uLightDir={lightDir}
+            uType={0}
+            uLightDir={lightDir}
           />
         </mesh>
       </group>

@@ -89,9 +89,9 @@ function NebulaParticles({
       </bufferGeometry>
       <pointsMaterial
         color={color}
-        size={0.35}
+        size={0.42}
         transparent
-        opacity={0.18}
+        opacity={0.22}
         blending={THREE.AdditiveBlending}
         sizeAttenuation
         depthWrite={false}
@@ -153,15 +153,15 @@ export function Nebula() {
   ], [])
 
   const layers = useMemo(() => [
-    { texIdx: 0, pos: [-80, 20, -220] as [number,number,number],    rot: [0.4, 0.1, 0.2] as [number,number,number],  scale: [420, 320] as [number,number], speed: [0.4, 0.1, 0.3] as [number,number,number] },
-    { texIdx: 1, pos: [140, -30, -260] as [number,number,number],   rot: [-0.3, 0.4, 0.1] as [number,number,number], scale: [380, 300] as [number,number], speed: [-0.2, 0.3, 0.1] as [number,number,number] },
-    { texIdx: 2, pos: [20, 70, -310] as [number,number,number],     rot: [0.2, 0.2, 0.5] as [number,number,number],  scale: [520, 400] as [number,number], speed: [0.3, -0.2, 0.2] as [number,number,number] },
-    { texIdx: 3, pos: [-160, -50, -280] as [number,number,number],  rot: [0.6, -0.2, 0.3] as [number,number,number], scale: [340, 260] as [number,number], speed: [0.2, 0.4, -0.1] as [number,number,number] },
-    { texIdx: 4, pos: [200, 80, -350] as [number,number,number],    rot: [-0.2, 0.5, -0.1] as [number,number,number],scale: [450, 350] as [number,number], speed: [-0.3, 0.2, 0.4] as [number,number,number] },
-    { texIdx: 5, pos: [0, -80, -180] as [number,number,number],     rot: [0.8, 0.0, 0.0] as [number,number,number],  scale: [600, 450] as [number,number], speed: [0.15, 0.25, -0.2] as [number,number,number] },
-    { texIdx: 6, pos: [-220, 40, -320] as [number,number,number],   rot: [0.3, 0.7, 0.2] as [number,number,number],  scale: [360, 280] as [number,number], speed: [0.35, -0.15, 0.3] as [number,number,number] },
-    { texIdx: 7, pos: [100, -100, -240] as [number,number,number],  rot: [-0.4, -0.3, 0.6] as [number,number,number],scale: [400, 310] as [number,number], speed: [-0.2, 0.3, 0.15] as [number,number,number] },
-    { texIdx: 8, pos: [50, 120, -400] as [number,number,number],    rot: [0.1, 0.3, 0.0] as [number,number,number],  scale: [700, 550] as [number,number], speed: [0.1, 0.1, 0.1] as [number,number,number] },
+    { texIdx: 0, pos: [-120, 36, -250] as [number,number,number],    rot: [0.4, 0.1, 0.2] as [number,number,number],  scale: [460, 360] as [number,number], speed: [0.4, 0.1, 0.3] as [number,number,number] },
+    { texIdx: 1, pos: [170, -40, -300] as [number,number,number],    rot: [-0.3, 0.4, 0.1] as [number,number,number], scale: [420, 340] as [number,number], speed: [-0.2, 0.3, 0.1] as [number,number,number] },
+    { texIdx: 2, pos: [30, 95, -350] as [number,number,number],      rot: [0.2, 0.2, 0.5] as [number,number,number],  scale: [560, 440] as [number,number], speed: [0.3, -0.2, 0.2] as [number,number,number] },
+    { texIdx: 3, pos: [-200, -70, -320] as [number,number,number],   rot: [0.6, -0.2, 0.3] as [number,number,number], scale: [380, 290] as [number,number], speed: [0.2, 0.4, -0.1] as [number,number,number] },
+    { texIdx: 4, pos: [235, 105, -390] as [number,number,number],    rot: [-0.2, 0.5, -0.1] as [number,number,number],scale: [520, 380] as [number,number], speed: [-0.3, 0.2, 0.4] as [number,number,number] },
+    { texIdx: 5, pos: [0, -96, -210] as [number,number,number],      rot: [0.8, 0.0, 0.0] as [number,number,number],  scale: [700, 520] as [number,number], speed: [0.15, 0.25, -0.2] as [number,number,number] },
+    { texIdx: 6, pos: [-250, 60, -360] as [number,number,number],    rot: [0.3, 0.7, 0.2] as [number,number,number],  scale: [410, 300] as [number,number], speed: [0.35, -0.15, 0.3] as [number,number,number] },
+    { texIdx: 7, pos: [130, -120, -270] as [number,number,number],   rot: [-0.4, -0.3, 0.6] as [number,number,number],scale: [440, 340] as [number,number], speed: [-0.2, 0.3, 0.15] as [number,number,number] },
+    { texIdx: 8, pos: [65, 145, -440] as [number,number,number],     rot: [0.1, 0.3, 0.0] as [number,number,number],  scale: [760, 590] as [number,number], speed: [0.1, 0.1, 0.1] as [number,number,number] },
   ], [])
 
   return (
@@ -177,10 +177,10 @@ export function Nebula() {
         />
       ))}
 
-      <NebulaParticles position={[-80, 20, -220]}  color="#6B21E8" count={300} spread={200} />
-      <NebulaParticles position={[140, -30, -260]} color="#00D4FF" count={250} spread={180} />
-      <NebulaParticles position={[0, 70, -310]}    color="#FF1493" count={200} spread={220} />
-      <NebulaParticles position={[60, -50, -180]}  color="#FFB800" count={180} spread={160} />
+      <NebulaParticles position={[-120, 36, -250]} color="#6B21E8" count={340} spread={220} />
+      <NebulaParticles position={[170, -40, -300]} color="#00D4FF" count={280} spread={220} />
+      <NebulaParticles position={[30, 95, -350]} color="#FF1493" count={240} spread={250} />
+      <NebulaParticles position={[40, -70, -210]} color="#FFB800" count={220} spread={180} />
     </group>
   )
 }

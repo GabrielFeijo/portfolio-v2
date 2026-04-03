@@ -32,9 +32,11 @@ export function PlanetPanel() {
   const next = PLANETS[idx + 1]
 
   const handleNav = (id: string) => {
-    setActivePlanet(id)
     closePanel() 
-    setTimeout(() => openPanel(id as PanelType), 800) 
+    setTimeout(() => {
+      setActivePlanet(id)
+      openPanel(id as PanelType)
+    }, 800)
   }
 
   return (
