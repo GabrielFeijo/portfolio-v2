@@ -4,6 +4,7 @@ import { CameraControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import { PLANETS } from '@/data/portfolio'
+import { getPlanetPosition } from './orbit-utils'
 
 export function CameraController({ planetAngles }: { planetAngles: React.MutableRefObject<Record<string, number>> }) {
   const controlsRef = useRef<CameraControls>(null)
@@ -37,9 +38,10 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
       if (planet) {
         const offsetDist = planet.size * 3.2 + 12
         const angle = planetAngles.current[planet.id]
-        const px = Math.cos(angle) * planet.orbitRadius
-        const py = planet.orbitY || 0
-        const pz = Math.sin(angle) * planet.orbitRadius
+        const position = getPlanetPosition(planet, angle)
+        const px = position.x
+        const py = position.y
+        const pz = position.z
 
         const xOffset = 7.5
         controls.setLookAt(px + xOffset, py + planet.size + 5, pz + offsetDist, px + xOffset * 0.45, py, pz, true)

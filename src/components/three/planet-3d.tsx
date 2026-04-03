@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import { useSpaceStore, PanelType } from '@/store/space-store'
 import type { Planet } from '@/data/portfolio'
 import { AdvancedAtmosphereMaterial, AAA_PlanetMaterial } from './planet-shaders'
+import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from './orbit-utils'
 
 extend({ AdvancedAtmosphereMaterial, AaaPlanetMaterial: AAA_PlanetMaterial })
 
@@ -78,19 +79,16 @@ export function Planet3D({ planet, angleRef }: Planet3DProps) {
   const planetTypeInt = TYPE_MAP[planet.type] ?? 0
 
   const uLightDir = useMemo(() => new THREE.Vector3(1, 0.4, 0.8).normalize(), [])
-  const orbitTilt = useMemo(() => (planet.orbitY ?? 0) * 0.0025, [planet.orbitY])
-  const orbitDrift = useMemo(() => 0.8 + planet.orbitRadius * 0.015, [planet.orbitRadius])
+  const orbitRotation = useMemo(() => getPlanetOrbitRotation(planet), [planet])
+  const orbitCenterY = useMemo(() => getPlanetOrbitCenterY(planet), [planet])
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime()
 
     if (groupRef.current && !activePanel) {
       const angle = angleRef.current[planet.id]
-      groupRef.current.position.x = Math.cos(angle) * planet.orbitRadius
-      groupRef.current.position.y = (planet.orbitY || 0) + Math.sin(t * 0.18 + angle * orbitDrift) * 1.2
-      groupRef.current.position.z = Math.sin(angle) * planet.orbitRadius
-      groupRef.current.rotation.z = Math.sin(angle * 0.7) * orbitTilt
-      groupRef.current.rotation.x = Math.cos(angle * 0.5) * orbitTilt * 0.6
+      const position = getPlanetPosition(planet, angle)
+      groupRef.current.position.copy(position)
       
       const pos = groupRef.current.position
       uLightDir.set(-pos.x, 10.0, -pos.z).normalize()
@@ -124,12 +122,12 @@ export function Planet3D({ planet, angleRef }: Planet3DProps) {
 
   return (
     <>
-      <mesh rotation={[Math.PI / 2 + orbitTilt * 0.7, 0, orbitTilt]} position={[0, planet.orbitY || 0, 0]}>
+      <mesh rotation={orbitRotation} position={[0, orbitCenterY, 0]}>
         <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 192]} />
         <meshBasicMaterial color={planet.color} transparent opacity={0.035} side={THREE.DoubleSide} />
       </mesh>
 
-      <group ref={groupRef} position={[planet.orbitRadius, planet.orbitY || 0, 0]}>
+      <group ref={groupRef} position={getPlanetPosition(planet, angleRef.current[planet.id])}>
         
         <mesh ref={atmoRef} scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}>
           <sphereGeometry args={[1, 64, 64]} />

@@ -1,5 +1,4 @@
 import { useRef, useEffect, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
 import { Stars } from '@react-three/drei'
 import { useSpaceStore } from '@/store/space-store'
 import { Planet3D } from './planet-3d'
@@ -23,10 +22,6 @@ export function SpaceScene() {
     const t = setTimeout(() => setIsLoaded(true), 2500)
     return () => clearTimeout(t)
   }, [setIsLoaded])
-
-  useFrame((state, delta) => {
-    PLANETS.forEach(p => { planetAngles.current[p.id] += delta * p.orbitSpeed * 0.1 })
-  })
 
   return (
     <>
