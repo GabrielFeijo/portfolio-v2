@@ -109,7 +109,7 @@ export interface Certificate {
 export const PLANETS: Planet[] = [
   {
     id: 'about',
-    name: 'ABOUT',
+    name: 'SOBRE',
     subtitle: 'Minha história',
     color: '#3B82F6',
     glowColor: '#60A5FA',
@@ -126,7 +126,7 @@ export const PLANETS: Planet[] = [
   },
   {
     id: 'skills',
-    name: 'SKILLS',
+    name: 'HABILIDADES',
     subtitle: 'Stack e capacidades',
     color: '#10B981',
     glowColor: '#34D399',
@@ -143,7 +143,7 @@ export const PLANETS: Planet[] = [
   },
   {
     id: 'projects',
-    name: 'WORK',
+    name: 'PROJETOS',
     subtitle: 'Projetos em destaque',
     color: '#F59E0B',
     glowColor: '#FBBF24',
@@ -162,7 +162,7 @@ export const PLANETS: Planet[] = [
   },
   {
     id: 'experience',
-    name: 'EXPERIENCE',
+    name: 'EXPERIÊNCIA',
     subtitle: 'Minha caminhada',
     color: '#EF4444',
     glowColor: '#F87171',
@@ -179,7 +179,7 @@ export const PLANETS: Planet[] = [
   },
   {
     id: 'accomplishments',
-    name: 'ACHIEVEMENTS',
+    name: 'CONQUISTAS',
     subtitle: 'Conquistas e estudos',
     color: '#8B5CF6',
     glowColor: '#A78BFA',
@@ -198,7 +198,7 @@ export const PLANETS: Planet[] = [
   },
   {
     id: 'contact',
-    name: 'CONTACT',
+    name: 'CONTATO',
     subtitle: 'Vamos conversar',
     color: '#EC4899',
     glowColor: '#F472B6',

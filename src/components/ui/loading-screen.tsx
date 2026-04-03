@@ -90,7 +90,7 @@ export function LoadingScreen() {
             Gabriel Feijó
           </div>
           <div className="font-mono-space text-[9px] tracking-[0.3em] text-[rgba(240,244,255,0.3)] uppercase">
-            Full Stack Universe
+            Universo Full Stack
           </div>
         </motion.div>
 
