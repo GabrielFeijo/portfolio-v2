@@ -63,6 +63,11 @@
     cursor: none !important;
   }
 
+  body.cursor-fallback-mode,
+  body.cursor-fallback-mode * {
+    cursor: auto !important;
+  }
+
   ::-webkit-scrollbar {
     width: 4px;
   }
