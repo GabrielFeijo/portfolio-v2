@@ -25,13 +25,13 @@ export function ContactPanel() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="glass-strong p-6 sm:p-7">
+      <section className="panel-card-strong p-6 sm:p-7">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <MessageSquareQuote size={18} />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Canal aberto</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Canal aberto</div>
             <h2 className="text-2xl font-semibold text-(--text-primary)">Contato</h2>
           </div>
         </div>
@@ -40,8 +40,8 @@ export function ContactPanel() {
           Aberto para oportunidades, freelas, colaborações ou uma boa conversa sobre tecnologia, produto e engenharia.
         </p>
 
-        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] border border-(--border) text-sm text-(--text-secondary)">
-          <MapPin size={16} className="text-(--accent-blue-bright)" />
+        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full panel-meta-chip text-sm">
+          <MapPin size={16} />
           {DEVELOPER.location}
         </div>
       </section>
@@ -59,10 +59,10 @@ export function ContactPanel() {
               whileTap={{ scale: 0.98 }}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="flex items-start gap-4 p-5 rounded-[22px] glass border border-(--border) no-underline cursor-none transition-all hover:border-(--border-strong)"
+              className="flex items-start gap-4 p-5 rounded-[22px] panel-card no-underline cursor-none transition-all hover:translate-y-[-2px]"
             >
-              <div className="w-11 h-11 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] shrink-0">
-                <Icon size={18} className="text-(--accent-blue-bright)" />
+              <div className="w-11 h-11 rounded-2xl flex items-center justify-center panel-icon-chip shrink-0">
+                <Icon size={18} />
               </div>
 
               <div className="min-w-0">
@@ -74,13 +74,13 @@ export function ContactPanel() {
         })}
       </div>
 
-      <section className="glass p-6 sm:p-7 border border-(--border)">
+      <section className="panel-shell p-6 sm:p-7">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Send size={18} />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Mensagem rápida</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Mensagem rápida</div>
             <h3 className="text-lg font-semibold text-(--text-primary)">Enviar mensagem</h3>
           </div>
         </div>
@@ -97,9 +97,7 @@ export function ContactPanel() {
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
-              className="px-4 py-3 rounded-2xl bg-[rgba(11,16,32,0.7)] border border-(--border)
-                       text-(--text-primary) text-sm placeholder-(--text-muted)
-                       transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
+              className="px-4 py-3 rounded-2xl panel-input text-sm transition-colors cursor-none"
             />
 
             <input
@@ -108,9 +106,7 @@ export function ContactPanel() {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
-              className="px-4 py-3 rounded-2xl bg-[rgba(11,16,32,0.7)] border border-(--border)
-                       text-(--text-primary) text-sm placeholder-(--text-muted)
-                       transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
+              className="px-4 py-3 rounded-2xl panel-input text-sm transition-colors cursor-none"
             />
           </div>
 
@@ -120,9 +116,7 @@ export function ContactPanel() {
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             rows={5}
             required
-            className="px-4 py-3 rounded-[22px] bg-[rgba(11,16,32,0.7)] border border-(--border)
-                     text-(--text-primary) text-sm placeholder-(--text-muted) resize-none
-                     transition-colors focus:outline-none focus:border-(--border-strong) cursor-none"
+            className="px-4 py-3 rounded-[22px] panel-input text-sm resize-none transition-colors cursor-none"
           />
 
           <motion.button
@@ -131,8 +125,7 @@ export function ContactPanel() {
             whileTap={{ scale: 0.98 }}
             onMouseEnter={() => setCursorVariant('link')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="px-4 py-3 rounded-2xl bg-(--accent-blue) text-white font-medium text-sm
-                     cursor-none transition-colors hover:bg-[#1f4fd1]"
+            className="px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors"
           >
             {sent ? '✓ Mensagem recebida!' : 'Enviar mensagem'}
           </motion.button>

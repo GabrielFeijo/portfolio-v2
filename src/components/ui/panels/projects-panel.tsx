@@ -14,13 +14,13 @@ export function ProjectsPanel() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="glass-strong p-6 sm:p-7">
+      <section className="panel-card-strong p-6 sm:p-7">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Layers3 size={18} />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Cases selecionados</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Cases selecionados</div>
             <h2 className="text-2xl font-semibold text-(--text-primary)">Projetos e produtos</h2>
           </div>
         </div>
@@ -40,9 +40,10 @@ export function ProjectsPanel() {
               onMouseLeave={() => setCursorVariant('default')}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium cursor-none transition-all duration-200 border"
               style={{
-                background: filter === cat ? 'linear-gradient(180deg, rgba(43,111,255,1), rgba(31,79,209,1))' : 'rgba(255,255,255,0.03)',
-                borderColor: filter === cat ? 'rgba(125,211,252,0.2)' : 'var(--border)',
+                background: filter === cat ? 'linear-gradient(180deg, var(--panel-accent), var(--panel-glow))' : 'rgba(255,255,255,0.03)',
+                borderColor: filter === cat ? 'var(--panel-border-strong)' : 'var(--panel-border)',
                 color: filter === cat ? 'white' : 'var(--text-secondary)',
+                boxShadow: filter === cat ? '0 16px 32px color-mix(in srgb, var(--panel-glow) 26%, transparent)' : 'none',
               }}
             >
               {cat}
@@ -64,10 +65,9 @@ export function ProjectsPanel() {
               onClick={() => setSelected(isSelected ? null : project.id)}
               onMouseEnter={() => setCursorVariant('link')}
               onMouseLeave={() => setCursorVariant('default')}
-              className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 border ${isSelected ? 'glass-strong' : 'glass'}`}
+              className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
               style={{
-                borderColor: isSelected ? 'var(--border-strong)' : 'var(--border)',
-                boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset` : undefined,
+                boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12` : undefined,
               }}
             >
               <div className="absolute inset-x-0 top-0 h-24 opacity-60 pointer-events-none" style={{ background: `linear-gradient(180deg, ${project.color}22, transparent)` }} />
@@ -87,7 +87,7 @@ export function ProjectsPanel() {
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-base font-semibold text-(--text-primary)">{project.name}</h3>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-(--text-muted) font-mono-space">
+                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">
                     {project.year} • {project.category}
                   </div>
                 </div>
@@ -99,7 +99,7 @@ export function ProjectsPanel() {
                 {project.tech.slice(0, 5).map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs px-2.5 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] text-(--text-secondary) border border-(--border)"
+                    className="text-xs px-2.5 py-1.5 rounded-full panel-meta-chip"
                   >
                     {tech}
                   </span>
@@ -113,11 +113,12 @@ export function ProjectsPanel() {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="pt-4 border-t border-(--border)"
+                    className="pt-4"
+                    style={{ borderTop: '1px solid var(--panel-border)' }}
                   >
                     {project.highlights && project.highlights.length > 0 && (
-                      <div className="mb-4 rounded-[18px] bg-[rgba(11,16,32,0.68)] border border-(--border) p-4">
-                        <div className="text-[11px] uppercase tracking-[0.18em] text-(--accent-blue-bright) font-mono-space mb-3">
+                      <div className="mb-4 rounded-[18px] panel-card p-4">
+                        <div className="text-[11px] uppercase tracking-[0.18em] panel-eyebrow font-mono-space mb-3">
                           Destaques do projeto
                         </div>
                         <div className="flex flex-col gap-2">
@@ -167,8 +168,8 @@ function ProjectLink({
       onMouseEnter={() => setCursorVariant('link')}
       onMouseLeave={() => setCursorVariant('default')}
       className={`flex-1 flex items-center justify-center gap-2 px-3.5 py-3 rounded-2xl text-xs font-medium cursor-none transition-colors ${primary
-          ? 'bg-(--accent-blue) text-white hover:bg-[#1f4fd1]'
-          : 'border border-(--border) text-(--text-secondary) hover:bg-[rgba(255,255,255,0.04)]'
+          ? 'panel-cta'
+          : 'panel-cta-secondary hover:bg-[rgba(255,255,255,0.04)]'
         }`}
     >
       <Icon size={14} />

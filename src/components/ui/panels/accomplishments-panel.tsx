@@ -6,13 +6,13 @@ import { GraduationCap, Award, Trophy } from 'lucide-react'
 export function AccomplishmentsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="glass-strong p-6 sm:p-7">
+      <section className="panel-card-strong p-6 sm:p-7">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Trophy size={18} />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Marcos relevantes</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Marcos relevantes</div>
             <h2 className="text-2xl font-semibold text-(--text-primary)">Conquistas e reconhecimento</h2>
           </div>
         </div>
@@ -30,7 +30,7 @@ export function AccomplishmentsPanel() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06 }}
             whileHover={{ y: -4 }}
-            className="relative overflow-hidden rounded-3xl p-5 sm:p-6 cursor-none glass border border-(--border) transition-all"
+            className="relative overflow-hidden rounded-3xl p-5 sm:p-6 cursor-none panel-card transition-all"
           >
             <div className="absolute inset-x-0 top-0 h-20 opacity-60 pointer-events-none" style={{ background: `linear-gradient(180deg, ${item.color}20, transparent)` }} />
 
@@ -38,19 +38,19 @@ export function AccomplishmentsPanel() {
               <motion.div
                 animate={{ y: [0, -3, 0] }}
                 transition={{ duration: 2.5 + i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
-                className="mb-4 flex justify-start text-(--accent-blue-bright)"
+                className="mb-4 flex justify-start"
               >
                 {(() => {
                   const IconComp = (LucideIcons as any)[item.icon] || Award
                   return (
-                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center border border-(--border)" style={{ background: `${item.color}18` }}>
+                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background: `${item.color}18`, border: `1px solid ${item.color}40`, boxShadow: `0 0 24px ${item.color}15` }}>
                       <IconComp size={20} style={{ color: item.color }} />
                     </div>
                   )
                 })()}
               </motion.div>
 
-              <div className="text-[11px] uppercase tracking-[0.18em] text-(--text-muted) font-mono-space mb-2">{item.category}</div>
+              <div className="text-[11px] uppercase tracking-[0.18em] panel-eyebrow font-mono-space mb-2">{item.category}</div>
               <h3 className="text-base font-semibold text-(--text-primary) mb-2">{item.title}</h3>
               <p className="text-sm text-(--text-secondary) leading-7">{item.description}</p>
             </div>
@@ -59,13 +59,13 @@ export function AccomplishmentsPanel() {
       </div>
 
       {CERTIFICATES.length > 0 && (
-        <section className="glass p-6 sm:p-7">
+        <section className="panel-shell p-6 sm:p-7">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
               <GraduationCap size={18} />
             </div>
             <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Formação complementar</div>
+              <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Formação complementar</div>
               <h3 className="text-lg font-semibold text-(--text-primary)">Certificados</h3>
             </div>
           </div>
@@ -78,7 +78,7 @@ export function AccomplishmentsPanel() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.06 + 0.2 }}
                 whileHover={{ x: 4 }}
-                className="flex items-start gap-4 p-4 rounded-[22px] cursor-none bg-[rgba(11,16,32,0.68)] border border-(--border) transition-all"
+                className="flex items-start gap-4 p-4 rounded-[22px] cursor-none panel-card transition-all"
               >
                 {cert.image ? (
                   <img src={cert.image} alt={cert.name} className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover shrink-0 border border-(--border)" />
@@ -88,7 +88,7 @@ export function AccomplishmentsPanel() {
 
                 <div className="flex-1 min-w-0">
                   <div className="text-base font-semibold text-(--text-primary)">{cert.name}</div>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] text-(--accent-blue-bright) font-mono-space">
+                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">
                     {cert.issuer} • {cert.year}
                   </div>
                   {cert.description && (

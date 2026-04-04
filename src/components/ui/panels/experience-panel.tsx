@@ -8,13 +8,13 @@ export function ExperiencePanel() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="glass-strong p-6 sm:p-7">
+      <section className="panel-card-strong p-6 sm:p-7">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <BriefcaseBusiness size={18} />
           </div>
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">Linha do tempo</div>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Linha do tempo</div>
             <h2 className="text-2xl font-semibold text-(--text-primary)">Experiência profissional</h2>
           </div>
         </div>
@@ -25,7 +25,7 @@ export function ExperiencePanel() {
       </section>
 
       <div className="relative">
-        <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-[linear-gradient(180deg,rgba(125,211,252,0.28),rgba(255,255,255,0.04))]" />
+        <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(180deg, var(--panel-border-strong), rgba(255,255,255,0.04))' }} />
 
         <div className="flex flex-col gap-4">
           {EXPERIENCE.map((exp, i) => {
@@ -41,21 +41,20 @@ export function ExperiencePanel() {
                 <div
                   className="absolute left-2.25 sm:left-4.25 top-7 w-3.5 h-3.5 rounded-full border-2 transition-all duration-300 z-10"
                   style={{
-                    background: isOpen ? 'var(--accent-blue)' : 'var(--deep-space)',
-                    borderColor: 'var(--accent-blue-bright)',
-                    boxShadow: isOpen ? '0 0 20px rgba(125,211,252,0.4)' : 'none',
+                    background: isOpen ? 'var(--panel-accent)' : 'var(--deep-space)',
+                    borderColor: 'var(--panel-accent)',
+                    boxShadow: isOpen ? '0 0 20px color-mix(in srgb, var(--panel-glow) 40%, transparent)' : 'none',
                   }}
                 />
 
                 <motion.article
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
                   whileHover={{ x: 3 }}
-                  className={`rounded-3xl px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
-                  style={{ borderColor: isOpen ? 'var(--border-strong)' : 'var(--border)' }}
+                  className={`rounded-3xl px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
                 >
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
-                      <div className="text-[11px] uppercase tracking-[0.16em] text-(--accent-blue-bright) font-mono-space mb-2">
+                      <div className="text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space mb-2">
                         {exp.type}
                       </div>
                       <h3 className="text-base sm:text-lg font-semibold text-(--text-primary)">{exp.role}</h3>
@@ -73,7 +72,7 @@ export function ExperiencePanel() {
 
                     <motion.div
                       animate={{ rotate: isOpen ? 90 : 0 }}
-                      className="shrink-0 text-(--accent-blue-bright) mt-1"
+                      className="shrink-0 panel-highlight-text mt-1"
                     >
                       <ChevronRight size={18} />
                     </motion.div>
@@ -91,14 +90,14 @@ export function ExperiencePanel() {
                         <p className="text-sm leading-7 text-(--text-secondary) mt-5 mb-5">{exp.description}</p>
 
                         {exp.achievements.length > 0 && (
-                          <div className="bg-[rgba(11,16,32,0.68)] rounded-[20px] px-4 py-4 mb-4 border border-(--border)">
-                            <div className="text-[11px] font-semibold text-(--accent-blue-bright) tracking-[0.18em] uppercase font-mono-space mb-3">
+                          <div className="panel-card rounded-[20px] px-4 py-4 mb-4">
+                            <div className="text-[11px] font-semibold panel-eyebrow tracking-[0.18em] uppercase font-mono-space mb-3">
                               Principais entregas
                             </div>
                             <div className="flex flex-col gap-2">
                               {exp.achievements.map((ach, ai) => (
                                 <div key={ai} className="flex gap-2.5">
-                                  <ChevronRight size={14} className="shrink-0 text-(--accent-blue-bright) mt-1" />
+                                  <ChevronRight size={14} className="shrink-0 panel-highlight-text mt-1" />
                                   <span className="text-xs text-(--text-secondary) leading-6">{ach}</span>
                                 </div>
                               ))}
@@ -110,7 +109,7 @@ export function ExperiencePanel() {
                           {exp.tech.map((tech) => (
                             <span
                               key={tech}
-                              className="text-xs px-3 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] border border-(--border) text-(--text-secondary)"
+                              className="text-xs px-3 py-1.5 rounded-full panel-meta-chip"
                             >
                               {tech}
                             </span>

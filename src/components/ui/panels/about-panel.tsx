@@ -15,26 +15,26 @@ export function AboutPanel() {
 
   return (
     <motion.div variants={container} initial="hidden" animate="visible" className="flex flex-col gap-8 sm:gap-10">
-      <motion.section variants={item} className="glass-strong relative overflow-hidden p-6 sm:p-7">
-        <div className="absolute inset-0 opacity-60 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(125,211,252,0.18),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(247,185,85,0.10),transparent_32%)]" />
+      <motion.section variants={item} className="panel-card-strong p-6 sm:p-7">
 
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-3 rounded-full border border-[rgba(125,211,252,0.22)]"
-              style={{ borderStyle: 'dashed' }}
+              className="absolute -inset-3 rounded-full border"
+              style={{ borderColor: 'var(--panel-border)', borderStyle: 'dashed' }}
             />
             <img
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
-              className="w-32 h-32 sm:w-36 sm:h-36 rounded-[28px] object-cover border border-[rgba(125,211,252,0.24)] shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              className="w-32 h-32 sm:w-36 sm:h-36 rounded-[28px] object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              style={{ borderColor: 'var(--panel-border-strong)' }}
             />
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[rgba(125,211,252,0.18)] bg-[rgba(125,211,252,0.08)] text-[11px] tracking-[0.2em] uppercase text-(--accent-blue-bright) font-mono-space">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full panel-meta-chip text-[11px] tracking-[0.2em] uppercase font-mono-space">
               <Radar size={12} />
               Perfil em foco
             </div>
@@ -59,10 +59,10 @@ export function AboutPanel() {
         {DEVELOPER.stats.map((stat, index) => (
           <div
             key={stat.label}
-            className="glass relative overflow-hidden p-4 sm:p-5 border border-(--border)"
+            className="panel-card relative overflow-hidden p-4 sm:p-5"
             style={{
               background: `linear-gradient(180deg, rgba(18,28,52,0.86), rgba(8,13,25,0.72)), radial-gradient(circle at top right, ${
-                index === 0 ? 'rgba(125,211,252,0.18)' : index === 1 ? 'rgba(43,111,255,0.18)' : 'rgba(247,185,85,0.12)'
+                index === 0 ? 'var(--panel-accent-soft)' : index === 1 ? 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' : 'color-mix(in srgb, var(--panel-accent) 12%, transparent)'
               }, transparent 45%)`,
             }}
           >
@@ -120,13 +120,13 @@ function PanelBlock({
   children: React.ReactNode
 }) {
   return (
-    <motion.section variants={item} className="glass p-6 sm:p-7">
+    <motion.section variants={item} className="panel-shell p-6 sm:p-7">
       <div className="flex items-start gap-4 mb-5">
-        <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-[rgba(125,211,252,0.1)] border border-[rgba(125,211,252,0.18)] text-(--accent-blue-bright)">
+        <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
           <Icon size={18} />
         </div>
         <div>
-          <div className="text-[11px] uppercase tracking-[0.2em] text-(--text-muted) font-mono-space">{eyebrow}</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">{eyebrow}</div>
           <h2 className="mt-1 text-xl font-semibold text-(--text-primary)">{title}</h2>
         </div>
       </div>
@@ -154,8 +154,8 @@ function ContactButton({
       whileHover={{ y: -2, scale: 1.02 }}
       onMouseEnter={() => setCursorVariant('link')}
       onMouseLeave={() => setCursorVariant('default')}
-      className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl glass text-sm font-medium text-(--text-primary)
-                 border border-(--border) hover:border-(--accent-blue-bright) transition-colors cursor-none"
+      className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl panel-card text-sm font-medium text-(--text-primary)
+                 hover:opacity-95 transition-colors cursor-none"
     >
       <Icon size={16} />
       {label}
@@ -165,8 +165,8 @@ function ContactButton({
 
 function InfoPill({ icon: Icon, label }: { icon: typeof Sparkles; label: string }) {
   return (
-    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[rgba(255,255,255,0.04)] border border-(--border) text-(--text-secondary)">
-      <Icon size={13} className="text-(--accent-blue-bright)" />
+    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full panel-meta-chip">
+      <Icon size={13} />
       <span>{label}</span>
     </div>
   )
