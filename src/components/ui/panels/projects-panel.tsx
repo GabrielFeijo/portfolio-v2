@@ -1,37 +1,33 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PROJECTS } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
+import { PROJECTS, type Project, type ProjectCategory } from '@/data/portfolio'
+import { useSpaceStore, type CursorVariant } from '@/store/space-store'
 import { ExternalLink, Code, Layers3 } from 'lucide-react'
+import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
+import { PanelBulletList, PanelImageFrame, PanelInsetCard, PanelTagList, PanelTopGlow } from './panel-content-primitives'
+
+const ALL_PROJECTS_FILTER = 'Todos' as const
+type ProjectFilter = ProjectCategory | typeof ALL_PROJECTS_FILTER
 
 export function ProjectsPanel() {
   const { setCursorVariant } = useSpaceStore()
   const [selected, setSelected] = useState<string | null>(PROJECTS[0]?.id ?? null)
-  const [filter, setFilter] = useState<string>('Todos')
+  const [filter, setFilter] = useState<ProjectFilter>(ALL_PROJECTS_FILTER)
+  const linkCursor = createCursorHandlers(setCursorVariant)
 
-  const categories = ['Todos', ...Array.from(new Set(PROJECTS.map((p) => p.category)))]
-  const filtered = filter === 'Todos' ? PROJECTS : PROJECTS.filter((p) => p.category === filter)
+  const categories: ProjectFilter[] = [ALL_PROJECTS_FILTER, ...Array.from(new Set(PROJECTS.map((project) => project.category)))]
+  const filtered = filter === ALL_PROJECTS_FILTER ? PROJECTS : PROJECTS.filter((project) => project.category === filter)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="panel-card-strong p-6 sm:p-7">
-        <div className="panel-orbit-grid" />
-        <div className="panel-surface-dust" />
-        <div className="panel-orbit-ring -right-14 -top-14 h-40 w-40" />
-        <div className="panel-core-glow left-10 top-8 h-24 w-24" />
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
-            <Layers3 size={18} />
-          </div>
-          <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Cases selecionados</div>
-            <h2 className="text-2xl font-semibold text-(--text-primary)">Projetos e produtos</h2>
-          </div>
-        </div>
-
-        <p className="mt-4 text-sm text-(--text-secondary) leading-7 max-w-2xl">
-          Uma seleção de projetos autorais, produtos entregues e experimentos que ajudam a contar minha trajetória com mais profundidade.
-        </p>
+      <PanelIntroCard
+        icon={Layers3}
+        eyebrow="Cases selecionados"
+        title="Projetos e produtos"
+        description="Uma seleção de projetos autorais, produtos entregues e experimentos que ajudam a contar minha trajetória com mais profundidade."
+        ringClassName="-right-14 -top-14 h-40 w-40"
+        glowClassName="left-10 top-8 h-24 w-24"
+      >
 
         <div className="mt-5 flex gap-2 flex-wrap">
           {categories.map((cat) => (
@@ -40,8 +36,7 @@ export function ProjectsPanel() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setFilter(cat)}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
+              {...linkCursor}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium cursor-none transition-all duration-200 border"
               style={{
                 background: filter === cat ? 'linear-gradient(180deg, var(--panel-accent), var(--panel-glow))' : 'rgba(255,255,255,0.03)',
@@ -54,99 +49,100 @@ export function ProjectsPanel() {
             </motion.button>
           ))}
         </div>
-      </section>
+      </PanelIntroCard>
 
       <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
         {filtered.map((project, i) => {
-          const isSelected = selected === project.id
           return (
-            <motion.article
+            <ProjectCard
               key={project.id}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
+              project={project}
+              isSelected={selected === project.id}
+              onToggle={() => setSelected(selected === project.id ? null : project.id)}
               transition={{ delay: i * 0.05 }}
-              whileHover={{ y: -4 }}
-              onClick={() => setSelected(isSelected ? null : project.id)}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
-              className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
-              style={{
-                boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12` : undefined,
-              }}
-            >
-              <div className="absolute inset-x-0 top-0 h-24 opacity-60 pointer-events-none" style={{ background: `linear-gradient(180deg, ${project.color}22, transparent)` }} />
-
-              {project.featured && (
-                <div className="absolute top-4 right-4 text-[11px] font-semibold px-2.5 py-1 rounded-full panel-planet-badge text-(--text-primary)">
-                  Destaque
-                </div>
-              )}
-
-              {project.image && (
-                <div className="mb-4 overflow-hidden rounded-[18px]" style={{ border: '1px solid var(--panel-border)' }}>
-                  <img src={project.image} alt={project.name} className="w-full h-44 object-cover transition-transform duration-500 hover:scale-[1.03]" />
-                </div>
-              )}
-
-              <div className="mb-3 flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="text-base font-semibold text-(--text-primary)">{project.name}</h3>
-                  <div className="mt-1 text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">
-                    {project.year} • {project.category}
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-sm text-(--text-secondary) leading-7 mb-4 line-clamp-4">{project.description}</p>
-
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {project.tech.slice(0, 5).map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-xs px-2.5 py-1.5 rounded-full panel-meta-chip"
-                  >
-                    {tech}
-                  </span>
-                ))}
-                {project.tech.length > 5 && <span className="text-xs px-2 py-1.5 text-(--text-muted)">+{project.tech.length - 5}</span>}
-              </div>
-
-              <AnimatePresence>
-                {isSelected && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    className="pt-4"
-                    style={{ borderTop: '1px solid var(--panel-border)' }}
-                  >
-                    {project.highlights && project.highlights.length > 0 && (
-                      <div className="mb-4 rounded-[18px] panel-card p-4">
-                        <div className="text-[11px] uppercase tracking-[0.18em] panel-eyebrow font-mono-space mb-3">
-                          Destaques do projeto
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          {project.highlights.map((highlight) => (
-                            <div key={highlight} className="text-xs text-(--text-secondary) leading-6">
-                              • {highlight}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="flex gap-2">
-                      <ProjectLink href={project.live} label="Abrir projeto" icon={ExternalLink} primary setCursorVariant={setCursorVariant} />
-                      <ProjectLink href={project.github} label="Ver código" icon={Code} setCursorVariant={setCursorVariant} />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.article>
+              setCursorVariant={setCursorVariant}
+            />
           )
         })}
       </div>
     </motion.div>
+  )
+}
+
+function ProjectCard({
+  project,
+  isSelected,
+  onToggle,
+  transition,
+  setCursorVariant,
+}: {
+  project: Project
+  isSelected: boolean
+  onToggle: () => void
+  transition: { delay: number }
+  setCursorVariant: (variant: CursorVariant) => void
+}) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={transition}
+      whileHover={{ y: -4 }}
+      onClick={onToggle}
+      {...createCursorHandlers(setCursorVariant)}
+      className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
+      style={{
+        boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12` : undefined,
+      }}
+    >
+      <PanelTopGlow color={project.color} className="h-24" />
+
+      {project.featured && (
+        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary)">
+          Destaque
+        </div>
+      )}
+
+      {project.image && <PanelImageFrame src={project.image} alt={project.name} className="mb-4" />}
+
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <h3 className="text-base font-semibold text-(--text-primary)">{project.name}</h3>
+          <div className="mt-1 text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">
+            {project.year} • {project.category}
+          </div>
+        </div>
+      </div>
+
+      <p className="mb-4 line-clamp-4 text-sm leading-7 text-(--text-secondary)">{project.description}</p>
+      <PanelTagList items={project.tech} limit={5} className="mb-4 gap-1.5" />
+
+      <AnimatePresence>
+        {isSelected && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="pt-4"
+            style={{ borderTop: '1px solid var(--panel-border)' }}
+          >
+            {project.highlights && project.highlights.length > 0 && (
+              <PanelInsetCard className="mb-4">
+                <div className="mb-3 text-[11px] uppercase tracking-[0.18em] panel-eyebrow font-mono-space">
+                  Destaques do projeto
+                </div>
+                <PanelBulletList items={project.highlights} />
+              </PanelInsetCard>
+            )}
+
+            <div className="flex gap-2">
+              <ProjectLink href={project.live} label="Abrir projeto" icon={ExternalLink} primary setCursorVariant={setCursorVariant} />
+              <ProjectLink href={project.github} label="Ver código" icon={Code} setCursorVariant={setCursorVariant} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.article>
   )
 }
 
@@ -161,7 +157,7 @@ function ProjectLink({
   label: string
   icon: typeof ExternalLink
   primary?: boolean
-  setCursorVariant: (variant: 'default' | 'planet' | 'link' | 'drag') => void
+  setCursorVariant: (variant: CursorVariant) => void
 }) {
   return (
     <motion.a
@@ -169,8 +165,7 @@ function ProjectLink({
       target="_blank"
       rel="noopener noreferrer"
       whileHover={{ scale: 1.03 }}
-      onMouseEnter={() => setCursorVariant('link')}
-      onMouseLeave={() => setCursorVariant('default')}
+      {...createCursorHandlers(setCursorVariant)}
       className={`flex-1 flex items-center justify-center gap-2 px-3.5 py-3 rounded-2xl text-xs font-medium cursor-none transition-colors ${primary
           ? 'panel-cta'
           : 'panel-cta-secondary hover:bg-[rgba(255,255,255,0.04)]'

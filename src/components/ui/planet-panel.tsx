@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { useSpaceStore, PanelType } from '@/store/space-store'
+import { useSpaceStore } from '@/store/space-store'
 import * as LucideIcons from 'lucide-react'
-import { PLANETS } from '@/data/portfolio'
+import { PLANETS, type PanelId } from '@/data/portfolio'
 import { AboutPanel } from './panels/about-panel'
 import { SkillsPanel } from './panels/skills-panel'
 import { ProjectsPanel } from './panels/projects-panel'
@@ -9,8 +9,9 @@ import { ExperiencePanel } from './panels/experience-panel'
 import { AccomplishmentsPanel } from './panels/accomplishments-panel'
 import { ContactPanel } from './panels/contact-panel'
 import type { ComponentType, CSSProperties } from 'react'
+import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives'
 
-const PANELS: Record<string, ComponentType> = {
+const PANELS: Record<PanelId, ComponentType> = {
   about: AboutPanel,
   skills: SkillsPanel,
   projects: ProjectsPanel,
@@ -22,6 +23,7 @@ const PANELS: Record<string, ComponentType> = {
 export function PlanetPanel() {
   const { activePanel, closePanel, openPanel, setActivePlanet, setCursorVariant } = useSpaceStore()
   if (!activePanel) return null
+  const linkCursor = createCursorHandlers(setCursorVariant)
 
   const planet = PLANETS.find(p => p.id === activePanel)
   const PanelContent = PANELS[activePanel]
@@ -31,11 +33,11 @@ export function PlanetPanel() {
   const prev = PLANETS[idx - 1]
   const next = PLANETS[idx + 1]
 
-  const handleNav = (id: string) => {
-    closePanel() 
+  const handleNav = (id: PanelId) => {
+    closePanel()
     setTimeout(() => {
       setActivePlanet(id)
-      openPanel(id as PanelType)
+      openPanel(id)
     }, 800)
   }
 
@@ -55,7 +57,7 @@ export function PlanetPanel() {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-200 pointer-events-none flex"
     >
-      
+
       <div
         className="absolute inset-0 pointer-events-auto cursor-none"
         onClick={closePanel}
@@ -73,7 +75,7 @@ export function PlanetPanel() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 250, damping: 32, mass: 0.8 }}
-        className="relative w-full sm:w-[560px] h-full flex flex-col pointer-events-auto overflow-hidden"
+        className="relative w-full sm:w-140 h-full flex flex-col pointer-events-auto overflow-hidden"
         style={{
           ...panelTheme,
           background: `linear-gradient(280deg, rgba(2,2,10,0.85) 0%, rgba(5,5,15,0.65) 100%)`,
@@ -82,9 +84,9 @@ export function PlanetPanel() {
           borderLeft: `1px solid ${planet.glowColor}40`,
           boxShadow: `-40px 0 100px rgba(0,0,0,0.7), inset 1px 0 0 ${planet.glowColor}60, -80px 0 200px ${planet.glowColor}15`,
         }}
-        onClick={(e) => e.stopPropagation()} 
+        onClick={(e) => e.stopPropagation()}
       >
-        
+
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(${planet.glowColor} 1px, transparent 1px),
@@ -100,13 +102,12 @@ export function PlanetPanel() {
             borderBottom: `1px solid ${planet.glowColor}15`,
           }}
         >
-          
+
           <motion.button
             whileHover={{ scale: 1.15, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             onClick={closePanel}
-            onMouseEnter={() => setCursorVariant('link')}
-            onMouseLeave={() => setCursorVariant('default')}
+            {...linkCursor}
             className="absolute top-6 right-6 w-9 h-9 rounded-full flex items-center justify-center cursor-none
                        bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)]
                        text-[#F0F4FF] hover:bg-[rgba(255,255,255,0.15)] transition-colors z-10"
@@ -122,7 +123,7 @@ export function PlanetPanel() {
               style={{ background: `${planet.color}20`, border: `1px solid ${planet.glowColor}40`, boxShadow: `0 0 30px ${planet.glowColor}20` }}
             >
               {(() => {
-                const IconComp = (LucideIcons as any)[planet.icon] || LucideIcons.HelpCircle
+                const IconComp = getLucideIcon(planet.icon)
                 return <IconComp size={14} style={{ color: planet.color, filter: `drop-shadow(0 0 8px ${planet.glowColor})` }} />
               })()}
             </motion.div>
@@ -144,7 +145,7 @@ export function PlanetPanel() {
 
         <div
           className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-8 relative z-10"
-          style={{ scrollbarWidth: 'none' }} 
+          style={{ scrollbarWidth: 'none' }}
         >
           <PanelContent />
         </div>
@@ -158,8 +159,7 @@ export function PlanetPanel() {
             <motion.button
               whileHover={{ x: -6 }}
               onClick={() => handleNav(prev.id)}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
+              {...linkCursor}
               className="cursor-none font-display font-bold text-[10px] tracking-[0.2em] px-5 py-2.5 rounded-full
                          transition-colors hover:bg-[rgba(255,255,255,0.05)] flex items-center gap-2"
               style={{ border: `1px solid ${prev.glowColor}30`, color: prev.glowColor }}
@@ -173,8 +173,7 @@ export function PlanetPanel() {
             <motion.button
               whileHover={{ x: 6 }}
               onClick={() => handleNav(next.id)}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
+              {...linkCursor}
               className="cursor-none font-display font-bold text-[10px] tracking-[0.2em] px-5 py-2.5 rounded-full
                          transition-colors hover:bg-[rgba(255,255,255,0.05)] flex items-center gap-2"
               style={{ border: `1px solid ${next.glowColor}30`, color: next.glowColor }}

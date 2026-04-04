@@ -2,7 +2,7 @@ import { useRef, useState, useMemo, MutableRefObject } from 'react'
 import { useFrame, extend, ThreeEvent } from '@react-three/fiber'
 import { Text, Billboard } from '@react-three/drei'
 import * as THREE from 'three'
-import { useSpaceStore, PanelType } from '@/store/space-store'
+import { useSpaceStore } from '@/store/space-store'
 import type { Planet } from '@/data/portfolio'
 import { AdvancedAtmosphereMaterial, AAA_PlanetMaterial } from './planet-shaders'
 import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from './orbit-utils'
@@ -114,7 +114,7 @@ export function Planet3D({ planet, angleRef }: Planet3DProps) {
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation()
     setActivePlanet(planet.id)
-    setTimeout(() => openPanel(planet.id as PanelType), 800)
+    setTimeout(() => openPanel(planet.id), 800)
   }
 
   const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color])

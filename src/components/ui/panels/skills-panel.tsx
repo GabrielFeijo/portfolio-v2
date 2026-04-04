@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion'
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio'
 import { Code2, Server, Wrench, Sparkles } from 'lucide-react'
+import { PanelIconBadge, PanelIntroCard } from './panel-primitives'
+
+const SKILL_CATEGORIES = [
+  { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend, tone: 'var(--panel-accent-soft)' },
+  { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend, tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' },
+  { key: 'devops', label: 'DevOps e Plataforma', icon: Wrench, skills: SKILLS.devops, tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)' },
+] as const
 
 const getLevelText = (level: number) => {
   if (level >= 95) return 'Especialista'
@@ -11,41 +18,30 @@ const getLevelText = (level: number) => {
 }
 
 export function SkillsPanel() {
-  const categories = [
-    { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend, tone: 'var(--panel-accent-soft)' },
-    { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend, tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' },
-    { key: 'devops', label: 'DevOps e Plataforma', icon: Wrench, skills: SKILLS.devops, tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)' },
-  ]
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="panel-card-strong p-6 sm:p-7">
-        <div className="panel-orbit-grid" />
-        <div className="panel-surface-dust" />
-        <div className="panel-orbit-ring -left-10 -top-12 h-36 w-36" />
-        <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Mapa de capacidade</div>
-        <h2 className="mt-2 text-2xl font-semibold text-(--text-primary)">Habilidades e stack</h2>
-        <p className="mt-3 text-sm text-(--text-secondary) leading-7 max-w-2xl">
-          Uma visão equilibrada entre domínio técnico, repertório de ferramentas e capacidade de entrega em produto, frontend, backend e infraestrutura.
-        </p>
-      </section>
+      <PanelIntroCard
+        icon={Sparkles}
+        eyebrow="Mapa de capacidade"
+        title="Habilidades e stack"
+        description="Uma visão equilibrada entre domínio técnico, repertório de ferramentas e capacidade de entrega em produto, frontend, backend e infraestrutura."
+        ringClassName="-left-10 -top-12 h-36 w-36"
+      />
 
-      {categories.map((cat, ci) => (
+      {SKILL_CATEGORIES.map((cat, ci) => (
         <motion.section
           key={cat.key}
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: ci * 0.12 }}
-        className="panel-shell p-6 sm:p-7"
+          className="panel-shell p-6 sm:p-7"
         >
           <div className="panel-core-glow right-6 top-4 h-20 w-20" />
           <div className="flex items-center gap-3 mb-5">
-            <div
-              className="w-10 h-10 flex items-center justify-center rounded-2xl border panel-icon-chip"
+            <PanelIconBadge
+              icon={cat.icon}
               style={{ background: `linear-gradient(180deg, ${cat.tone}, rgba(255,255,255,0.02))` }}
-            >
-              <cat.icon size={18} />
-            </div>
+            />
             <div>
               <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Especialidade</div>
               <div className="text-lg font-semibold text-(--text-primary)">{cat.label}</div>
@@ -69,9 +65,7 @@ export function SkillsPanel() {
       >
         <div className="panel-orbit-ring -right-10 bottom-4 h-28 w-28" />
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
-            <Sparkles size={18} />
-          </div>
+          <PanelIconBadge icon={Sparkles} />
           <div>
             <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Expansão de repertório</div>
             <h3 className="text-lg font-semibold text-(--text-primary)">Competências complementares</h3>

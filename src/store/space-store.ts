@@ -1,21 +1,22 @@
 import { create } from 'zustand'
+import type { PanelId } from '@/data/portfolio'
 
-export type PanelType = 'about' | 'skills' | 'projects' | 'experience' | 'accomplishments' | 'contact' | null
+export type CursorVariant = 'default' | 'planet' | 'link' | 'drag'
 
 interface SpaceStore {
   activePlanet: string | null
   setActivePlanet: (id: string | null) => void
   
-  activePanel: PanelType
-  openPanel: (panel: PanelType) => void
+  activePanel: PanelId | null
+  openPanel: (panel: PanelId) => void
   closePanel: () => void
 
   helpOpen: boolean
   openHelp: () => void
   closeHelp: () => void
   
-  cursorVariant: 'default' | 'planet' | 'link' | 'drag'
-  setCursorVariant: (variant: 'default' | 'planet' | 'link' | 'drag') => void
+  cursorVariant: CursorVariant
+  setCursorVariant: (variant: CursorVariant) => void
   
   isLoaded: boolean
   setIsLoaded: (loaded: boolean) => void

@@ -1,4 +1,45 @@
-export const DEVELOPER = {
+export const PANEL_IDS = ['about', 'skills', 'projects', 'experience', 'accomplishments', 'contact'] as const
+
+export type PanelId = (typeof PANEL_IDS)[number]
+export type PlanetIconName = 'User' | 'Zap' | 'Hammer' | 'Clock' | 'Trophy' | 'Radio'
+export type AccomplishmentIconName = 'Trophy' | 'Rocket' | 'Zap' | 'GraduationCap' | 'Cloud' | 'Smartphone'
+export type SkillCategory = 'frontend' | 'backend' | 'devops'
+export const PROJECT_CATEGORIES = ['Frontend', 'Backend', 'Full Stack', 'Mobile', 'Portfolio'] as const
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]
+export const EXPERIENCE_TYPES = ['CLT', 'PJ', 'BOLSISTA'] as const
+export type ExperienceType = (typeof EXPERIENCE_TYPES)[number]
+
+export interface DeveloperEducation {
+  title: string
+  institution: string
+  period: string
+  description: string
+}
+
+export interface DeveloperStat {
+  label: string
+  value: string
+}
+
+export interface DeveloperProfile {
+  name: string
+  title: string
+  location: string
+  age: number
+  email: string
+  github: string
+  linkedin: string
+  website: string
+  profileImage: string
+  tagline: string
+  bio: string
+  availability: string
+  stats: DeveloperStat[]
+  summary: string[]
+  education: DeveloperEducation[]
+}
+
+export const DEVELOPER: DeveloperProfile = {
   name: 'Gabriel Feijó',
   title: 'Desenvolvedor Full Stack',
   location: 'Recife, Brasil',
@@ -32,7 +73,7 @@ export const DEVELOPER = {
 }
 
 export interface Planet {
-  id: string
+  id: PanelId
   name: string
   subtitle: string
   color: string
@@ -46,7 +87,7 @@ export interface Planet {
   orbitY?: number
   orbitPhase?: number
   atmosphereColor: string
-  icon: string
+  icon: PlanetIconName
   description: string
   type: 'rocky' | 'gas' | 'ice' | 'lava' | 'crystal' | 'oceanic' | 'forest' | 'star'
 }
@@ -72,7 +113,7 @@ export interface Project {
   color: string
   featured: boolean
   year: number
-  category: string
+  category: ProjectCategory
   image?: string
   highlights?: string[]
 }
@@ -82,7 +123,7 @@ export interface Experience {
   role: string
   company: string
   period: string
-  type: string
+  type: ExperienceType
   description: string
   achievements: string[]
   tech: string[]
@@ -90,7 +131,7 @@ export interface Experience {
 }
 
 export interface Accomplishment {
-  icon: string
+  icon: AccomplishmentIconName
   title: string
   description: string
   color: string
@@ -215,7 +256,7 @@ export const PLANETS: Planet[] = [
   },
 ]
 
-export const SKILLS: Record<string, SkillItem[]> = {
+export const SKILLS: Record<SkillCategory, SkillItem[]> = {
   frontend: [
     { name: 'React', level: 95, color: '#61DAFB' },
     { name: 'TypeScript', level: 94, color: '#3178C6' },

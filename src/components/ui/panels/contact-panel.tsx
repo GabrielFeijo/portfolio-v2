@@ -1,8 +1,9 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
 import { Code, Briefcase, Mail, Globe, Send, MapPin, MessageSquareQuote } from 'lucide-react'
+import { PanelIconBadge, PanelIntroCard, PanelMetaChip, PanelSection, createCursorHandlers } from './panel-primitives'
+import { useTemporaryFlag } from './use-temporary-flag'
 
 const contactLinks = [
   { icon: Code, label: 'GitHub', href: DEVELOPER.github, desc: 'Repositórios, estudos e projetos autorais' },
@@ -13,42 +14,30 @@ const contactLinks = [
 
 export function ContactPanel() {
   const { setCursorVariant } = useSpaceStore()
-  const [sent, setSent] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const { active: sent, trigger } = useTemporaryFlag(3500)
+  const linkCursor = createCursorHandlers(setCursorVariant)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 3500)
-    setForm({ name: '', email: '', message: '' })
+    const formElement = e.currentTarget
+    trigger()
+    formElement.reset()
   }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
-      <section className="panel-card-strong p-6 sm:p-7">
-        <div className="panel-orbit-grid" />
-        <div className="panel-surface-dust" />
-        <div className="panel-orbit-ring -right-12 -top-12 h-36 w-36" />
-        <div className="panel-core-glow left-8 top-8 h-20 w-20" />
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
-            <MessageSquareQuote size={18} />
-          </div>
-          <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Canal aberto</div>
-            <h2 className="text-2xl font-semibold text-(--text-primary)">Contato</h2>
-          </div>
-        </div>
-
-        <p className="mt-4 text-sm text-(--text-secondary) leading-7 max-w-2xl">
-          Aberto para oportunidades, freelas, colaborações ou uma boa conversa sobre tecnologia, produto e engenharia.
-        </p>
-
-        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full panel-meta-chip text-sm">
-          <MapPin size={16} />
+      <PanelIntroCard
+        icon={MessageSquareQuote}
+        eyebrow="Canal aberto"
+        title="Contato"
+        description="Aberto para oportunidades, freelas, colaborações ou uma boa conversa sobre tecnologia, produto e engenharia."
+        ringClassName="-right-12 -top-12 h-36 w-36"
+        glowClassName="left-8 top-8 h-20 w-20"
+      >
+        <PanelMetaChip icon={MapPin} className="mt-4 text-sm">
           {DEVELOPER.location}
-        </div>
-      </section>
+        </PanelMetaChip>
+      </PanelIntroCard>
 
       <div className="grid gap-3 md:grid-cols-2">
         {contactLinks.map((link) => {
@@ -61,13 +50,10 @@ export function ContactPanel() {
               rel={!link.href.startsWith('mailto:') ? 'noopener noreferrer' : undefined}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onMouseEnter={() => setCursorVariant('link')}
-              onMouseLeave={() => setCursorVariant('default')}
-              className="flex items-start gap-4 p-5 rounded-[22px] panel-card no-underline cursor-none transition-all hover:translate-y-[-2px]"
+              {...linkCursor}
+              className="flex items-start gap-4 p-5 rounded-[22px] panel-card no-underline cursor-none transition-all hover:-translate-y-0.5"
             >
-              <div className="w-11 h-11 rounded-2xl flex items-center justify-center panel-icon-chip shrink-0">
-                <Icon size={18} />
-              </div>
+              <PanelIconBadge icon={Icon} className="h-11 w-11 shrink-0" />
 
               <div className="min-w-0">
                 <div className="text-sm font-semibold text-(--text-primary)">{link.label}</div>
@@ -78,18 +64,12 @@ export function ContactPanel() {
         })}
       </div>
 
-      <section className="panel-shell p-6 sm:p-7">
-        <div className="panel-orbit-ring -left-8 bottom-5 h-24 w-24" />
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
-            <Send size={18} />
-          </div>
-          <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Mensagem rápida</div>
-            <h3 className="text-lg font-semibold text-(--text-primary)">Enviar mensagem</h3>
-          </div>
-        </div>
-
+      <PanelSection
+        icon={Send}
+        eyebrow="Mensagem rápida"
+        title="Enviar mensagem"
+        ringClassName="-left-8 bottom-5 h-24 w-24"
+      >
         <p className="text-sm text-(--text-secondary) leading-7 mb-5">
           Este formulário funciona como um atalho visual dentro do portfólio. Para contato imediato, GitHub, LinkedIn e email acima são os canais mais rápidos.
         </p>
@@ -99,8 +79,6 @@ export function ContactPanel() {
             <input
               type="text"
               placeholder="Seu nome"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
               className="px-4 py-3 rounded-2xl panel-input text-sm transition-colors cursor-none"
             />
@@ -108,8 +86,6 @@ export function ContactPanel() {
             <input
               type="email"
               placeholder="voce@email.com"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
               className="px-4 py-3 rounded-2xl panel-input text-sm transition-colors cursor-none"
             />
@@ -117,8 +93,6 @@ export function ContactPanel() {
 
           <textarea
             placeholder="Conte brevemente sobre a oportunidade, projeto ou ideia."
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
             rows={5}
             required
             className="px-4 py-3 rounded-[22px] panel-input text-sm resize-none transition-colors cursor-none"
@@ -128,14 +102,13 @@ export function ContactPanel() {
             type="submit"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
-            onMouseEnter={() => setCursorVariant('link')}
-            onMouseLeave={() => setCursorVariant('default')}
+            {...linkCursor}
             className="px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors"
           >
             {sent ? '✓ Mensagem recebida!' : 'Enviar mensagem'}
           </motion.button>
         </form>
-      </section>
+      </PanelSection>
     </motion.div>
   )
 }
