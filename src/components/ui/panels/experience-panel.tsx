@@ -39,7 +39,7 @@ export function ExperiencePanel() {
                 className="pl-10 sm:pl-16 relative"
               >
                 <div
-                  className="absolute left-[9px] sm:left-[17px] top-7 w-3.5 h-3.5 rounded-full border-2 transition-all duration-300 z-10"
+                  className="absolute left-2.25 sm:left-4.25 top-7 w-3.5 h-3.5 rounded-full border-2 transition-all duration-300 z-10"
                   style={{
                     background: isOpen ? 'var(--accent-blue)' : 'var(--deep-space)',
                     borderColor: 'var(--accent-blue-bright)',
@@ -50,7 +50,7 @@ export function ExperiencePanel() {
                 <motion.article
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
                   whileHover={{ x: 3 }}
-                  className={`rounded-[24px] px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
+                  className={`rounded-3xl px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 border ${isOpen ? 'glass-strong' : 'glass'}`}
                   style={{ borderColor: isOpen ? 'var(--border-strong)' : 'var(--border)' }}
                 >
                   <div className="flex justify-between items-start gap-4">

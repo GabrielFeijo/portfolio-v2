@@ -431,7 +431,7 @@ export const EXPERIENCE: Experience[] = [
     role: 'Desenvolvedor Full Stack',
     company: 'Loopert',
     period: '08/2024 — 11/2025',
-    type: 'CLT',
+    type: 'PJ',
     description: 'Empresa especializada em soluções tecnológicas para o mercado de rádio, com foco em interfaces modernas, APIs robustas e integrações de alto impacto.',
     achievements: [
       'Integrações completas com as APIs da Meta para WhatsApp',
@@ -447,7 +447,7 @@ export const EXPERIENCE: Experience[] = [
     role: 'Desenvolvedor Full Stack',
     company: 'Invoer',
     period: '07/2024 — 11/2025',
-    type: 'CLT',
+    type: 'PJ',
     description: 'Desenvolvimento de soluções personalizadas para projetos com foco em Business Intelligence, Data Science e Engenharia de Dados.',
     achievements: [
       'Interfaces com React, Next.js, Tailwind CSS e Shadcn/UI',
@@ -463,7 +463,7 @@ export const EXPERIENCE: Experience[] = [
     role: 'Desenvolvedor Full Stack',
     company: 'Arsenal Inovação',
     period: '07/2023 — 07/2024',
-    type: 'CLT',
+    type: 'PJ',
     description: 'Responsável pela criação da Arsenal Academy, produto educacional focado em empreendedorismo para universitários, conduzindo frontend, backend e infraestrutura.',
     achievements: [
       'Criação da plataforma do zero',
@@ -479,7 +479,7 @@ export const EXPERIENCE: Experience[] = [
     role: 'Desenvolvedor',
     company: 'SENAI - Projeto FACEPE',
     period: '01/2023 — 12/2023',
-    type: 'Projeto',
+    type: 'BOLSISTA',
     description: 'Projeto de cartografia rápida para prevenção de riscos com monitoramento contínuo de encostas urbanas a partir de múltiplas fontes de dados.',
     achievements: [
       'Desenvolvimento do website com WordPress',
