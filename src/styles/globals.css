@@ -381,6 +381,55 @@
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--panel-accent) 25%, transparent);
   }
 
+  .panel-orbit-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    background-image:
+      linear-gradient(var(--panel-accent-faint) 1px, transparent 1px),
+      linear-gradient(90deg, var(--panel-accent-faint) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(180deg, black, transparent 85%);
+  }
+
+  .panel-orbit-ring {
+    position: absolute;
+    border-radius: 999px;
+    border: 1px solid var(--panel-border);
+    pointer-events: none;
+    opacity: 0.7;
+    box-shadow: 0 0 32px color-mix(in srgb, var(--panel-glow) 10%, transparent);
+  }
+
+  .panel-core-glow {
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    background: radial-gradient(circle, var(--panel-accent-soft), transparent 70%);
+    filter: blur(8px);
+    opacity: 0.85;
+  }
+
+  .panel-surface-dust {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background:
+      radial-gradient(circle at 14% 18%, color-mix(in srgb, var(--panel-accent) 22%, transparent) 0, transparent 18%),
+      radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--panel-glow) 18%, transparent) 0, transparent 20%),
+      radial-gradient(circle at 70% 74%, color-mix(in srgb, var(--panel-accent) 16%, transparent) 0, transparent 16%);
+  }
+
+  .panel-planet-badge {
+    border: 1px solid var(--panel-border-strong);
+    background:
+      radial-gradient(circle at top left, var(--panel-accent-soft), transparent 55%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
   .scanlines {
     position: fixed;
     inset: 0;
