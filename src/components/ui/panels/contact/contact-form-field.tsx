@@ -20,7 +20,7 @@ export function ContactFormField({
         {label}
       </span>
       {input}
-      <div className="flex min-h-[1.25rem] items-start justify-between gap-3">
+      <div className="flex min-h-5 items-start justify-between gap-3">
         <span className={cn('text-xs leading-5', error ? 'text-[#FF9A52]' : 'text-(--text-muted)')}>
           {error ?? ''}
         </span>

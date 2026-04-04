@@ -79,7 +79,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
             rows={5}
             aria-invalid={Boolean(errors.message)}
             {...register('message')}
-            className={getContactFieldClassName(Boolean(errors.message), 'min-h-[152px] resize-none rounded-[22px]')}
+            className={getContactFieldClassName(Boolean(errors.message), 'min-h-38 resize-none rounded-[22px]')}
           />
         }
       />
