@@ -1,7 +1,8 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useState } from 'react'
 import { useFrame, extend } from '@react-three/fiber'
-import { Sphere, Sparkles } from '@react-three/drei'
+import { Sphere, Sparkles, Billboard, Text } from '@react-three/drei'
 import * as THREE from 'three'
+import { useSpaceStore } from '@/store/space-store'
 import { SunMaterial } from './planet-shaders'
 
 extend({ SunMaterial })
@@ -18,11 +19,13 @@ declare module '@react-three/fiber' {
 }
 
 export function Sun3D() {
+  const { openHelp, setCursorVariant } = useSpaceStore()
   const sunRef = useRef<THREE.Mesh>(null)
   const sunMatRef = useRef<THREE.ShaderMaterial>(null)
-  
+  const [hovered, setHovered] = useState(false)
+
   const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
-  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []) 
+  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), [])
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime()
@@ -39,17 +42,6 @@ export function Sun3D() {
 
   return (
     <group>
-      <Sphere args={[16 + Math.random(), 32, 32]}>
-        <meshBasicMaterial
-          color="#ffd38a"
-          transparent
-          opacity={0.05}
-          side={THREE.BackSide}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </Sphere>
-
       <Sphere args={[6.5, 32, 32]}>
         <meshBasicMaterial
           color="#ff7a1a"
@@ -61,13 +53,27 @@ export function Sun3D() {
         />
       </Sphere>
 
-      <mesh ref={sunRef}>
+      <mesh
+        ref={sunRef}
+        onClick={(e) => {
+          e.stopPropagation()
+          openHelp()
+        }}
+        onPointerEnter={() => {
+          setHovered(true)
+          setCursorVariant('planet')
+        }}
+        onPointerLeave={() => {
+          setHovered(false)
+          setCursorVariant('default')
+        }}
+      >
         <sphereGeometry args={[4.5, 128, 128]} />
         <sunMaterial
           ref={sunMatRef}
           uColorPrimary={colPrimary}
           uColorSecondary={colSecondary}
-          uIntensity={4.5} 
+          uIntensity={4.5}
         />
       </mesh>
 
@@ -86,6 +92,31 @@ export function Sun3D() {
 
       <Sparkles count={320} scale={[14, 14, 14]} size={3.8} speed={0.9} color="#FFF4D6" opacity={0.65} />
       <Sparkles count={180} scale={[9, 9, 9]} size={5.4} speed={0.55} color="#FF7A1A" opacity={0.85} />
+
+      {hovered && (
+        <Billboard position={[0, 9.6, 0]}>
+          <Text
+            fontSize={0.58}
+            color="#FFD67A"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.02}
+            outlineColor="#341200"
+          >
+            AJUDA
+          </Text>
+          <Text
+            position={[0, -0.9, 0]}
+            fontSize={0.28}
+            color="#FFF4D6"
+            anchorX="center"
+            anchorY="middle"
+            fillOpacity={0.82}
+          >
+            Clique no sol para entender como navegar
+          </Text>
+        </Billboard>
+      )}
 
       <pointLight position={[0, 0, 0]} intensity={22} color="#FFF1D8" distance={520} decay={1.45} />
       <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />
