@@ -9,6 +9,10 @@ interface SpaceStore {
   activePanel: PanelType
   openPanel: (panel: PanelType) => void
   closePanel: () => void
+
+  helpOpen: boolean
+  openHelp: () => void
+  closeHelp: () => void
   
   cursorVariant: 'default' | 'planet' | 'link' | 'drag'
   setCursorVariant: (variant: 'default' | 'planet' | 'link' | 'drag') => void
@@ -27,6 +31,10 @@ export const useSpaceStore = create<SpaceStore>((set) => ({
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
   closePanel: () => set({ activePanel: null, activePlanet: null }),
+
+  helpOpen: false,
+  openHelp: () => set({ helpOpen: true, activePanel: null, activePlanet: null }),
+  closeHelp: () => set({ helpOpen: false }),
   
   cursorVariant: 'default',
   setCursorVariant: (variant) => set({ cursorVariant: variant }),

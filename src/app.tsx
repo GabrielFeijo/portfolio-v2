@@ -10,10 +10,11 @@ import { LoadingScreen } from '@/components/ui/loading-screen'
 import { PlanetPanel } from '@/components/ui/planet-panel'
 import { WarpEffect } from '@/components/ui/warp-effect'
 import { WebGLError } from '@/components/ui/webgl-error'
+import { HelpOverlay } from '@/components/ui/help-overlay'
 import { isWebGLAvailable } from '@/utils/webgl-check'
 
 export default function App() {
-  const { activePanel, isLoaded } = useSpaceStore()
+  const { activePanel, isLoaded, helpOpen } = useSpaceStore()
   const [hasWebGL, setHasWebGL] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function App() {
       <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
       <AnimatePresence>{isLoaded && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
       <WarpEffect />
     </div>
   )
