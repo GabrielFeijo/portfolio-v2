@@ -5,12 +5,22 @@ import { UIBadge, UIButton, UIIconTile, UIInset, UISurface } from './design-syst
 
 export function WebGLError() {
   useEffect(() => {
+    const previousHtmlOverflow = document.documentElement.style.overflow
+    const previousBodyOverflow = document.body.style.overflow
+
     document.body.classList.add('cursor-fallback-mode')
-    return () => document.body.classList.remove('cursor-fallback-mode')
+    document.documentElement.style.overflow = 'auto'
+    document.body.style.overflow = 'auto'
+
+    return () => {
+      document.body.classList.remove('cursor-fallback-mode')
+      document.documentElement.style.overflow = previousHtmlOverflow
+      document.body.style.overflow = previousBodyOverflow
+    }
   }, [])
 
   return (
-    <div className="relative flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-y-auto bg-[#040611] p-5 py-8 text-[#F0F4FF] font-body-exo sm:py-10">
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
