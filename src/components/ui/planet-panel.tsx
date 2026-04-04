@@ -8,7 +8,7 @@ import { ProjectsPanel } from './panels/projects-panel'
 import { ExperiencePanel } from './panels/experience-panel'
 import { AccomplishmentsPanel } from './panels/accomplishments-panel'
 import { ContactPanel } from './panels/contact-panel'
-import type { ComponentType } from 'react'
+import type { ComponentType, CSSProperties } from 'react'
 
 const PANELS: Record<string, ComponentType> = {
   about: AboutPanel,
@@ -39,6 +39,15 @@ export function PlanetPanel() {
     }, 800)
   }
 
+  const panelTheme = {
+    '--panel-accent': planet.color,
+    '--panel-glow': planet.glowColor,
+    '--panel-accent-soft': `${planet.color}20`,
+    '--panel-accent-faint': `${planet.glowColor}12`,
+    '--panel-border': `${planet.glowColor}22`,
+    '--panel-border-strong': `${planet.glowColor}48`,
+  } as CSSProperties
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -64,8 +73,9 @@ export function PlanetPanel() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 250, damping: 32, mass: 0.8 }}
-        className="relative w-full sm:w-[520px] h-full flex flex-col pointer-events-auto overflow-hidden"
+        className="relative w-full sm:w-[560px] h-full flex flex-col pointer-events-auto overflow-hidden"
         style={{
+          ...panelTheme,
           background: `linear-gradient(280deg, rgba(2,2,10,0.85) 0%, rgba(5,5,15,0.65) 100%)`,
           backdropFilter: 'blur(48px) saturate(160%)',
           WebkitBackdropFilter: 'blur(48px) saturate(160%)',
@@ -84,9 +94,9 @@ export function PlanetPanel() {
         />
 
         <div
-          className="flex flex-col px-10 py-10 shrink-0 relative"
+          className="flex flex-col px-8 py-8 sm:px-10 sm:py-9 shrink-0 relative"
           style={{
-            background: `radial-gradient(120% 100% at top left, ${planet.glowColor}25, transparent)`,
+            background: `radial-gradient(120% 100% at top left, ${planet.glowColor}28, transparent)`,
             borderBottom: `1px solid ${planet.glowColor}15`,
           }}
         >
@@ -108,15 +118,15 @@ export function PlanetPanel() {
             <motion.div
               animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="p-1 px-1.5 rounded-md flex items-center justify-center"
-              style={{ background: `${planet.color}20`, border: `1px solid ${planet.glowColor}40` }}
+              className="p-1.5 px-2 rounded-xl flex items-center justify-center"
+              style={{ background: `${planet.color}20`, border: `1px solid ${planet.glowColor}40`, boxShadow: `0 0 30px ${planet.glowColor}20` }}
             >
               {(() => {
                 const IconComp = (LucideIcons as any)[planet.icon] || LucideIcons.HelpCircle
                 return <IconComp size={14} style={{ color: planet.color, filter: `drop-shadow(0 0 8px ${planet.glowColor})` }} />
               })()}
             </motion.div>
-            <div className="font-mono-space text-[10px] text-[rgba(240,244,255,0.6)] tracking-[0.3em]">
+            <div className="font-mono-space text-[10px] text-[rgba(240,244,255,0.72)] tracking-[0.32em]">
               {planet.subtitle.toUpperCase()}
             </div>
           </div>
@@ -127,19 +137,19 @@ export function PlanetPanel() {
           >
             {planet.name}
           </div>
-          <div className="font-body-exo text-[13px] text-[rgba(240,244,255,0.4)] mt-3 max-w-[85%] font-light">
+          <div className="font-body-exo text-[13px] text-[rgba(240,244,255,0.55)] mt-3 max-w-[90%] font-light leading-6">
             {planet.description}
           </div>
         </div>
 
         <div
-          className="flex-1 overflow-y-auto px-10 py-8 relative z-10"
+          className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-8 relative z-10"
           style={{ scrollbarWidth: 'none' }} 
         >
           <PanelContent />
         </div>
 
-        <div className="flex justify-between px-10 py-6 shrink-0 relative z-10"
+        <div className="flex justify-between px-6 py-5 sm:px-8 sm:py-6 shrink-0 relative z-10"
           style={{
             background: `linear-gradient(to top, rgba(0,0,5,0.8), transparent)`,
             borderTop: `1px solid ${planet.glowColor}15`
