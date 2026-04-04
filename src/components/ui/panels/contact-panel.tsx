@@ -26,6 +26,10 @@ export function ContactPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <section className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -right-12 -top-12 h-36 w-36" />
+        <div className="panel-core-glow left-8 top-8 h-20 w-20" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <MessageSquareQuote size={18} />
@@ -75,6 +79,7 @@ export function ContactPanel() {
       </div>
 
       <section className="panel-shell p-6 sm:p-7">
+        <div className="panel-orbit-ring -left-8 bottom-5 h-24 w-24" />
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Send size={18} />

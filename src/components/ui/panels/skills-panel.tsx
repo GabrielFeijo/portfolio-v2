@@ -12,14 +12,17 @@ const getLevelText = (level: number) => {
 
 export function SkillsPanel() {
   const categories = [
-    { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend, tone: 'rgba(125,211,252,0.12)' },
-    { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend, tone: 'rgba(43,111,255,0.12)' },
-    { key: 'devops', label: 'DevOps e Plataforma', icon: Wrench, skills: SKILLS.devops, tone: 'rgba(247,185,85,0.10)' },
+    { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend, tone: 'var(--panel-accent-soft)' },
+    { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend, tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' },
+    { key: 'devops', label: 'DevOps e Plataforma', icon: Wrench, skills: SKILLS.devops, tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)' },
   ]
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <section className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -left-10 -top-12 h-36 w-36" />
         <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">Mapa de capacidade</div>
         <h2 className="mt-2 text-2xl font-semibold text-(--text-primary)">Habilidades e stack</h2>
         <p className="mt-3 text-sm text-(--text-secondary) leading-7 max-w-2xl">
@@ -33,8 +36,9 @@ export function SkillsPanel() {
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: ci * 0.12 }}
-          className="panel-shell p-6 sm:p-7"
+        className="panel-shell p-6 sm:p-7"
         >
+          <div className="panel-core-glow right-6 top-4 h-20 w-20" />
           <div className="flex items-center gap-3 mb-5">
             <div
               className="w-10 h-10 flex items-center justify-center rounded-2xl border panel-icon-chip"
@@ -63,6 +67,7 @@ export function SkillsPanel() {
         transition={{ delay: 0.4 }}
         className="panel-shell p-6 sm:p-7"
       >
+        <div className="panel-orbit-ring -right-10 bottom-4 h-28 w-28" />
         <div className="flex items-center gap-3 mb-5">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Sparkles size={18} />

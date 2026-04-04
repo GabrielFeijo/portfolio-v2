@@ -15,6 +15,10 @@ export function ProjectsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <section className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -right-14 -top-14 h-40 w-40" />
+        <div className="panel-core-glow left-10 top-8 h-24 w-24" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Layers3 size={18} />
@@ -73,13 +77,13 @@ export function ProjectsPanel() {
               <div className="absolute inset-x-0 top-0 h-24 opacity-60 pointer-events-none" style={{ background: `linear-gradient(180deg, ${project.color}22, transparent)` }} />
 
               {project.featured && (
-                <div className="absolute top-4 right-4 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.08)] text-(--text-primary)">
+                <div className="absolute top-4 right-4 text-[11px] font-semibold px-2.5 py-1 rounded-full panel-planet-badge text-(--text-primary)">
                   Destaque
                 </div>
               )}
 
               {project.image && (
-                <div className="mb-4 overflow-hidden rounded-[18px] border border-(--border)">
+                <div className="mb-4 overflow-hidden rounded-[18px]" style={{ border: '1px solid var(--panel-border)' }}>
                   <img src={project.image} alt={project.name} className="w-full h-44 object-cover transition-transform duration-500 hover:scale-[1.03]" />
                 </div>
               )}

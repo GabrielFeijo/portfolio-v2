@@ -16,6 +16,10 @@ export function AboutPanel() {
   return (
     <motion.div variants={container} initial="hidden" animate="visible" className="flex flex-col gap-8 sm:gap-10">
       <motion.section variants={item} className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -right-14 -top-16 h-44 w-44" />
+        <div className="panel-core-glow right-8 top-8 h-24 w-24" />
 
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
@@ -34,7 +38,7 @@ export function AboutPanel() {
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full panel-meta-chip text-[11px] tracking-[0.2em] uppercase font-mono-space">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full panel-planet-badge text-[11px] tracking-[0.2em] uppercase font-mono-space">
               <Radar size={12} />
               Perfil em foco
             </div>
@@ -88,9 +92,9 @@ export function AboutPanel() {
 
       <PanelBlock icon={GraduationCap} eyebrow="Base acadêmica" title="Formação">
         {DEVELOPER.education.map((entry) => (
-          <div key={entry.title} className="rounded-[20px] bg-[rgba(11,16,32,0.68)] border border-(--border) p-5">
+          <div key={entry.title} className="panel-card rounded-[20px] p-5">
             <div className="text-base font-semibold text-(--text-primary)">{entry.title}</div>
-            <div className="mt-1 text-xs uppercase tracking-[0.16em] text-(--accent-blue-bright)">
+            <div className="mt-1 text-xs uppercase tracking-[0.16em] panel-eyebrow">
               {entry.institution} • {entry.period}
             </div>
             <p className="text-sm text-(--text-secondary) leading-7 mt-4">{entry.description}</p>
@@ -100,7 +104,7 @@ export function AboutPanel() {
 
       <PanelBlock icon={Code} eyebrow="Abordagem" title="Visão de trabalho">
         <p className="text-sm text-(--text-secondary) leading-7 mb-4">{DEVELOPER.bio}</p>
-        <div className="rounded-[18px] border border-[rgba(125,211,252,0.16)] bg-[rgba(125,211,252,0.06)] px-4 py-3 text-sm text-(--text-primary)">
+        <div className="rounded-[18px] panel-planet-badge px-4 py-3 text-sm text-(--text-primary)">
           {DEVELOPER.availability}
         </div>
       </PanelBlock>

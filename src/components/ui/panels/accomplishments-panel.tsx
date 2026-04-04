@@ -7,6 +7,9 @@ export function AccomplishmentsPanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <section className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -right-16 -top-12 h-44 w-44" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <Trophy size={18} />
@@ -60,6 +63,7 @@ export function AccomplishmentsPanel() {
 
       {CERTIFICATES.length > 0 && (
         <section className="panel-shell p-6 sm:p-7">
+          <div className="panel-core-glow right-6 top-4 h-20 w-20" />
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
               <GraduationCap size={18} />
@@ -83,7 +87,7 @@ export function AccomplishmentsPanel() {
                 {cert.image ? (
                   <img src={cert.image} alt={cert.name} className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover shrink-0 border border-(--border)" />
                 ) : (
-                  <div className="w-3 h-3 rounded-full shrink-0 mt-2" style={{ background: 'var(--accent-blue)' }} />
+                  <div className="w-3 h-3 rounded-full shrink-0 mt-2" style={{ background: 'var(--panel-accent)' }} />
                 )}
 
                 <div className="flex-1 min-w-0">

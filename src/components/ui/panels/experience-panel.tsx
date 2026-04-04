@@ -9,6 +9,9 @@ export function ExperiencePanel() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <section className="panel-card-strong p-6 sm:p-7">
+        <div className="panel-orbit-grid" />
+        <div className="panel-surface-dust" />
+        <div className="panel-orbit-ring -left-12 -top-10 h-32 w-32" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center panel-icon-chip">
             <BriefcaseBusiness size={18} />
@@ -51,6 +54,9 @@ export function ExperiencePanel() {
                   onClick={() => setExpanded(isOpen ? null : exp.id)}
                   whileHover={{ x: 3 }}
                   className={`rounded-3xl px-5 py-5 sm:px-6 sm:py-6 cursor-none transition-all duration-200 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
+                  style={{
+                    boxShadow: isOpen ? '0 18px 40px rgba(0,0,0,0.24), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)' : undefined,
+                  }}
                 >
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
