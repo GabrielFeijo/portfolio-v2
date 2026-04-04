@@ -1,0 +1,55 @@
+import { motion } from 'framer-motion'
+import type { SkillItem } from '@/data/portfolio'
+
+const getLevelText = (level: number) => {
+  if (level >= 95) return 'Especialista'
+  if (level >= 85) return 'Avancado'
+  if (level >= 75) return 'Proficiente'
+  if (level >= 60) return 'Intermediario'
+  return 'Em evolucao'
+}
+
+interface SkillBarProps {
+  delay: number
+  skill: SkillItem
+}
+
+export function SkillBar({ delay, skill }: SkillBarProps) {
+  const levelText = getLevelText(skill.level)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay }}
+      className="relative overflow-hidden rounded-[20px] px-4 py-4 panel-card"
+    >
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${skill.level}%` }}
+        transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
+        className="absolute bottom-0 left-0 top-0 opacity-[0.08]"
+        style={{ background: `linear-gradient(90deg, ${skill.color}, transparent)` }}
+      />
+
+      <div className="relative z-10">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <span className="text-sm font-semibold text-(--text-primary)">{skill.name}</span>
+          <span className="font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">{levelText}</span>
+        </div>
+
+        <div className="h-2 w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.05)]">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${skill.level}%` }}
+            transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
+            className="h-full rounded-full"
+            style={{ background: `linear-gradient(90deg, ${skill.color}, rgba(255,255,255,0.92))` }}
+          />
+        </div>
+
+        <div className="mt-2 text-xs text-(--text-muted)">{skill.level}% de dominio percebido</div>
+      </div>
+    </motion.div>
+  )
+}

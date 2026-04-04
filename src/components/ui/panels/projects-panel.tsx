@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { PROJECTS, type Project, type ProjectCategory } from '@/data/portfolio'
-import { useSpaceStore, type CursorVariant } from '@/store/space-store'
-import { ExternalLink, Code, Layers3 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { PROJECTS, type ProjectCategory } from '@/data/portfolio'
+import { useSpaceStore } from '@/store/space-store'
+import { Layers3 } from 'lucide-react'
 import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
-import { PanelBulletList, PanelImageFrame, PanelInsetCard, PanelTagList, PanelTopGlow } from './panel-content-primitives'
+import { ProjectCard } from './projects/project-card'
 
 const ALL_PROJECTS_FILTER = 'Todos' as const
 type ProjectFilter = ProjectCategory | typeof ALL_PROJECTS_FILTER
@@ -66,113 +66,5 @@ export function ProjectsPanel() {
         })}
       </div>
     </motion.div>
-  )
-}
-
-function ProjectCard({
-  project,
-  isSelected,
-  onToggle,
-  transition,
-  setCursorVariant,
-}: {
-  project: Project
-  isSelected: boolean
-  onToggle: () => void
-  transition: { delay: number }
-  setCursorVariant: (variant: CursorVariant) => void
-}) {
-  return (
-    <motion.article
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={transition}
-      whileHover={{ y: -4 }}
-      onClick={onToggle}
-      {...createCursorHandlers(setCursorVariant)}
-      className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
-      style={{
-        boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12` : undefined,
-      }}
-    >
-      <PanelTopGlow color={project.color} className="h-24" />
-
-      {project.featured && (
-        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary)">
-          Destaque
-        </div>
-      )}
-
-      {project.image && <PanelImageFrame src={project.image} alt={project.name} className="mb-4" />}
-
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <h3 className="text-base font-semibold text-(--text-primary)">{project.name}</h3>
-          <div className="mt-1 text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">
-            {project.year} • {project.category}
-          </div>
-        </div>
-      </div>
-
-      <p className="mb-4 line-clamp-4 text-sm leading-7 text-(--text-secondary)">{project.description}</p>
-      <PanelTagList items={project.tech} limit={5} className="mb-4 gap-1.5" />
-
-      <AnimatePresence>
-        {isSelected && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="pt-4"
-            style={{ borderTop: '1px solid var(--panel-border)' }}
-          >
-            {project.highlights && project.highlights.length > 0 && (
-              <PanelInsetCard className="mb-4">
-                <div className="mb-3 text-[11px] uppercase tracking-[0.18em] panel-eyebrow font-mono-space">
-                  Destaques do projeto
-                </div>
-                <PanelBulletList items={project.highlights} />
-              </PanelInsetCard>
-            )}
-
-            <div className="flex gap-2">
-              <ProjectLink href={project.live} label="Abrir projeto" icon={ExternalLink} primary setCursorVariant={setCursorVariant} />
-              <ProjectLink href={project.github} label="Ver código" icon={Code} setCursorVariant={setCursorVariant} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.article>
-  )
-}
-
-function ProjectLink({
-  href,
-  label,
-  icon: Icon,
-  primary = false,
-  setCursorVariant,
-}: {
-  href: string
-  label: string
-  icon: typeof ExternalLink
-  primary?: boolean
-  setCursorVariant: (variant: CursorVariant) => void
-}) {
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      whileHover={{ scale: 1.03 }}
-      {...createCursorHandlers(setCursorVariant)}
-      className={`flex-1 flex items-center justify-center gap-2 px-3.5 py-3 rounded-2xl text-xs font-medium cursor-none transition-colors ${primary
-          ? 'panel-cta'
-          : 'panel-cta-secondary hover:bg-[rgba(255,255,255,0.04)]'
-        }`}
-    >
-      <Icon size={14} />
-      {label}
-    </motion.a>
   )
 }

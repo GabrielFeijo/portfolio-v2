@@ -2,11 +2,11 @@ import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore, type CursorVariant } from '@/store/space-store'
 import { Code, Briefcase, Mail, GraduationCap, Sparkles, MapPin, Radar } from 'lucide-react'
+import { AboutContactButton } from './about/about-contact-button'
+import { AboutInfoPill } from './about/about-info-pill'
 import {
   PanelBadge,
-  PanelMetaChip,
   PanelSection,
-  createCursorHandlers,
   panelFadeUp,
   panelStagger,
 } from './panel-primitives'
@@ -56,8 +56,8 @@ export function AboutPanel() {
             </motion.h1>
 
             <div className="mt-3 flex flex-wrap gap-2 text-xs">
-              <InfoPill icon={Sparkles} label={DEVELOPER.title} />
-              <InfoPill icon={MapPin} label={`${DEVELOPER.location} • ${DEVELOPER.age} anos`} />
+              <AboutInfoPill icon={Sparkles} label={DEVELOPER.title} />
+              <AboutInfoPill icon={MapPin} label={`${DEVELOPER.location} • ${DEVELOPER.age} anos`} />
             </div>
 
             <p className="mt-5 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
@@ -83,9 +83,9 @@ export function AboutPanel() {
       </motion.div>
 
       <motion.div variants={panelFadeUp} className="flex gap-3 flex-wrap">
-        <ContactButton href={DEVELOPER.github} label="GitHub" icon={Code} setCursorVariant={setCursorVariant} />
-        <ContactButton href={DEVELOPER.linkedin} label="LinkedIn" icon={Briefcase} setCursorVariant={setCursorVariant} />
-        <ContactButton href={`mailto:${DEVELOPER.email}`} label="Email" icon={Mail} setCursorVariant={setCursorVariant} />
+        <AboutContactButton href={DEVELOPER.github} label="GitHub" icon={Code} setCursorVariant={setCursorVariant} />
+        <AboutContactButton href={DEVELOPER.linkedin} label="LinkedIn" icon={Briefcase} setCursorVariant={setCursorVariant} />
+        <AboutContactButton href={`mailto:${DEVELOPER.email}`} label="Email" icon={Mail} setCursorVariant={setCursorVariant} />
       </motion.div>
 
       <PanelSection icon={Sparkles} eyebrow="Identidade" title="Sobre mim">
@@ -113,38 +113,5 @@ export function AboutPanel() {
         <PanelNotice>{DEVELOPER.availability}</PanelNotice>
       </PanelSection>
     </motion.div>
-  )
-}
-
-function ContactButton({
-  href,
-  label,
-  icon: Icon,
-  setCursorVariant,
-}: {
-  href: string
-  label: string
-  icon: typeof Code
-  setCursorVariant: (variant: CursorVariant) => void
-}) {
-  return (
-    <motion.a
-      href={href}
-      target={href.startsWith('mailto:') ? undefined : '_blank'}
-      rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-      whileHover={{ y: -2, scale: 1.02 }}
-      {...createCursorHandlers(setCursorVariant)}
-      className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl panel-card text-sm font-medium text-(--text-primary)
-                 hover:opacity-95 transition-colors cursor-none"
-    >
-      <Icon size={16} />
-      {label}
-    </motion.a>
-  )
-}
-
-function InfoPill({ icon: Icon, label }: { icon: typeof Sparkles; label: string }) {
-  return (
-    <PanelMetaChip icon={Icon}>{label}</PanelMetaChip>
   )
 }

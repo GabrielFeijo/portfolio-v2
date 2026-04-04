@@ -2,20 +2,13 @@ import { motion } from 'framer-motion'
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio'
 import { Code2, Server, Wrench, Sparkles } from 'lucide-react'
 import { PanelIconBadge, PanelIntroCard } from './panel-primitives'
+import { SkillBar } from './skills/skill-bar'
 
 const SKILL_CATEGORIES = [
   { key: 'frontend', label: 'Frontend', icon: Code2, skills: SKILLS.frontend, tone: 'var(--panel-accent-soft)' },
   { key: 'backend', label: 'Backend', icon: Server, skills: SKILLS.backend, tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' },
   { key: 'devops', label: 'DevOps e Plataforma', icon: Wrench, skills: SKILLS.devops, tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)' },
 ] as const
-
-const getLevelText = (level: number) => {
-  if (level >= 95) return 'Especialista'
-  if (level >= 85) return 'Avançado'
-  if (level >= 75) return 'Proficiente'
-  if (level >= 60) return 'Intermediário'
-  return 'Em evolução'
-}
 
 export function SkillsPanel() {
   return (
@@ -91,46 +84,6 @@ export function SkillsPanel() {
           ))}
         </div>
       </motion.section>
-    </motion.div>
-  )
-}
-
-function SkillBar({ skill, delay }: { skill: { name: string; level: number; color: string }; delay: number }) {
-  const levelText = getLevelText(skill.level)
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      className="relative overflow-hidden rounded-[20px] px-4 py-4 panel-card"
-    >
-      <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: `${skill.level}%` }}
-        transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
-        className="absolute left-0 top-0 bottom-0 opacity-[0.08]"
-        style={{ background: `linear-gradient(90deg, ${skill.color}, transparent)` }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex items-center justify-between gap-3 mb-2">
-          <span className="text-sm font-semibold text-(--text-primary)">{skill.name}</span>
-          <span className="text-[11px] uppercase tracking-[0.16em] panel-eyebrow font-mono-space">{levelText}</span>
-        </div>
-
-        <div className="w-full h-2 bg-[rgba(255,255,255,0.05)] rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${skill.level}%` }}
-            transition={{ delay: delay + 0.2, duration: 0.8, ease: 'easeOut' }}
-            className="h-full rounded-full"
-            style={{ background: `linear-gradient(90deg, ${skill.color}, rgba(255,255,255,0.92))` }}
-          />
-        </div>
-
-        <div className="mt-2 text-xs text-(--text-muted)">{skill.level}% de domínio percebido</div>
-      </div>
     </motion.div>
   )
 }
