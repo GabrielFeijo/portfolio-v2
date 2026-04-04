@@ -76,17 +76,17 @@ export function PlanetPanel() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
         transition={{ type: 'spring', stiffness: 250, damping: 32, mass: 0.8 }}
-        className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-[620px]"
+        className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
         style={panelTheme}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="panel-drawer">
           <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(${planet.glowColor} 1px, transparent 1px),
+            style={{
+              backgroundImage: `linear-gradient(${planet.glowColor} 1px, transparent 1px),
                               linear-gradient(90deg, ${planet.glowColor} 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-          }}
+              backgroundSize: '32px 32px',
+            }}
           />
 
           <div className="panel-drawer-header relative shrink-0 px-7 py-7 sm:px-8 sm:py-8">
