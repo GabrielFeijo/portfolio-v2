@@ -5,22 +5,15 @@ import { UIBadge, UIButton, UIIconTile, UIInset, UISurface } from './design-syst
 
 export function WebGLError() {
   useEffect(() => {
-    const previousHtmlOverflow = document.documentElement.style.overflow
-    const previousBodyOverflow = document.body.style.overflow
-
     document.body.classList.add('cursor-fallback-mode')
-    document.documentElement.style.overflow = 'auto'
-    document.body.style.overflow = 'auto'
 
     return () => {
       document.body.classList.remove('cursor-fallback-mode')
-      document.documentElement.style.overflow = previousHtmlOverflow
-      document.body.style.overflow = previousBodyOverflow
     }
   }, [])
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-y-auto bg-[#040611] p-5 py-8 text-[#F0F4FF] font-body-exo sm:py-10">
+    <div className="relative flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
@@ -31,11 +24,11 @@ export function WebGLError() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
-        <UISurface strong className="w-full max-w-[640px] px-6 py-7 sm:px-8 sm:py-8">
+        <UISurface strong className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-[640px] flex-col overflow-hidden">
           <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(255,122,26,0.2)]" />
           <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(0,212,255,0.18)]" />
 
-          <div className="relative">
+          <div className="relative overflow-y-auto px-6 py-7 sm:px-8 sm:py-8">
             <UIBadge tone="warm" className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]">
               <AlertTriangle size={14} />
               Modo de compatibilidade
@@ -82,14 +75,13 @@ export function WebGLError() {
                 volta automaticamente, já que o cursor estilizado depende da interface principal ter sido iniciada.
               </p>
             </UIInset>
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()} className="mt-7">
+              <UIButton variant="primary">
+                <RefreshCcw size={14} />
+                TENTAR NOVAMENTE
+              </UIButton>
+            </motion.button>
           </div>
-
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()} className="mt-7">
-            <UIButton variant="primary">
-              <RefreshCcw size={14} />
-              TENTAR NOVAMENTE
-            </UIButton>
-          </motion.button>
         </UISurface>
       </motion.div>
     </div>
