@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useSpaceStore } from '@/store/space-store'
 
@@ -17,6 +17,7 @@ const COLORS = {
 
 export function CustomCursor() {
   const { cursorVariant } = useSpaceStore()
+  const [isCursorCapable, setIsCursorCapable] = useState(false)
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
   const trailX  = useMotionValue(-100)
@@ -28,6 +29,25 @@ export function CustomCursor() {
   const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 })
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const updateCapability = () => {
+      const enabled = mediaQuery.matches
+      setIsCursorCapable(enabled)
+      document.body.classList.toggle('cursor-fallback-mode', !enabled)
+    }
+
+    updateCapability()
+    mediaQuery.addEventListener('change', updateCapability)
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateCapability)
+      document.body.classList.remove('cursor-fallback-mode')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isCursorCapable) return
+
     const move = (e: MouseEvent) => {
       cursorX.set(e.clientX - 8)
       cursorY.set(e.clientY - 8)
@@ -36,10 +56,12 @@ export function CustomCursor() {
     }
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
-  }, [cursorX, cursorY, trailX, trailY])
+  }, [cursorX, cursorY, isCursorCapable, trailX, trailY])
 
   const current = VARIANTS[cursorVariant as keyof typeof VARIANTS] || VARIANTS.default
   const color   = COLORS[cursorVariant as keyof typeof COLORS]    || COLORS.default
+
+  if (!isCursorCapable) return null
 
   return (
     <>
