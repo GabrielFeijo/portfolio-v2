@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { AlertTriangle, RefreshCcw, ShieldCheck, Cpu, AppWindow } from 'lucide-react'
+import { AlertTriangle, RefreshCcw, ShieldCheck, Cpu, AppWindow, ExternalLink } from 'lucide-react'
 import { UIBadge, UIButton, UIIconTile, UIInset, UISurface } from './design-system'
 
 export function WebGLError() {
@@ -17,7 +17,7 @@ export function WebGLError() {
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,122,26,0.16),_transparent_28%),radial-gradient(circle_at_bottom,_rgba(0,212,255,0.12),_transparent_32%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,122,26,0.16),transparent_28%),radial-gradient(circle_at_bottom,rgba(0,212,255,0.12),transparent_32%)]" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -35,7 +35,7 @@ export function WebGLError() {
             </UIBadge>
 
             <div className="mb-6 flex items-start gap-4">
-              <UIIconTile icon={AlertTriangle} tone="warm" className="h-[3.75rem] w-[3.75rem] shrink-0 rounded-[22px]" />
+              <UIIconTile icon={AlertTriangle} tone="warm" className="h-15 w-15 shrink-0 rounded-[22px]" />
 
               <div>
                 <h1 className="font-display text-[24px] font-extrabold uppercase tracking-[0.12em] text-[#FFF3E8] sm:text-[28px]">
@@ -75,12 +75,28 @@ export function WebGLError() {
                 volta automaticamente, já que o cursor estilizado depende da interface principal ter sido iniciada.
               </p>
             </UIInset>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()} className="mt-7">
-              <UIButton variant="primary">
-                <RefreshCcw size={14} />
-                TENTAR NOVAMENTE
-              </UIButton>
-            </motion.button>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()}>
+                <UIButton variant="primary">
+                  <RefreshCcw size={14} />
+                  TENTAR NOVAMENTE
+                </UIButton>
+              </motion.button>
+
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href='https://gabrielfeijo.com.br'
+                target="_blank"
+                rel="noreferrer"
+              >
+                <UIButton>
+                  <ExternalLink size={14} />
+                  ABRIR PORTFOLIO V1
+                </UIButton>
+              </motion.a>
+            </div>
           </div>
         </UISurface>
       </motion.div>
