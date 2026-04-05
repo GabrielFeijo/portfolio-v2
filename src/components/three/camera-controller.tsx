@@ -8,7 +8,7 @@ import { getPlanetPosition } from './orbit-utils'
 
 export function CameraController({ planetAngles }: { planetAngles: React.MutableRefObject<Record<string, number>> }) {
   const controlsRef = useRef<CameraControls>(null)
-  const { camera } = useThree()
+  const { camera, size } = useThree()
   const { activePlanet, activePanel, warpActive, setWarpActive } = useSpaceStore()
 
   const idleCameraPos = useRef(new THREE.Vector3(-14, 24, 68))
@@ -43,7 +43,20 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
         const py = position.y
         const pz = position.z
 
-        const xOffset = 7.5
+        const perspectiveCamera = camera as THREE.PerspectiveCamera
+        const panelWidthPx = size.width >= 640 ? Math.min(620, size.width) : 0
+        const halfPanelPx = panelWidthPx * 0.5
+
+        const baseCameraPos = new THREE.Vector3(px, py + planet.size + 5, pz + offsetDist)
+        const baseTargetPos = new THREE.Vector3(px, py, pz)
+        const focusDistance = baseCameraPos.distanceTo(baseTargetPos)
+
+        const verticalFovRad = THREE.MathUtils.degToRad(perspectiveCamera.fov)
+        const horizontalFovRad = 2 * Math.atan(Math.tan(verticalFovRad * 0.5) * perspectiveCamera.aspect)
+        const visibleWidthAtTarget = 2 * focusDistance * Math.tan(horizontalFovRad * 0.5)
+        const worldUnitsPerPixel = visibleWidthAtTarget / Math.max(size.width, 1)
+        const xOffset = halfPanelPx * worldUnitsPerPixel
+
         controls.setLookAt(px + xOffset, py + planet.size + 5, pz + offsetDist, px + xOffset * 0.45, py, pz, true)
       }
     } else {
@@ -57,7 +70,7 @@ export function CameraController({ planetAngles }: { planetAngles: React.Mutable
         true
       )
     }
-  }, [activePanel, activePlanet, planetAngles])
+  }, [activePanel, activePlanet, camera, planetAngles, size.width])
 
   useFrame((state, delta) => {
     if (!controlsRef.current) return
