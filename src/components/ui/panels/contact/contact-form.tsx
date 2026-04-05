@@ -6,6 +6,8 @@ import { createCursorHandlers } from '../panel-primitives'
 import { useTemporaryFlag } from '../use-temporary-flag'
 import type { CursorVariant } from '@/store/space-store'
 import { ContactFormField, getContactFieldClassName } from './contact-form-field'
+import { submitContactForm } from '@/lib/contact-api'
+import { useState } from 'react'
 
 interface ContactFormProps {
   setCursorVariant: (variant: CursorVariant) => void
@@ -13,6 +15,7 @@ interface ContactFormProps {
 
 export function ContactForm({ setCursorVariant }: ContactFormProps) {
   const { active: sent, trigger } = useTemporaryFlag(3500)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const linkCursor = createCursorHandlers(setCursorVariant)
   const {
     register,
@@ -32,9 +35,16 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
 
   const messageValue = watch('message') ?? ''
 
-  const onSubmit = async () => {
-    trigger()
-    reset()
+  const onSubmit = async (values: ContactFormValues) => {
+    setSubmitError(null)
+
+    try {
+      await submitContactForm(values)
+      trigger()
+      reset()
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Nao foi possivel enviar sua mensagem agora.')
+    }
   }
 
   return (
@@ -71,7 +81,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
 
       <ContactFormField
         label="Mensagem"
-        error={errors.message?.message}
+        error={errors.message?.message ?? submitError ?? undefined}
         helperText={`${messageValue.trim().length}/600 caracteres`}
         input={
           <textarea
@@ -92,7 +102,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         disabled={isSubmitting}
         className={`px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors ${isSubmitting ? 'opacity-70' : ''}`}
       >
-        {sent ? '✓ Mensagem recebida!' : isSubmitting ? 'Validando...' : 'Enviar mensagem'}
+        {sent ? '✓ Mensagem recebida!' : isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
       </motion.button>
     </form>
   )

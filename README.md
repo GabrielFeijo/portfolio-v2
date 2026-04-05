@@ -49,6 +49,18 @@ npm run preview
 
 Open [http://localhost:5173](http://localhost:5173)
 
+## API do Formulario
+
+Defina `VITE_API_URL` para apontar para a API Nest.
+
+Exemplo local:
+
+```bash
+VITE_API_URL=http://localhost:3333/v2
+```
+
+O formulario de contato envia `POST /contact` para essa base, resultando em `POST http://localhost:3333/v2/contact`.
+
 ## 🎮 How to Navigate
 
 - **Look around** — move mouse to orbit the camera
