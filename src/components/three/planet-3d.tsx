@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, MutableRefObject } from 'react'
 import { useFrame, extend, ThreeEvent } from '@react-three/fiber'
-import { Text, Billboard } from '@react-three/drei'
+import { Text, Billboard, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import type { Planet } from '@/data/portfolio'
@@ -184,29 +184,26 @@ export function Planet3D({ planet, angleRef }: Planet3DProps) {
 
         {planet.size > 3.0 && <SmallMoon size={planet.size} color={planet.color} lightDir={uLightDir} />}
 
-        {(hovered || isActive) && (
-          <Billboard position={[0, planet.size + 3.5, 0]}>
-            <Text
-              fontSize={0.68}
-              color={planet.glowColor}
-              anchorX="center"
-              anchorY="middle"
-              outlineWidth={0.02}
-              outlineColor={new THREE.Color(planet.glowColor).multiplyScalar(0.3)}
+        {!activePanel && (
+          <Html
+            position={[0, planet.size + 5.2, 0]}
+            transform
+            sprite
+            center
+            distanceFactor={14}
+            zIndexRange={[20, 0]}
+            pointerEvents="none"
+          >
+            <div
+              className={`planet-label ${isActive ? 'planet-label-active' : hovered ? 'planet-label-hovered' : ''}`}
+              style={{ '--planet-accent': planet.glowColor } as React.CSSProperties}
             >
-              {planet.name}
-            </Text>
-            <Text
-              position={[0, -1.0, 0]}
-              fontSize={0.35}
-              color="white"
-              anchorX="center"
-              anchorY="middle"
-              fillOpacity={0.6}
-            >
-              {planet.subtitle}
-            </Text>
-          </Billboard>
+              <div className="planet-label-kicker">Orbital dossier</div>
+              <div className="planet-label-name">{planet.name}</div>
+              <div className="planet-label-subtitle">{planet.subtitle}</div>
+              <div className="planet-label-description">{planet.description}</div>
+            </div>
+          </Html>
         )}
 
         {isActive && <OrbitParticles color={planet.glowColor} size={planet.size} />}
