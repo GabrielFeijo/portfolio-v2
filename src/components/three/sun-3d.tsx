@@ -1,6 +1,6 @@
 import { useRef, useMemo, useState } from 'react'
 import { useFrame, extend } from '@react-three/fiber'
-import { Sphere, Sparkles, Billboard, Text } from '@react-three/drei'
+import { Sphere, Sparkles, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import { SunMaterial } from './planet-shaders'
@@ -93,30 +93,25 @@ export function Sun3D() {
       <Sparkles count={320} scale={[14, 14, 14]} size={3.8} speed={0.9} color="#FFF4D6" opacity={0.65} />
       <Sparkles count={180} scale={[9, 9, 9]} size={5.4} speed={0.55} color="#FF7A1A" opacity={0.85} />
 
-      {hovered && (
-        <Billboard position={[0, 9.6, 0]}>
-          <Text
-            fontSize={0.58}
-            color="#FFD67A"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.02}
-            outlineColor="#341200"
-          >
-            AJUDA
-          </Text>
-          <Text
-            position={[0, -0.9, 0]}
-            fontSize={0.28}
-            color="#FFF4D6"
-            anchorX="center"
-            anchorY="middle"
-            fillOpacity={0.82}
-          >
-            Clique no sol para entender como navegar
-          </Text>
-        </Billboard>
-      )}
+      <Html
+        position={[0, 11, 0]}
+        transform
+        sprite
+        center
+        distanceFactor={14}
+        zIndexRange={[20, 0]}
+        pointerEvents="none"
+      >
+        <div
+          className={`planet-label planet-label-help ${hovered ? 'planet-label-hovered' : ''}`}
+          style={{ '--planet-accent': '#FFD67A' } as React.CSSProperties}
+        >
+          <div className="planet-label-kicker">Navigation beacon</div>
+          <div className="planet-label-name">AJUDA</div>
+          <div className="planet-label-subtitle">Centro de orientacao</div>
+          <div className="planet-label-description">Clique no sol para entender como navegar</div>
+        </div>
+      </Html>
 
       <pointLight position={[0, 0, 0]} intensity={22} color="#FFF1D8" distance={520} decay={1.45} />
       <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />

@@ -484,6 +484,10 @@
       0 0 38px color-mix(in srgb, var(--planet-accent) 18%, transparent);
   }
 
+  .planet-label-help {
+    width: 186px;
+  }
+
   .planet-label-kicker {
     font-family: var(--font-mono);
     font-size: 9px;
