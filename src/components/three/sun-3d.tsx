@@ -108,7 +108,7 @@ export function Sun3D() {
         >
           <div className="planet-label-kicker">Navigation beacon</div>
           <div className="planet-label-name">AJUDA</div>
-          <div className="planet-label-subtitle">Centro de orientacao</div>
+          <div className="planet-label-subtitle">Centro de orientação</div>
           <div className="planet-label-description">Clique no sol para entender como navegar</div>
         </div>
       </Html>
