@@ -47,8 +47,6 @@ export function SkillBar({ delay, skill }: SkillBarProps) {
             style={{ background: `linear-gradient(90deg, ${skill.color}, rgba(255,255,255,0.92))` }}
           />
         </div>
-
-        <div className="mt-2 text-xs text-(--text-muted)">{skill.level}% de dominio percebido</div>
       </div>
     </motion.div>
   )
