@@ -12,6 +12,39 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return undefined
+          }
+
+          if (id.includes('@react-three') || id.includes('/three/') || id.includes('/three-stdlib/') || id.includes('/camera-controls/')) {
+            return 'vendor-3d'
+          }
+
+          if (id.includes('framer-motion')) {
+            return 'vendor-motion'
+          }
+
+          if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('/zod/')) {
+            return 'vendor-form'
+          }
+
+          if (id.includes('/react/') || id.includes('/react-dom/')) {
+            return 'vendor-react'
+          }
+
+          if (id.includes('lucide-react')) {
+            return 'vendor-icons'
+          }
+
+          return 'vendor-misc'
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
