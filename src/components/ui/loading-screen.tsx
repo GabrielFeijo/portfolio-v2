@@ -40,7 +40,7 @@ export function LoadingScreen() {
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.12),_transparent_24%),radial-gradient(circle_at_bottom,_rgba(255,122,26,0.1),_transparent_28%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(125,211,252,0.12),transparent_24%),radial-gradient(circle_at_bottom,rgba(255,122,26,0.1),transparent_28%)]" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage: 'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
@@ -53,7 +53,7 @@ export function LoadingScreen() {
       <div className="absolute bottom-10 right-10 w-12 h-px bg-[rgba(0,212,255,0.3)]" />
       <div className="absolute bottom-10 right-10 w-px h-12 bg-[rgba(0,212,255,0.3)]" />
 
-      <UISurface strong className="mx-4 w-full max-w-[560px] px-6 py-8 sm:px-8 sm:py-10">
+      <UISurface strong className="mx-4 w-full max-w-140 px-6 py-8 sm:px-8 sm:py-10">
         <div className="relative mb-8 flex justify-center">
           <div className="relative flex h-64 w-64 items-center justify-center">
             <motion.div

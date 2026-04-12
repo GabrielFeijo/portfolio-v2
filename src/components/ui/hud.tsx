@@ -49,7 +49,7 @@ export function HUD() {
         </div>
       </div>
 
-      <div className="ds-topbar absolute bottom-3 left-3 right-3 min-h-16 rounded-[24px] flex items-center justify-between gap-4 px-4 sm:px-6 py-4 z-100 pointer-events-auto">
+      <div className="ds-topbar absolute bottom-3 left-3 right-3 min-h-16 rounded-3xl flex items-center justify-between gap-4 px-4 sm:px-6 py-4 z-100 pointer-events-auto">
         <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-(--text-muted)">
           <UIBadge className="font-mono-space text-[11px] tracking-[0.18em] uppercase">
             <Cpu size={14} />

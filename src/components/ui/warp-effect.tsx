@@ -5,7 +5,7 @@ import { useSpaceStore } from '@/store/space-store'
 export function WarpEffect() {
   const { warpActive } = useSpaceStore()
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animRef   = useRef<number>(0)
+  const animRef = useRef<number>(0)
 
   useEffect(() => {
     if (!warpActive) return
@@ -13,7 +13,7 @@ export function WarpEffect() {
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
 
-    canvas.width  = window.innerWidth
+    canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     const cx = canvas.width / 2
     const cy = canvas.height / 2
@@ -40,24 +40,24 @@ export function WarpEffect() {
         star.z -= 18
 
         if (star.z <= 0) {
-          star.x  = Math.random() * canvas.width - cx
-          star.y  = Math.random() * canvas.height - cy
-          star.z  = canvas.width
+          star.x = Math.random() * canvas.width - cx
+          star.y = Math.random() * canvas.height - cy
+          star.z = canvas.width
           star.pz = star.z
         }
 
-        const sx = (star.x / star.z)  * canvas.width + cx
-        const sy = (star.y / star.z)  * canvas.width + cy
+        const sx = (star.x / star.z) * canvas.width + cx
+        const sy = (star.y / star.z) * canvas.width + cy
         const px = (star.x / star.pz) * canvas.width + cx
         const py = (star.y / star.pz) * canvas.width + cy
 
-        const size       = Math.max(0.1, (1 - star.z / canvas.width) * 3.5)
+        const size = Math.max(0.1, (1 - star.z / canvas.width) * 3.5)
         const brightness = 1 - star.z / canvas.width
 
         ctx.beginPath()
         ctx.strokeStyle = star.color
         ctx.globalAlpha = brightness * 0.8
-        ctx.lineWidth   = size
+        ctx.lineWidth = size
         ctx.moveTo(px, py)
         ctx.lineTo(sx, sy)
         ctx.stroke()
@@ -78,7 +78,7 @@ export function WarpEffect() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[800] pointer-events-none"
+          className="fixed inset-0 z-800 pointer-events-none"
         >
           <canvas ref={canvasRef} className="w-full h-full" />
         </motion.div>

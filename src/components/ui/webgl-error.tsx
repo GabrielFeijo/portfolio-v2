@@ -24,7 +24,7 @@ export function WebGLError() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
-        <UISurface strong className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-[640px] flex-col overflow-hidden">
+        <UISurface strong className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-160 flex-col overflow-hidden">
           <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(255,122,26,0.2)]" />
           <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(0,212,255,0.18)]" />
 

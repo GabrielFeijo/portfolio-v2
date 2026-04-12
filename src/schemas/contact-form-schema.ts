@@ -14,7 +14,7 @@ export const contactFormSchema = z.object({
     .string()
     .trim()
     .min(12, 'Escreva uma mensagem com pelo menos 12 caracteres.')
-    .max(600, 'A mensagem deve ter no maximo 600 caracteres.'),
+    .max(600, 'A mensagem deve ter no máximo 600 caracteres.'),
 })
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>

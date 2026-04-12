@@ -28,7 +28,7 @@ export function HelpOverlay() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[250] flex items-center justify-center p-4 sm:p-8"
+      className="fixed inset-0 z-250 flex items-center justify-center p-4 sm:p-8"
     >
       <div
         className="absolute inset-0 bg-[rgba(2,4,12,0.72)] backdrop-blur-md pointer-events-auto cursor-none"

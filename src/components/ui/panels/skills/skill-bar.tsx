@@ -3,10 +3,10 @@ import type { SkillItem } from '@/data/portfolio'
 
 const getLevelText = (level: number) => {
   if (level >= 95) return 'Especialista'
-  if (level >= 85) return 'Avancado'
+  if (level >= 85) return 'Avançado'
   if (level >= 75) return 'Proficiente'
-  if (level >= 60) return 'Intermediario'
-  return 'Em evolucao'
+  if (level >= 60) return 'Intermediário'
+  return 'Em evolução'
 }
 
 interface SkillBarProps {
