@@ -10,15 +10,18 @@ import { HUD } from '@/components/ui/hud/hud'
 import { LoadingScreen } from '@/components/ui/hud/loading-screen'
 import { WarpEffect } from '@/components/ui/hud/warp-effect'
 import { HelpOverlay } from '@/components/ui/overlays/help-overlay'
+import { SettingsOverlay } from '@/components/ui/overlays/settings-overlay'
 import { WebGLError } from '@/components/ui/overlays/webgl-error'
 import { PlanetPanel } from '@/components/ui/planet-panel'
 import { isWebGLAvailable } from '@/utils/webgl-check'
 
 export default function App() {
-  const { activePanel, helpOpen, isLoaded } = useSpaceStore(useShallow((state) => ({
+  const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     helpOpen: state.helpOpen,
     isLoaded: state.isLoaded,
+    settings: state.experienceSettings,
+    settingsOpen: state.settingsOpen,
   })))
   const [hasWebGL, setHasWebGL] = useState<boolean | null>(null)
 
@@ -47,9 +50,9 @@ export default function App() {
         aria-label="Universo 3D interativo - portfólio de Gabriel Feijó"
         className="absolute inset-0"
         camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
-        dpr={[1, 1.8]}
-        gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-        shadows
+        dpr={[1, settings.dpr]}
+        gl={{ antialias: settings.antialias, alpha: false, powerPreference: 'high-performance' }}
+        shadows={settings.shadows}
       >
         <Suspense fallback={null}>
           <SpaceScene />
@@ -61,6 +64,7 @@ export default function App() {
       <AnimatePresence>{isLoaded && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>
       <WarpEffect />
     </div>
   )

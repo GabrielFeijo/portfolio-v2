@@ -15,6 +15,7 @@ interface UseCameraTransitionOptions {
   camera: THREE.Camera
   controlsRef: MutableRefObject<CameraControls | null>
   planetAngles: PlanetAnglesRef
+  smooth: boolean
   viewportWidth: number
 }
 
@@ -24,6 +25,7 @@ export function useCameraTransition({
   camera,
   controlsRef,
   planetAngles,
+  smooth,
   viewportWidth,
 }: UseCameraTransitionOptions) {
   useEffect(() => {
@@ -49,7 +51,7 @@ export function useCameraTransition({
         lookAt.targetPosition.x,
         lookAt.targetPosition.y,
         lookAt.targetPosition.z,
-        true,
+        smooth,
       )
       return
     }
@@ -61,7 +63,7 @@ export function useCameraTransition({
       IDLE_LOOK_AT.x,
       IDLE_LOOK_AT.y,
       IDLE_LOOK_AT.z,
-      true,
+      smooth,
     )
-  }, [activePanel, activePlanet, camera, controlsRef, planetAngles, viewportWidth])
+  }, [activePanel, activePlanet, camera, controlsRef, planetAngles, smooth, viewportWidth])
 }

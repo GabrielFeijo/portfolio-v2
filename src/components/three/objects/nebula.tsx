@@ -57,6 +57,7 @@ function StarShell({
 }
 
 function NebulaCluster({
+  density,
   position,
   scale,
   texture,
@@ -65,6 +66,7 @@ function NebulaCluster({
   seed,
   rotationSpeed,
 }: {
+  density: number
   position: Vec3
   scale: Vec3
   texture: THREE.Texture
@@ -77,7 +79,7 @@ function NebulaCluster({
   const cloudLayers = useMemo(() => {
     const rand = createRandom(seed)
 
-    return Array.from({ length: 9 }, (_, index) => ({
+    return Array.from({ length: Math.max(2, Math.round(9 * density)) }, (_, index) => ({
       key: `cloud-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.45,
@@ -88,12 +90,12 @@ function NebulaCluster({
       opacity: 0.12 + rand() * 0.08,
       color: new THREE.Color().setHSL(0.56 + rand() * 0.08, 0.7, 0.58 + rand() * 0.15),
     }))
-  }, [scale, seed])
+  }, [density, scale, seed])
 
   const glowLayers = useMemo(() => {
     const rand = createRandom(seed + 99)
 
-    return Array.from({ length: 3 }, (_, index) => ({
+    return Array.from({ length: Math.max(1, Math.round(3 * density)) }, (_, index) => ({
       key: `glow-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.18,
@@ -103,7 +105,7 @@ function NebulaCluster({
       spriteScale: 42 + rand() * 34,
       opacity: 0.12 + rand() * 0.08,
     }))
-  }, [scale, seed])
+  }, [density, scale, seed])
 
   useFrame((state) => {
     if (!groupRef.current) return
@@ -146,7 +148,11 @@ function NebulaCluster({
   )
 }
 
-export function Nebula() {
+interface NebulaProps {
+  density: number
+}
+
+export function Nebula({ density }: NebulaProps) {
   const textures = useMemo(
     () => ({
       cyanCloud: createCloudTexture(11, '#4fdfff'),
@@ -162,10 +168,11 @@ export function Nebula() {
 
   return (
     <group>
-      <StarShell count={1800} radius={520} spread={180} size={1.5} opacity={0.45} seed={101} />
-      <StarShell count={900} radius={340} spread={120} size={1.1} opacity={0.32} seed={151} />
+      <StarShell count={Math.max(180, Math.round(1800 * density))} radius={520} spread={180} size={1.5} opacity={0.45} seed={101} />
+      <StarShell count={Math.max(90, Math.round(900 * density))} radius={340} spread={120} size={1.1} opacity={0.32} seed={151} />
 
       <NebulaCluster
+        density={density}
         position={[-220, 90, -520]}
         scale={[260, 170, 90]}
         texture={textures.cyanCloud}
@@ -175,6 +182,7 @@ export function Nebula() {
         rotationSpeed={0.035}
       />
       <NebulaCluster
+        density={density}
         position={[250, -70, -610]}
         scale={[320, 210, 110]}
         texture={textures.blueCloud}
@@ -184,6 +192,7 @@ export function Nebula() {
         rotationSpeed={0.028}
       />
       <NebulaCluster
+        density={density}
         position={[70, 150, -760]}
         scale={[410, 240, 140]}
         texture={textures.violetCloud}
@@ -193,6 +202,7 @@ export function Nebula() {
         rotationSpeed={0.018}
       />
       <NebulaCluster
+        density={density}
         position={[40, -180, -470]}
         scale={[220, 140, 80]}
         texture={textures.amberCloud}

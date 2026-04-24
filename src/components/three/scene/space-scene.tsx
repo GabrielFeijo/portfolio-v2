@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { Stars } from '@react-three/drei'
+import { useShallow } from 'zustand/react/shallow'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { SCENE_SETTINGS } from '@/constants/scene'
 import { PLANETS } from '@/data/portfolio'
@@ -11,7 +12,10 @@ import { ShootingStar, Sun3D } from '../objects/sun-3d'
 import { CameraController } from './camera-controller'
 
 export function SpaceScene() {
-  const { setIsLoaded } = useSpaceStore()
+  const { settings, setIsLoaded } = useSpaceStore(useShallow((state) => ({
+    settings: state.experienceSettings,
+    setIsLoaded: state.setIsLoaded,
+  })))
   const angleOffsets = useMemo(
     () => Object.fromEntries(PLANETS.map((planet) => [planet.id, planet.orbitPhase ?? 0])),
     [],
@@ -24,6 +28,12 @@ export function SpaceScene() {
     const timeout = window.setTimeout(() => setIsLoaded(true), ANIMATION_SETTINGS.loadingDelayMs)
     return () => window.clearTimeout(timeout)
   }, [setIsLoaded])
+
+  const primaryStarCount = Math.max(300, Math.round(SCENE_SETTINGS.primaryStars.count * settings.starDensity))
+  const secondaryStarCount = Math.max(120, Math.round(SCENE_SETTINGS.secondaryStars.count * settings.starDensity))
+  const shootingStarCount = settings.shootingStars ? Math.max(1, Math.round(5 * settings.starDensity)) : 0
+  const innerAsteroidCount = Math.round(260 * settings.asteroidDensity)
+  const outerAsteroidCount = Math.round(110 * settings.asteroidDensity)
 
   return (
     <>
@@ -45,13 +55,13 @@ export function SpaceScene() {
         color="#dbeafe"
       />
 
-      <Stars {...SCENE_SETTINGS.primaryStars} fade />
-      <Stars {...SCENE_SETTINGS.secondaryStars} fade />
-      <Nebula />
+      <Stars {...SCENE_SETTINGS.primaryStars} count={primaryStarCount} fade />
+      <Stars {...SCENE_SETTINGS.secondaryStars} count={secondaryStarCount} fade />
+      {settings.nebula && <Nebula density={settings.starDensity} />}
 
       <Sun3D />
 
-      {Array.from({ length: 5 }).map((_, i) => <ShootingStar key={i} />)}
+      {Array.from({ length: shootingStarCount }).map((_, i) => <ShootingStar key={i} />)}
 
       {PLANETS.map(planet => (
         <Planet3D
@@ -61,8 +71,8 @@ export function SpaceScene() {
         />
       ))}
 
-      <AsteroidBelt innerRadius={48} outerRadius={54} count={260} color="#6b7280" />
-      <AsteroidBelt innerRadius={98} outerRadius={104} count={110} color="#475569" />
+      {innerAsteroidCount > 0 && <AsteroidBelt innerRadius={48} outerRadius={54} count={innerAsteroidCount} color="#6b7280" />}
+      {outerAsteroidCount > 0 && <AsteroidBelt innerRadius={98} outerRadius={104} count={outerAsteroidCount} color="#475569" />}
 
       <fog attach="fog" args={[SCENE_SETTINGS.background, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]} />
 

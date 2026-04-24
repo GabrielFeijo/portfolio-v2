@@ -36,6 +36,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     setActivePlanet,
     setCursorVariant,
     setWarpActive,
+    settings,
   } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     activePlanet: state.activePlanet,
@@ -43,6 +44,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     setActivePlanet: state.setActivePlanet,
     setCursorVariant: state.setCursorVariant,
     setWarpActive: state.setWarpActive,
+    settings: state.experienceSettings,
   })))
 
   const meshRef = useRef<THREE.Mesh | null>(null)
@@ -57,6 +59,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     setActivePlanet,
     setCursorVariant,
     setWarpActive,
+    settings,
   })
   const lightDirection = useOrbitAnimation({
     activePanel,
@@ -69,6 +72,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     meshRef,
     planet,
     planetMaterialRef,
+    planetRotation: settings.planetRotation,
   })
   const ringTexture = useMemo(
     () => (planet.hasRings ? makeRingTexture(planet.ringColor ?? planet.color) : null),
@@ -146,7 +150,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
           </Html>
         )}
 
-        {isActive && <OrbitParticles color={planet.glowColor} size={planet.size} />}
+        {isActive && settings.orbitalParticles && <OrbitParticles color={planet.glowColor} density={settings.starDensity} size={planet.size} />}
       </group>
     </>
   )

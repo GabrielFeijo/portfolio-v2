@@ -4,13 +4,14 @@ import * as THREE from 'three'
 
 interface OrbitParticlesProps {
   color: string
+  density: number
   size: number
 }
 
-export function OrbitParticles({ color, size }: OrbitParticlesProps) {
+export function OrbitParticles({ color, density, size }: OrbitParticlesProps) {
   const ref = useRef<THREE.Points | null>(null)
   const positions = useMemo(() => {
-    const count = 300
+    const count = Math.max(60, Math.round(300 * density))
     const values = new Float32Array(count * 3)
 
     for (let i = 0; i < count; i += 1) {
@@ -24,7 +25,7 @@ export function OrbitParticles({ color, size }: OrbitParticlesProps) {
     }
 
     return values
-  }, [size])
+  }, [density, size])
 
   useFrame((_, delta) => {
     const points = ref.current

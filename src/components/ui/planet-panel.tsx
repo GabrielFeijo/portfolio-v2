@@ -43,12 +43,14 @@ export function PlanetPanel() {
     openPanel,
     setActivePlanet,
     setCursorVariant,
+    settings,
   } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     closePanel: state.closePanel,
     openPanel: state.openPanel,
     setActivePlanet: state.setActivePlanet,
     setCursorVariant: state.setCursorVariant,
+    settings: state.experienceSettings,
   })))
 
   useFocusTrap(panelRef, Boolean(activePanel))
@@ -71,11 +73,17 @@ export function PlanetPanel() {
 
   const handleNav = useCallback((id: PanelId) => {
     closePanel()
+    if (!settings.transitionAnimations) {
+      setActivePlanet(id)
+      openPanel(id)
+      return
+    }
+
     window.setTimeout(() => {
       setActivePlanet(id)
       openPanel(id)
     }, ANIMATION_SETTINGS.panelOpenDelayMs)
-  }, [closePanel, openPanel, setActivePlanet])
+  }, [closePanel, openPanel, setActivePlanet, settings.transitionAnimations])
 
   const planetTheme = useMemo<PanelTheme | null>(() => planet ? ({
     '--panel-accent': planet.color,
@@ -113,7 +121,7 @@ export function PlanetPanel() {
         initial={{ x: '100%', opacity: 0.5 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
-        transition={ANIMATION_SETTINGS.panelSpring}
+        transition={settings.transitionAnimations ? ANIMATION_SETTINGS.panelSpring : { duration: 0 }}
         className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
         ref={panelRef}
         role="dialog"

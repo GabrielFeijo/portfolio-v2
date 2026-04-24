@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
+import { useShallow } from 'zustand/react/shallow'
 import * as THREE from 'three'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { CAMERA_SETTINGS } from '@/constants/camera'
@@ -15,7 +16,19 @@ interface CameraControllerProps {
 export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null)
   const { camera, size } = useThree()
-  const { activePlanet, activePanel, warpActive, setWarpActive } = useSpaceStore()
+  const {
+    activePanel,
+    activePlanet,
+    settings,
+    setWarpActive,
+    warpActive,
+  } = useSpaceStore(useShallow((state) => ({
+    activePanel: state.activePanel,
+    activePlanet: state.activePlanet,
+    settings: state.experienceSettings,
+    setWarpActive: state.setWarpActive,
+    warpActive: state.warpActive,
+  })))
   const previousPanelRef = useRef(activePanel)
 
   useEffect(() => {
@@ -33,12 +46,12 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
   useEffect(() => {
     const previousPanel = previousPanelRef.current
     previousPanelRef.current = activePanel
-    if (!previousPanel || activePanel) return
+    if (!previousPanel || activePanel || !settings.transitionAnimations || !settings.warpEffects) return
 
     setWarpActive(true)
     const timeout = window.setTimeout(() => setWarpActive(false), ANIMATION_SETTINGS.warpDurationMs)
     return () => window.clearTimeout(timeout)
-  }, [activePanel, setWarpActive])
+  }, [activePanel, setWarpActive, settings.transitionAnimations, settings.warpEffects])
 
   useCameraTransition({
     activePanel,
@@ -46,6 +59,7 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     camera,
     controlsRef,
     planetAngles,
+    smooth: settings.transitionAnimations,
     viewportWidth: size.width,
   })
 
@@ -53,11 +67,11 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     const controls = controlsRef.current
     if (!controls || !(camera instanceof THREE.PerspectiveCamera)) return
 
-    if (!activePanel) {
+    if (!activePanel && settings.autoRotate) {
       controls.azimuthAngle -= delta * CAMERA_SETTINGS.idleAzimuthSpeed
     }
 
-    if (warpActive) {
+    if (warpActive && settings.warpEffects) {
       camera.fov = THREE.MathUtils.lerp(camera.fov, CAMERA_SETTINGS.warpFov, delta * 5)
     } else if (activePanel) {
       camera.fov = THREE.MathUtils.lerp(camera.fov, CAMERA_SETTINGS.panelFov, delta * 3)
@@ -68,5 +82,5 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     camera.updateProjectionMatrix()
   })
 
-  return <CameraControls ref={controlsRef} makeDefault smoothTime={CAMERA_SETTINGS.smoothTime} />
+  return <CameraControls ref={controlsRef} makeDefault smoothTime={settings.transitionAnimations ? CAMERA_SETTINGS.smoothTime : 0.05} />
 }

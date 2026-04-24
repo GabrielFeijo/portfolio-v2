@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Cpu, ExternalLink, Orbit } from 'lucide-react'
+import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
 import { useSpaceStore } from '@/store/space-store'
 import { DEVELOPER } from '@/data/portfolio'
 import { UIBadge, UIIconTile } from '../design-system'
 import { createCursorHandlers } from '../panels/panel-primitives'
 
 export function HUD() {
-  const { setCursorVariant } = useSpaceStore()
+  const { openSettings, setCursorVariant } = useSpaceStore()
   const [time, setTime] = useState(new Date())
   const linkCursor = createCursorHandlers(setCursorVariant)
 
@@ -62,6 +62,19 @@ export function HUD() {
         </div>
 
         <div className="flex items-center gap-3">
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={openSettings}
+            {...linkCursor}
+            aria-label="Abrir configurações globais"
+            className="ds-button-secondary cursor-none"
+          >
+            <SlidersHorizontal size={12} />
+            Config
+          </motion.button>
+
           <motion.div whileHover={{ scale: 1.05 }} {...linkCursor}>
             <a href={DEVELOPER.github} target="_blank" rel="noopener noreferrer"
               className="ds-button-secondary cursor-none">

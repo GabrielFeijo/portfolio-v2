@@ -17,6 +17,7 @@ interface UseOrbitAnimationOptions {
   meshRef: MutableRefObject<THREE.Mesh | null>
   planet: Planet
   planetMaterialRef: MutableRefObject<THREE.ShaderMaterial | null>
+  planetRotation: boolean
 }
 
 export function useOrbitAnimation({
@@ -30,6 +31,7 @@ export function useOrbitAnimation({
   meshRef,
   planet,
   planetMaterialRef,
+  planetRotation,
 }: UseOrbitAnimationOptions) {
   const lightDirection = useMemo(() => new THREE.Vector3(1, 0.4, 0.8).normalize(), [])
 
@@ -47,7 +49,7 @@ export function useOrbitAnimation({
       lightDirection.set(-position.x, 10, -position.z).normalize()
     }
 
-    if (mesh) {
+    if (mesh && planetRotation) {
       mesh.rotation.y += delta * planet.rotationSpeed * 0.3
     }
 
