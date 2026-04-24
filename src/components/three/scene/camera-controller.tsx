@@ -33,7 +33,7 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     setWarpActive(true)
     const timeout = window.setTimeout(() => setWarpActive(false), ANIMATION_SETTINGS.warpDurationMs)
     return () => window.clearTimeout(timeout)
-  }, [setWarpActive])
+  }, [activePanel, setWarpActive])
 
   useCameraTransition({
     activePanel,
