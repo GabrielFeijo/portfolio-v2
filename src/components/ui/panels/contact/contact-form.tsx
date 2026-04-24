@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema'
 import { createCursorHandlers } from '../panel-primitives'
 import { useTemporaryFlag } from '../use-temporary-flag'
-import type { CursorVariant } from '@/store/space-store'
+import type { CursorVariant } from '@/types/store'
 import { ContactFormField, getContactFieldClassName } from './contact-form-field'
 import { submitContactForm } from '@/lib/contact-api'
 import { useState } from 'react'
@@ -51,6 +51,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
     <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="grid gap-3 md:grid-cols-2">
         <ContactFormField
+          errorId="contact-name-error"
           label="Nome"
           error={errors.name?.message}
           input={
@@ -58,6 +59,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
               type="text"
               placeholder="Seu nome"
               aria-invalid={Boolean(errors.name)}
+              aria-describedby="contact-name-error"
               {...register('name')}
               className={getContactFieldClassName(Boolean(errors.name))}
             />
@@ -65,6 +67,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         />
 
         <ContactFormField
+          errorId="contact-email-error"
           label="Email"
           error={errors.email?.message}
           input={
@@ -72,6 +75,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
               type="email"
               placeholder="voce@email.com"
               aria-invalid={Boolean(errors.email)}
+              aria-describedby="contact-email-error"
               {...register('email')}
               className={getContactFieldClassName(Boolean(errors.email))}
             />
@@ -80,6 +84,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       </div>
 
       <ContactFormField
+        errorId="contact-message-error"
         label="Mensagem"
         error={errors.message?.message ?? submitError ?? undefined}
         helperText={`${messageValue.trim().length}/600 caracteres`}
@@ -88,6 +93,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
             placeholder="Conte brevemente sobre a oportunidade, projeto ou ideia."
             rows={5}
             aria-invalid={Boolean(errors.message)}
+            aria-describedby="contact-message-error"
             {...register('message')}
             className={getContactFieldClassName(Boolean(errors.message), 'min-h-38 resize-none rounded-[22px]')}
           />

@@ -14,9 +14,12 @@ function getApiBaseUrl() {
 }
 
 export class ContactRequestError extends Error {
-  constructor(message: string) {
+  readonly kind: 'network' | 'validation' | 'server'
+
+  constructor(message: string, kind: 'network' | 'validation' | 'server' = 'server') {
     super(message)
     this.name = 'ContactRequestError'
+    this.kind = kind
   }
 }
 
@@ -27,25 +30,42 @@ const contactApi = axios.create({
   },
 })
 
-export async function submitContactForm(payload: ContactFormValues) {
-  try {
-    const response = await contactApi.post('/contact', payload)
-    return response.data
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const responseBody = error.response?.data
-      const message =
-        typeof responseBody === 'object' &&
-          responseBody !== null &&
-          'message' in responseBody
-          ? Array.isArray(responseBody.message)
-            ? responseBody.message[0]
-            : String(responseBody.message)
-          : 'Nao foi possível enviar sua mensagem agora.'
+function wait(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms))
+}
 
-      throw new ContactRequestError(message)
-    }
-
-    throw new ContactRequestError('Nao foi possível enviar sua mensagem agora.')
+function getErrorMessage(responseBody: unknown) {
+  if (typeof responseBody === 'object' && responseBody !== null && 'message' in responseBody) {
+    const message = responseBody.message
+    return Array.isArray(message) ? String(message[0]) : String(message)
   }
+
+  return 'Nao foi possível enviar sua mensagem agora.'
+}
+
+export async function submitContactForm(payload: ContactFormValues) {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const response = await contactApi.post('/contact', payload)
+      return response.data
+    } catch (error) {
+      if (!axios.isAxiosError(error)) {
+        throw new ContactRequestError('Nao foi possível enviar sua mensagem agora.')
+      }
+
+      if (!error.response && attempt === 0) {
+        await wait(350)
+        continue
+      }
+
+      if (!error.response) {
+        throw new ContactRequestError('Sem conexão com a API de contato no momento.', 'network')
+      }
+
+      const kind = error.response.status === 400 || error.response.status === 422 ? 'validation' : 'server'
+      throw new ContactRequestError(getErrorMessage(error.response.data), kind)
+    }
+  }
+
+  throw new ContactRequestError('Nao foi possível enviar sua mensagem agora.')
 }
