@@ -1,16 +1,21 @@
-import { motion } from 'framer-motion'
-import { useSpaceStore } from '@/store/space-store'
-import * as LucideIcons from 'lucide-react'
-import { PLANETS, type PanelId } from '@/data/portfolio'
-import { AboutPanel } from './panels/about-panel'
-import { SkillsPanel } from './panels/skills-panel'
-import { ProjectsPanel } from './panels/projects-panel'
-import { ExperiencePanel } from './panels/experience-panel'
-import { AccomplishmentsPanel } from './panels/accomplishments-panel'
-import { ContactPanel } from './panels/contact-panel'
+import { lazy, Suspense, useCallback, useMemo, useRef } from 'react'
 import type { ComponentType, CSSProperties } from 'react'
+import { motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { useShallow } from 'zustand/react/shallow'
+import { ANIMATION_SETTINGS } from '@/constants/animation'
+import { PLANETS, type PanelId } from '@/data/portfolio'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
+import { useSpaceStore } from '@/store/space-store'
 import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives'
 import { UIBadge } from './design-system'
+
+const AboutPanel = lazy(() => import('./panels/about-panel').then((module) => ({ default: module.AboutPanel })))
+const SkillsPanel = lazy(() => import('./panels/skills-panel').then((module) => ({ default: module.SkillsPanel })))
+const ProjectsPanel = lazy(() => import('./panels/projects-panel').then((module) => ({ default: module.ProjectsPanel })))
+const ExperiencePanel = lazy(() => import('./panels/experience-panel').then((module) => ({ default: module.ExperiencePanel })))
+const AccomplishmentsPanel = lazy(() => import('./panels/accomplishments-panel').then((module) => ({ default: module.AccomplishmentsPanel })))
+const ContactPanel = lazy(() => import('./panels/contact-panel').then((module) => ({ default: module.ContactPanel })))
 
 const PANELS: Record<PanelId, ComponentType> = {
   about: AboutPanel,
@@ -21,35 +26,68 @@ const PANELS: Record<PanelId, ComponentType> = {
   contact: ContactPanel,
 }
 
+interface PanelTheme extends CSSProperties {
+  '--panel-accent': string
+  '--panel-glow': string
+  '--panel-accent-soft': string
+  '--panel-accent-faint': string
+  '--panel-border': string
+  '--panel-border-strong': string
+}
+
 export function PlanetPanel() {
-  const { activePanel, closePanel, openPanel, setActivePlanet, setCursorVariant } = useSpaceStore()
-  if (!activePanel) return null
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const panelRef = useRef<HTMLDivElement | null>(null)
+  const {
+    activePanel,
+    closePanel,
+    openPanel,
+    setActivePlanet,
+    setCursorVariant,
+  } = useSpaceStore(useShallow((state) => ({
+    activePanel: state.activePanel,
+    closePanel: state.closePanel,
+    openPanel: state.openPanel,
+    setActivePlanet: state.setActivePlanet,
+    setCursorVariant: state.setCursorVariant,
+  })))
+
+  useFocusTrap(panelRef, Boolean(activePanel))
 
   const planet = PLANETS.find(p => p.id === activePanel)
-  const PanelContent = PANELS[activePanel]
-  if (!planet || !PanelContent) return null
-
+  const PanelContent = activePanel ? PANELS[activePanel] : null
+  const linkCursor = createCursorHandlers(setCursorVariant)
   const idx = PLANETS.findIndex(p => p.id === activePanel)
-  const prev = PLANETS[idx - 1]
-  const next = PLANETS[idx + 1]
+  const prev = idx > -1 ? PLANETS[idx - 1] : undefined
+  const next = idx > -1 ? PLANETS[idx + 1] : undefined
 
-  const handleNav = (id: PanelId) => {
+  const fallbackTheme = useMemo<PanelTheme>(() => ({
+    '--panel-accent': '#7dd3fc',
+    '--panel-glow': '#2b6fff',
+    '--panel-accent-soft': '#7dd3fc20',
+    '--panel-accent-faint': '#2b6fff12',
+    '--panel-border': '#2b6fff22',
+    '--panel-border-strong': '#2b6fff48',
+  }), [])
+
+  const handleNav = useCallback((id: PanelId) => {
     closePanel()
-    setTimeout(() => {
+    window.setTimeout(() => {
       setActivePlanet(id)
       openPanel(id)
-    }, 800)
-  }
+    }, ANIMATION_SETTINGS.panelOpenDelayMs)
+  }, [closePanel, openPanel, setActivePlanet])
 
-  const panelTheme = {
+  const planetTheme = useMemo<PanelTheme | null>(() => planet ? ({
     '--panel-accent': planet.color,
     '--panel-glow': planet.glowColor,
     '--panel-accent-soft': `${planet.color}20`,
     '--panel-accent-faint': `${planet.glowColor}12`,
     '--panel-border': `${planet.glowColor}22`,
     '--panel-border-strong': `${planet.glowColor}48`,
-  } as CSSProperties
+  }) : null, [planet])
+  const panelTheme = planetTheme ?? fallbackTheme
+
+  if (!activePanel || !planet || !PanelContent) return null
 
   return (
     <motion.div
@@ -75,8 +113,11 @@ export function PlanetPanel() {
         initial={{ x: '100%', opacity: 0.5 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 250, damping: 32, mass: 0.8 }}
+        transition={ANIMATION_SETTINGS.panelSpring}
         className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
+        ref={panelRef}
+        role="dialog"
+        aria-labelledby="planet-panel-title"
         style={panelTheme}
         onClick={(e) => e.stopPropagation()}
       >
@@ -96,9 +137,10 @@ export function PlanetPanel() {
               whileTap={{ scale: 0.9 }}
               onClick={closePanel}
               {...linkCursor}
+              aria-label="Fechar painel"
               className="panel-close-button absolute right-5 top-5 z-10 h-11 w-11 cursor-none transition-colors hover:bg-[rgba(255,255,255,0.12)]"
             >
-              <LucideIcons.X size={18} />
+              <X size={18} />
             </motion.button>
 
             <div className="mb-5 flex items-center gap-3">
@@ -120,6 +162,7 @@ export function PlanetPanel() {
             </div>
 
             <div
+              id="planet-panel-title"
               className="font-display text-[34px] font-black leading-none tracking-[0.12em] uppercase sm:text-[38px]"
               style={{ color: planet.color, textShadow: `0 0 40px ${planet.glowColor}60` }}
             >
@@ -133,7 +176,9 @@ export function PlanetPanel() {
           <div
             className="panel-drawer-body relative z-10 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6"
           >
-            <PanelContent />
+            <Suspense fallback={<div className="panel-card p-5 text-sm text-(--text-secondary)">Carregando...</div>}>
+              <PanelContent />
+            </Suspense>
           </div>
 
           <div className="panel-drawer-footer relative z-10 flex shrink-0 justify-between px-5 py-4 sm:px-6 sm:py-5">
@@ -142,10 +187,11 @@ export function PlanetPanel() {
                 whileHover={{ x: -6 }}
                 onClick={() => handleNav(prev.id)}
                 {...linkCursor}
+                aria-label={`Abrir painel anterior: ${prev.name}`}
                 className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
                 style={{ border: `1px solid ${prev.glowColor}30`, color: prev.glowColor }}
               >
-                <LucideIcons.ChevronLeft size={14} />
+                <ChevronLeft size={14} />
                 <span className="opacity-80">{prev.name}</span>
               </motion.button>
             ) : <div />}
@@ -155,11 +201,12 @@ export function PlanetPanel() {
                 whileHover={{ x: 6 }}
                 onClick={() => handleNav(next.id)}
                 {...linkCursor}
+                aria-label={`Abrir próximo painel: ${next.name}`}
                 className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
                 style={{ border: `1px solid ${next.glowColor}30`, color: next.glowColor }}
               >
                 <span className="opacity-80">{next.name}</span>
-                <LucideIcons.ChevronRight size={14} />
+                <ChevronRight size={14} />
               </motion.button>
             ) : <div />}
           </div>

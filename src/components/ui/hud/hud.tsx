@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { Cpu, ExternalLink, Orbit } from 'lucide-react'
 import { useSpaceStore } from '@/store/space-store'
 import { DEVELOPER } from '@/data/portfolio'
-import { UIButton, UIBadge, UIIconTile } from './design-system'
-import { createCursorHandlers } from './panels/panel-primitives'
+import { UIBadge, UIIconTile } from '../design-system'
+import { createCursorHandlers } from '../panels/panel-primitives'
 
 export function HUD() {
   const { setCursorVariant } = useSpaceStore()
@@ -64,11 +64,9 @@ export function HUD() {
         <div className="flex items-center gap-3">
           <motion.div whileHover={{ scale: 1.05 }} {...linkCursor}>
             <a href={DEVELOPER.github} target="_blank" rel="noopener noreferrer"
-              className="cursor-none">
-              <UIButton>
+              className="ds-button-secondary cursor-none">
                 <ExternalLink size={12} />
                 Código
-              </UIButton>
             </a>
           </motion.div>
         </div>

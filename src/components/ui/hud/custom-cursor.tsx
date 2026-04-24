@@ -1,22 +1,10 @@
 import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor'
 import { useSpaceStore } from '@/store/space-store'
 
-const VARIANTS = {
-  default: { width: 16, height: 16, borderWidth: 1.5, opacity: 0.9 },
-  planet:  { width: 32, height: 32, borderWidth: 2,   opacity: 1   },
-  link:    { width: 24, height: 24, borderWidth: 1.5, opacity: 0.8 },
-  drag:    { width: 40, height: 40, borderWidth: 1,   opacity: 0.7 },
-}
-const COLORS = {
-  default: '#00D4FF',
-  planet:  '#FFB800',
-  link:    '#00FF88',
-  drag:    '#FF1493',
-}
-
 export function CustomCursor() {
-  const { cursorVariant } = useSpaceStore()
+  const cursorVariant = useSpaceStore((state) => state.cursorVariant)
   const [isCursorCapable, setIsCursorCapable] = useState(false)
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
@@ -29,6 +17,8 @@ export function CustomCursor() {
   const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 })
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
     const updateCapability = () => {
       const enabled = mediaQuery.matches
@@ -58,8 +48,10 @@ export function CustomCursor() {
     return () => window.removeEventListener('mousemove', move)
   }, [cursorX, cursorY, isCursorCapable, trailX, trailY])
 
-  const current = VARIANTS[cursorVariant as keyof typeof VARIANTS] || VARIANTS.default
-  const color   = COLORS[cursorVariant as keyof typeof COLORS]    || COLORS.default
+  if (typeof window === 'undefined') return null
+
+  const current = CURSOR_VARIANTS[cursorVariant]
+  const color = CURSOR_COLORS[cursorVariant]
 
   if (!isCursorCapable) return null
 

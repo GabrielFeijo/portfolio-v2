@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useSpaceStore } from '@/store/space-store'
 
 export function WarpEffect() {
-  const { warpActive } = useSpaceStore()
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const warpActive = useSpaceStore((state) => state.warpActive)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animRef = useRef<number>(0)
 
   useEffect(() => {

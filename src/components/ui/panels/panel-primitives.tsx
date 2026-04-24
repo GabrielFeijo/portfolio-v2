@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { motion, type Variants } from 'framer-motion'
-import * as LucideIcons from 'lucide-react'
-import type { CursorVariant } from '@/store/space-store'
+import { Clock, Hammer, HelpCircle, Radio, Trophy, User, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import type { CursorVariant } from '@/types/store'
 
 export const panelStagger: Variants = {
   hidden: { opacity: 0 },
@@ -29,8 +29,16 @@ export function createCursorHandlers(
 }
 
 export function getLucideIcon(name: string) {
-  const iconMap = LucideIcons as unknown as Record<string, LucideIcon>
-  return iconMap[name] ?? LucideIcons.HelpCircle
+  const iconMap: Record<string, LucideIcon> = {
+    Clock,
+    Hammer,
+    Radio,
+    Trophy,
+    User,
+    Zap,
+  }
+
+  return iconMap[name] ?? HelpCircle
 }
 
 interface PanelHeaderProps {

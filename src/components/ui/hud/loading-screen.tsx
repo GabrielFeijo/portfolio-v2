@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { UIBadge, UIInset, UISurface } from './design-system'
+import { UIBadge, UIInset, UISurface } from '../design-system'
 
 const phases = [
   'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
