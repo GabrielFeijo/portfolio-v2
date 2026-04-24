@@ -1,11 +1,13 @@
-import { useRef, useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Stars } from '@react-three/drei'
-import { useSpaceStore } from '@/store/space-store'
-import { Planet3D } from './planet-3d'
-import { Sun3D, ShootingStar } from './sun-3d'
-import { AsteroidBelt } from './asteroid-belt'
-import { Nebula } from './nebula'
+import { ANIMATION_SETTINGS } from '@/constants/animation'
+import { SCENE_SETTINGS } from '@/constants/scene'
 import { PLANETS } from '@/data/portfolio'
+import { useSpaceStore } from '@/store/space-store'
+import { AsteroidBelt } from '../objects/asteroid-belt'
+import { Nebula } from '../objects/nebula'
+import { Planet3D } from '../objects/planet-3d'
+import { ShootingStar, Sun3D } from '../objects/sun-3d'
 import { CameraController } from './camera-controller'
 
 export function SpaceScene() {
@@ -19,13 +21,13 @@ export function SpaceScene() {
   )
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLoaded(true), 2500)
-    return () => clearTimeout(t)
+    const timeout = window.setTimeout(() => setIsLoaded(true), ANIMATION_SETTINGS.loadingDelayMs)
+    return () => window.clearTimeout(timeout)
   }, [setIsLoaded])
 
   return (
     <>
-      <color attach="background" args={['#01020a']} />
+      <color attach="background" args={[SCENE_SETTINGS.background]} />
 
       <ambientLight intensity={0.14} color="#09111f" />
       <hemisphereLight intensity={0.22} color="#8ad8ff" groundColor="#03050d" />
@@ -43,8 +45,8 @@ export function SpaceScene() {
         color="#dbeafe"
       />
 
-      <Stars radius={900} depth={260} count={9000} factor={4.2} saturation={0.02} fade speed={0.12} />
-      <Stars radius={520} depth={140} count={2600} factor={2.4} saturation={0.18} fade speed={0.04} />
+      <Stars {...SCENE_SETTINGS.primaryStars} fade />
+      <Stars {...SCENE_SETTINGS.secondaryStars} fade />
       <Nebula />
 
       <Sun3D />
@@ -62,7 +64,7 @@ export function SpaceScene() {
       <AsteroidBelt innerRadius={48} outerRadius={54} count={260} color="#6b7280" />
       <AsteroidBelt innerRadius={98} outerRadius={104} count={110} color="#475569" />
 
-      <fog attach="fog" args={['#01020a', 180, 980]} />
+      <fog attach="fog" args={[SCENE_SETTINGS.background, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]} />
 
       <CameraController planetAngles={planetAngles} />
 
