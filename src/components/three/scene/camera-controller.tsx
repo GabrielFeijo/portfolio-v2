@@ -16,6 +16,7 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null)
   const { camera, size } = useThree()
   const { activePlanet, activePanel, warpActive, setWarpActive } = useSpaceStore()
+  const previousPanelRef = useRef(activePanel)
 
   useEffect(() => {
     const controls = controlsRef.current
@@ -30,6 +31,10 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
   }, [])
 
   useEffect(() => {
+    const previousPanel = previousPanelRef.current
+    previousPanelRef.current = activePanel
+    if (!previousPanel || activePanel) return
+
     setWarpActive(true)
     const timeout = window.setTimeout(() => setWarpActive(false), ANIMATION_SETTINGS.warpDurationMs)
     return () => window.clearTimeout(timeout)

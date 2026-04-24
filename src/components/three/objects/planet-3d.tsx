@@ -35,12 +35,14 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     openPanel,
     setActivePlanet,
     setCursorVariant,
+    setWarpActive,
   } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     activePlanet: state.activePlanet,
     openPanel: state.openPanel,
     setActivePlanet: state.setActivePlanet,
     setCursorVariant: state.setCursorVariant,
+    setWarpActive: state.setWarpActive,
   })))
 
   const meshRef = useRef<THREE.Mesh | null>(null)
@@ -54,6 +56,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     planetId: planet.id,
     setActivePlanet,
     setCursorVariant,
+    setWarpActive,
   })
   const lightDirection = useOrbitAnimation({
     activePanel,
