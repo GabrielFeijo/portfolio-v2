@@ -8,6 +8,7 @@ import { SpaceScene } from '@/components/three/scene/space-scene'
 import { CustomCursor } from '@/components/ui/hud/custom-cursor'
 import { HUD } from '@/components/ui/hud/hud'
 import { LoadingScreen } from '@/components/ui/hud/loading-screen'
+import { SpaceMusic } from '@/components/ui/hud/space-music'
 import { WarpEffect } from '@/components/ui/hud/warp-effect'
 import { HelpOverlay } from '@/components/ui/overlays/help-overlay'
 import { SettingsOverlay } from '@/components/ui/overlays/settings-overlay'
@@ -65,6 +66,7 @@ export default function App() {
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
       <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>
+      <SpaceMusic />
       <WarpEffect />
     </div>
   )

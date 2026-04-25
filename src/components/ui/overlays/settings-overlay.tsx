@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { Gauge, MonitorCog, RotateCcw, Settings, SlidersHorizontal, Sparkles, X, Zap } from 'lucide-react'
+import { Gauge, MonitorCog, Music, RotateCcw, Settings, SlidersHorizontal, Sparkles, Volume2, X, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
@@ -151,6 +151,20 @@ export function SettingsOverlay() {
                 <ToggleControl checked={settings.shootingStars} label="Estrelas cadentes" onChange={(checked) => update('shootingStars', checked)} />
                 <ToggleControl checked={settings.orbitalParticles} label="Partículas orbitais" onChange={(checked) => update('orbitalParticles', checked)} />
                 <ToggleControl checked={settings.shadows} label="Sombras WebGL" onChange={(checked) => update('shadows', checked)} />
+              </SettingsGroup>
+
+              <SettingsGroup icon={Music} title="Trilha sonora">
+                <ToggleControl checked={settings.musicEnabled} label="Música espacial ambiente" onChange={(checked) => update('musicEnabled', checked)} />
+                <RangeControl label="Volume da música" min={0} max={0.8} step={0.01} value={settings.musicVolume} suffix="%" onChange={(value) => update('musicVolume', value)} />
+                <UIInset className="p-4">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
+                    <Volume2 size={14} />
+                    Ambient orbital
+                  </div>
+                  <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
+                    Uma trilha synth-ambient retro-futurista, perfeita para uma jornada imersiva pelo cosmos. O padrão inicial é sem música.
+                  </p>
+                </UIInset>
               </SettingsGroup>
 
               <SettingsGroup icon={SlidersHorizontal} title="Densidade da cena">

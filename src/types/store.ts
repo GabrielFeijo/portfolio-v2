@@ -9,6 +9,8 @@ export interface ExperienceSettings {
   autoRotate: boolean
   dpr: number
   nebula: boolean
+  musicEnabled: boolean
+  musicVolume: number
   orbitalParticles: boolean
   planetRotation: boolean
   shootingStars: boolean
