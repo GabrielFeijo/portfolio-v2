@@ -54,6 +54,12 @@ export default function App() {
         dpr={[1, settings.dpr]}
         gl={{ antialias: settings.antialias, alpha: false, powerPreference: 'high-performance' }}
         shadows={settings.shadows}
+        onCreated={({ gl }) => {
+          gl.domElement.addEventListener('webglcontextlost', (event) => {
+            event.preventDefault()
+            setHasWebGL(false)
+          }, false)
+        }}
       >
         <Suspense fallback={null}>
           <SpaceScene />
