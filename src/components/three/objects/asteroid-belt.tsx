@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { makeRockTexture } from '@/utils/textures'
@@ -35,6 +35,12 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   }, [count, innerRadius, outerRadius])
 
   const rockTexture = useMemo(() => makeRockTexture(color), [color])
+
+  useEffect(() => {
+    return () => {
+      rockTexture.dispose()
+    }
+  }, [rockTexture])
 
   useMemo(() => {
     if (!meshRef.current) return
