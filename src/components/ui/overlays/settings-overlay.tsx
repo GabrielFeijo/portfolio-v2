@@ -162,8 +162,11 @@ export function SettingsOverlay() {
                     Ambient orbital
                   </div>
                   <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
-                    Uma trilha synth-ambient retro-futurista, perfeita para uma jornada imersiva pelo cosmos. O padrão inicial é sem música.
+                    Uma trilha sonora atmosférica e imersiva, com pads etéreos e profundidade orbital para acompanhar sua jornada pelo cosmos.
                   </p>
+                  <div className="mt-3 border-t border-[rgba(255,255,255,0.06)] pt-3 text-[10px] uppercase tracking-wider text-[rgba(240,244,255,0.45)]">
+                    Música por <a href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Nikita Kondrashev</a> via <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Pixabay</a>
+                  </div>
                 </UIInset>
               </SettingsGroup>
 
