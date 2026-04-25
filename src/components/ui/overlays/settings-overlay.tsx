@@ -115,18 +115,6 @@ export function SettingsOverlay() {
                   Ajuste a intensidade visual da cena, das animações e dos efeitos para priorizar imersão ou performance.
                 </p>
               </div>
-
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={resetExperienceSettings}
-                {...linkCursor}
-                className="ds-button-secondary w-fit cursor-none"
-              >
-                <RotateCcw size={14} />
-                Reset max
-              </motion.button>
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
