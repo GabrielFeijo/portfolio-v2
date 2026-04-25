@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import type { CSSProperties } from 'react'
 import { Html } from '@react-three/drei'
 import { extend } from '@react-three/fiber'
@@ -86,6 +86,12 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
   const labelStyle = useMemo<PlanetLabelStyle>(() => ({
     '--planet-accent': planet.glowColor,
   }), [planet.glowColor])
+
+  useEffect(() => {
+    return () => {
+      ringTexture?.dispose()
+    }
+  }, [ringTexture])
 
   return (
     <>
