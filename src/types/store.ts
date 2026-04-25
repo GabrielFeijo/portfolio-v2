@@ -24,6 +24,7 @@ export interface NavigationSlice {
   activePanel: PanelId | null
   openPanel: (panel: PanelId) => void
   closePanel: () => void
+  navigateToPanel: (id: PanelId) => void
   helpOpen: boolean
   openHelp: () => void
   closeHelp: () => void

@@ -70,6 +70,7 @@ const createNavigationSlice = (set: SliceSet): NavigationSlice => ({
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
   closePanel: () => set({ activePanel: null, activePlanet: null }),
+  navigateToPanel: (id) => set({ activePlanet: id, activePanel: id }),
   helpOpen: false,
   openHelp: () => set({ helpOpen: true, activePanel: null, activePlanet: null }),
   closeHelp: () => set({ helpOpen: false }),

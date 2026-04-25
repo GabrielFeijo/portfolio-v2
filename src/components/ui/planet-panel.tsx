@@ -40,15 +40,13 @@ export function PlanetPanel() {
   const {
     activePanel,
     closePanel,
-    openPanel,
-    setActivePlanet,
+    navigateToPanel,
     setCursorVariant,
     settings,
   } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     closePanel: state.closePanel,
-    openPanel: state.openPanel,
-    setActivePlanet: state.setActivePlanet,
+    navigateToPanel: state.navigateToPanel,
     setCursorVariant: state.setCursorVariant,
     settings: state.experienceSettings,
   })))
@@ -72,18 +70,8 @@ export function PlanetPanel() {
   }), [])
 
   const handleNav = useCallback((id: PanelId) => {
-    closePanel()
-    if (!settings.transitionAnimations) {
-      setActivePlanet(id)
-      openPanel(id)
-      return
-    }
-
-    window.setTimeout(() => {
-      setActivePlanet(id)
-      openPanel(id)
-    }, ANIMATION_SETTINGS.panelOpenDelayMs)
-  }, [closePanel, openPanel, setActivePlanet, settings.transitionAnimations])
+    navigateToPanel(id)
+  }, [navigateToPanel])
 
   const planetTheme = useMemo<PanelTheme | null>(() => planet ? ({
     '--panel-accent': planet.color,
