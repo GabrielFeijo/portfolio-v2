@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
 import { createCursorHandlers } from '../panel-primitives'
-import type { CursorVariant } from '@/store/space-store'
+import type { CursorVariant } from '@/types/store'
 
 interface ProjectLinkProps {
   href: string

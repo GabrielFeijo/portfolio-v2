@@ -1,155 +1,11 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { createStarColors, createStarPositions } from '@/utils/geometry'
+import { createCloudTexture, createGlowTexture, createRandom } from '@/utils/textures'
+import type { Vec3Tuple } from '@/types/three'
 
-type Vec3 = [number, number, number]
-
-function createRandom(seed: number) {
-  let state = seed % 2147483647
-  if (state <= 0) state += 2147483646
-
-  return () => {
-    state = (state * 16807) % 2147483647
-    return (state - 1) / 2147483646
-  }
-}
-
-function hexToRgb(hex: string) {
-  const value = Number.parseInt(hex.replace('#', ''), 16)
-  return {
-    r: (value >> 16) & 255,
-    g: (value >> 8) & 255,
-    b: value & 255,
-  }
-}
-
-function createCloudTexture(seed: number, color: string) {
-  const rand = createRandom(seed)
-  const size = 512
-  const canvas = document.createElement('canvas')
-  canvas.width = size
-  canvas.height = size
-  const ctx = canvas.getContext('2d')
-
-  if (!ctx) {
-    const fallback = new THREE.CanvasTexture(canvas)
-    fallback.needsUpdate = true
-    return fallback
-  }
-
-  ctx.clearRect(0, 0, size, size)
-  const { r, g, b } = hexToRgb(color)
-
-  for (let i = 0; i < 26; i += 1) {
-    const x = size * (0.18 + rand() * 0.64)
-    const y = size * (0.18 + rand() * 0.64)
-    const radius = 40 + rand() * 140
-    const alpha = 0.04 + rand() * 0.085
-    const stretchX = 0.8 + rand() * 0.8
-    const stretchY = 0.7 + rand() * 0.7
-
-    ctx.save()
-    ctx.translate(x, y)
-    ctx.rotate(rand() * Math.PI * 2)
-    ctx.scale(stretchX, stretchY)
-
-    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, radius)
-    gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha})`)
-    gradient.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, ${alpha * 0.55})`)
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-
-    ctx.fillStyle = gradient
-    ctx.beginPath()
-    ctx.arc(0, 0, radius, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.restore()
-  }
-
-  for (let i = 0; i < 180; i += 1) {
-    const x = rand() * size
-    const y = rand() * size
-    const radius = 0.4 + rand() * 1.8
-    ctx.fillStyle = `rgba(255, 255, 255, ${0.015 + rand() * 0.03})`
-    ctx.beginPath()
-    ctx.arc(x, y, radius, 0, Math.PI * 2)
-    ctx.fill()
-  }
-
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.wrapS = THREE.ClampToEdgeWrapping
-  texture.wrapT = THREE.ClampToEdgeWrapping
-  texture.colorSpace = THREE.SRGBColorSpace
-  texture.needsUpdate = true
-  return texture
-}
-
-function createGlowTexture(seed: number, color: string) {
-  const rand = createRandom(seed)
-  const size = 256
-  const canvas = document.createElement('canvas')
-  canvas.width = size
-  canvas.height = size
-  const ctx = canvas.getContext('2d')
-
-  if (!ctx) {
-    const fallback = new THREE.CanvasTexture(canvas)
-    fallback.needsUpdate = true
-    return fallback
-  }
-
-  const { r, g, b } = hexToRgb(color)
-  const center = size / 2
-  ctx.clearRect(0, 0, size, size)
-
-  const gradient = ctx.createRadialGradient(center, center, 0, center, center, center)
-  gradient.addColorStop(0, `rgba(255, 255, 255, ${0.8 + rand() * 0.1})`)
-  gradient.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.6)`)
-  gradient.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, 0.16)`)
-  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-
-  ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, size, size)
-
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.wrapS = THREE.ClampToEdgeWrapping
-  texture.wrapT = THREE.ClampToEdgeWrapping
-  texture.colorSpace = THREE.SRGBColorSpace
-  texture.needsUpdate = true
-  return texture
-}
-
-function createStarPositions(count: number, radius: number, spread: number, seed: number) {
-  const rand = createRandom(seed)
-  const positions = new Float32Array(count * 3)
-
-  for (let i = 0; i < count; i += 1) {
-    const theta = rand() * Math.PI * 2
-    const phi = Math.acos(2 * rand() - 1)
-    const localRadius = radius + (rand() - 0.5) * spread
-    const sinPhi = Math.sin(phi)
-
-    positions[i * 3] = Math.cos(theta) * sinPhi * localRadius
-    positions[i * 3 + 1] = Math.cos(phi) * localRadius * 0.7
-    positions[i * 3 + 2] = Math.sin(theta) * sinPhi * localRadius - radius * 0.35
-  }
-
-  return positions
-}
-
-function createStarColors(count: number, palette: string[], seed: number) {
-  const rand = createRandom(seed)
-  const colors = new Float32Array(count * 3)
-
-  for (let i = 0; i < count; i += 1) {
-    const color = new THREE.Color(palette[Math.floor(rand() * palette.length)])
-    const intensity = 0.72 + rand() * 0.45
-    colors[i * 3] = Math.min(1, color.r * intensity)
-    colors[i * 3 + 1] = Math.min(1, color.g * intensity)
-    colors[i * 3 + 2] = Math.min(1, color.b * intensity)
-  }
-
-  return colors
-}
+type Vec3 = Vec3Tuple
 
 function StarShell({
   count,
@@ -201,6 +57,7 @@ function StarShell({
 }
 
 function NebulaCluster({
+  density,
   position,
   scale,
   texture,
@@ -209,6 +66,7 @@ function NebulaCluster({
   seed,
   rotationSpeed,
 }: {
+  density: number
   position: Vec3
   scale: Vec3
   texture: THREE.Texture
@@ -221,7 +79,7 @@ function NebulaCluster({
   const cloudLayers = useMemo(() => {
     const rand = createRandom(seed)
 
-    return Array.from({ length: 9 }, (_, index) => ({
+    return Array.from({ length: Math.max(2, Math.round(9 * density)) }, (_, index) => ({
       key: `cloud-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.45,
@@ -232,12 +90,12 @@ function NebulaCluster({
       opacity: 0.12 + rand() * 0.08,
       color: new THREE.Color().setHSL(0.56 + rand() * 0.08, 0.7, 0.58 + rand() * 0.15),
     }))
-  }, [scale, seed])
+  }, [density, scale, seed])
 
   const glowLayers = useMemo(() => {
     const rand = createRandom(seed + 99)
 
-    return Array.from({ length: 3 }, (_, index) => ({
+    return Array.from({ length: Math.max(1, Math.round(3 * density)) }, (_, index) => ({
       key: `glow-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.18,
@@ -247,7 +105,7 @@ function NebulaCluster({
       spriteScale: 42 + rand() * 34,
       opacity: 0.12 + rand() * 0.08,
     }))
-  }, [scale, seed])
+  }, [density, scale, seed])
 
   useFrame((state) => {
     if (!groupRef.current) return
@@ -290,7 +148,11 @@ function NebulaCluster({
   )
 }
 
-export function Nebula() {
+interface NebulaProps {
+  density: number
+}
+
+export function Nebula({ density }: NebulaProps) {
   const textures = useMemo(
     () => ({
       cyanCloud: createCloudTexture(11, '#4fdfff'),
@@ -306,10 +168,11 @@ export function Nebula() {
 
   return (
     <group>
-      <StarShell count={1800} radius={520} spread={180} size={1.5} opacity={0.45} seed={101} />
-      <StarShell count={900} radius={340} spread={120} size={1.1} opacity={0.32} seed={151} />
+      <StarShell count={Math.max(180, Math.round(1800 * density))} radius={520} spread={180} size={1.5} opacity={0.45} seed={101} />
+      <StarShell count={Math.max(90, Math.round(900 * density))} radius={340} spread={120} size={1.1} opacity={0.32} seed={151} />
 
       <NebulaCluster
+        density={density}
         position={[-220, 90, -520]}
         scale={[260, 170, 90]}
         texture={textures.cyanCloud}
@@ -319,6 +182,7 @@ export function Nebula() {
         rotationSpeed={0.035}
       />
       <NebulaCluster
+        density={density}
         position={[250, -70, -610]}
         scale={[320, 210, 110]}
         texture={textures.blueCloud}
@@ -328,6 +192,7 @@ export function Nebula() {
         rotationSpeed={0.028}
       />
       <NebulaCluster
+        density={density}
         position={[70, 150, -760]}
         scale={[410, 240, 140]}
         texture={textures.violetCloud}
@@ -337,6 +202,7 @@ export function Nebula() {
         rotationSpeed={0.018}
       />
       <NebulaCluster
+        density={density}
         position={[40, -180, -470]}
         scale={[220, 140, 80]}
         texture={textures.amberCloud}

@@ -1,42 +1,51 @@
-import { useRef, useMemo, useState } from 'react'
-import { useFrame, extend } from '@react-three/fiber'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
+import { extend, useFrame } from '@react-three/fiber'
+import type { ThreeEvent } from '@react-three/fiber'
 import { Sphere, Sparkles, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
-import { SunMaterial } from './planet-shaders'
+import { SunMaterial } from '../shaders/sun-material'
 
 extend({ SunMaterial })
 
-declare module '@react-three/fiber' {
-  interface ThreeElements {
-    sunMaterial: JSX.IntrinsicElements['shaderMaterial'] & {
-      uColorPrimary?: THREE.Color
-      uColorSecondary?: THREE.Color
-      uIntensity?: number
-      uTime?: number
-    }
-  }
+interface HelpLabelStyle extends CSSProperties {
+  '--planet-accent': string
 }
 
 export function Sun3D() {
   const { openHelp, setCursorVariant } = useSpaceStore()
-  const sunRef = useRef<THREE.Mesh>(null)
-  const sunMatRef = useRef<THREE.ShaderMaterial>(null)
+  const sunRef = useRef<THREE.Mesh | null>(null)
+  const sunMatRef = useRef<THREE.ShaderMaterial | null>(null)
   const [hovered, setHovered] = useState(false)
-
   const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
   const colSecondary = useMemo(() => new THREE.Color('#FF4500'), [])
+  const labelStyle = useMemo<HelpLabelStyle>(() => ({ '--planet-accent': '#FFD67A' }), [])
+  const handleClick = useCallback((event: ThreeEvent<MouseEvent>) => {
+    event.stopPropagation()
+    openHelp()
+  }, [openHelp])
+  const handlePointerEnter = useCallback(() => {
+    setHovered(true)
+    setCursorVariant('planet')
+  }, [setCursorVariant])
+  const handlePointerLeave = useCallback(() => {
+    setHovered(false)
+    setCursorVariant('default')
+  }, [setCursorVariant])
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime()
+    const sun = sunRef.current
+    const material = sunMatRef.current
+    const time = state.clock.getElapsedTime()
 
-    if (sunRef.current) {
-      sunRef.current.rotation.y += 0.002
-      sunRef.current.rotation.z += 0.001
+    if (sun) {
+      sun.rotation.y += 0.002
+      sun.rotation.z += 0.001
     }
 
-    if (sunMatRef.current) {
-      sunMatRef.current.uniforms.uTime.value = t
+    if (material) {
+      material.uniforms.uTime.value = time
     }
   })
 
@@ -55,18 +64,9 @@ export function Sun3D() {
 
       <mesh
         ref={sunRef}
-        onClick={(e) => {
-          e.stopPropagation()
-          openHelp()
-        }}
-        onPointerEnter={() => {
-          setHovered(true)
-          setCursorVariant('planet')
-        }}
-        onPointerLeave={() => {
-          setHovered(false)
-          setCursorVariant('default')
-        }}
+        onClick={handleClick}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
       >
         <sphereGeometry args={[4.5, 128, 128]} />
         <sunMaterial
@@ -104,7 +104,7 @@ export function Sun3D() {
       >
         <div
           className={`planet-label planet-label-help ${hovered ? 'planet-label-hovered' : ''}`}
-          style={{ '--planet-accent': '#FFD67A' } as React.CSSProperties}
+          style={labelStyle}
         >
           <div className="planet-label-kicker">Navigation beacon</div>
           <div className="planet-label-name">AJUDA</div>
@@ -126,19 +126,20 @@ interface SolarFlareProps {
 }
 
 function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
-  const ref = useRef<THREE.Mesh>(null)
+  const ref = useRef<THREE.Mesh | null>(null)
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime() + delay
-    if (ref.current) {
-      const pulse = 0.6 + Math.abs(Math.sin(t * 1.5)) * 0.8
-      ref.current.scale.setScalar(pulse)
-      ref.current.position.set(
-        basePos[0] + Math.sin(t * 1.2) * 0.8,
-        basePos[1] + Math.cos(t * 0.9) * 0.8,
-        basePos[2] + Math.sin(t * 1.4) * 0.6
-      )
-    }
+    const flare = ref.current
+    if (!flare) return
+
+    const time = state.clock.getElapsedTime() + delay
+    const pulse = 0.6 + Math.abs(Math.sin(time * 1.5)) * 0.8
+    flare.scale.setScalar(pulse)
+    flare.position.set(
+      basePos[0] + Math.sin(time * 1.2) * 0.8,
+      basePos[1] + Math.cos(time * 0.9) * 0.8,
+      basePos[2] + Math.sin(time * 1.4) * 0.6,
+    )
   })
 
   return (
@@ -150,33 +151,36 @@ function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
 }
 
 export function ShootingStar() {
-  const ref = useRef<THREE.Group>(null)
-  const trailRef = useRef<THREE.Mesh>(null)
+  const ref = useRef<THREE.Group | null>(null)
+  const trailRef = useRef<THREE.Mesh | null>(null)
 
   const { start, dir, delay } = useMemo(() => ({
     start: new THREE.Vector3(
       (Math.random() - 0.5) * 400,
       60 + Math.random() * 100,
-      (Math.random() - 0.5) * 300 - 100
+      (Math.random() - 0.5) * 300 - 100,
     ),
     dir: new THREE.Vector3(
       -0.8 + Math.random() * 0.6,
       -0.3 - Math.random() * 0.5,
-      -0.2 + Math.random() * 0.5
+      -0.2 + Math.random() * 0.5,
     ).normalize(),
     delay: Math.random() * 15,
   }), [])
 
   useFrame((state) => {
     const t = (state.clock.getElapsedTime() + delay) % 18
-    if (ref.current) {
+    const group = ref.current
+    const trail = trailRef.current
+
+    if (group) {
       if (t < 2.5) {
         const progress = t / 2.5
-        ref.current.position.copy(start).addScaledVector(dir, progress * 240)
-        ref.current.visible = progress > 0.05
-        if (trailRef.current) trailRef.current.scale.set(1, 1, 1 + progress * 35)
+        group.position.copy(start).addScaledVector(dir, progress * 240)
+        group.visible = progress > 0.05
+        if (trail) trail.scale.set(1, 1, 1 + progress * 35)
       } else {
-        ref.current.visible = false
+        group.visible = false
       }
     }
   })

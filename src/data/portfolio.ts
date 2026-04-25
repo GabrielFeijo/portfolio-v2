@@ -1,3 +1,5 @@
+import { calculateAge } from '../utils/date'
+
 export const PANEL_IDS = ['about', 'skills', 'projects', 'experience', 'accomplishments', 'contact'] as const
 
 export type PanelId = (typeof PANEL_IDS)[number]
@@ -43,7 +45,7 @@ export const DEVELOPER: DeveloperProfile = {
   name: 'Gabriel Feijó',
   title: 'Desenvolvedor Full Stack',
   location: 'Recife, Brasil',
-  age: 23,
+  age: calculateAge(new Date(2002, 3, 6)),
   email: 'feijo6622@gmail.com',
   github: 'https://github.com/GabrielFeijo',
   linkedin: 'https://www.linkedin.com/in/gabriel-feijo/',

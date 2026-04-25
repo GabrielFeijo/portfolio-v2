@@ -1,8 +1,10 @@
+import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
-import { UIBadge, UIIconTile, UIInset, UISurface } from './design-system'
-import { createCursorHandlers } from './panels/panel-primitives'
+import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
+import { createCursorHandlers } from '../panels/panel-primitives'
 
 const quickSteps = [
   'Clique em um planeta para abrir a seção correspondente do portfólio.',
@@ -20,11 +22,16 @@ const sections = [
 ]
 
 export function HelpOverlay() {
+  const dialogRef = useRef<HTMLDivElement | null>(null)
   const { closeHelp, setCursorVariant } = useSpaceStore()
   const linkCursor = createCursorHandlers(setCursorVariant)
+  useFocusTrap(dialogRef, true)
 
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="help-overlay-title"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -42,6 +49,7 @@ export function HelpOverlay() {
         exit={{ y: 20, opacity: 0, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 220, damping: 24 }}
         className="relative max-h-[calc(100vh-2rem)] w-full max-w-4xl pointer-events-auto"
+        ref={dialogRef}
         onClick={(e) => e.stopPropagation()}
       >
         <UISurface strong className="max-h-[calc(100vh-2rem)] overflow-hidden">
@@ -56,6 +64,7 @@ export function HelpOverlay() {
             type="button"
             onClick={closeHelp}
             {...linkCursor}
+            aria-label="Fechar ajuda"
             className="absolute right-5 top-5 z-10 cursor-none"
           >
             <UIIconTile icon={X} tone="warm" />
@@ -68,7 +77,7 @@ export function HelpOverlay() {
                 Guia de bordo
               </UIBadge>
 
-              <h2 className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl">
+              <h2 id="help-overlay-title" className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl">
                 O sol agora guia a sua navegação
               </h2>
 

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { DEVELOPER } from '@/data/portfolio'
-import { useSpaceStore, type CursorVariant } from '@/store/space-store'
+import { useSpaceStore } from '@/store/space-store'
+import type { CursorVariant } from '@/types/store'
 import { Code, Briefcase, Mail, GraduationCap, Sparkles, MapPin, Radar } from 'lucide-react'
 import { AboutContactButton } from './about/about-contact-button'
 import { AboutInfoPill } from './about/about-info-pill'

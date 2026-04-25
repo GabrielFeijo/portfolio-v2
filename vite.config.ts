@@ -7,12 +7,15 @@ import path from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     react(),
     tailwindcss(),
   ],
   build: {
+    sourcemap: command === 'serve',
+    target: 'esnext',
+    chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -26,6 +29,10 @@ export default defineConfig({
 
           if (id.includes('framer-motion')) {
             return 'vendor-motion'
+          }
+
+          if (id.includes('/zustand/')) {
+            return 'vendor-state'
           }
 
           if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('/zod/')) {
@@ -45,9 +52,12 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    sourcemapIgnoreList: false,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
-})
+}))

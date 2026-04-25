@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useTemporaryFlag(durationMs: number) {
+export function useTemporaryFlag(durationMs: number, onExpire?: () => void) {
   const [active, setActive] = useState(false)
   const timeoutRef = useRef<number | null>(null)
 
@@ -21,6 +21,7 @@ export function useTemporaryFlag(durationMs: number) {
     timeoutRef.current = window.setTimeout(() => {
       setActive(false)
       timeoutRef.current = null
+      onExpire?.()
     }, durationMs)
   }
 

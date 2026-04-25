@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
-import type { CursorVariant } from '@/store/space-store'
+import type { CursorVariant } from '@/types/store'
 import { createCursorHandlers } from '../panel-primitives'
 
 interface AboutContactButtonProps {

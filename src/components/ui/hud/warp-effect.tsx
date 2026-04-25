@@ -1,14 +1,18 @@
 import { useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useShallow } from 'zustand/react/shallow'
 import { useSpaceStore } from '@/store/space-store'
 
 export function WarpEffect() {
-  const { warpActive } = useSpaceStore()
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { warpActive, warpEffects } = useSpaceStore(useShallow((state) => ({
+    warpActive: state.warpActive,
+    warpEffects: state.experienceSettings.warpEffects,
+  })))
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animRef = useRef<number>(0)
 
   useEffect(() => {
-    if (!warpActive) return
+    if (!warpActive || !warpEffects) return
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
@@ -69,11 +73,11 @@ export function WarpEffect() {
 
     animate()
     return () => cancelAnimationFrame(animRef.current)
-  }, [warpActive])
+  }, [warpActive, warpEffects])
 
   return (
     <AnimatePresence>
-      {warpActive && (
+      {warpActive && warpEffects && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

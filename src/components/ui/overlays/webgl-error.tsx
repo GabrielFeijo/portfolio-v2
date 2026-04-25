@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { AlertTriangle, RefreshCcw, ShieldCheck, Cpu, AppWindow, ExternalLink } from 'lucide-react'
-import { UIBadge, UIButton, UIIconTile, UIInset, UISurface } from './design-system'
+import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 
 export function WebGLError() {
   useEffect(() => {
@@ -77,24 +77,27 @@ export function WebGLError() {
             </UIInset>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.location.reload()}>
-                <UIButton variant="primary">
-                  <RefreshCcw size={14} />
-                  TENTAR NOVAMENTE
-                </UIButton>
+              <motion.button
+                className="ds-button-primary"
+                type="button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => window.location.reload()}
+              >
+                <RefreshCcw size={14} />
+                TENTAR NOVAMENTE
               </motion.button>
 
               <motion.a
+                className="ds-button-secondary"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 href='https://gabrielfeijo.com.br'
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
-                <UIButton>
-                  <ExternalLink size={14} />
-                  ABRIR PORTFOLIO V1
-                </UIButton>
+                <ExternalLink size={14} />
+                ABRIR PORTFOLIO V1
               </motion.a>
             </div>
           </div>

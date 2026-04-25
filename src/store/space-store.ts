@@ -1,48 +1,103 @@
 import { create } from 'zustand'
-import type { PanelId } from '@/data/portfolio'
+import type { ExperiencePreset, ExperienceSettings, NavigationSlice, SpaceStore, UiSlice } from '@/types/store'
 
-export type CursorVariant = 'default' | 'planet' | 'link' | 'drag'
+type SliceSet = (partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)) => void
 
-interface SpaceStore {
-  activePlanet: string | null
-  setActivePlanet: (id: string | null) => void
-  
-  activePanel: PanelId | null
-  openPanel: (panel: PanelId) => void
-  closePanel: () => void
-
-  helpOpen: boolean
-  openHelp: () => void
-  closeHelp: () => void
-  
-  cursorVariant: CursorVariant
-  setCursorVariant: (variant: CursorVariant) => void
-  
-  isLoaded: boolean
-  setIsLoaded: (loaded: boolean) => void
-  
-  warpActive: boolean
-  setWarpActive: (active: boolean) => void
+export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
+  antialias: true,
+  asteroidDensity: 1,
+  autoRotate: true,
+  dpr: 1.8,
+  nebula: true,
+  orbitalParticles: true,
+  planetRotation: true,
+  shootingStars: true,
+  shadows: true,
+  starDensity: 1,
+  transitionAnimations: true,
+  warpEffects: true,
 }
 
-export const useSpaceStore = create<SpaceStore>((set) => ({
+const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
+  cinematic: MAX_EXPERIENCE_SETTINGS,
+  balanced: {
+    antialias: true,
+    asteroidDensity: 0.65,
+    autoRotate: true,
+    dpr: 1.5,
+    nebula: true,
+    orbitalParticles: true,
+    planetRotation: true,
+    shootingStars: true,
+    shadows: true,
+    starDensity: 0.72,
+    transitionAnimations: true,
+    warpEffects: true,
+  },
+  performance: {
+    antialias: false,
+    asteroidDensity: 0.38,
+    autoRotate: false,
+    dpr: 1.15,
+    nebula: true,
+    orbitalParticles: false,
+    planetRotation: true,
+    shootingStars: false,
+    shadows: false,
+    starDensity: 0.42,
+    transitionAnimations: true,
+    warpEffects: false,
+  },
+  minimal: {
+    antialias: false,
+    asteroidDensity: 0,
+    autoRotate: false,
+    dpr: 1,
+    nebula: false,
+    orbitalParticles: false,
+    planetRotation: false,
+    shootingStars: false,
+    shadows: false,
+    starDensity: 0.18,
+    transitionAnimations: false,
+    warpEffects: false,
+  },
+}
+
+const createNavigationSlice = (set: SliceSet): NavigationSlice => ({
   activePlanet: null,
   setActivePlanet: (id) => set({ activePlanet: id }),
-  
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
   closePanel: () => set({ activePanel: null, activePlanet: null }),
-
+  navigateToPanel: (id) => set({ activePlanet: id, activePanel: id }),
   helpOpen: false,
   openHelp: () => set({ helpOpen: true, activePanel: null, activePlanet: null }),
   closeHelp: () => set({ helpOpen: false }),
-  
+  settingsOpen: false,
+  openSettings: () => set({ settingsOpen: true }),
+  closeSettings: () => set({ settingsOpen: false }),
+})
+
+const createUiSlice = (set: SliceSet): UiSlice => ({
   cursorVariant: 'default',
   setCursorVariant: (variant) => set({ cursorVariant: variant }),
-  
   isLoaded: false,
   setIsLoaded: (loaded) => set({ isLoaded: loaded }),
-  
   warpActive: false,
   setWarpActive: (active) => set({ warpActive: active }),
+  experienceSettings: MAX_EXPERIENCE_SETTINGS,
+  setExperienceSetting: (key, value) => set((state) => ({
+    experienceSettings: {
+      ...state.experienceSettings,
+      [key]: value,
+    },
+  })),
+  applyExperiencePreset: (preset) => set({ experienceSettings: EXPERIENCE_PRESETS[preset] }),
+  resetExperienceSettings: () => set({ experienceSettings: MAX_EXPERIENCE_SETTINGS }),
+})
+
+export const useSpaceStore = create<SpaceStore>((set) => ({
+  ...createNavigationSlice(set),
+  ...createUiSlice(set),
 }))

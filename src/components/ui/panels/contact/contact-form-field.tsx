@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { cn } from '../panel-primitives'
 
 interface ContactFormFieldProps {
+  errorId?: string
   error?: string
   helperText?: string
   input: ReactNode
@@ -9,6 +10,7 @@ interface ContactFormFieldProps {
 }
 
 export function ContactFormField({
+  errorId,
   error,
   helperText,
   input,
@@ -21,7 +23,7 @@ export function ContactFormField({
       </span>
       {input}
       <div className="flex min-h-5 items-start justify-between gap-3">
-        <span className={cn('text-xs leading-5', error ? 'text-[#FF9A52]' : 'text-(--text-muted)')}>
+        <span id={errorId} className={cn('text-xs leading-5', error ? 'text-[#FF9A52]' : 'text-(--text-muted)')}>
           {error ?? ''}
         </span>
         {helperText && (
