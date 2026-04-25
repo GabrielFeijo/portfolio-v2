@@ -50,18 +50,18 @@ export function HUD() {
       </div>
 
       <div className="ds-topbar absolute bottom-3 left-3 right-3 min-h-16 rounded-3xl flex items-center justify-between gap-4 px-4 sm:px-6 py-4 z-100 pointer-events-auto">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-(--text-muted)">
+        <div className="hidden sm:flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-(--text-muted)">
           <UIBadge className="font-mono-space text-[11px] tracking-[0.18em] uppercase">
             <Cpu size={14} />
             Portfolio orbital
           </UIBadge>
-          <UIBadge className="hidden sm:inline-flex font-mono-space text-[11px] tracking-[0.18em] uppercase">
+          <UIBadge className="font-mono-space text-[11px] tracking-[0.18em] uppercase">
             <Orbit size={14} />
             Clique em um planeta para explorar
           </UIBadge>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
           <motion.button
             type="button"
             whileHover={{ scale: 1.05 }}
@@ -69,17 +69,17 @@ export function HUD() {
             onClick={openSettings}
             {...linkCursor}
             aria-label="Abrir configurações globais"
-            className="ds-button-secondary cursor-none"
+            className="ds-button-secondary cursor-none w-full"
           >
             <SlidersHorizontal size={12} />
             Config
           </motion.button>
 
-          <motion.div whileHover={{ scale: 1.05 }} {...linkCursor}>
+          <motion.div whileHover={{ scale: 1.05 }} {...linkCursor} className="w-full">
             <a href={DEVELOPER.github} target="_blank" rel="noopener noreferrer"
-              className="ds-button-secondary cursor-none">
-                <ExternalLink size={12} />
-                Código
+              className="ds-button-secondary cursor-none w-full">
+              <ExternalLink size={12} />
+              Código
             </a>
           </motion.div>
         </div>
