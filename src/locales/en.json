@@ -193,72 +193,72 @@
       ]
     }
   },
-  "accomplishments_items": [
-    {
+  "accomplishments_items": {
+    "top-10-embarque-digital": {
       "title": "Top 10 Squads - Embarque Digital",
       "description": "Team among the top 10 of the Kick Off of Embarque Digital 2021.2 with a proposal aligned with the UN Sustainable Development Goals.",
       "category": "Porto Digital"
     },
-    {
+    "top-12-riseup-porto-digital": {
       "title": "Top 12 - RiseUp Porto Digital",
       "description": "Participation among the top 12 squads of the RiseUp stage, developing a frontend solution for Arsenal Inovação.",
       "category": "Competition"
     },
-    {
+    "top-12-growup-porto-digital": {
       "title": "Top 12 - GrowUp Porto Digital",
       "description": "Another classification among the best squads, this time evolving the backend and integration of the solution for Arsenal.",
       "category": "Competition"
     },
-    {
+    "graduacao-ads": {
       "title": "Graduation in ADS",
       "description": "Degree completed in Systems Analysis and Development from Faculdade Senac with a stint in the Embarque Digital program.",
       "category": "Education"
     },
-    {
+    "cloud-platform-experience": {
       "title": "Cloud and Platform Experience",
       "description": "Practical experience with AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observability, and pipelines.",
       "category": "Technology"
     },
-    {
+    "web-mobile-performance": {
       "title": "Web and Mobile Performance",
       "description": "Projects in React, Next.js, and React Native, covering different types of products and delivery contexts.",
       "category": "Stack"
     }
-  ],
-  "certificates_items": [
-    {
+  },
+  "certificates_items": {
+    "diploma-ads": {
       "name": "Diploma in Systems Analysis and Development",
       "description": "Graduation with a broad base in software development, systems architecture, and project management."
     },
-    {
+    "advanced-backend-development": {
       "name": "Advanced Back-end Development",
       "description": "Course focused on server-side practices and building robust and scalable applications."
     },
-    {
+    "beginner-programming": {
       "name": "Beginner in Programming",
       "description": "Initial training with programming fundamentals and logical reasoning."
     },
-    {
+    "decola-tech-2nd-edition": {
       "name": "Decola Tech 2nd Edition",
       "description": "Bootcamp with a focus on software development and market practices."
     },
-    {
+    "programming-logic-fundamentals": {
       "name": "Fundamentals of Programming Logic",
       "description": "Conceptual base for decision structures, repetition, and problem solving."
     },
-    {
+    "html-css": {
       "name": "HTML and CSS",
       "description": "Web development fundamentals with interface structure and styling."
     },
-    {
+    "introduction-javascript": {
       "name": "Introduction to JavaScript",
       "description": "First steps with JavaScript for more dynamic and interactive pages."
     },
-    {
+    "java-programming-language": {
       "name": "Java Programming Language",
       "description": "Fundamentals of the Java language as a base for applications and systems."
     }
-  ],
+  },
   "contact": {
     "github_desc": "Repositories, studies, and personal projects",
     "linkedin_desc": "Professional profile and networking",
@@ -283,7 +283,8 @@
         "email_invalid": "Please enter a valid email.",
         "message_min": "Please write a message with at least 12 characters.",
         "message_max": "The message must have at most 600 characters."
-      }
+      },
+      "error_network": "No connection to the contact API right now."
     },
     "links": {
       "github": "GitHub",
@@ -436,6 +437,13 @@
         "Trello",
         "Scrum"
       ]
+    },
+    "levels": {
+      "expert": "Expert",
+      "advanced": "Advanced",
+      "proficient": "Proficient",
+      "intermediate": "Intermediate",
+      "evolving": "Evolving"
     }
   },
   "projects": {
@@ -558,6 +566,12 @@
     "actions": {
       "try_again": "Try again",
       "open_portfolio_v1": "Open Portfolio V1"
+    }
+  },
+  "accomplishments": {
+    "section": {
+      "eyebrow": "Complementary education",
+      "title": "Certificates"
     }
   }
 }

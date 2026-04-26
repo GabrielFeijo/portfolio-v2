@@ -22,9 +22,8 @@ export function AccomplishmentsPanel() {
       <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
         {ACCOMPLISHMENTS.map((item, i) => (
           <AccomplishmentCard
-            key={i}
+            key={item.id}
             accomplishment={item}
-            index={i}
             transition={{ delay: i * 0.06 }}
           />
         ))}
@@ -33,16 +32,15 @@ export function AccomplishmentsPanel() {
       {CERTIFICATES.length > 0 && (
         <PanelSection
           icon={GraduationCap}
-          eyebrow="Formação complementar"
-          title="Certificados"
+          eyebrow={t('accomplishments.section.eyebrow')}
+          title={t('accomplishments.section.title')}
           glowClassName="right-6 top-4 h-20 w-20"
         >
           <div className="space-y-4">
             {CERTIFICATES.map((cert, i) => (
               <CertificateCard
-                key={i}
+                key={cert.id}
                 certificate={cert}
-                index={i}
                 transition={{ delay: i * 0.06 + 0.2 }}
               />
             ))}

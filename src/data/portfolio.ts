@@ -133,6 +133,7 @@ export interface Experience {
 }
 
 export interface Accomplishment {
+  id: string
   icon: AccomplishmentIconName
   title: string
   description: string
@@ -141,6 +142,7 @@ export interface Accomplishment {
 }
 
 export interface Certificate {
+  id: string
   name: string
   issuer: string
   year: number
@@ -546,6 +548,7 @@ export const EXPERIENCE: Experience[] = [
 
 export const ACCOMPLISHMENTS: Accomplishment[] = [
   {
+    id: 'top-10-embarque-digital',
     icon: 'Trophy',
     title: 'Top 10 Squads - Embarque Digital',
     description: 'Equipe entre as 10 melhores do Kick Off do Embarque Digital 2021.2 com proposta alinhada aos Objetivos de Desenvolvimento Sustentável da ONU.',
@@ -553,6 +556,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Porto Digital',
   },
   {
+    id: 'top-12-riseup-porto-digital',
     icon: 'Rocket',
     title: 'Top 12 - RiseUp Porto Digital',
     description: 'Participação entre as 12 melhores squads da etapa RiseUp, desenvolvendo solução frontend para a Arsenal Inovação.',
@@ -560,6 +564,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Competição',
   },
   {
+    id: 'top-12-growup-porto-digital',
     icon: 'Zap',
     title: 'Top 12 - GrowUp Porto Digital',
     description: 'Nova classificação entre as melhores squads, dessa vez evoluindo o backend e a integração da solução para a Arsenal.',
@@ -567,6 +572,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Competição',
   },
   {
+    id: 'graduacao-ads',
     icon: 'GraduationCap',
     title: 'Graduação em ADS',
     description: 'Formação concluída em Análise e Desenvolvimento de Sistemas pela Faculdade Senac com passagem pelo programa Embarque Digital.',
@@ -574,6 +580,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Formação',
   },
   {
+    id: 'cloud-platform-experience',
     icon: 'Cloud',
     title: 'Experiência com Cloud e Plataforma',
     description: 'Vivência prática com AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observabilidade e pipelines.',
@@ -581,6 +588,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Tecnologia',
   },
   {
+    id: 'web-mobile-performance',
     icon: 'Smartphone',
     title: 'Atuação em Web e Mobile',
     description: 'Projetos em React, Next.js e React Native, cobrindo diferentes tipos de produto e contexto de entrega.',
@@ -591,6 +599,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
 
 export const CERTIFICATES: Certificate[] = [
   {
+    id: 'diploma-ads',
     name: 'Diploma em Análise e Desenvolvimento de Sistemas',
     issuer: 'Faculdade Senac',
     year: 2023,
@@ -599,6 +608,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Graduação com base ampla em desenvolvimento de software, arquitetura de sistemas e gestão de projetos.',
   },
   {
+    id: 'advanced-backend-development',
     name: 'Aperfeiçoamento em Desenvolvimento Back-end',
     issuer: 'Faculdade Senac',
     year: 2023,
@@ -607,6 +617,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Curso voltado para práticas server-side e construção de aplicações robustas e escaláveis.',
   },
   {
+    id: 'beginner-programming',
     name: 'Iniciante em Programação',
     issuer: 'Oracle + Alura',
     year: 2022,
@@ -615,6 +626,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Formação inicial com fundamentos de programação e raciocínio lógico.',
   },
   {
+    id: 'decola-tech-2nd-edition',
     name: 'Decola Tech 2a Edicao',
     issuer: 'Avanade + DIO',
     year: 2022,
@@ -623,6 +635,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Bootcamp com foco em desenvolvimento de software e práticas do mercado.',
   },
   {
+    id: 'programming-logic-fundamentals',
     name: 'Fundamentos de Logica de Programacao',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -631,6 +644,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Base conceitual para estruturas de decisão, repetição e resolução de problemas.',
   },
   {
+    id: 'html-css',
     name: 'HTML e CSS',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -639,6 +653,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Fundamentos de desenvolvimento web com estrutura e estilização de interfaces.',
   },
   {
+    id: 'introduction-javascript',
     name: 'Introducao ao JavaScript',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -647,6 +662,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Primeiros passos com JavaScript para páginas mais dinâmicas e interativas.',
   },
   {
+    id: 'java-programming-language',
     name: 'Linguagem de Programacao Java',
     issuer: 'Fundacao Bradesco',
     year: 2021,

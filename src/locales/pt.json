@@ -193,72 +193,72 @@
       ]
     }
   },
-  "accomplishments_items": [
-    {
+  "accomplishments_items": {
+    "top-10-embarque-digital": {
       "title": "Top 10 Squads - Embarque Digital",
       "description": "Equipe entre as 10 melhores do Kick Off do Embarque Digital 2021.2 com proposta alinhada aos Objetivos de Desenvolvimento Sustentável da ONU.",
       "category": "Porto Digital"
     },
-    {
+    "top-12-riseup-porto-digital": {
       "title": "Top 12 - RiseUp Porto Digital",
       "description": "Participação entre as 12 melhores squads da etapa RiseUp, desenvolvendo solução frontend para a Arsenal Inovação.",
       "category": "Competição"
     },
-    {
+    "top-12-growup-porto-digital": {
       "title": "Top 12 - GrowUp Porto Digital",
       "description": "Nova classificação entre as melhores squads, dessa vez evoluindo o backend e a integração da solução para a Arsenal.",
       "category": "Competição"
     },
-    {
+    "graduacao-ads": {
       "title": "Graduação em ADS",
       "description": "Formação concluída em Análise e Desenvolvimento de Sistemas pela Faculdade Senac com passagem pelo programa Embarque Digital.",
       "category": "Formação"
     },
-    {
+    "cloud-platform-experience": {
       "title": "Experiência com Cloud e Plataforma",
       "description": "Vivência prática com AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observabilidade e pipelines.",
       "category": "Tecnologia"
     },
-    {
+    "web-mobile-performance": {
       "title": "Atuação em Web e Mobile",
       "description": "Projetos em React, Next.js e React Native, cobrindo diferentes tipos de produto e contexto de entrega.",
       "category": "Stack"
     }
-  ],
-  "certificates_items": [
-    {
+  },
+  "certificates_items": {
+    "diploma-ads": {
       "name": "Diploma em Análise e Desenvolvimento de Sistemas",
       "description": "Graduação com base ampla em desenvolvimento de software, arquitetura de sistemas e gestão de projetos."
     },
-    {
+    "advanced-backend-development": {
       "name": "Aperfeiçoamento em Desenvolvimento Back-end",
       "description": "Curso voltado para práticas server-side e construção de aplicações robustas e escaláveis."
     },
-    {
+    "beginner-programming": {
       "name": "Iniciante em Programação",
       "description": "Formação inicial com fundamentos de programação e raciocínio lógico."
     },
-    {
+    "decola-tech-2nd-edition": {
       "name": "Decola Tech 2a Edicao",
       "description": "Bootcamp com foco em desenvolvimento de software e práticas do mercado."
     },
-    {
+    "programming-logic-fundamentals": {
       "name": "Fundamentos de Logica de Programacao",
       "description": "Base conceitual para estruturas de decisão, repetição e resolução de problemas."
     },
-    {
+    "html-css": {
       "name": "HTML e CSS",
       "description": "Fundamentos de desenvolvimento web com estrutura e estilização de interfaces."
     },
-    {
+    "introduction-javascript": {
       "name": "Introducao ao JavaScript",
       "description": "Primeiros passos com JavaScript para páginas mais dinâmicas e interativas."
     },
-    {
+    "java-programming-language": {
       "name": "Linguagem de Programacao Java",
       "description": "Fundamentos da linguagem Java como base para aplicações e sistemas."
     }
-  ],
+  },
   "contact": {
     "github_desc": "Repositórios, estudos e projetos autorais",
     "linkedin_desc": "Perfil profissional e networking",
@@ -283,7 +283,8 @@
         "email_invalid": "Digite um email válido.",
         "message_min": "Escreva uma mensagem com pelo menos 12 caracteres.",
         "message_max": "A mensagem deve ter no máximo 600 caracteres."
-      }
+      },
+      "error_network": "Sem conexão com a API de contato no momento."
     },
     "links": {
       "github": "GitHub",
@@ -436,6 +437,13 @@
         "Trello",
         "Scrum"
       ]
+    },
+    "levels": {
+      "expert": "Especialista",
+      "advanced": "Avançado",
+      "proficient": "Proficiente",
+      "intermediate": "Intermediário",
+      "evolving": "Em evolução"
     }
   },
   "projects": {
@@ -558,6 +566,12 @@
     "actions": {
       "try_again": "Tentar novamente",
       "open_portfolio_v1": "Abrir Portfolio V1"
+    }
+  },
+  "accomplishments": {
+    "section": {
+      "eyebrow": "Formação complementar",
+      "title": "Certificados"
     }
   }
 }
