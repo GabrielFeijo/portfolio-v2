@@ -19,7 +19,9 @@ export function CertificateCard({
       className="flex items-start gap-4 rounded-[22px] p-4 transition-all panel-card cursor-none"
     >
       {certificate.image ? (
-        <img src={certificate.image} alt={certificate.name} className="h-18 w-18 shrink-0 rounded-2xl border border-(--border) object-cover sm:h-20 sm:w-20" />
+        <div className="h-18 w-18 shrink-0 overflow-hidden flex items-center justify-center sm:h-20 sm:w-20 ">
+          <img src={certificate.image} alt={certificate.name} className="max-h-full max-w-full object-contain" />
+        </div>
       ) : (
         <div className="mt-2 h-3 w-3 shrink-0 rounded-full" style={{ background: 'var(--panel-accent)' }} />
       )}
