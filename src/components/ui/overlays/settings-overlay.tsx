@@ -155,7 +155,7 @@ export function SettingsOverlay() {
 
               <SettingsGroup icon={Music} title="Trilha sonora">
                 <ToggleControl checked={settings.musicEnabled} label="Música espacial ambiente" onChange={(checked) => update('musicEnabled', checked)} />
-                <RangeControl label="Volume da música" min={0} max={0.8} step={0.01} value={settings.musicVolume} suffix="%" onChange={(value) => update('musicVolume', value)} />
+                <RangeControl label="Volume da música" min={0} max={1} step={0.01} value={settings.musicVolume} suffix="%" onChange={(value) => update('musicVolume', value)} />
                 <UIInset className="p-4">
                   <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
                     <Volume2 size={14} />
