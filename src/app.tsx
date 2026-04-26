@@ -59,10 +59,11 @@ export default function App() {
         gl={{ antialias: settings.antialias, alpha: false, powerPreference: 'high-performance' }}
         shadows={settings.shadows}
         onCreated={({ gl }) => {
-          gl.domElement.addEventListener('webglcontextlost', (event) => {
+          const handleContextLost = (event: Event) => {
             event.preventDefault()
             setWebGLStatus('context_lost')
-          }, false)
+          }
+          gl.domElement.addEventListener('webglcontextlost', handleContextLost, { once: true })
         }}
       >
         <Suspense fallback={null}>

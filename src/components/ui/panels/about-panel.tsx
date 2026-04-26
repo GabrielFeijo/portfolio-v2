@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { DEVELOPER } from '@/data/portfolio'
+import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import type { CursorVariant } from '@/types/store'
 import { Code, Briefcase, Mail, GraduationCap, Sparkles, MapPin, Radar } from 'lucide-react'
 import { AboutContactButton } from './about/about-contact-button'
 import { AboutInfoPill } from './about/about-info-pill'
@@ -31,7 +30,7 @@ export function AboutPanel() {
   ]
 
   const summary = t('developer.summary', { returnObjects: true }) as string[] || DEVELOPER.summary
-  const education = t('developer.education', { returnObjects: true }) as any[] || DEVELOPER.education
+  const education = t('developer.education', { returnObjects: true }) as DeveloperEducation[] || DEVELOPER.education
 
   return (
     <motion.div variants={panelStagger} initial="hidden" animate="visible" className="flex flex-col gap-8 sm:gap-10">
