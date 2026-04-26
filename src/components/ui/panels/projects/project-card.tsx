@@ -37,12 +37,11 @@ export function ProjectCard({
       <PanelTopGlow color={project.color} className="h-24" />
 
       {project.featured && (
-        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary)">
+        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
           Destaque
         </div>
       )}
 
-      {project.image && <PanelImageFrame src={project.image} alt={project.name} className="mb-4" />}
 
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
@@ -54,6 +53,9 @@ export function ProjectCard({
       </div>
 
       <p className="mb-4 line-clamp-4 text-sm leading-7 text-(--text-secondary)">{project.description}</p>
+
+      {project.image && <PanelImageFrame src={project.image} alt={project.name} className="mb-4" />}
+
       <PanelTagList items={project.tech} limit={5} className="mb-4 gap-1.5" />
 
       <AnimatePresence>
@@ -75,8 +77,9 @@ export function ProjectCard({
             )}
 
             <div className="flex gap-2">
-              <ProjectLink href={project.live} icon={ExternalLink} label="Abrir projeto" primary setCursorVariant={setCursorVariant} />
-              <ProjectLink href={project.github} icon={Code} label="Ver código" setCursorVariant={setCursorVariant} />
+              {project.live && <ProjectLink href={project.live} icon={ExternalLink} label="Abrir projeto" primary setCursorVariant={setCursorVariant} />}
+
+              {project.github && <ProjectLink href={project.github} icon={Code} label="Ver código" setCursorVariant={setCursorVariant} />}
             </div>
           </motion.div>
         )}

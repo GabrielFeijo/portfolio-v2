@@ -95,8 +95,8 @@ export function PanelImageFrame({
   style?: CSSProperties
 }) {
   return (
-    <div className={cn('overflow-hidden rounded-[18px]', className)} style={style ?? { border: '1px solid var(--panel-border)' }}>
-      <img src={src} alt={alt} className="h-44 w-full object-cover transition-transform duration-500 hover:scale-[1.03]" />
+    <div className={cn('overflow-hidden rounded-[18px] flex items-center justify-center', className)} style={style}>
+      <img src={src} alt={alt} className="w-full h-auto max-h-[320px] object-contain transition-transform duration-500 hover:scale-[1.03]" />
     </div>
   )
 }
