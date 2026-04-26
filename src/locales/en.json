@@ -1,0 +1,563 @@
+{
+  "common": {
+    "config": "Config",
+    "code": "Code",
+    "back": "Back",
+    "close": "Close",
+    "loading": "Initiating systems...",
+    "explore": "Explore the universe",
+    "click_planet": "Click a planet to explore",
+    "orbital_portfolio": "Orbital Portfolio",
+    "featured": "Featured",
+    "open_project": "Open Project",
+    "view_code": "View Code",
+    "cancel": "Cancel",
+    "orbital_dossier": "Orbital Dossier",
+    "specialty": "Specialty",
+    "expansion": "Repertoire expansion",
+    "complementary_skills": "Complementary skills",
+    "key_deliveries": "Key deliveries",
+    "highlights": "Highlights",
+    "loading_short": "Loading..."
+  },
+  "developer": {
+    "title": "Full Stack Developer",
+    "location": "Recife, Brazil",
+    "tagline": "Developing technological solutions to change the world positively.",
+    "bio": "Full Stack Developer focused on well-built interfaces, scalable backends, and digital experiences that combine clarity, performance, and real value.",
+    "availability": "Open to opportunities, collaborations, and conversations about technology.",
+    "stats": {
+      "years": "Years of experience",
+      "projects": "Featured projects",
+      "stacks": "Mastered stacks"
+    },
+    "summary": [
+      "From an early age, curiosity about how websites, systems, and games work brought me closer to programming. Starting from game modifications and the desire to understand what happened behind the interface, a genuine relationship with technology was born.",
+      "Today I act as a full stack developer building web applications and complete solutions, from frontend to backend, through architecture, integrations, deployment, observability, and software quality.",
+      "I enjoy environments where product, engineering, and user experience walk together. My goal is to create useful, solid, and pleasant-to-use software."
+    ],
+    "education": [
+      {
+        "title": "Systems Analysis and Development",
+        "institution": "Faculdade Senac",
+        "period": "Completed in 2023",
+        "description": "Education based on programming, databases, web development, mobile, systems architecture, and collaborative practices. Part of the journey took place in the 'Embarque Digital' program, with practical experience and close mentoring from the market."
+      }
+    ],
+    "age_suffix": "years"
+  },
+  "planets": {
+    "about": {
+      "name": "ABOUT",
+      "subtitle": "My story",
+      "description": "General overview of who I am, my trajectory, and education."
+    },
+    "skills": {
+      "name": "SKILLS",
+      "subtitle": "Stack and capabilities",
+      "description": "Technical competencies, tools, and complementary skills."
+    },
+    "projects": {
+      "name": "PROJECTS",
+      "subtitle": "Featured projects",
+      "description": "Products, experiments, and deliveries built along the journey."
+    },
+    "experience": {
+      "name": "EXPERIENCE",
+      "subtitle": "My journey",
+      "description": "Professional experience, responsibilities, and technical evolution."
+    },
+    "accomplishments": {
+      "name": "ACCOMPLISHMENTS",
+      "subtitle": "Achievements and studies",
+      "description": "Relevant milestones, recognition, and complementary education."
+    },
+    "contact": {
+      "name": "CONTACT",
+      "subtitle": "Let's talk",
+      "description": "Channels for contact, networking, and new opportunities."
+    }
+  },
+  "projects_items": {
+    "arsenal-academy": {
+      "name": "Arsenal Academy",
+      "description": "Entrepreneurial education platform for university students, with personalized diagnosis, microlearning tracks, and progress tracking for each user.",
+      "highlights": [
+        "Automated entrepreneur profile diagnosis",
+        "Learning tracks adapted to the user",
+        "Full development cycle from frontend to backend"
+      ]
+    },
+    "vscode-portfolio": {
+      "name": "VsCode Portfolio",
+      "description": "Reinterpretation of the Visual Studio Code IDE transformed into an interactive portfolio, with a virtual file system, functional terminal, themes, and internationalization.",
+      "highlights": [
+        "Faithful simulation of the VS Code interface",
+        "Terminal with custom commands",
+        "Support for PT/EN and light/dark themes"
+      ]
+    },
+    "arsenal-inovacao-lp": {
+      "name": "Arsenal Inovação LP",
+      "description": "Institutional landing page for a Porto Digital startup focused on entrepreneurship and innovation in the digital age."
+    },
+    "scoordena": {
+      "name": "SCoordena",
+      "description": "Event manager created as a final project for the backend course, focused on organization, tracking, and intuitive experience for administrators and participants."
+    },
+    "radares-recife": {
+      "name": "Radares Recife",
+      "description": "Interactive map built with public data from the Recife City Hall to consult radars and traffic cameras in a clear and navigable interface."
+    },
+    "fsw-foods": {
+      "name": "FSW Foods",
+      "description": "iFood-inspired application developed during Full Stack Week, joining order flow, good navigation experience, and full stack integration."
+    },
+    "react-native-99pets": {
+      "name": "React Native 99Pets",
+      "description": "Mobile application for pet owners, connecting services, pet shops, and transportation logistics in a simple experience for the end user."
+    },
+    "projeto-arsenal-v1": {
+      "name": "Projeto Arsenal V1",
+      "description": "First version of the Arsenal solution, focused on automated diagnosis of the entrepreneurial moment and learning journey suggestion."
+    },
+    "react-todo": {
+      "name": "React ToDo",
+      "description": "Simple and straightforward task manager, created to practice CRUD flow, state organization, and integration between frontend and backend."
+    }
+  },
+  "experience_items": {
+    "cit": {
+      "role": "Full Stack Developer",
+      "period": "12/2025 — Present",
+      "description": "Acting in a squad responsible for solutions for one of the largest telecommunications companies in Brazil, working with microfrontends, BFF, and focus on user experience.",
+      "achievements": [
+        "Development of BFFs with NestJS and TypeScript",
+        "Microfrontends in React with the client's proprietary library",
+        "Unit tests with Jest, mutation with Stryker, and components with Cypress + Cucumber",
+        "Participation in code reviews, DevSecOps practices, and pipelines in Azure DevOps"
+      ]
+    },
+    "loopert": {
+      "role": "Full Stack Developer",
+      "period": "08/2024 — 11/2025",
+      "description": "Company specialized in technological solutions for the radio market, focusing on modern interfaces, robust APIs, and high-impact integrations.",
+      "achievements": [
+        "Full integrations with Meta APIs for WhatsApp",
+        "Use of Valkey as cache layer and CloudFront for distribution",
+        "Monitoring with Datadog and Grafana",
+        "Orchestrated deployments in Kubernetes and Rancher, plus migration to Oracle Functions"
+      ]
+    },
+    "invoer": {
+      "role": "Full Stack Developer",
+      "period": "07/2024 — 11/2025",
+      "description": "Development of customized solutions for projects focused on Business Intelligence, Data Science, and Data Engineering.",
+      "achievements": [
+        "Interfaces with React, Next.js, Tailwind CSS, and Shadcn/UI",
+        "Backends with NestJS, TypeScript, Sequelize, and Prisma",
+        "Docker environments and deployment in AWS",
+        "Delivery of products for different data scenarios and tailor-made software"
+      ]
+    },
+    "arsenal": {
+      "role": "Full Stack Developer",
+      "period": "07/2023 — 07/2024",
+      "description": "Responsible for creating Arsenal Academy, an educational product focused on entrepreneurship for university students, conducting frontend, backend, and infrastructure.",
+      "achievements": [
+        "Platform creation from scratch",
+        "Frontend with React, Next.js, and Tailwind CSS",
+        "Backend with NestJS, Sequelize, and MySQL",
+        "Infrastructure in AWS with EC2, RDS, and S3"
+      ]
+    },
+    "senai-facepe": {
+      "role": "Developer",
+      "period": "01/2023 — 12/2023",
+      "description": "Rapid cartography project for risk prevention with continuous monitoring of urban slopes from multiple data sources.",
+      "achievements": [
+        "Website development with WordPress",
+        "ThingsBoard integration for sensor data",
+        "Interactive maps with QGIS and QGISToWeb",
+        "Fusion of data from satellites, drones, and sensors"
+      ]
+    },
+    "ferreira-costa": {
+      "role": "Administrative Assistant",
+      "period": "10/2021 — 02/2023",
+      "description": "Acting in the trade marketing team of the Tamarineira branch, supporting production and execution of visual materials for the store.",
+      "achievements": [
+        "Support in the use of Corel Draw and Photoshop",
+        "Support for the creation and editing of marketing materials",
+        "Participation in the plotting and application process in the store"
+      ]
+    }
+  },
+  "accomplishments_items": [
+    {
+      "title": "Top 10 Squads - Embarque Digital",
+      "description": "Team among the top 10 of the Kick Off of Embarque Digital 2021.2 with a proposal aligned with the UN Sustainable Development Goals.",
+      "category": "Porto Digital"
+    },
+    {
+      "title": "Top 12 - RiseUp Porto Digital",
+      "description": "Participation among the top 12 squads of the RiseUp stage, developing a frontend solution for Arsenal Inovação.",
+      "category": "Competition"
+    },
+    {
+      "title": "Top 12 - GrowUp Porto Digital",
+      "description": "Another classification among the best squads, this time evolving the backend and integration of the solution for Arsenal.",
+      "category": "Competition"
+    },
+    {
+      "title": "Graduation in ADS",
+      "description": "Degree completed in Systems Analysis and Development from Faculdade Senac with a stint in the Embarque Digital program.",
+      "category": "Education"
+    },
+    {
+      "title": "Cloud and Platform Experience",
+      "description": "Practical experience with AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observability, and pipelines.",
+      "category": "Technology"
+    },
+    {
+      "title": "Web and Mobile Performance",
+      "description": "Projects in React, Next.js, and React Native, covering different types of products and delivery contexts.",
+      "category": "Stack"
+    }
+  ],
+  "certificates_items": [
+    {
+      "name": "Diploma in Systems Analysis and Development",
+      "description": "Graduation with a broad base in software development, systems architecture, and project management."
+    },
+    {
+      "name": "Advanced Back-end Development",
+      "description": "Course focused on server-side practices and building robust and scalable applications."
+    },
+    {
+      "name": "Beginner in Programming",
+      "description": "Initial training with programming fundamentals and logical reasoning."
+    },
+    {
+      "name": "Decola Tech 2nd Edition",
+      "description": "Bootcamp with a focus on software development and market practices."
+    },
+    {
+      "name": "Fundamentals of Programming Logic",
+      "description": "Conceptual base for decision structures, repetition, and problem solving."
+    },
+    {
+      "name": "HTML and CSS",
+      "description": "Web development fundamentals with interface structure and styling."
+    },
+    {
+      "name": "Introduction to JavaScript",
+      "description": "First steps with JavaScript for more dynamic and interactive pages."
+    },
+    {
+      "name": "Java Programming Language",
+      "description": "Fundamentals of the Java language as a base for applications and systems."
+    }
+  ],
+  "contact": {
+    "github_desc": "Repositories, studies, and personal projects",
+    "linkedin_desc": "Professional profile and networking",
+    "website_desc": "gabrielfeijo.com.br",
+    "quick_message": "Quick message",
+    "send_message": "Send message",
+    "form_notice": "This form acts as a visual shortcut within the portfolio. For immediate contact, GitHub, LinkedIn, and email above are the fastest channels.",
+    "form": {
+      "name": "Name",
+      "name_placeholder": "Your name",
+      "email": "Email",
+      "email_placeholder": "you@email.com",
+      "message": "Message",
+      "message_placeholder": "Tell me briefly about the opportunity, project, or idea.",
+      "characters": "characters",
+      "sending": "Sending...",
+      "sent": "✓ Message received!",
+      "error_fallback": "Could not send your message right now.",
+      "validation": {
+        "name_min": "Please enter at least 2 characters in the name.",
+        "email_required": "Please enter an email for contact.",
+        "email_invalid": "Please enter a valid email.",
+        "message_min": "Please write a message with at least 12 characters.",
+        "message_max": "The message must have at most 600 characters."
+      }
+    },
+    "links": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "email": "Email",
+      "website": "Website"
+    }
+  },
+  "skill_groups": {
+    "general": "General skills",
+    "ui": "Libraries and UI",
+    "db": "Databases and ORM",
+    "cloud": "Cloud, tools, and processes"
+  },
+  "settings": {
+    "title": "Global Settings",
+    "description": "Adjust the visual intensity of the scene, animations, and effects to prioritize immersion or performance.",
+    "experience_controls": "Experience controls",
+    "presets": {
+      "cinematic": {
+        "title": "Cinematic",
+        "description": "Everything set to maximum."
+      },
+      "balanced": {
+        "title": "Balanced",
+        "description": "Full visuals with lower cost."
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Lighter for modest GPUs."
+      },
+      "minimal": {
+        "title": "Minimal",
+        "description": "Focus on fluid navigation."
+      }
+    },
+    "groups": {
+      "animations": "Animations",
+      "visual_elements": "Visual Elements",
+      "soundtrack": "Soundtrack",
+      "scene_density": "Scene Density",
+      "rendering": "Rendering"
+    },
+    "controls": {
+      "transitions": "Planet entry and exit",
+      "warp": "Warp effect",
+      "auto_rotate": "Automatic camera rotation",
+      "planet_rotation": "Planet rotation",
+      "nebula": "Nebulae",
+      "shooting_stars": "Shooting stars",
+      "particles": "Orbital particles",
+      "shadows": "WebGL Shadows",
+      "music": "Ambient space music",
+      "volume": "Music volume",
+      "stars": "Star field",
+      "asteroids": "Asteroid belt",
+      "antialias": "Antialias",
+      "dpr": "Canvas DPR"
+    },
+    "ambient_orbital": "Ambient orbital",
+    "music_description": "An atmospheric and immersive soundtrack, with ethereal pads and orbital depth to accompany your journey through the cosmos.",
+    "music_credits": "Music by {{author}} via Pixabay",
+    "state_status": "Current state",
+    "state_description": "Maximum default: all options on, full density, and DPR at 1.8."
+  },
+  "loading": {
+    "label": "LOADING",
+    "universe": "Full Stack Universe",
+    "phases": [
+      "SYNCHRONIZING STELLAR NAVIGATION...",
+      "LOADING PORTFOLIO FILES...",
+      "CALIBRATING UNIVERSE SIGNALS...",
+      "STABILIZING ORBITS AND PANELS...",
+      "MAPPING INTERACTIVE SECTIONS...",
+      "SYSTEM ONLINE"
+    ]
+  },
+  "app": {
+    "canvas_aria": "Interactive 3D universe - Gabriel Feijó portfolio"
+  },
+  "planet_panel": {
+    "close_aria": "Close panel",
+    "previous_aria": "Open previous panel: {{name}}",
+    "next_aria": "Open next panel: {{name}}"
+  },
+  "sun": {
+    "help": {
+      "kicker": "Navigation beacon",
+      "name": "HELP",
+      "subtitle": "Guidance center",
+      "description": "Click the sun to understand how to navigate"
+    }
+  },
+  "about": {
+    "sections": {
+      "identity": {
+        "eyebrow": "Identity"
+      },
+      "education": {
+        "eyebrow": "Studies",
+        "title": "Education"
+      },
+      "approach": {
+        "eyebrow": "Approach",
+        "title": "Work vision"
+      }
+    }
+  },
+  "skills": {
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops_platform": "DevOps and Platform"
+    },
+    "group_items": {
+      "general": [
+        "Teamwork",
+        "Autonomy and proactivity",
+        "Continuous learning",
+        "Communication",
+        "Web Development",
+        "Mobile Development"
+      ],
+      "ui": [
+        "Shadcn/UI",
+        "Material UI",
+        "Next UI",
+        "Bootstrap",
+        "Ant Design",
+        "Figma"
+      ],
+      "db": [
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB",
+        "SQLite",
+        "Prisma",
+        "Sequelize",
+        "TypeORM"
+      ],
+      "cloud": [
+        "AWS EC2",
+        "AWS RDS",
+        "AWS S3",
+        "AWS Lambda",
+        "CloudFront",
+        "Oracle Functions",
+        "Git and GitHub",
+        "Jira",
+        "Trello",
+        "Scrum"
+      ]
+    }
+  },
+  "projects": {
+    "filters": {
+      "all": "All",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "full_stack": "Full Stack",
+      "mobile": "Mobile",
+      "portfolio": "Portfolio"
+    }
+  },
+  "experience": {
+    "types": {
+      "clt": "Full-time",
+      "pj": "Contract",
+      "bolsista": "Scholarship"
+    }
+  },
+  "help": {
+    "close_aria": "Close help",
+    "badge": "Navigation guide",
+    "title": "The sun now guides your navigation",
+    "description": "This portfolio was designed as an interactive universe. The sun works as a central help point: by clicking it, visitors quickly understand the project concept, what each planet represents, and the best way to explore everything without getting lost.",
+    "cards": {
+      "interaction": {
+        "title": "Main interaction",
+        "description": "Click planets to open each part of the portfolio."
+      },
+      "flow": {
+        "title": "Suggested flow",
+        "description": "Start with About or Projects to quickly understand my profile."
+      },
+      "guided": {
+        "title": "Guided reading",
+        "description": "Use side panels to dive deeper into each section at your own pace."
+      }
+    },
+    "how_to_navigate": "How to navigate",
+    "quick_steps": [
+      "Click a planet to open the corresponding portfolio section.",
+      "Use next and previous buttons inside panels to move between areas.",
+      "Click outside the panel to close it and return to the full universe view."
+    ],
+    "planets_overview": "What each planet shows",
+    "sections": [
+      {
+        "title": "About",
+        "description": "Who I am, trajectory, education, and professional vision."
+      },
+      {
+        "title": "Skills",
+        "description": "Main stack, tools, and technical capabilities."
+      },
+      {
+        "title": "Projects",
+        "description": "Featured deliveries, context, and product decisions."
+      },
+      {
+        "title": "Experience",
+        "description": "My professional evolution and key responsibilities."
+      },
+      {
+        "title": "Accomplishments",
+        "description": "Certificates, studies, recognitions, and relevant milestones."
+      },
+      {
+        "title": "Contact",
+        "description": "Links and channels to talk about opportunities."
+      }
+    ],
+    "project_summary_title": "Project summary",
+    "project_summary_description": "Here you can find my trajectory, skills, projects, experience, and contact channels in an immersive space navigation designed to turn reading into exploration."
+  },
+  "webgl": {
+    "context_lost": {
+      "badge": "Graphics connection lost",
+      "title": "Critical WebGL failure",
+      "description": "The 3D universe lost access to your graphics card (Context Lost). WebGL may have been disabled by the browser for security reasons.",
+      "required_action": "Required action",
+      "required_action_text": "To view the portfolio interactively,",
+      "required_action_strong": "you will need to fully close your browser and open it again",
+      "required_action_suffix": "Reloading the page alone will not be enough if hardware blocking occurred.",
+      "tips": {
+        "memory": {
+          "title": "Out of memory",
+          "description": "Too many open tabs at once can exhaust video memory (VRAM)."
+        },
+        "protection": {
+          "title": "Protection block",
+          "description": "After a crash, browsers may block WebGL usage in the current tab for safety."
+        },
+        "load": {
+          "title": "Graphics overload",
+          "description": "Older drivers and GPUs may force interruption after intense processing."
+        }
+      }
+    },
+    "unavailable": {
+      "badge": "Compatibility mode",
+      "title": "WebGL unavailable",
+      "description": "This portfolio needs WebGL to render the 3D experience. Right now, the browser or hardware could not provide this feature.",
+      "whats_happening_title": "What is happening",
+      "whats_happening_description": "When this happens, the 3D universe cannot be loaded safely. On this screen, the default system cursor returns automatically since the styled cursor depends on the main interface being initialized.",
+      "tips": {
+        "browser": {
+          "title": "Update your browser",
+          "description": "Recent Chrome, Edge, Firefox, and Safari versions usually provide better support."
+        },
+        "acceleration": {
+          "title": "Enable acceleration",
+          "description": "Check whether hardware acceleration is enabled in settings."
+        },
+        "driver": {
+          "title": "Review your driver",
+          "description": "Outdated graphics drivers can prevent WebGL initialization."
+        }
+      }
+    },
+    "actions": {
+      "try_again": "Try again",
+      "open_portfolio_v1": "Open Portfolio V1"
+    }
+  }
+}

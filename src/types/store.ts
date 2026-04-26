@@ -46,6 +46,8 @@ export interface UiSlice {
   setExperienceSetting: <Key extends keyof ExperienceSettings>(key: Key, value: ExperienceSettings[Key]) => void
   applyExperiencePreset: (preset: ExperiencePreset) => void
   resetExperienceSettings: () => void
+  language: 'pt' | 'en'
+  setLanguage: (lang: 'pt' | 'en') => void
 }
 
 export type SpaceStore = NavigationSlice & UiSlice
