@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
 import { GraduationCap, Trophy } from 'lucide-react'
 import { PanelIntroCard, PanelSection } from './panel-primitives'
@@ -6,13 +7,15 @@ import { AccomplishmentCard } from './accomplishments/accomplishment-card'
 import { CertificateCard } from './accomplishments/certificate-card'
 
 export function AccomplishmentsPanel() {
+  const { t } = useTranslation()
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={Trophy}
-        eyebrow="Marcos relevantes"
-        title="Conquistas e reconhecimento"
-        description="Competições, formações e sinais claros de crescimento profissional ao longo da jornada."
+        eyebrow={t('planets.accomplishments.subtitle')}
+        title={t('planets.accomplishments.name')}
+        description={t('planets.accomplishments.description')}
         ringClassName="-right-16 -top-12 h-44 w-44"
       />
 
@@ -39,6 +42,7 @@ export function AccomplishmentsPanel() {
               <CertificateCard
                 key={i}
                 certificate={cert}
+                index={i}
                 transition={{ delay: i * 0.06 + 0.2 }}
               />
             ))}

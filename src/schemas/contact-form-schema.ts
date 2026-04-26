@@ -4,17 +4,17 @@ export const contactFormSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, 'Informe pelo menos 2 caracteres no nome.'),
+    .min(2, 'contact.form.validation.name_min'),
   email: z
     .string()
     .trim()
-    .min(1, 'Informe um email para contato.')
-    .email('Digite um email valido.'),
+    .min(1, 'contact.form.validation.email_required')
+    .email('contact.form.validation.email_invalid'),
   message: z
     .string()
     .trim()
-    .min(12, 'Escreva uma mensagem com pelo menos 12 caracteres.')
-    .max(600, 'A mensagem deve ter no máximo 600 caracteres.'),
+    .min(12, 'contact.form.validation.message_min')
+    .max(600, 'contact.form.validation.message_max'),
 })
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>

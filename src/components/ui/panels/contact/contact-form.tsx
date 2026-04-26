@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema'
@@ -14,6 +15,7 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ setCursorVariant }: ContactFormProps) {
+  const { t } = useTranslation()
   const { active: sent, trigger } = useTemporaryFlag(3500)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const linkCursor = createCursorHandlers(setCursorVariant)
@@ -34,6 +36,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
   })
 
   const messageValue = watch('message') ?? ''
+  const resolveErrorMessage = (message?: string) => (message ? t(message, { defaultValue: message }) : undefined)
 
   const onSubmit = async (values: ContactFormValues) => {
     setSubmitError(null)
@@ -43,7 +46,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       trigger()
       reset()
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Nao foi possivel enviar sua mensagem agora.')
+      setSubmitError(error instanceof Error ? error.message : t('contact.form.error_fallback'))
     }
   }
 
@@ -52,12 +55,12 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       <div className="grid gap-3 md:grid-cols-2">
         <ContactFormField
           errorId="contact-name-error"
-          label="Nome"
-          error={errors.name?.message}
+          label={t('contact.form.name')}
+          error={resolveErrorMessage(errors.name?.message)}
           input={
             <input
               type="text"
-              placeholder="Seu nome"
+              placeholder={t('contact.form.name_placeholder')}
               aria-invalid={Boolean(errors.name)}
               aria-describedby="contact-name-error"
               {...register('name')}
@@ -68,12 +71,12 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
 
         <ContactFormField
           errorId="contact-email-error"
-          label="Email"
-          error={errors.email?.message}
+          label={t('contact.form.email')}
+          error={resolveErrorMessage(errors.email?.message)}
           input={
             <input
               type="email"
-              placeholder="voce@email.com"
+              placeholder={t('contact.form.email_placeholder')}
               aria-invalid={Boolean(errors.email)}
               aria-describedby="contact-email-error"
               {...register('email')}
@@ -85,12 +88,12 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
 
       <ContactFormField
         errorId="contact-message-error"
-        label="Mensagem"
-        error={errors.message?.message ?? submitError ?? undefined}
-        helperText={`${messageValue.trim().length}/600 caracteres`}
+        label={t('contact.form.message')}
+        error={resolveErrorMessage(errors.message?.message) ?? submitError ?? undefined}
+        helperText={`${messageValue.trim().length}/600 ${t('contact.form.characters')}`}
         input={
           <textarea
-            placeholder="Conte brevemente sobre a oportunidade, projeto ou ideia."
+            placeholder={t('contact.form.message_placeholder')}
             rows={5}
             aria-invalid={Boolean(errors.message)}
             aria-describedby="contact-message-error"
@@ -108,7 +111,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         disabled={isSubmitting}
         className={`px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors ${isSubmitting ? 'opacity-70' : ''}`}
       >
-        {sent ? '✓ Mensagem recebida!' : isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
+        {sent ? t('contact.form.sent') : isSubmitting ? t('contact.form.sending') : t('contact.send_message')}
       </motion.button>
     </form>
   )

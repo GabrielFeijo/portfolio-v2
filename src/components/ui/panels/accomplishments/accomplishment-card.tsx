@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { Award } from 'lucide-react'
 import type { Accomplishment } from '@/data/portfolio'
 import { PanelTopGlow } from '../panel-content-primitives'
@@ -15,6 +16,8 @@ export function AccomplishmentCard({
   index,
   transition,
 }: AccomplishmentCardProps) {
+  const { t } = useTranslation()
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 12 }}
@@ -43,9 +46,15 @@ export function AccomplishmentCard({
           />
         </motion.div>
 
-        <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">{accomplishment.category}</div>
-        <h3 className="mb-2 text-base font-semibold text-(--text-primary)">{accomplishment.title}</h3>
-        <p className="text-sm leading-7 text-(--text-secondary)">{accomplishment.description}</p>
+        <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
+          {t(`accomplishments_items.${index}.category`, accomplishment.category)}
+        </div>
+        <h3 className="mb-2 text-base font-semibold text-(--text-primary)">
+          {t(`accomplishments_items.${index}.title`, accomplishment.title)}
+        </h3>
+        <p className="text-sm leading-7 text-(--text-secondary)">
+          {t(`accomplishments_items.${index}.description`, accomplishment.description)}
+        </p>
       </div>
     </motion.article>
   )
