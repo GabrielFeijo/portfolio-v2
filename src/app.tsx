@@ -24,10 +24,10 @@ export default function App() {
     settings: state.experienceSettings,
     settingsOpen: state.settingsOpen,
   })))
-  const [hasWebGL, setHasWebGL] = useState<boolean | null>(null)
+  const [webGLStatus, setWebGLStatus] = useState<'checking' | 'available' | 'unavailable' | 'context_lost'>('checking')
 
   useEffect(() => {
-    setHasWebGL(isWebGLAvailable())
+    setWebGLStatus(isWebGLAvailable() ? 'available' : 'unavailable')
   }, [])
 
   useEffect(() => {
@@ -36,8 +36,10 @@ export default function App() {
     return () => document.removeEventListener('contextmenu', prevent)
   }, [])
 
-  if (hasWebGL === false) return <WebGLError />
-  if (hasWebGL === null) return null
+  if (webGLStatus === 'unavailable' || webGLStatus === 'context_lost') {
+    return <WebGLError variant={webGLStatus} />
+  }
+  if (webGLStatus === 'checking') return null
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">
@@ -57,7 +59,7 @@ export default function App() {
         onCreated={({ gl }) => {
           gl.domElement.addEventListener('webglcontextlost', (event) => {
             event.preventDefault()
-            setHasWebGL(false)
+            setWebGLStatus('context_lost')
           }, false)
         }}
       >
