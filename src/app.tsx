@@ -2,6 +2,7 @@ import { useEffect, Suspense, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { Preload } from '@react-three/drei'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { useSpaceStore } from '@/store/space-store'
 import { SpaceScene } from '@/components/three/scene/space-scene'
@@ -17,6 +18,7 @@ import { PlanetPanel } from '@/components/ui/planet-panel'
 import { isWebGLAvailable } from '@/utils/webgl-check'
 
 export default function App() {
+  const { t } = useTranslation()
   const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(useShallow((state) => ({
     activePanel: state.activePanel,
     helpOpen: state.helpOpen,
@@ -50,7 +52,7 @@ export default function App() {
       <CustomCursor />
 
       <Canvas
-        aria-label="Universo 3D interativo - portfólio de Gabriel Feijó"
+        aria-label={t('app.canvas_aria')}
         className="absolute inset-0"
         camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
         dpr={[1, settings.dpr]}
