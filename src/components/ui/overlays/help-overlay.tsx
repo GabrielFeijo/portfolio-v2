@@ -1,31 +1,20 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 import { createCursorHandlers } from '../panels/panel-primitives'
 
-const quickSteps = [
-  'Clique em um planeta para abrir a seção correspondente do portfólio.',
-  'Use os botões de próximo e anterior dentro dos painéis para navegar entre as áreas.',
-  'Clique fora do painel para fechar e voltar à visão completa do universo.',
-]
-
-const sections = [
-  { title: 'Sobre', description: 'Quem eu sou, trajetória, formação e visão profissional.' },
-  { title: 'Habilidades', description: 'Stack principal, ferramentas e capacidades técnicas.' },
-  { title: 'Projetos', description: 'Entregas em destaque, contexto e decisões de produto.' },
-  { title: 'Experiência', description: 'Minha evolução profissional e principais responsabilidades.' },
-  { title: 'Conquistas', description: 'Certificados, estudos, reconhecimentos e marcos relevantes.' },
-  { title: 'Contato', description: 'Links e canais para conversarmos sobre oportunidades.' },
-]
-
 export function HelpOverlay() {
+  const { t } = useTranslation()
   const dialogRef = useRef<HTMLDivElement | null>(null)
   const { closeHelp, setCursorVariant } = useSpaceStore()
   const linkCursor = createCursorHandlers(setCursorVariant)
   useFocusTrap(dialogRef, true)
+  const quickSteps = t('help.quick_steps', { returnObjects: true }) as string[]
+  const sections = t('help.sections', { returnObjects: true }) as Array<{ title: string; description: string }>
 
   return (
     <motion.div
@@ -64,7 +53,7 @@ export function HelpOverlay() {
             type="button"
             onClick={closeHelp}
             {...linkCursor}
-            aria-label="Fechar ajuda"
+            aria-label={t('help.close_aria')}
             className="absolute right-5 top-5 z-10 cursor-none"
           >
             <UIIconTile icon={X} tone="warm" />
@@ -74,40 +63,38 @@ export function HelpOverlay() {
             <section className="border-b border-[rgba(255,255,255,0.08)] px-5 py-6 sm:px-8 sm:py-8 lg:border-b-0 lg:border-r lg:border-r-[rgba(255,255,255,0.08)]">
               <UIBadge tone="warm" className="mb-6 font-mono-space text-[11px] uppercase tracking-[0.28em]">
                 <Sparkles size={14} />
-                Guia de bordo
+                {t('help.badge')}
               </UIBadge>
 
               <h2 id="help-overlay-title" className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl">
-                O sol agora guia a sua navegação
+                {t('help.title')}
               </h2>
 
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
-                Este portfólio foi pensado como um universo interativo. O sol funciona como ponto central de ajuda:
-                ao clicar nele, o visitante entende rapidamente o conceito do projeto, o que cada planeta representa e
-                qual é a melhor forma de explorar tudo sem se perder.
+                {t('help.description')}
               </p>
 
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 <InfoCard
                   icon={MousePointerClick}
-                  title="Interação principal"
-                  description="Clique nos planetas para abrir cada parte do portfólio."
+                  title={t('help.cards.interaction.title')}
+                  description={t('help.cards.interaction.description')}
                 />
                 <InfoCard
                   icon={Compass}
-                  title="Fluxo sugerido"
-                  description="Comece por Sobre ou Projetos para entender rápido meu perfil."
+                  title={t('help.cards.flow.title')}
+                  description={t('help.cards.flow.description')}
                 />
                 <InfoCard
                   icon={BookOpen}
-                  title="Leitura guiada"
-                  description="Use os painéis laterais para aprofundar cada seção no seu ritmo."
+                  title={t('help.cards.guided.title')}
+                  description={t('help.cards.guided.description')}
                 />
               </div>
 
               <UIInset className="mt-8 p-5 sm:p-6">
                 <div className="mb-4 text-[11px] font-mono-space uppercase tracking-[0.3em] text-[rgba(255,214,122,0.72)]">
-                  Como navegar
+                  {t('help.how_to_navigate')}
                 </div>
                 <div className="space-y-3">
                   {quickSteps.map((step, index) => (
@@ -124,7 +111,7 @@ export function HelpOverlay() {
 
             <aside className="px-5 py-6 sm:px-8 sm:py-8">
               <div className="mb-4 text-[11px] font-mono-space uppercase tracking-[0.3em] text-[rgba(255,214,122,0.72)]">
-                O que cada planeta mostra
+                {t('help.planets_overview')}
               </div>
 
               <div className="space-y-3">
@@ -142,11 +129,10 @@ export function HelpOverlay() {
 
               <UIInset className="mt-6 border-[rgba(255,184,0,0.12)] bg-[rgba(255,184,0,0.06)] p-5">
                 <div className="text-[11px] font-mono-space uppercase tracking-[0.28em] text-[#FFD67A]">
-                  Resumo do projeto
+                  {t('help.project_summary_title')}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-[rgba(240,244,255,0.75)]">
-                  Aqui você encontra minha trajetória, competências, projetos, experiências e formas de contato em uma
-                  navegação espacial imersiva, pensada para transformar leitura em exploração.
+                  {t('help.project_summary_description')}
                 </p>
               </UIInset>
             </aside>

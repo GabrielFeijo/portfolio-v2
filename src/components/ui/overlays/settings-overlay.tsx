@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Gauge, MonitorCog, Music, RotateCcw, Settings, SlidersHorizontal, Sparkles, Volume2, X, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
@@ -26,15 +27,9 @@ interface RangeControlProps {
   value: number
 }
 
-const PRESETS: Array<{ id: ExperiencePreset; label: string; description: string }> = [
-  { id: 'cinematic', label: 'Cinematic', description: 'Tudo ligado no máximo.' },
-  { id: 'balanced', label: 'Balanced', description: 'Visual cheio com custo menor.' },
-  { id: 'performance', label: 'Performance', description: 'Mais leve para GPUs modestas.' },
-  { id: 'minimal', label: 'Minimal', description: 'Foco em navegação fluida.' },
-]
-
 export function SettingsOverlay() {
   const dialogRef = useRef<HTMLDivElement | null>(null)
+  const { t } = useTranslation()
   const {
     applyExperiencePreset,
     closeSettings,
@@ -50,6 +45,14 @@ export function SettingsOverlay() {
     setExperienceSetting: state.setExperienceSetting,
     settings: state.experienceSettings,
   })))
+
+  const PRESETS: Array<{ id: ExperiencePreset; label: string; description: string }> = [
+    { id: 'cinematic', label: t('settings.presets.cinematic.title'), description: t('settings.presets.cinematic.description') },
+    { id: 'balanced', label: t('settings.presets.balanced.title'), description: t('settings.presets.balanced.description') },
+    { id: 'performance', label: t('settings.presets.performance.title'), description: t('settings.presets.performance.description') },
+    { id: 'minimal', label: t('settings.presets.minimal.title'), description: t('settings.presets.minimal.description') },
+  ]
+
   const linkCursor = createCursorHandlers(setCursorVariant)
   useFocusTrap(dialogRef, true)
 
@@ -95,7 +98,7 @@ export function SettingsOverlay() {
             type="button"
             onClick={closeSettings}
             {...linkCursor}
-            aria-label="Fechar configurações"
+            aria-label={t('common.close')}
             className="absolute right-5 top-5 z-10 cursor-none"
           >
             <UIIconTile icon={X} />
@@ -106,13 +109,13 @@ export function SettingsOverlay() {
               <div>
                 <UIBadge className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]">
                   <Settings size={14} />
-                  Experience controls
+                  {t('settings.experience_controls')}
                 </UIBadge>
                 <h2 id="settings-overlay-title" className="font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl">
-                  Configurações globais
+                  {t('settings.title')}
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
-                  Ajuste a intensidade visual da cena, das animações e dos efeitos para priorizar imersão ou performance.
+                  {t('settings.description')}
                 </p>
               </div>
             </div>
@@ -139,52 +142,52 @@ export function SettingsOverlay() {
             </div>
 
             <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_1fr]">
-              <SettingsGroup icon={Zap} title="Animações">
-                <ToggleControl checked={settings.transitionAnimations} label="Entrada e saída de planetas" onChange={(checked) => update('transitionAnimations', checked)} />
-                <ToggleControl checked={settings.warpEffects} label="Efeito warp" onChange={(checked) => update('warpEffects', checked)} />
-                <ToggleControl checked={settings.autoRotate} label="Rotação automática da câmera" onChange={(checked) => update('autoRotate', checked)} />
-                <ToggleControl checked={settings.planetRotation} label="Rotação dos planetas" onChange={(checked) => update('planetRotation', checked)} />
+              <SettingsGroup icon={Zap} title={t('settings.groups.animations')}>
+                <ToggleControl checked={settings.transitionAnimations} label={t('settings.controls.transitions')} onChange={(checked) => update('transitionAnimations', checked)} />
+                <ToggleControl checked={settings.warpEffects} label={t('settings.controls.warp')} onChange={(checked) => update('warpEffects', checked)} />
+                <ToggleControl checked={settings.autoRotate} label={t('settings.controls.auto_rotate')} onChange={(checked) => update('autoRotate', checked)} />
+                <ToggleControl checked={settings.planetRotation} label={t('settings.controls.planet_rotation')} onChange={(checked) => update('planetRotation', checked)} />
               </SettingsGroup>
 
-              <SettingsGroup icon={Sparkles} title="Elementos visuais">
-                <ToggleControl checked={settings.nebula} label="Nebulosas" onChange={(checked) => update('nebula', checked)} />
-                <ToggleControl checked={settings.shootingStars} label="Estrelas cadentes" onChange={(checked) => update('shootingStars', checked)} />
-                <ToggleControl checked={settings.orbitalParticles} label="Partículas orbitais" onChange={(checked) => update('orbitalParticles', checked)} />
-                <ToggleControl checked={settings.shadows} label="Sombras WebGL" onChange={(checked) => update('shadows', checked)} />
+              <SettingsGroup icon={Sparkles} title={t('settings.groups.visual_elements')}>
+                <ToggleControl checked={settings.nebula} label={t('settings.controls.nebula')} onChange={(checked) => update('nebula', checked)} />
+                <ToggleControl checked={settings.shootingStars} label={t('settings.controls.shooting_stars')} onChange={(checked) => update('shootingStars', checked)} />
+                <ToggleControl checked={settings.orbitalParticles} label={t('settings.controls.particles')} onChange={(checked) => update('orbitalParticles', checked)} />
+                <ToggleControl checked={settings.shadows} label={t('settings.controls.shadows')} onChange={(checked) => update('shadows', checked)} />
               </SettingsGroup>
 
-              <SettingsGroup icon={Music} title="Trilha sonora">
-                <ToggleControl checked={settings.musicEnabled} label="Música espacial ambiente" onChange={(checked) => update('musicEnabled', checked)} />
-                <RangeControl label="Volume da música" min={0} max={1} step={0.01} value={settings.musicVolume} suffix="%" onChange={(value) => update('musicVolume', value)} />
+              <SettingsGroup icon={Music} title={t('settings.groups.soundtrack')}>
+                <ToggleControl checked={settings.musicEnabled} label={t('settings.controls.music')} onChange={(checked) => update('musicEnabled', checked)} />
+                <RangeControl label={t('settings.controls.volume')} min={0} max={1} step={0.01} value={settings.musicVolume} suffix="%" onChange={(value) => update('musicVolume', value)} />
                 <UIInset className="p-4">
                   <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
                     <Volume2 size={14} />
-                    Ambient orbital
+                    {t('settings.ambient_orbital')}
                   </div>
                   <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
-                    Uma trilha sonora atmosférica e imersiva, com pads etéreos e profundidade orbital para acompanhar sua jornada pelo cosmos.
+                    {t('settings.music_description')}
                   </p>
                   <div className="mt-3 border-t border-[rgba(255,255,255,0.06)] pt-3 text-[10px] uppercase tracking-wider text-[rgba(240,244,255,0.45)]">
-                    Música por <a href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Nikita Kondrashev</a> via <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Pixabay</a>
+                    {t('settings.music_credits', { author: 'Nikita Kondrashev' })} <a href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Nikita Kondrashev</a> via <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783" target="_blank" rel="noopener noreferrer" className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline" {...linkCursor}>Pixabay</a>
                   </div>
                 </UIInset>
               </SettingsGroup>
 
-              <SettingsGroup icon={SlidersHorizontal} title="Densidade da cena">
-                <RangeControl label="Campo de estrelas" min={0.1} max={1} step={0.05} value={settings.starDensity} suffix="%" onChange={(value) => update('starDensity', value)} />
-                <RangeControl label="Cinturão de asteroides" min={0} max={1} step={0.05} value={settings.asteroidDensity} suffix="%" onChange={(value) => update('asteroidDensity', value)} />
+              <SettingsGroup icon={SlidersHorizontal} title={t('settings.groups.scene_density')}>
+                <RangeControl label={t('settings.controls.stars')} min={0.1} max={1} step={0.05} value={settings.starDensity} suffix="%" onChange={(value) => update('starDensity', value)} />
+                <RangeControl label={t('settings.controls.asteroids')} min={0} max={1} step={0.05} value={settings.asteroidDensity} suffix="%" onChange={(value) => update('asteroidDensity', value)} />
               </SettingsGroup>
 
-              <SettingsGroup icon={MonitorCog} title="Renderização">
-                <ToggleControl checked={settings.antialias} label="Antialias" onChange={(checked) => update('antialias', checked)} />
-                <RangeControl label="DPR do canvas" min={1} max={1.8} step={0.05} value={settings.dpr} onChange={(value) => update('dpr', value)} />
+              <SettingsGroup icon={MonitorCog} title={t('settings.groups.rendering')}>
+                <ToggleControl checked={settings.antialias} label={t('settings.controls.antialias')} onChange={(checked) => update('antialias', checked)} />
+                <RangeControl label={t('settings.controls.dpr')} min={1} max={1.8} step={0.05} value={settings.dpr} onChange={(value) => update('dpr', value)} />
                 <UIInset className="p-4">
                   <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
                     <Gauge size={14} />
-                    Estado atual
+                    {t('settings.state_status')}
                   </div>
                   <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
-                    Default máximo: todas as opções ligadas, densidade total e DPR em 1.8.
+                    {t('settings.state_description')}
                   </p>
                 </UIInset>
               </SettingsGroup>

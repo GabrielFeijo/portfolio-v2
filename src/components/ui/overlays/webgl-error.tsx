@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { AlertTriangle, RefreshCcw, ShieldCheck, Cpu, AppWindow, ExternalLink } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 
 export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable' | 'context_lost' }) {
+  const { t } = useTranslation()
   useEffect(() => {
     document.body.classList.add('cursor-fallback-mode')
 
@@ -33,7 +35,7 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
           <div className="relative overflow-y-auto px-6 py-7 sm:px-8 sm:py-8">
             <UIBadge tone="warm" className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]">
               <AlertTriangle size={14} />
-              {isContextLost ? 'Conexão Gráfica Perdida' : 'Modo de compatibilidade'}
+              {isContextLost ? t('webgl.context_lost.badge') : t('webgl.unavailable.badge')}
             </UIBadge>
 
             <div className="mb-6 flex items-start gap-4">
@@ -41,12 +43,10 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
 
               <div>
                 <h1 className="font-display text-[24px] font-extrabold uppercase tracking-[0.12em] text-[#FFF3E8] sm:text-[28px]">
-                  {isContextLost ? 'Falha Crítica do WebGL' : 'WebGL Indisponível'}
+                  {isContextLost ? t('webgl.context_lost.title') : t('webgl.unavailable.title')}
                 </h1>
                 <p className="mt-3 max-w-[46ch] text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
-                  {isContextLost 
-                    ? 'O universo 3D perdeu o acesso à sua placa de vídeo (Context Lost). O WebGL pode ter sido desativado pelo navegador por medidas de segurança.'
-                    : 'Este portfólio precisa de WebGL para renderizar a experiência 3D. No momento, o navegador ou o hardware não conseguiu disponibilizar esse recurso.'}
+                  {isContextLost ? t('webgl.context_lost.description') : t('webgl.unavailable.description')}
                 </p>
               </div>
             </div>
@@ -55,20 +55,19 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
               <UIInset className="mt-6 mb-6 border-[rgba(255,122,26,0.3)] bg-[rgba(255,60,0,0.08)] p-4 sm:p-5">
                 <div className="mb-2 flex items-center gap-2 font-mono-space text-[11.5px] font-semibold uppercase tracking-[0.24em] text-[#FF9066]">
                   <ShieldCheck size={14} />
-                  Ação Necessária
+                  {t('webgl.context_lost.required_action')}
                 </div>
                 <p className="text-sm font-medium leading-6 text-[#FFE4D6]">
-                  Para ver o portfólio de forma interativa, <strong>será necessário fechar o seu navegador por completo e abri-lo novamente</strong>. Apenas recarregar a página não será suficiente se houve um bloqueio de hardware.
+                  {t('webgl.context_lost.required_action_text')} <strong>{t('webgl.context_lost.required_action_strong')}</strong>. {t('webgl.context_lost.required_action_suffix')}
                 </p>
               </UIInset>
             ) : (
               <UIInset className="mt-6 mb-6 p-4 sm:p-5">
                 <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.24em] text-[rgba(125,211,252,0.82)]">
-                  O que está acontecendo
+                  {t('webgl.unavailable.whats_happening_title')}
                 </div>
                 <p className="text-sm leading-7 text-[rgba(240,244,255,0.66)]">
-                  Quando isso acontece, o universo 3D não consegue ser carregado com segurança. Nesta tela o cursor padrão do sistema
-                  volta automaticamente, já que o cursor estilizado depende da interface principal ter sido iniciada.
+                  {t('webgl.unavailable.whats_happening_description')}
                 </p>
               </UIInset>
             )}
@@ -76,18 +75,18 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
             <div className="grid gap-3 md:grid-cols-3">
               <FallbackTip
                 icon={AppWindow}
-                title={isContextLost ? "Memória Esgotada" : "Atualize o navegador"}
-                description={isContextLost ? "Muitas abas abertas simultaneamente podem estourar a memória de vídeo (VRAM)." : "Chrome, Edge, Firefox e Safari recentes costumam oferecer melhor suporte."}
+                title={isContextLost ? t('webgl.context_lost.tips.memory.title') : t('webgl.unavailable.tips.browser.title')}
+                description={isContextLost ? t('webgl.context_lost.tips.memory.description') : t('webgl.unavailable.tips.browser.description')}
               />
               <FallbackTip
                 icon={ShieldCheck}
-                title={isContextLost ? "Bloqueio por Proteção" : "Ative a aceleração"}
-                description={isContextLost ? "Após um travamento, navegadores bloqueiam o uso do WebGL na aba atual por segurança." : "Verifique se a aceleração de hardware está habilitada nas configurações."}
+                title={isContextLost ? t('webgl.context_lost.tips.protection.title') : t('webgl.unavailable.tips.acceleration.title')}
+                description={isContextLost ? t('webgl.context_lost.tips.protection.description') : t('webgl.unavailable.tips.acceleration.description')}
               />
               <FallbackTip
                 icon={Cpu}
-                title={isContextLost ? "Sobrecarga Gráfica" : "Revise o driver"}
-                description={isContextLost ? "Drivers e placas antigas podem forçar a interrupção após uso intenso do processador." : "Drivers gráficos desatualizados podem impedir a inicialização do WebGL."}
+                title={isContextLost ? t('webgl.context_lost.tips.load.title') : t('webgl.unavailable.tips.driver.title')}
+                description={isContextLost ? t('webgl.context_lost.tips.load.description') : t('webgl.unavailable.tips.driver.description')}
               />
             </div>
 
@@ -100,7 +99,7 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
                 onClick={() => window.location.reload()}
               >
                 <RefreshCcw size={14} />
-                TENTAR NOVAMENTE
+                {t('webgl.actions.try_again')}
               </motion.button>
 
               <motion.a
@@ -112,7 +111,7 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
                 rel="noopener noreferrer"
               >
                 <ExternalLink size={14} />
-                ABRIR PORTFOLIO V1
+                {t('webgl.actions.open_portfolio_v1')}
               </motion.a>
             </div>
           </div>
