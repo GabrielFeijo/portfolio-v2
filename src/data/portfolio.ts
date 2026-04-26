@@ -110,8 +110,8 @@ export interface Project {
   name: string
   description: string
   tech: string[]
-  github: string
-  live: string
+  github?: string
+  live?: string
   color: string
   featured: boolean
   year: number
@@ -328,8 +328,6 @@ export const PROJECTS: Project[] = [
     name: 'Arsenal Academy',
     description: 'Plataforma de educação empreendedora voltada para universitários, com diagnóstico personalizado, trilhas em microlearning e acompanhamento da evolução de cada usuário.',
     tech: ['React', 'Next.js', 'TypeScript', 'NestJS', 'Sequelize', 'MySQL', 'AWS', 'Nginx'],
-    github: 'https://github.com/GabrielFeijo',
-    live: 'https://arsenalinovacao.com.br',
     color: '#00D4FF',
     featured: true,
     year: 2023,
@@ -364,8 +362,6 @@ export const PROJECTS: Project[] = [
     name: 'Arsenal Inovação LP',
     description: 'Landing page institucional para startup do Porto Digital com foco em empreendedorismo e inovação na era digital.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
-    github: 'https://github.com/GabrielFeijo',
-    live: 'https://arsenalinovacao.com.br',
     color: '#5EEAD4',
     featured: false,
     year: 2024,
@@ -377,7 +373,7 @@ export const PROJECTS: Project[] = [
     name: 'SCoordena',
     description: 'Gerenciador de eventos criado como projeto final do curso de backend, com foco em organização, acompanhamento e experiência intuitiva para administradores e participantes.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Prisma', 'PostgreSQL', 'Vercel'],
-    github: 'https://github.com/GabrielFeijo',
+    github: 'https://github.com/GabrielFeijo/SCoordena',
     live: 'https://scoordena.vercel.app/',
     color: '#FF8C00',
     featured: false,
@@ -390,7 +386,7 @@ export const PROJECTS: Project[] = [
     name: 'Radares Recife',
     description: 'Mapa interativo construído com dados públicos da Prefeitura do Recife para consulta de radares e câmeras de trânsito em uma interface clara e navegável.',
     tech: ['TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Leaflet', 'Vercel'],
-    github: 'https://github.com/GabrielFeijo',
+    github: 'https://github.com/GabrielFeijo/radares-recife',
     live: 'https://radares-recife.vercel.app',
     color: '#6B21E8',
     featured: false,
@@ -403,7 +399,7 @@ export const PROJECTS: Project[] = [
     name: 'FSW Foods',
     description: 'Aplicação inspirada no iFood desenvolvida durante a Full Stack Week, unindo fluxo de pedidos, boa experiência de navegação e integração full stack.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Prisma', 'PostgreSQL'],
-    github: 'https://github.com/GabrielFeijo',
+    github: 'https://github.com/GabrielFeijo/FSW-Foods',
     live: 'https://fswfoods.vercel.app/',
     color: '#FF1493',
     featured: true,
@@ -417,7 +413,6 @@ export const PROJECTS: Project[] = [
     description: 'Aplicativo mobile para tutores de pets, conectando serviços, pet shops e logística de transporte em uma experiência simples para o usuário final.',
     tech: ['React Native', 'JavaScript', 'Redux', 'Express', 'Node.js', 'MongoDB', 'Expo'],
     github: 'https://github.com/GabrielFeijo/React-Native-99Pets',
-    live: 'https://github.com/GabrielFeijo/React-Native-99Pets',
     color: '#FFB800',
     featured: false,
     year: 2022,
@@ -430,7 +425,6 @@ export const PROJECTS: Project[] = [
     description: 'Primeira versão da solução da Arsenal, focada no diagnóstico automatizado do momento empreendedor e sugestão de jornada de aprendizado.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Java', 'Spring', 'MySQL', 'Heroku'],
     github: 'https://github.com/GabrielFeijo/Spring-Arsenal',
-    live: 'https://github.com/GabrielFeijo/Spring-Arsenal',
     color: '#F97316',
     featured: false,
     year: 2022,
@@ -443,7 +437,7 @@ export const PROJECTS: Project[] = [
     description: 'Gerenciador de tarefas simples e direto, criado para praticar fluxo CRUD, organização de estado e integração entre frontend e backend.',
     tech: ['React', 'React Router', 'Vite', 'Express', 'Node.js', 'MongoDB'],
     github: 'https://github.com/GabrielFeijo/React-ToDo',
-    live: 'https://github.com/GabrielFeijo/React-ToDo',
+    live: 'https://gg-tasks.netlify.app/',
     color: '#38BDF8',
     featured: false,
     year: 2022,
