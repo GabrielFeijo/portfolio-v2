@@ -89,7 +89,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       <ContactFormField
         errorId="contact-message-error"
         label={t('contact.form.message')}
-        error={resolveErrorMessage(errors.message?.message) ?? submitError ?? undefined}
+        error={resolveErrorMessage(errors.message?.message) ?? resolveErrorMessage(submitError ?? undefined)}
         helperText={`${messageValue.trim().length}/600 ${t('contact.form.characters')}`}
         input={
           <textarea
