@@ -79,7 +79,7 @@
     }
   },
   "projects_items": {
-    "arsenal-academy": {
+    "arsenal_academy": {
       "name": "Arsenal Academy",
       "description": "Entrepreneurial education platform for university students, with personalized diagnosis, microlearning tracks, and progress tracking for each user.",
       "highlights": [
@@ -88,7 +88,7 @@
         "Full development cycle from frontend to backend"
       ]
     },
-    "vscode-portfolio": {
+    "vscode_portfolio": {
       "name": "VsCode Portfolio",
       "description": "Reinterpretation of the Visual Studio Code IDE transformed into an interactive portfolio, with a virtual file system, functional terminal, themes, and internationalization.",
       "highlights": [
@@ -97,7 +97,7 @@
         "Support for PT/EN and light/dark themes"
       ]
     },
-    "arsenal-inovacao-lp": {
+    "arsenal_innovation_lp": {
       "name": "Arsenal Inovação LP",
       "description": "Institutional landing page for a Porto Digital startup focused on entrepreneurship and innovation in the digital age."
     },
@@ -105,23 +105,23 @@
       "name": "SCoordena",
       "description": "Event manager created as a final project for the backend course, focused on organization, tracking, and intuitive experience for administrators and participants."
     },
-    "radares-recife": {
+    "recife_radars": {
       "name": "Radares Recife",
       "description": "Interactive map built with public data from the Recife City Hall to consult radars and traffic cameras in a clear and navigable interface."
     },
-    "fsw-foods": {
+    "fsw_foods": {
       "name": "FSW Foods",
       "description": "iFood-inspired application developed during Full Stack Week, joining order flow, good navigation experience, and full stack integration."
     },
-    "react-native-99pets": {
+    "react_native_99pets": {
       "name": "React Native 99Pets",
       "description": "Mobile application for pet owners, connecting services, pet shops, and transportation logistics in a simple experience for the end user."
     },
-    "projeto-arsenal-v1": {
+    "arsenal_project_v1": {
       "name": "Projeto Arsenal V1",
       "description": "First version of the Arsenal solution, focused on automated diagnosis of the entrepreneurial moment and learning journey suggestion."
     },
-    "react-todo": {
+    "react_todo": {
       "name": "React ToDo",
       "description": "Simple and straightforward task manager, created to practice CRUD flow, state organization, and integration between frontend and backend."
     }
@@ -171,7 +171,7 @@
         "Infrastructure in AWS with EC2, RDS, and S3"
       ]
     },
-    "senai-facepe": {
+    "senai_facepe_project": {
       "role": "Developer",
       "period": "01/2023 — 12/2023",
       "description": "Rapid cartography project for risk prevention with continuous monitoring of urban slopes from multiple data sources.",
@@ -182,7 +182,7 @@
         "Fusion of data from satellites, drones, and sensors"
       ]
     },
-    "ferreira-costa": {
+    "ferreira_costa": {
       "role": "Administrative Assistant",
       "period": "10/2021 — 02/2023",
       "description": "Acting in the trade marketing team of the Tamarineira branch, supporting production and execution of visual materials for the store.",
@@ -194,67 +194,67 @@
     }
   },
   "accomplishments_items": {
-    "top-10-embarque-digital": {
+    "top_10_embarque_digital": {
       "title": "Top 10 Squads - Embarque Digital",
       "description": "Team among the top 10 of the Kick Off of Embarque Digital 2021.2 with a proposal aligned with the UN Sustainable Development Goals.",
       "category": "Porto Digital"
     },
-    "top-12-riseup-porto-digital": {
+    "top_12_riseup_porto_digital": {
       "title": "Top 12 - RiseUp Porto Digital",
       "description": "Participation among the top 12 squads of the RiseUp stage, developing a frontend solution for Arsenal Inovação.",
       "category": "Competition"
     },
-    "top-12-growup-porto-digital": {
+    "top_12_growup_porto_digital": {
       "title": "Top 12 - GrowUp Porto Digital",
       "description": "Another classification among the best squads, this time evolving the backend and integration of the solution for Arsenal.",
       "category": "Competition"
     },
-    "graduacao-ads": {
+    "ads_graduation": {
       "title": "Graduation in ADS",
       "description": "Degree completed in Systems Analysis and Development from Faculdade Senac with a stint in the Embarque Digital program.",
       "category": "Education"
     },
-    "cloud-platform-experience": {
+    "cloud_platform_experience": {
       "title": "Cloud and Platform Experience",
       "description": "Practical experience with AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observability, and pipelines.",
       "category": "Technology"
     },
-    "web-mobile-performance": {
+    "web_mobile_performance": {
       "title": "Web and Mobile Performance",
       "description": "Projects in React, Next.js, and React Native, covering different types of products and delivery contexts.",
       "category": "Stack"
     }
   },
   "certificates_items": {
-    "diploma-ads": {
+    "ads_degree": {
       "name": "Diploma in Systems Analysis and Development",
       "description": "Graduation with a broad base in software development, systems architecture, and project management."
     },
-    "advanced-backend-development": {
+    "advanced_backend_development": {
       "name": "Advanced Back-end Development",
       "description": "Course focused on server-side practices and building robust and scalable applications."
     },
-    "beginner-programming": {
+    "beginner_programming": {
       "name": "Beginner in Programming",
       "description": "Initial training with programming fundamentals and logical reasoning."
     },
-    "decola-tech-2nd-edition": {
+    "decola_tech_2nd_edition": {
       "name": "Decola Tech 2nd Edition",
       "description": "Bootcamp with a focus on software development and market practices."
     },
-    "programming-logic-fundamentals": {
+    "programming_logic_fundamentals": {
       "name": "Fundamentals of Programming Logic",
       "description": "Conceptual base for decision structures, repetition, and problem solving."
     },
-    "html-css": {
+    "html_css": {
       "name": "HTML and CSS",
       "description": "Web development fundamentals with interface structure and styling."
     },
-    "introduction-javascript": {
+    "introduction_javascript": {
       "name": "Introduction to JavaScript",
       "description": "First steps with JavaScript for more dynamic and interactive pages."
     },
-    "java-programming-language": {
+    "java_programming_language": {
       "name": "Java Programming Language",
       "description": "Fundamentals of the Java language as a base for applications and systems."
     }
