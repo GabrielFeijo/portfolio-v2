@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { extend, useFrame } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import { Sphere, Sparkles, Html } from '@react-three/drei'
+import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
 import { useSpaceStore } from '@/store/space-store'
 import { SunMaterial } from '../shaders/sun-material'
@@ -14,6 +15,7 @@ interface HelpLabelStyle extends CSSProperties {
 }
 
 export function Sun3D() {
+  const { t } = useTranslation()
   const { openHelp, setCursorVariant } = useSpaceStore()
   const sunRef = useRef<THREE.Mesh | null>(null)
   const sunMatRef = useRef<THREE.ShaderMaterial | null>(null)
@@ -106,10 +108,10 @@ export function Sun3D() {
           className={`planet-label planet-label-help ${hovered ? 'planet-label-hovered' : ''}`}
           style={labelStyle}
         >
-          <div className="planet-label-kicker">Navigation beacon</div>
-          <div className="planet-label-name">AJUDA</div>
-          <div className="planet-label-subtitle">Centro de orientação</div>
-          <div className="planet-label-description">Clique no sol para entender como navegar</div>
+          <div className="planet-label-kicker">{t('sun.help.kicker')}</div>
+          <div className="planet-label-name">{t('sun.help.name')}</div>
+          <div className="planet-label-subtitle">{t('sun.help.subtitle')}</div>
+          <div className="planet-label-description">{t('sun.help.description')}</div>
         </div>
       </Html>
 

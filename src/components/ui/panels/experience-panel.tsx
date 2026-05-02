@@ -1,20 +1,22 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { EXPERIENCE } from '@/data/portfolio'
 import { BriefcaseBusiness } from 'lucide-react'
 import { PanelIntroCard } from './panel-primitives'
 import { ExperienceItem } from './experience/experience-item'
 
 export function ExperiencePanel() {
+  const { t } = useTranslation()
   const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id)
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={BriefcaseBusiness}
-        eyebrow="Linha do tempo"
-        title="Experiência profissional"
-        description="Histórico de atuação, contexto de negócio e principais entregas que marcaram minha evolução técnica."
+        eyebrow={t('planets.experience.subtitle')}
+        title={t('planets.experience.name')}
+        description={t('planets.experience.description')}
         ringClassName="-left-12 -top-10 h-32 w-32"
       />
 

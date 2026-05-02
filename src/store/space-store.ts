@@ -103,6 +103,8 @@ const createUiSlice = (set: SliceSet): UiSlice => ({
   })),
   applyExperiencePreset: (preset) => set({ experienceSettings: EXPERIENCE_PRESETS[preset] }),
   resetExperienceSettings: () => set({ experienceSettings: MAX_EXPERIENCE_SETTINGS }),
+  language: 'pt',
+  setLanguage: (lang) => set({ language: lang }),
 })
 
 export const useSpaceStore = create<SpaceStore>((set) => ({

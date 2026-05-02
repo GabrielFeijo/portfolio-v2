@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useMemo, useRef } from 'react'
 import type { ComponentType, CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { PLANETS, type PanelId } from '@/data/portfolio'
@@ -36,6 +37,7 @@ interface PanelTheme extends CSSProperties {
 }
 
 export function PlanetPanel() {
+  const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement | null>(null)
   const {
     activePanel,
@@ -133,7 +135,7 @@ export function PlanetPanel() {
               whileTap={{ scale: 0.9 }}
               onClick={closePanel}
               {...linkCursor}
-              aria-label="Fechar painel"
+              aria-label={t('planet_panel.close_aria')}
               className="panel-close-button absolute right-5 top-5 z-10 h-11 w-11 cursor-none transition-colors hover:bg-[rgba(255,255,255,0.12)]"
             >
               <X size={18} />
@@ -153,7 +155,7 @@ export function PlanetPanel() {
               </motion.div>
 
               <UIBadge className="font-mono-space text-[10px] uppercase tracking-[0.32em]" >
-                {planet.subtitle.toUpperCase()}
+                {t(`planets.${planet.id}.subtitle`).toUpperCase()}
               </UIBadge>
             </div>
 
@@ -162,17 +164,17 @@ export function PlanetPanel() {
               className="font-display text-[34px] font-black leading-none tracking-[0.12em] uppercase sm:text-[38px]"
               style={{ color: planet.color, textShadow: `0 0 40px ${planet.glowColor}60` }}
             >
-              {planet.name}
+              {t(`planets.${planet.id}.name`)}
             </div>
             <div className="mt-4 max-w-[92%] font-body-exo text-[13px] font-light leading-6 text-[rgba(240,244,255,0.62)]">
-              {planet.description}
+              {t(`planets.${planet.id}.description`)}
             </div>
           </div>
 
           <div
             className="panel-drawer-body relative z-10 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6"
           >
-            <Suspense fallback={<div className="panel-card p-5 text-sm text-(--text-secondary)">Carregando...</div>}>
+            <Suspense fallback={<div className="panel-card p-5 text-sm text-(--text-secondary)">{t('common.loading_short')}</div>}>
               <PanelContent />
             </Suspense>
           </div>
@@ -183,12 +185,12 @@ export function PlanetPanel() {
                 whileHover={{ x: -6 }}
                 onClick={() => handleNav(prev.id)}
                 {...linkCursor}
-                aria-label={`Abrir painel anterior: ${prev.name}`}
+                aria-label={t('planet_panel.previous_aria', { name: t(`planets.${prev.id}.name`) })}
                 className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
                 style={{ border: `1px solid ${prev.glowColor}30`, color: prev.glowColor }}
               >
                 <ChevronLeft size={14} />
-                <span className="opacity-80">{prev.name}</span>
+                <span className="opacity-80">{t(`planets.${prev.id}.name`)}</span>
               </motion.button>
             ) : <div />}
 
@@ -197,11 +199,11 @@ export function PlanetPanel() {
                 whileHover={{ x: 6 }}
                 onClick={() => handleNav(next.id)}
                 {...linkCursor}
-                aria-label={`Abrir próximo painel: ${next.name}`}
+                aria-label={t('planet_panel.next_aria', { name: t(`planets.${next.id}.name`) })}
                 className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
                 style={{ border: `1px solid ${next.glowColor}30`, color: next.glowColor }}
               >
-                <span className="opacity-80">{next.name}</span>
+                <span className="opacity-80">{t(`planets.${next.id}.name`)}</span>
                 <ChevronRight size={14} />
               </motion.button>
             ) : <div />}

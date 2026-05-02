@@ -1,30 +1,37 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { PROJECTS, type ProjectCategory } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
 import { Layers3 } from 'lucide-react'
 import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
 import { ProjectCard } from './projects/project-card'
 
-const ALL_PROJECTS_FILTER = 'Todos' as const
+const ALL_PROJECTS_FILTER = 'all' as const
 type ProjectFilter = ProjectCategory | typeof ALL_PROJECTS_FILTER
 
 export function ProjectsPanel() {
   const { setCursorVariant } = useSpaceStore()
+  const { t } = useTranslation()
   const [selected, setSelected] = useState<string | null>(PROJECTS[0]?.id ?? null)
   const [filter, setFilter] = useState<ProjectFilter>(ALL_PROJECTS_FILTER)
   const linkCursor = createCursorHandlers(setCursorVariant)
 
   const categories: ProjectFilter[] = [ALL_PROJECTS_FILTER, ...Array.from(new Set(PROJECTS.map((project) => project.category)))]
   const filtered = filter === ALL_PROJECTS_FILTER ? PROJECTS : PROJECTS.filter((project) => project.category === filter)
+  const getFilterLabel = (value: ProjectFilter) => {
+    if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all')
+    const key = value.toLowerCase().replace(/\s+/g, '_')
+    return t(`projects.filters.${key}`, value)
+  }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={Layers3}
-        eyebrow="Cases selecionados"
-        title="Projetos e produtos"
-        description="Uma seleção de projetos autorais, produtos entregues e experimentos que ajudam a contar minha trajetória com mais profundidade."
+        eyebrow={t('planets.projects.subtitle')}
+        title={t('planets.projects.name')}
+        description={t('planets.projects.description')}
         ringClassName="-right-14 -top-14 h-40 w-40"
         glowClassName="left-10 top-8 h-24 w-24"
       >
@@ -45,7 +52,7 @@ export function ProjectsPanel() {
                 boxShadow: filter === cat ? '0 16px 32px color-mix(in srgb, var(--panel-glow) 26%, transparent)' : 'none',
               }}
             >
-              {cat}
+              {getFilterLabel(cat)}
             </motion.button>
           ))}
         </div>

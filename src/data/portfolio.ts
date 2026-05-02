@@ -133,6 +133,7 @@ export interface Experience {
 }
 
 export interface Accomplishment {
+  id: string
   icon: AccomplishmentIconName
   title: string
   description: string
@@ -141,6 +142,7 @@ export interface Accomplishment {
 }
 
 export interface Certificate {
+  id: string
   name: string
   issuer: string
   year: number
@@ -324,7 +326,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
 
 export const PROJECTS: Project[] = [
   {
-    id: 'arsenal-academy',
+    id: 'arsenal_academy',
     name: 'Arsenal Academy',
     description: 'Plataforma de educação empreendedora voltada para universitários, com diagnóstico personalizado, trilhas em microlearning e acompanhamento da evolução de cada usuário.',
     tech: ['React', 'Next.js', 'TypeScript', 'NestJS', 'Sequelize', 'MySQL', 'AWS', 'Nginx'],
@@ -340,7 +342,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    id: 'vscode-portfolio',
+    id: 'vscode_portfolio',
     name: 'VsCode Portfolio',
     description: 'Releitura da IDE Visual Studio Code transformada em portfólio interativo, com sistema de arquivos virtual, terminal funcional, temas e internacionalização.',
     tech: ['React', 'TypeScript', 'Vite', 'Material UI', 'Framer Motion', 'i18next', 'Express', 'MongoDB'],
@@ -358,7 +360,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    id: 'arsenal-inovacao-lp',
+    id: 'arsenal_innovation_lp',
     name: 'Arsenal Inovação LP',
     description: 'Landing page institucional para startup do Porto Digital com foco em empreendedorismo e inovação na era digital.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
@@ -382,7 +384,7 @@ export const PROJECTS: Project[] = [
     image: 'https://i.imgur.com/U9CwDca.png',
   },
   {
-    id: 'radares-recife',
+    id: 'recife_radars',
     name: 'Radares Recife',
     description: 'Mapa interativo construído com dados públicos da Prefeitura do Recife para consulta de radares e câmeras de trânsito em uma interface clara e navegável.',
     tech: ['TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Leaflet', 'Vercel'],
@@ -395,7 +397,7 @@ export const PROJECTS: Project[] = [
     image: 'https://i.imgur.com/mut6eMm.png',
   },
   {
-    id: 'fsw-foods',
+    id: 'fsw_foods',
     name: 'FSW Foods',
     description: 'Aplicação inspirada no iFood desenvolvida durante a Full Stack Week, unindo fluxo de pedidos, boa experiência de navegação e integração full stack.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Prisma', 'PostgreSQL'],
@@ -408,7 +410,7 @@ export const PROJECTS: Project[] = [
     image: 'https://i.imgur.com/fryZaL7.png',
   },
   {
-    id: 'react-native-99pets',
+    id: 'react_native_99pets',
     name: 'React Native 99Pets',
     description: 'Aplicativo mobile para tutores de pets, conectando serviços, pet shops e logística de transporte em uma experiência simples para o usuário final.',
     tech: ['React Native', 'JavaScript', 'Redux', 'Express', 'Node.js', 'MongoDB', 'Expo'],
@@ -420,7 +422,7 @@ export const PROJECTS: Project[] = [
     image: 'https://i.imgur.com/q1FlJWc.png',
   },
   {
-    id: 'projeto-arsenal-v1',
+    id: 'arsenal_project_v1',
     name: 'Projeto Arsenal V1',
     description: 'Primeira versão da solução da Arsenal, focada no diagnóstico automatizado do momento empreendedor e sugestão de jornada de aprendizado.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Java', 'Spring', 'MySQL', 'Heroku'],
@@ -432,7 +434,7 @@ export const PROJECTS: Project[] = [
     image: 'https://i.imgur.com/X9fbQ7Y.png',
   },
   {
-    id: 'react-todo',
+    id: 'react_todo',
     name: 'React ToDo',
     description: 'Gerenciador de tarefas simples e direto, criado para praticar fluxo CRUD, organização de estado e integração entre frontend e backend.',
     tech: ['React', 'React Router', 'Vite', 'Express', 'Node.js', 'MongoDB'],
@@ -512,7 +514,7 @@ export const EXPERIENCE: Experience[] = [
     color: '#6B21E8',
   },
   {
-    id: 'senai-facepe',
+    id: 'senai_facepe_project',
     role: 'Desenvolvedor',
     company: 'SENAI - Projeto FACEPE',
     period: '01/2023 — 12/2023',
@@ -528,7 +530,7 @@ export const EXPERIENCE: Experience[] = [
     color: '#FF6B35',
   },
   {
-    id: 'ferreira-costa',
+    id: 'ferreira_costa',
     role: 'Auxiliar Administrativo',
     company: 'Home Center Ferreira Costa',
     period: '10/2021 — 02/2023',
@@ -546,6 +548,7 @@ export const EXPERIENCE: Experience[] = [
 
 export const ACCOMPLISHMENTS: Accomplishment[] = [
   {
+    id: 'top_10_embarque_digital',
     icon: 'Trophy',
     title: 'Top 10 Squads - Embarque Digital',
     description: 'Equipe entre as 10 melhores do Kick Off do Embarque Digital 2021.2 com proposta alinhada aos Objetivos de Desenvolvimento Sustentável da ONU.',
@@ -553,6 +556,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Porto Digital',
   },
   {
+    id: 'top_12_riseup_porto_digital',
     icon: 'Rocket',
     title: 'Top 12 - RiseUp Porto Digital',
     description: 'Participação entre as 12 melhores squads da etapa RiseUp, desenvolvendo solução frontend para a Arsenal Inovação.',
@@ -560,6 +564,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Competição',
   },
   {
+    id: 'top_12_growup_porto_digital',
     icon: 'Zap',
     title: 'Top 12 - GrowUp Porto Digital',
     description: 'Nova classificação entre as melhores squads, dessa vez evoluindo o backend e a integração da solução para a Arsenal.',
@@ -567,6 +572,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Competição',
   },
   {
+    id: 'ads_graduation',
     icon: 'GraduationCap',
     title: 'Graduação em ADS',
     description: 'Formação concluída em Análise e Desenvolvimento de Sistemas pela Faculdade Senac com passagem pelo programa Embarque Digital.',
@@ -574,6 +580,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Formação',
   },
   {
+    id: 'cloud_platform_experience',
     icon: 'Cloud',
     title: 'Experiência com Cloud e Plataforma',
     description: 'Vivência prática com AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observabilidade e pipelines.',
@@ -581,6 +588,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     category: 'Tecnologia',
   },
   {
+    id: 'web_mobile_performance',
     icon: 'Smartphone',
     title: 'Atuação em Web e Mobile',
     description: 'Projetos em React, Next.js e React Native, cobrindo diferentes tipos de produto e contexto de entrega.',
@@ -591,6 +599,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
 
 export const CERTIFICATES: Certificate[] = [
   {
+    id: 'ads_degree',
     name: 'Diploma em Análise e Desenvolvimento de Sistemas',
     issuer: 'Faculdade Senac',
     year: 2023,
@@ -599,6 +608,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Graduação com base ampla em desenvolvimento de software, arquitetura de sistemas e gestão de projetos.',
   },
   {
+    id: 'advanced_backend_development',
     name: 'Aperfeiçoamento em Desenvolvimento Back-end',
     issuer: 'Faculdade Senac',
     year: 2023,
@@ -607,6 +617,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Curso voltado para práticas server-side e construção de aplicações robustas e escaláveis.',
   },
   {
+    id: 'beginner_programming',
     name: 'Iniciante em Programação',
     issuer: 'Oracle + Alura',
     year: 2022,
@@ -615,6 +626,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Formação inicial com fundamentos de programação e raciocínio lógico.',
   },
   {
+    id: 'decola_tech_2nd_edition',
     name: 'Decola Tech 2a Edicao',
     issuer: 'Avanade + DIO',
     year: 2022,
@@ -623,6 +635,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Bootcamp com foco em desenvolvimento de software e práticas do mercado.',
   },
   {
+    id: 'programming_logic_fundamentals',
     name: 'Fundamentos de Logica de Programacao',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -631,6 +644,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Base conceitual para estruturas de decisão, repetição e resolução de problemas.',
   },
   {
+    id: 'html_css',
     name: 'HTML e CSS',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -639,6 +653,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Fundamentos de desenvolvimento web com estrutura e estilização de interfaces.',
   },
   {
+    id: 'introduction_javascript',
     name: 'Introducao ao JavaScript',
     issuer: 'Fundacao Bradesco',
     year: 2021,
@@ -647,6 +662,7 @@ export const CERTIFICATES: Certificate[] = [
     description: 'Primeiros passos com JavaScript para páginas mais dinâmicas e interativas.',
   },
   {
+    id: 'java_programming_language',
     name: 'Linguagem de Programacao Java',
     issuer: 'Fundacao Bradesco',
     year: 2021,

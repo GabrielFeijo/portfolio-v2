@@ -1,19 +1,21 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UIBadge, UIInset, UISurface } from '../design-system'
 
-const phases = [
-  'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
-  'CARREGANDO ARQUIVOS DE PORTFÓLIO...',
-  'CALIBRANDO SINAIS DO UNIVERSO...',
-  'ESTABILIZANDO ORBITAS E PAINÉIS...',
-  'MAPEANDO SEÇÕES INTERATIVAS...',
-  'SISTEMA ONLINE',
-]
-
 export function LoadingScreen() {
+  const { t } = useTranslation()
   const [progress, setProgress] = useState(0)
   const [phase, setPhase] = useState(0)
+
+  const phases = t('loading.phases', { returnObjects: true }) as string[] || [
+    'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
+    'CARREGANDO ARQUIVOS DE PORTFÓLIO...',
+    'CALIBRANDO SINAIS DO UNIVERSO...',
+    'ESTABILIZANDO ORBITAS E PAINÉIS...',
+    'MAPEANDO SEÇÕES INTERATIVAS...',
+    'SISTEMA ONLINE',
+  ]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,7 +30,7 @@ export function LoadingScreen() {
 
   useEffect(() => {
     setPhase(Math.min(phases.length - 1, Math.floor((progress / 100) * phases.length)))
-  }, [progress])
+  }, [progress, phases.length])
 
   return (
     <motion.div
@@ -70,7 +72,7 @@ export function LoadingScreen() {
 
             <div className="relative flex flex-col items-center">
               <UIBadge className="mb-3 translate-x-1 font-mono-space text-[10px] tracking-[0.8em]">
-                CARREGANDO
+                {t('loading.label')}
               </UIBadge>
               <div className="flex items-center gap-2 font-display text-4xl font-black tracking-widest text-white">
                 <span className="opacity-20">0</span>
@@ -88,7 +90,7 @@ export function LoadingScreen() {
               Gabriel Feijó
             </div>
             <div className="font-mono-space text-[9px] uppercase tracking-[0.3em] text-[rgba(240,244,255,0.3)]">
-              Universo Full Stack
+              {t('loading.universe')}
             </div>
           </motion.div>
 
@@ -117,3 +119,4 @@ export function LoadingScreen() {
     </motion.div>
   )
 }
+

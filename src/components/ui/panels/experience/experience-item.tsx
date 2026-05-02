@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { Building2, Calendar, ChevronRight } from 'lucide-react'
 import type { Experience } from '@/data/portfolio'
 import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives'
@@ -16,6 +17,8 @@ export function ExperienceItem({
   onToggle,
   transition,
 }: ExperienceItemProps) {
+  const { t } = useTranslation()
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -16 }}
@@ -43,9 +46,11 @@ export function ExperienceItem({
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
-              {experience.type}
+              {t(`experience.types.${experience.type.toLowerCase()}`, experience.type)}
             </div>
-            <h3 className="text-base font-semibold text-(--text-primary) sm:text-lg">{experience.role}</h3>
+            <h3 className="text-base font-semibold text-(--text-primary) sm:text-lg">
+              {t(`experience_items.${experience.id}.role`, experience.role)}
+            </h3>
             <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5 text-(--text-secondary)">
                 <Building2 size={14} />
@@ -53,7 +58,7 @@ export function ExperienceItem({
               </div>
               <div className="flex items-center gap-1.5 text-(--text-muted)">
                 <Calendar size={14} />
-                {experience.period}
+                {t(`experience_items.${experience.id}.period`, experience.period)}
               </div>
             </div>
           </div>
@@ -72,14 +77,16 @@ export function ExperienceItem({
               transition={{ duration: 0.28 }}
               className="overflow-hidden"
             >
-              <p className="mb-5 mt-5 text-sm leading-7 text-(--text-secondary)">{experience.description}</p>
+              <p className="mb-5 mt-5 text-sm leading-7 text-(--text-secondary)">
+                {t(`experience_items.${experience.id}.description`, experience.description)}
+              </p>
 
               {experience.achievements.length > 0 && (
                 <PanelInsetCard className="mb-4">
                   <div className="mb-3 font-mono-space text-[11px] font-semibold uppercase tracking-[0.18em] panel-eyebrow">
-                    Principais entregas
+                    {t('common.key_deliveries')}
                   </div>
-                  <PanelBulletList items={experience.achievements} />
+                  <PanelBulletList items={t(`experience_items.${experience.id}.achievements`, { returnObjects: true }) as string[] || experience.achievements} />
                 </PanelInsetCard>
               )}
 

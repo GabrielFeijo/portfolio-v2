@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { Html } from '@react-three/drei'
 import { extend } from '@react-three/fiber'
 import { useShallow } from 'zustand/react/shallow'
+import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
 import { PLANET_TYPE_MAP } from '@/constants/scene'
 import { useOrbitAnimation } from '@/hooks/use-orbit-animation'
@@ -29,6 +30,7 @@ interface PlanetLabelStyle extends CSSProperties {
 }
 
 export function Planet3D({ angleRef, planet }: Planet3DProps) {
+  const { t } = useTranslation()
   const {
     activePanel,
     activePlanet,
@@ -148,10 +150,10 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
         {!activePanel && (
           <Html position={[0, planet.size + 5.2, 0]} transform sprite center distanceFactor={14} zIndexRange={[20, 0]} pointerEvents="none">
             <div className={`planet-label ${isActive ? 'planet-label-active' : interaction.hovered ? 'planet-label-hovered' : ''}`} style={labelStyle}>
-              <div className="planet-label-kicker">Orbital dossier</div>
-              <div className="planet-label-name">{planet.name}</div>
-              <div className="planet-label-subtitle">{planet.subtitle}</div>
-              <div className="planet-label-description">{planet.description}</div>
+              <div className="planet-label-kicker">{t('common.orbital_dossier')}</div>
+              <div className="planet-label-name">{t(`planets.${planet.id}.name`)}</div>
+              <div className="planet-label-subtitle">{t(`planets.${planet.id}.subtitle`)}</div>
+              <div className="planet-label-description">{t(`planets.${planet.id}.description`)}</div>
             </div>
           </Html>
         )}

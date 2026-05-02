@@ -1,7 +1,11 @@
 import axios from 'axios'
 import type { ContactFormValues } from '@/schemas/contact-form-schema'
 
-const DEFAULT_API_URL = 'http://localhost:3333/v2'
+const DEFAULT_API_URL = '/v2'
+const CONTACT_ERROR_KEYS = {
+  fallback: 'contact.form.error_fallback',
+  network: 'contact.form.error_network',
+} as const
 
 function getApiBaseUrl() {
   const configuredBaseUrl = import.meta.env.VITE_API_URL?.trim()
@@ -40,7 +44,7 @@ function getErrorMessage(responseBody: unknown) {
     return Array.isArray(message) ? String(message[0]) : String(message)
   }
 
-  return 'Nao foi possível enviar sua mensagem agora.'
+  return CONTACT_ERROR_KEYS.fallback
 }
 
 export async function submitContactForm(payload: ContactFormValues) {
@@ -50,7 +54,7 @@ export async function submitContactForm(payload: ContactFormValues) {
       return response.data
     } catch (error) {
       if (!axios.isAxiosError(error)) {
-        throw new ContactRequestError('Nao foi possível enviar sua mensagem agora.')
+        throw new ContactRequestError(CONTACT_ERROR_KEYS.fallback)
       }
 
       if (!error.response && attempt === 0) {
@@ -59,7 +63,7 @@ export async function submitContactForm(payload: ContactFormValues) {
       }
 
       if (!error.response) {
-        throw new ContactRequestError('Sem conexão com a API de contato no momento.', 'network')
+        throw new ContactRequestError(CONTACT_ERROR_KEYS.network, 'network')
       }
 
       const kind = error.response.status === 400 || error.response.status === 422 ? 'validation' : 'server'
@@ -67,5 +71,5 @@ export async function submitContactForm(payload: ContactFormValues) {
     }
   }
 
-  throw new ContactRequestError('Nao foi possível enviar sua mensagem agora.')
+  throw new ContactRequestError(CONTACT_ERROR_KEYS.fallback)
 }
