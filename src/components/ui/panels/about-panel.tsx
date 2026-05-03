@@ -100,8 +100,8 @@ export function AboutPanel() {
       </motion.div>
 
       <PanelSection icon={Sparkles} eyebrow={t('about.sections.identity.eyebrow')} title={t('planets.about.name')}>
-        {summary.map((paragraph) => (
-          <p key={paragraph} className="text-sm text-(--text-secondary) leading-7 mb-4 last:mb-0">
+        {summary.map((paragraph, index) => (
+          <p key={index} className="text-sm text-(--text-secondary) leading-7 mb-4 last:mb-0">
             {paragraph}
           </p>
         ))}

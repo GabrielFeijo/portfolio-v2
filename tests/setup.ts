@@ -66,7 +66,7 @@ console.error = (...args: any[]) => {
     message.includes('is unrecognized in this browser') ||
     message.includes('is using incorrect casing') ||
     message.includes('does not recognize the') ||
-    message.includes('Received `true` for a non-boolean attribute')
+    message.includes('non-boolean attribute')
   ) {
     if (
       message.includes('ambientLight') ||
@@ -105,7 +105,9 @@ console.error = (...args: any[]) => {
       message.includes('frustumCulled') ||
       message.includes('sizeAttenuation') ||
       message.includes('depthTest') ||
-      message.includes('groundColor')
+      message.includes('groundColor') ||
+      message.includes('makeDefault') ||
+      message.includes('smoothTime')
     ) {
       return
     }
