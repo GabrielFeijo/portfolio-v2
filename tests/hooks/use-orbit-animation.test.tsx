@@ -17,9 +17,9 @@ describe('useOrbitAnimation', () => {
 
     const group = new THREE.Group()
     const mesh = new THREE.Mesh()
-    const planetMaterial = { uniforms: { uTime: { value: 0 }, uLightDir: { value: new THREE.Vector3(0, 0, 0) } } } as never
-    const atmosphereMaterial = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as never
-    const atmosphereMesh = { scale: { setScalar: vi.fn() } } as never
+    const planetMaterial = { uniforms: { uTime: { value: 0 }, uLightDir: { value: new THREE.Vector3(0, 0, 0) } } } as any
+    const atmosphereMaterial = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as any
+    const atmosphereMesh = { scale: { setScalar: vi.fn() } } as any
 
     renderHook(() => useOrbitAnimation({
       activePanel: null,
@@ -70,7 +70,7 @@ describe('useOrbitAnimation', () => {
     let frameCb: ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void) | undefined
     useFrameMock.mockImplementation((cb) => { frameCb = cb })
 
-    const atmosphereMaterial = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as never
+    const atmosphereMaterial = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as any
 
     renderHook(() => useOrbitAnimation({
       activePanel: null,
@@ -91,7 +91,7 @@ describe('useOrbitAnimation', () => {
 
     let frameCb2: ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void) | undefined
     useFrameMock.mockImplementation((cb) => { frameCb2 = cb })
-    const atmosphereMaterial2 = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as never
+    const atmosphereMaterial2 = { uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } } } as any
 
     renderHook(() => useOrbitAnimation({
       activePanel: null,
