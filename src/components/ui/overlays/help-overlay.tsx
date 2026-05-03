@@ -14,7 +14,10 @@ export function HelpOverlay() {
   const linkCursor = createCursorHandlers(setCursorVariant)
   useFocusTrap(dialogRef, true)
   const quickSteps = t('help.quick_steps', { returnObjects: true }) as string[]
-  const sections = t('help.sections', { returnObjects: true }) as Array<{ title: string; description: string }>
+  const sections = t('help.sections', { returnObjects: true }) as Array<{
+    title: string
+    description: string
+  }>
 
   return (
     <motion.div
@@ -42,9 +45,11 @@ export function HelpOverlay() {
         onClick={(e) => e.stopPropagation()}
       >
         <UISurface strong className="max-h-[calc(100vh-2rem)] overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          <div
+            className="absolute inset-0 opacity-[0.08] pointer-events-none"
             style={{
-              backgroundImage: 'linear-gradient(rgba(255,184,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,184,0,0.35) 1px, transparent 1px)',
+              backgroundImage:
+                'linear-gradient(rgba(255,184,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,184,0,0.35) 1px, transparent 1px)',
               backgroundSize: '28px 28px',
             }}
           />
@@ -61,12 +66,18 @@ export function HelpOverlay() {
 
           <div className="relative grid max-h-[calc(100vh-2rem)] gap-0 overflow-y-auto lg:grid-cols-[1.15fr_0.85fr]">
             <section className="border-b border-[rgba(255,255,255,0.08)] px-5 py-6 sm:px-8 sm:py-8 lg:border-b-0 lg:border-r lg:border-r-[rgba(255,255,255,0.08)]">
-              <UIBadge tone="warm" className="mb-6 font-mono-space text-[11px] uppercase tracking-[0.28em]">
+              <UIBadge
+                tone="warm"
+                className="mb-6 font-mono-space text-[11px] uppercase tracking-[0.28em]"
+              >
                 <Sparkles size={14} />
                 {t('help.badge')}
               </UIBadge>
 
-              <h2 id="help-overlay-title" className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl">
+              <h2
+                id="help-overlay-title"
+                className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl"
+              >
                 {t('help.title')}
               </h2>
 
@@ -158,9 +169,7 @@ function InfoCard({
       <div className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">
         {title}
       </div>
-      <p className="mt-2 text-sm leading-6 text-[rgba(240,244,255,0.68)]">
-        {description}
-      </p>
+      <p className="mt-2 text-sm leading-6 text-[rgba(240,244,255,0.68)]">{description}</p>
     </UIInset>
   )
 }

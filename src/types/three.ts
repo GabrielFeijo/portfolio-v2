@@ -5,7 +5,8 @@ import * as THREE from 'three'
 export type PlanetAnglesRef = MutableRefObject<Record<string, number>>
 export type Vec3Tuple = [number, number, number]
 
-type ShaderMaterialElement = FiberThreeElements['shaderMaterial'] & RefAttributes<THREE.ShaderMaterial>
+type ShaderMaterialElement = FiberThreeElements['shaderMaterial'] &
+  RefAttributes<THREE.ShaderMaterial>
 
 declare module '@react-three/fiber' {
   interface ThreeElements {

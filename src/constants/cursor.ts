@@ -1,6 +1,9 @@
-import type { CursorVariant } from '@/types/store';
+import type { CursorVariant } from '@/types/store'
 
-export const CURSOR_VARIANTS: Record<CursorVariant, { width: number; height: number; borderWidth: number; opacity: number }> = {
+export const CURSOR_VARIANTS: Record<
+  CursorVariant,
+  { width: number; height: number; borderWidth: number; opacity: number }
+> = {
   default: { width: 16, height: 16, borderWidth: 1.5, opacity: 0.9 },
   planet: { width: 32, height: 32, borderWidth: 2, opacity: 1 },
   link: { width: 24, height: 24, borderWidth: 1.5, opacity: 0.8 },

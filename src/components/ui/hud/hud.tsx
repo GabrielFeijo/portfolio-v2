@@ -39,22 +39,27 @@ export function HUD() {
     >
       <div className="ds-topbar absolute top-3 left-3 right-3 min-h-20 rounded-[26px] flex items-start sm:items-center justify-between px-4 sm:px-6 py-4 z-100 pointer-events-auto">
         <div className="flex items-center gap-4">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          >
             <UIIconTile icon={Orbit} className="h-11 w-11" />
           </motion.div>
           <div>
             <div className="font-display text-sm sm:text-base font-semibold tracking-[0.08em] text-(--text-primary)">
               {DEVELOPER.name}
             </div>
-            <div className="text-xs text-(--text-muted)">
-              {t('developer.title')}
-            </div>
+            <div className="text-xs text-(--text-muted)">{t('developer.title')}</div>
           </div>
         </div>
 
         <div className="flex flex-col items-end gap-2 text-right">
           <div className="font-mono-space text-[11px] sm:text-xs text-(--text-secondary) uppercase tracking-[0.18em]">
-            {time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            {time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+            })}
           </div>
           <div className="text-[11px] sm:text-xs text-(--text-muted)">
             {t('developer.location')}
@@ -83,8 +88,8 @@ export function HUD() {
                 {...linkCursor}
                 className={cn(
                   'px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-none',
-                  currentLang === lang 
-                    ? 'bg-white/10 text-white shadow-[0_0_12px_rgba(255,255,255,0.1)]' 
+                  currentLang === lang
+                    ? 'bg-white/10 text-white shadow-[0_0_12px_rgba(255,255,255,0.1)]'
                     : 'text-white/40 hover:text-white/70'
                 )}
               >
@@ -108,8 +113,12 @@ export function HUD() {
             </motion.button>
 
             <motion.div whileHover={{ scale: 1.05 }} {...linkCursor} className="w-full">
-              <a href={DEVELOPER.github} target="_blank" rel="noopener noreferrer"
-                className="ds-button-secondary cursor-none w-full">
+              <a
+                href={DEVELOPER.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ds-button-secondary cursor-none w-full"
+              >
                 <ExternalLink size={12} />
                 {t('common.code')}
               </a>

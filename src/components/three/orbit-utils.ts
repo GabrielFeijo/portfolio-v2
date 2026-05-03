@@ -24,7 +24,7 @@ export function getPlanetPosition(planet: Planet, angle: number) {
   const position = new THREE.Vector3(
     Math.cos(angle) * planet.orbitRadius,
     0,
-    Math.sin(angle) * planet.orbitRadius,
+    Math.sin(angle) * planet.orbitRadius
   )
 
   position.applyEuler(new THREE.Euler(tilt.x, 0, tilt.z))

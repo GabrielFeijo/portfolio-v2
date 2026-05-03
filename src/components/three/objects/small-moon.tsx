@@ -35,7 +35,12 @@ export function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
       <group position={[size * 2.2, 0, 0]}>
         <mesh>
           <sphereGeometry args={[size * 0.22, 16, 16]} />
-          <meshBasicMaterial color={color} transparent opacity={0.1} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial
+            color={color}
+            transparent
+            opacity={0.1}
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
         <mesh>
           <sphereGeometry args={[size * 0.18, 64, 64]} />

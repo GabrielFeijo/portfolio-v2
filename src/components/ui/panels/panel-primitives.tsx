@@ -20,7 +20,7 @@ export function cn(...classes: Array<string | false | null | undefined>) {
 
 export function createCursorHandlers(
   setCursorVariant: (variant: CursorVariant) => void,
-  variant: CursorVariant = 'link',
+  variant: CursorVariant = 'link'
 ) {
   return {
     onMouseEnter: () => setCursorVariant(variant),
@@ -54,15 +54,15 @@ export function PanelHeader({ icon: Icon, eyebrow, title, description }: PanelHe
       <div className="flex items-center gap-3">
         <PanelIconBadge icon={Icon} />
         <div>
-          <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">{eyebrow}</div>
+          <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+            {eyebrow}
+          </div>
           <h2 className="text-2xl font-semibold text-(--text-primary)">{title}</h2>
         </div>
       </div>
 
       {description && (
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-(--text-secondary)">
-          {description}
-        </p>
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-(--text-secondary)">{description}</p>
       )}
     </>
   )
@@ -135,7 +135,13 @@ export function PanelIconBadge({
   style?: CSSProperties
 }) {
   return (
-    <div className={cn('flex h-10 w-10 items-center justify-center rounded-2xl panel-icon-chip', className)} style={style}>
+    <div
+      className={cn(
+        'flex h-10 w-10 items-center justify-center rounded-2xl panel-icon-chip',
+        className
+      )}
+      style={style}
+    >
       <Icon size={18} />
     </div>
   )
@@ -151,7 +157,12 @@ export function PanelMetaChip({
   className?: string
 }) {
   return (
-    <div className={cn('inline-flex items-center gap-1.5 rounded-full panel-meta-chip px-3 py-1.5', className)}>
+    <div
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-full panel-meta-chip px-3 py-1.5',
+        className
+      )}
+    >
       {Icon && <Icon size={13} />}
       <span>{children}</span>
     </div>
@@ -160,7 +171,12 @@ export function PanelMetaChip({
 
 export function PanelBadge({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cn('inline-flex items-center gap-2 rounded-full panel-planet-badge px-3 py-1.5', className)}>
+    <div
+      className={cn(
+        'inline-flex items-center gap-2 rounded-full panel-planet-badge px-3 py-1.5',
+        className
+      )}
+    >
       {children}
     </div>
   )

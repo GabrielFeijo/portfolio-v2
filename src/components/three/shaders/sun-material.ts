@@ -1,1 +1,1 @@
-export { SunMaterial } from './planet-material';
+export { SunMaterial } from './planet-material'

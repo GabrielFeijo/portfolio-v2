@@ -9,12 +9,7 @@ interface UISurfaceProps {
   style?: CSSProperties
 }
 
-export function UISurface({
-  children,
-  className,
-  strong = false,
-  style,
-}: UISurfaceProps) {
+export function UISurface({ children, className, strong = false, style }: UISurfaceProps) {
   return (
     <div className={cn(strong ? 'ds-surface-strong' : 'ds-surface', className)} style={style}>
       {children}
@@ -29,10 +24,7 @@ interface UIInsetProps {
   className?: string
 }
 
-export function UIInset({
-  children,
-  className,
-}: UIInsetProps) {
+export function UIInset({ children, className }: UIInsetProps) {
   return <div className={cn('ds-inset', className)}>{children}</div>
 }
 
@@ -46,12 +38,9 @@ interface UIBadgeProps {
   tone?: UIBadgeTone
 }
 
-export function UIBadge({
-  children,
-  className,
-  tone = 'cool',
-}: UIBadgeProps) {
-  const toneClassName = tone === 'warm' ? 'ds-badge-warm' : tone === 'danger' ? 'ds-badge-danger' : 'ds-badge'
+export function UIBadge({ children, className, tone = 'cool' }: UIBadgeProps) {
+  const toneClassName =
+    tone === 'warm' ? 'ds-badge-warm' : tone === 'danger' ? 'ds-badge-danger' : 'ds-badge'
 
   return <div className={cn(toneClassName, className)}>{children}</div>
 }
@@ -66,11 +55,7 @@ interface UIIconTileProps {
   tone?: UIIconTileTone
 }
 
-export function UIIconTile({
-  icon: Icon,
-  className,
-  tone = 'cool',
-}: UIIconTileProps) {
+export function UIIconTile({ icon: Icon, className, tone = 'cool' }: UIIconTileProps) {
   return (
     <div className={cn(tone === 'warm' ? 'ds-icon-tile-warm' : 'ds-icon-tile', className)}>
       <Icon size={18} />

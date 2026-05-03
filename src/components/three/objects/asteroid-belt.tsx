@@ -45,11 +45,7 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   useMemo(() => {
     if (!meshRef.current) return
     asteroids.forEach((a, i) => {
-      dummy.position.set(
-        Math.cos(a.angle) * a.radius,
-        a.height,
-        Math.sin(a.angle) * a.radius
-      )
+      dummy.position.set(Math.cos(a.angle) * a.radius, a.height, Math.sin(a.angle) * a.radius)
       dummy.scale.setScalar(a.size)
       dummy.rotation.set(a.rotX, a.rotY, 0)
       dummy.updateMatrix()
@@ -81,12 +77,7 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   return (
     <instancedMesh ref={meshRef} args={[GEOMETRIES[0], undefined, count]}>
       <dodecahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial
-        map={rockTexture}
-        roughness={0.95}
-        metalness={0.05}
-        color={color}
-      />
+      <meshStandardMaterial map={rockTexture} roughness={0.95} metalness={0.05} color={color} />
     </instancedMesh>
   )
 }

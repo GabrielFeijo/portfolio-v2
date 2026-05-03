@@ -23,10 +23,13 @@ function StarShell({
   seed: number
 }) {
   const ref = useRef<THREE.Points>(null)
-  const positions = useMemo(() => createStarPositions(count, radius, spread, seed), [count, radius, seed, spread])
+  const positions = useMemo(
+    () => createStarPositions(count, radius, spread, seed),
+    [count, radius, seed, spread]
+  )
   const colors = useMemo(
     () => createStarColors(count, ['#c1dbff', '#f9fbff', '#8fdcff', '#ffe6b8'], seed + 7),
-    [count, seed],
+    [count, seed]
   )
 
   useFrame((state) => {
@@ -118,7 +121,11 @@ function NebulaCluster({
   return (
     <group ref={groupRef} position={position}>
       {cloudLayers.map((layer) => (
-        <sprite key={layer.key} position={layer.offset} scale={[layer.spriteScale, layer.spriteScale * 0.65, 1]}>
+        <sprite
+          key={layer.key}
+          position={layer.offset}
+          scale={[layer.spriteScale, layer.spriteScale * 0.65, 1]}
+        >
           <spriteMaterial
             map={texture}
             color={layer.color}
@@ -132,7 +139,11 @@ function NebulaCluster({
       ))}
 
       {glowLayers.map((layer) => (
-        <sprite key={layer.key} position={layer.offset} scale={[layer.spriteScale, layer.spriteScale, 1]}>
+        <sprite
+          key={layer.key}
+          position={layer.offset}
+          scale={[layer.spriteScale, layer.spriteScale, 1]}
+        >
           <spriteMaterial
             map={glowTexture}
             color={glowColor}
@@ -163,7 +174,7 @@ export function Nebula({ density }: NebulaProps) {
       blueGlow: createGlowTexture(41, '#7195ff'),
       amberGlow: createGlowTexture(43, '#ffbf7a'),
     }),
-    [],
+    []
   )
 
   useEffect(() => {
@@ -174,8 +185,22 @@ export function Nebula({ density }: NebulaProps) {
 
   return (
     <group>
-      <StarShell count={Math.max(180, Math.round(1800 * density))} radius={520} spread={180} size={1.5} opacity={0.45} seed={101} />
-      <StarShell count={Math.max(90, Math.round(900 * density))} radius={340} spread={120} size={1.1} opacity={0.32} seed={151} />
+      <StarShell
+        count={Math.max(180, Math.round(1800 * density))}
+        radius={520}
+        spread={180}
+        size={1.5}
+        opacity={0.45}
+        seed={101}
+      />
+      <StarShell
+        count={Math.max(90, Math.round(900 * density))}
+        radius={340}
+        spread={120}
+        size={1.1}
+        opacity={0.32}
+        seed={151}
+      />
 
       <NebulaCluster
         density={density}

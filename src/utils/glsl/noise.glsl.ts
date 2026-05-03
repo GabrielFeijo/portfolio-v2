@@ -1,1 +1,1 @@
-export { NOISE_CHUNK } from '@/components/three/shaders/planet-material';
+export { NOISE_CHUNK } from '@/components/three/shaders/planet-material'

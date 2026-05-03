@@ -16,13 +16,16 @@ export function getPanelCameraLookAt({
   viewportWidth,
 }: PanelCameraOffsetInput) {
   const offsetDistance = planet.size * 3.2 + 12
-  const panelWidthPx = viewportWidth >= CAMERA_SETTINGS.panelBreakpoint ? Math.min(CAMERA_SETTINGS.panelMaxWidth, viewportWidth) : 0
+  const panelWidthPx =
+    viewportWidth >= CAMERA_SETTINGS.panelBreakpoint
+      ? Math.min(CAMERA_SETTINGS.panelMaxWidth, viewportWidth)
+      : 0
   const halfPanelPx = panelWidthPx * 0.5
 
   const cameraPosition = new THREE.Vector3(
     planetPosition.x,
     planetPosition.y + planet.size + 5,
-    planetPosition.z + offsetDistance,
+    planetPosition.z + offsetDistance
   )
   const targetPosition = new THREE.Vector3(planetPosition.x, planetPosition.y, planetPosition.z)
   const focusDistance = cameraPosition.distanceTo(targetPosition)
@@ -33,7 +36,15 @@ export function getPanelCameraLookAt({
   const xOffset = halfPanelPx * worldUnitsPerPixel
 
   return {
-    cameraPosition: new THREE.Vector3(cameraPosition.x + xOffset, cameraPosition.y, cameraPosition.z),
-    targetPosition: new THREE.Vector3(planetPosition.x + xOffset * 0.45, planetPosition.y, planetPosition.z),
+    cameraPosition: new THREE.Vector3(
+      cameraPosition.x + xOffset,
+      cameraPosition.y,
+      cameraPosition.z
+    ),
+    targetPosition: new THREE.Vector3(
+      planetPosition.x + xOffset * 0.45,
+      planetPosition.y,
+      planetPosition.z
+    ),
   }
 }

@@ -29,10 +29,10 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
       fillRect: () => {},
       clearRect: () => {},
       getImageData: (x: number, y: number, w: number, h: number) => ({
-        data: new Array(w * h * 4)
+        data: new Array(w * h * 4),
       }),
       putImageData: () => {},
-      createImageData: () => ([]),
+      createImageData: () => [],
       setTransform: () => {},
       drawImage: () => {},
       save: () => {},
@@ -53,10 +53,10 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
       rect: () => {},
       clip: () => {},
       createRadialGradient: () => ({
-        addColorStop: () => {}
+        addColorStop: () => {},
       }),
     }
-  }
+  },
 })
 
 const originalConsoleError = console.error

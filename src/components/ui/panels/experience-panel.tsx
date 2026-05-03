@@ -21,7 +21,13 @@ export function ExperiencePanel() {
       />
 
       <div className="relative">
-        <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px" style={{ background: 'linear-gradient(180deg, var(--panel-border-strong), rgba(255,255,255,0.04))' }} />
+        <div
+          className="absolute left-4 sm:left-6 top-0 bottom-0 w-px"
+          style={{
+            background:
+              'linear-gradient(180deg, var(--panel-border-strong), rgba(255,255,255,0.04))',
+          }}
+        />
 
         <div className="flex flex-col gap-4">
           {EXPERIENCE.map((exp, i) => {

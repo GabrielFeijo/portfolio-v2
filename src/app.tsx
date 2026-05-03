@@ -19,14 +19,18 @@ import { useShallow } from 'zustand/react/shallow'
 
 export default function App() {
   const { t } = useTranslation()
-  const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(useShallow((state) => ({
-    activePanel: state.activePanel,
-    helpOpen: state.helpOpen,
-    isLoaded: state.isLoaded,
-    settings: state.experienceSettings,
-    settingsOpen: state.settingsOpen,
-  })))
-  const [webGLStatus, setWebGLStatus] = useState<'checking' | 'available' | 'unavailable' | 'context_lost'>('checking')
+  const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(
+    useShallow((state) => ({
+      activePanel: state.activePanel,
+      helpOpen: state.helpOpen,
+      isLoaded: state.isLoaded,
+      settings: state.experienceSettings,
+      settingsOpen: state.settingsOpen,
+    }))
+  )
+  const [webGLStatus, setWebGLStatus] = useState<
+    'checking' | 'available' | 'unavailable' | 'context_lost'
+  >('checking')
 
   useEffect(() => {
     setWebGLStatus(isWebGLAvailable() ? 'available' : 'unavailable')

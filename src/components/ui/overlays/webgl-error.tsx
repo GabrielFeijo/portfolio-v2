@@ -4,7 +4,11 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 
-export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable' | 'context_lost' }) {
+export function WebGLError({
+  variant = 'unavailable',
+}: {
+  variant?: 'unavailable' | 'context_lost'
+}) {
   const { t } = useTranslation()
   useEffect(() => {
     document.body.classList.add('cursor-fallback-mode')
@@ -28,25 +32,37 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
-        <UISurface strong className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-160 flex-col overflow-hidden">
+        <UISurface
+          strong
+          className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-160 flex-col overflow-hidden"
+        >
           <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(255,122,26,0.2)]" />
           <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(0,212,255,0.18)]" />
 
           <div className="relative overflow-y-auto px-6 py-7 sm:px-8 sm:py-8">
-            <UIBadge tone="warm" className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]">
+            <UIBadge
+              tone="warm"
+              className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]"
+            >
               <AlertTriangle size={14} />
               {isContextLost ? t('webgl.context_lost.badge') : t('webgl.unavailable.badge')}
             </UIBadge>
 
             <div className="mb-6 flex items-start gap-4">
-              <UIIconTile icon={AlertTriangle} tone="warm" className="h-15 w-15 shrink-0 rounded-[22px]" />
+              <UIIconTile
+                icon={AlertTriangle}
+                tone="warm"
+                className="h-15 w-15 shrink-0 rounded-[22px]"
+              />
 
               <div>
                 <h1 className="font-display text-[24px] font-extrabold uppercase tracking-[0.12em] text-[#FFF3E8] sm:text-[28px]">
                   {isContextLost ? t('webgl.context_lost.title') : t('webgl.unavailable.title')}
                 </h1>
                 <p className="mt-3 max-w-[46ch] text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
-                  {isContextLost ? t('webgl.context_lost.description') : t('webgl.unavailable.description')}
+                  {isContextLost
+                    ? t('webgl.context_lost.description')
+                    : t('webgl.unavailable.description')}
                 </p>
               </div>
             </div>
@@ -58,7 +74,9 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
                   {t('webgl.context_lost.required_action')}
                 </div>
                 <p className="text-sm font-medium leading-6 text-[#FFE4D6]">
-                  {t('webgl.context_lost.required_action_text')} <strong>{t('webgl.context_lost.required_action_strong')}</strong>. {t('webgl.context_lost.required_action_suffix')}
+                  {t('webgl.context_lost.required_action_text')}{' '}
+                  <strong>{t('webgl.context_lost.required_action_strong')}</strong>.{' '}
+                  {t('webgl.context_lost.required_action_suffix')}
                 </p>
               </UIInset>
             ) : (
@@ -75,18 +93,42 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
             <div className="grid gap-3 md:grid-cols-3">
               <FallbackTip
                 icon={AppWindow}
-                title={isContextLost ? t('webgl.context_lost.tips.memory.title') : t('webgl.unavailable.tips.browser.title')}
-                description={isContextLost ? t('webgl.context_lost.tips.memory.description') : t('webgl.unavailable.tips.browser.description')}
+                title={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.memory.title')
+                    : t('webgl.unavailable.tips.browser.title')
+                }
+                description={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.memory.description')
+                    : t('webgl.unavailable.tips.browser.description')
+                }
               />
               <FallbackTip
                 icon={ShieldCheck}
-                title={isContextLost ? t('webgl.context_lost.tips.protection.title') : t('webgl.unavailable.tips.acceleration.title')}
-                description={isContextLost ? t('webgl.context_lost.tips.protection.description') : t('webgl.unavailable.tips.acceleration.description')}
+                title={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.protection.title')
+                    : t('webgl.unavailable.tips.acceleration.title')
+                }
+                description={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.protection.description')
+                    : t('webgl.unavailable.tips.acceleration.description')
+                }
               />
               <FallbackTip
                 icon={Cpu}
-                title={isContextLost ? t('webgl.context_lost.tips.load.title') : t('webgl.unavailable.tips.driver.title')}
-                description={isContextLost ? t('webgl.context_lost.tips.load.description') : t('webgl.unavailable.tips.driver.description')}
+                title={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.load.title')
+                    : t('webgl.unavailable.tips.driver.title')
+                }
+                description={
+                  isContextLost
+                    ? t('webgl.context_lost.tips.load.description')
+                    : t('webgl.unavailable.tips.driver.description')
+                }
               />
             </div>
 
@@ -106,7 +148,7 @@ export function WebGLError({ variant = 'unavailable' }: { variant?: 'unavailable
                 className="ds-button-secondary"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href='https://gabrielfeijo.com.br'
+                href="https://gabrielfeijo.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
               >

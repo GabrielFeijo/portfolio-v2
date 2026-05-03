@@ -51,7 +51,7 @@ export function useCameraTransition({
         lookAt.targetPosition.x,
         lookAt.targetPosition.y,
         lookAt.targetPosition.z,
-        smooth,
+        smooth
       )
       return
     }
@@ -63,7 +63,7 @@ export function useCameraTransition({
       IDLE_LOOK_AT.x,
       IDLE_LOOK_AT.y,
       IDLE_LOOK_AT.z,
-      smooth,
+      smooth
     )
   }, [activePanel, activePlanet, camera, controlsRef, planetAngles, smooth, viewportWidth])
 }

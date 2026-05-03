@@ -8,7 +8,7 @@ export function LoadingScreen() {
   const [progress, setProgress] = useState(0)
   const [phase, setPhase] = useState(0)
 
-  const phases = t('loading.phases', { returnObjects: true }) as string[] || [
+  const phases = (t('loading.phases', { returnObjects: true }) as string[]) || [
     'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
     'CARREGANDO ARQUIVOS DE PORTFÓLIO...',
     'CALIBRANDO SINAIS DO UNIVERSO...',
@@ -19,9 +19,12 @@ export function LoadingScreen() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress(p => {
+      setProgress((p) => {
         const next = p + Math.random() * 8 + 2
-        if (next >= 100) { clearInterval(interval); return 100 }
+        if (next >= 100) {
+          clearInterval(interval)
+          return 100
+        }
         return next
       })
     }, 80)
@@ -43,9 +46,11 @@ export function LoadingScreen() {
       <div className="vignette" />
       <div className="noise" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(125,211,252,0.12),transparent_24%),radial-gradient(circle_at_bottom,rgba(255,122,26,0.1),transparent_28%)]" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
+          backgroundImage:
+            'linear-gradient(rgba(0,212,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,1) 1px, transparent 1px)',
           backgroundSize: '80px 80px',
         }}
       />
@@ -85,7 +90,11 @@ export function LoadingScreen() {
         </div>
 
         <div className="mx-auto flex max-w-sm flex-col items-center">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8 text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-8 text-center"
+          >
             <div className="mb-1 font-display text-[18px] font-black uppercase tracking-[0.4em] text-white">
               Gabriel Feijó
             </div>
@@ -119,4 +128,3 @@ export function LoadingScreen() {
     </motion.div>
   )
 }
-

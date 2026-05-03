@@ -9,10 +9,7 @@ interface AccomplishmentCardProps {
   transition: { delay: number }
 }
 
-export function AccomplishmentCard({
-  accomplishment,
-  transition,
-}: AccomplishmentCardProps) {
+export function AccomplishmentCard({ accomplishment, transition }: AccomplishmentCardProps) {
   const { t } = useTranslation()
 
   return (

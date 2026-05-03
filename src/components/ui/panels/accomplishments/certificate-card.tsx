@@ -7,10 +7,7 @@ interface CertificateCardProps {
   transition: { delay: number }
 }
 
-export function CertificateCard({
-  certificate,
-  transition,
-}: CertificateCardProps) {
+export function CertificateCard({ certificate, transition }: CertificateCardProps) {
   const { t } = useTranslation()
 
   return (
@@ -23,10 +20,17 @@ export function CertificateCard({
     >
       {certificate.image ? (
         <div className="h-18 w-18 shrink-0 overflow-hidden flex items-center justify-center sm:h-20 sm:w-20 ">
-          <img src={certificate.image} alt={certificate.name} className="max-h-full max-w-full object-contain" />
+          <img
+            src={certificate.image}
+            alt={certificate.name}
+            className="max-h-full max-w-full object-contain"
+          />
         </div>
       ) : (
-        <div className="mt-2 h-3 w-3 shrink-0 rounded-full" style={{ background: 'var(--panel-accent)' }} />
+        <div
+          className="mt-2 h-3 w-3 shrink-0 rounded-full"
+          style={{ background: 'var(--panel-accent)' }}
+        />
       )}
 
       <div className="min-w-0 flex-1">

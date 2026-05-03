@@ -23,10 +23,13 @@ export function Sun3D() {
   const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
   const colSecondary = useMemo(() => new THREE.Color('#FF4500'), [])
   const labelStyle = useMemo<HelpLabelStyle>(() => ({ '--planet-accent': '#FFD67A' }), [])
-  const handleClick = useCallback((event: ThreeEvent<MouseEvent>) => {
-    event.stopPropagation()
-    openHelp()
-  }, [openHelp])
+  const handleClick = useCallback(
+    (event: ThreeEvent<MouseEvent>) => {
+      event.stopPropagation()
+      openHelp()
+    },
+    [openHelp]
+  )
   const handlePointerEnter = useCallback(() => {
     setHovered(true)
     setCursorVariant('planet')
@@ -92,8 +95,22 @@ export function Sun3D() {
         )
       })}
 
-      <Sparkles count={320} scale={[14, 14, 14]} size={3.8} speed={0.9} color="#FFF4D6" opacity={0.65} />
-      <Sparkles count={180} scale={[9, 9, 9]} size={5.4} speed={0.55} color="#FF7A1A" opacity={0.85} />
+      <Sparkles
+        count={320}
+        scale={[14, 14, 14]}
+        size={3.8}
+        speed={0.9}
+        color="#FFF4D6"
+        opacity={0.65}
+      />
+      <Sparkles
+        count={180}
+        scale={[9, 9, 9]}
+        size={5.4}
+        speed={0.55}
+        color="#FF7A1A"
+        opacity={0.85}
+      />
 
       <Html
         position={[0, 11, 0]}
@@ -140,14 +157,20 @@ function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
     flare.position.set(
       basePos[0] + Math.sin(time * 1.2) * 0.8,
       basePos[1] + Math.cos(time * 0.9) * 0.8,
-      basePos[2] + Math.sin(time * 1.4) * 0.6,
+      basePos[2] + Math.sin(time * 1.4) * 0.6
     )
   })
 
   return (
     <mesh ref={ref} position={basePos}>
       <sphereGeometry args={[size, 16, 16]} />
-      <meshBasicMaterial color="#FFB800" transparent opacity={0.9} blending={THREE.AdditiveBlending} depthWrite={false} />
+      <meshBasicMaterial
+        color="#FFB800"
+        transparent
+        opacity={0.9}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
     </mesh>
   )
 }
@@ -156,19 +179,22 @@ export function ShootingStar() {
   const ref = useRef<THREE.Group | null>(null)
   const trailRef = useRef<THREE.Mesh | null>(null)
 
-  const { start, dir, delay } = useMemo(() => ({
-    start: new THREE.Vector3(
-      (Math.random() - 0.5) * 400,
-      60 + Math.random() * 100,
-      (Math.random() - 0.5) * 300 - 100,
-    ),
-    dir: new THREE.Vector3(
-      -0.8 + Math.random() * 0.6,
-      -0.3 - Math.random() * 0.5,
-      -0.2 + Math.random() * 0.5,
-    ).normalize(),
-    delay: Math.random() * 15,
-  }), [])
+  const { start, dir, delay } = useMemo(
+    () => ({
+      start: new THREE.Vector3(
+        (Math.random() - 0.5) * 400,
+        60 + Math.random() * 100,
+        (Math.random() - 0.5) * 300 - 100
+      ),
+      dir: new THREE.Vector3(
+        -0.8 + Math.random() * 0.6,
+        -0.3 - Math.random() * 0.5,
+        -0.2 + Math.random() * 0.5
+      ).normalize(),
+      delay: Math.random() * 15,
+    }),
+    []
+  )
 
   useFrame((state) => {
     const t = (state.clock.getElapsedTime() + delay) % 18
@@ -191,11 +217,22 @@ export function ShootingStar() {
     <group ref={ref}>
       <mesh>
         <sphereGeometry args={[0.2, 8, 8]} />
-        <meshBasicMaterial color="#FFFFFF" transparent opacity={1.0} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial
+          color="#FFFFFF"
+          transparent
+          opacity={1.0}
+          blending={THREE.AdditiveBlending}
+        />
       </mesh>
       <mesh ref={trailRef} position={[0, 0, 1.0]}>
         <cylinderGeometry args={[0.08, 0.0, 2, 8]} />
-        <meshBasicMaterial color="#00D4FF" transparent opacity={0.6} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial
+          color="#00D4FF"
+          transparent
+          opacity={0.6}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
       </mesh>
     </group>
   )

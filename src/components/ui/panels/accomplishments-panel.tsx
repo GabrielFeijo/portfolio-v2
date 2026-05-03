@@ -19,7 +19,10 @@ export function AccomplishmentsPanel() {
         ringClassName="-right-16 -top-12 h-44 w-44"
       />
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
+      <div
+        className="grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}
+      >
         {ACCOMPLISHMENTS.map((item, i) => (
           <AccomplishmentCard
             key={item.id}
