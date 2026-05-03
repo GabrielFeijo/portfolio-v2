@@ -33,3 +33,7 @@ dist-ssr
 
 # Vite
 *.timestamp-*
+
+# Test artifacts
+coverage/
+.vitest/
