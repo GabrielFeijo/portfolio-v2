@@ -7,7 +7,7 @@ import {
   PanelIconBadge,
   PanelIntroCard,
   PanelMetaChip,
-  PanelSection
+  PanelSection,
 } from '@/components/ui/panels/panel-primitives'
 import { render, screen } from '@testing-library/react'
 import { Clock, HelpCircle, User } from 'lucide-react'
@@ -22,10 +22,10 @@ describe('panel-primitives utilities', () => {
   it('createCursorHandlers sets proper variants', () => {
     const setCursorVariant = vi.fn()
     const handlers = createCursorHandlers(setCursorVariant, 'planet')
-    
+
     handlers.onMouseEnter()
     expect(setCursorVariant).toHaveBeenCalledWith('planet')
-    
+
     handlers.onMouseLeave()
     expect(setCursorVariant).toHaveBeenCalledWith('default')
   })
@@ -33,7 +33,7 @@ describe('panel-primitives utilities', () => {
   it('createCursorHandlers defaults to link variant', () => {
     const setCursorVariant = vi.fn()
     const handlers = createCursorHandlers(setCursorVariant)
-    
+
     handlers.onMouseEnter()
     expect(setCursorVariant).toHaveBeenCalledWith('link')
   })
@@ -53,13 +53,26 @@ describe('panel-primitives components', () => {
   })
 
   it('PanelHeader renders with description', () => {
-    render(<PanelHeader icon={User} eyebrow="TEST" title="Test Title" description="Some helpful description" />)
+    render(
+      <PanelHeader
+        icon={User}
+        eyebrow="TEST"
+        title="Test Title"
+        description="Some helpful description"
+      />
+    )
     expect(screen.getByText('Some helpful description')).toBeInTheDocument()
   })
 
   it('PanelIntroCard renders correctly', () => {
     render(
-      <PanelIntroCard icon={Clock} eyebrow="INTRO" title="Hello" ringClassName="custom-ring" glowClassName="custom-glow">
+      <PanelIntroCard
+        icon={Clock}
+        eyebrow="INTRO"
+        title="Hello"
+        ringClassName="custom-ring"
+        glowClassName="custom-glow"
+      >
         <div>Child Content</div>
       </PanelIntroCard>
     )
@@ -69,7 +82,13 @@ describe('panel-primitives components', () => {
 
   it('PanelSection renders correctly', () => {
     render(
-      <PanelSection icon={Clock} eyebrow="SEC" title="Section Title" ringClassName="ring-class" glowClassName="glow-class">
+      <PanelSection
+        icon={Clock}
+        eyebrow="SEC"
+        title="Section Title"
+        ringClassName="ring-class"
+        glowClassName="glow-class"
+      >
         <span>Section child</span>
       </PanelSection>
     )
@@ -78,7 +97,9 @@ describe('panel-primitives components', () => {
   })
 
   it('PanelIconBadge styles support', () => {
-    const { container } = render(<PanelIconBadge icon={User} className="bonus-class" style={{ color: 'red' }} />)
+    const { container } = render(
+      <PanelIconBadge icon={User} className="bonus-class" style={{ color: 'red' }} />
+    )
     expect(container.firstChild).toHaveClass('bonus-class')
     expect(container.firstChild).toHaveStyle({ color: 'rgb(255, 0, 0)' })
   })

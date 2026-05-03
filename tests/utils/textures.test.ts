@@ -1,4 +1,11 @@
-import { createCloudTexture, createGlowTexture, createRandom, hexToRgb, makeRingTexture, makeRockTexture } from '@/utils/textures'
+import {
+  createCloudTexture,
+  createGlowTexture,
+  createRandom,
+  hexToRgb,
+  makeRingTexture,
+  makeRockTexture,
+} from '@/utils/textures'
 import * as THREE from 'three'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -40,7 +47,7 @@ describe('textures utilities', () => {
   it('generates textures correctly when context is available', () => {
     const ring = makeRingTexture('#ffffff')
     const rock = makeRockTexture('#ffffff')
-    
+
     expect(ring).toBeInstanceOf(THREE.CanvasTexture)
     expect(rock).toBeInstanceOf(THREE.CanvasTexture)
   })

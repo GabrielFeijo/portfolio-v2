@@ -27,16 +27,20 @@ let mockSettings = {
   warpEffects: true,
 }
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: (selector: (s: any) => unknown) => selector({
-    experienceSettings: mockSettings,
-    setIsLoaded,
-  }),
+  useSpaceStore: (selector: (s: any) => unknown) =>
+    selector({
+      experienceSettings: mockSettings,
+      setIsLoaded,
+    }),
 }))
 
 vi.mock('@/components/three/objects/asteroid-belt', () => ({ AsteroidBelt: () => <div /> }))
 vi.mock('@/components/three/objects/nebula', () => ({ Nebula: () => <div /> }))
 vi.mock('@/components/three/objects/planet-3d', () => ({ Planet3D: () => <div /> }))
-vi.mock('@/components/three/objects/sun-3d', () => ({ Sun3D: () => <div />, ShootingStar: () => <div /> }))
+vi.mock('@/components/three/objects/sun-3d', () => ({
+  Sun3D: () => <div />,
+  ShootingStar: () => <div />,
+}))
 vi.mock('@/components/three/scene/camera-controller', () => ({ CameraController: () => <div /> }))
 
 import { CameraController } from '@/components/three/scene/camera-controller'
@@ -46,7 +50,13 @@ describe('scene smoke', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     setIsLoaded.mockReset()
-    mockSettings = { ...mockSettings, nebula: true, shootingStars: true, asteroidDensity: 1, starDensity: 1 }
+    mockSettings = {
+      ...mockSettings,
+      nebula: true,
+      shootingStars: true,
+      asteroidDensity: 1,
+      starDensity: 1,
+    }
   })
 
   afterEach(() => {
@@ -54,17 +64,36 @@ describe('scene smoke', () => {
   })
 
   it('renders space scene', () => {
-    render(<SpaceScene />)
-    expect(true).toBe(true)
+    const { container } = render(<SpaceScene />)
+    expect(container).toBeDefined()
   })
 
   it('renders camera controller', () => {
-    render(<CameraController planetAngles={{ current: { about: 0, skills: 0, projects: 0, experience: 0, accomplishments: 0, contact: 0 } }} />)
-    expect(true).toBe(true)
+    const { container } = render(
+      <CameraController
+        planetAngles={{
+          current: {
+            about: 0,
+            skills: 0,
+            projects: 0,
+            experience: 0,
+            accomplishments: 0,
+            contact: 0,
+          },
+        }}
+      />
+    )
+    expect(container).toBeDefined()
   })
 
   it('handles timeout load and feature toggles', () => {
-    mockSettings = { ...mockSettings, nebula: false, shootingStars: false, asteroidDensity: 0, starDensity: 0 }
+    mockSettings = {
+      ...mockSettings,
+      nebula: false,
+      shootingStars: false,
+      asteroidDensity: 0,
+      starDensity: 0,
+    }
     const { unmount } = render(<SpaceScene />)
     act(() => {
       vi.runAllTimers()
@@ -76,24 +105,27 @@ describe('scene smoke', () => {
   it('uses zero as the default orbit phase when planet data omits it', async () => {
     vi.resetModules()
     vi.doMock('@/data/portfolio', () => ({
-      PLANETS: [{
-        id: 'about',
-        color: '#fff',
-        glowColor: '#fff',
-        atmosphereColor: '#fff',
-        size: 1,
-        orbitRadius: 1,
-        orbitSpeed: 1,
-        rotationSpeed: 1,
-        icon: 'User',
-        type: 'rocky',
-        name: 'About',
-        subtitle: 'About',
-        description: 'About',
-      }],
+      PLANETS: [
+        {
+          id: 'about',
+          color: '#fff',
+          glowColor: '#fff',
+          atmosphereColor: '#fff',
+          size: 1,
+          orbitRadius: 1,
+          orbitSpeed: 1,
+          rotationSpeed: 1,
+          icon: 'User',
+          type: 'rocky',
+          name: 'About',
+          subtitle: 'About',
+          description: 'About',
+        },
+      ],
     }))
 
-    const { SpaceScene: SpaceSceneWithFallbackData } = await import('@/components/three/scene/space-scene')
+    const { SpaceScene: SpaceSceneWithFallbackData } =
+      await import('@/components/three/scene/space-scene')
     render(<SpaceSceneWithFallbackData />)
 
     expect(setIsLoaded).not.toHaveBeenCalled()

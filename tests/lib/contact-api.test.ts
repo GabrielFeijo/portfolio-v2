@@ -46,11 +46,13 @@ describe('contact-api', () => {
     isAxiosErrorMock.mockReturnValue(true)
 
     const { submitContactForm } = await import('@/lib/contact-api')
-    await expect(submitContactForm({
-      name: 'Gabriel',
-      email: 'gabriel@example.com',
-      message: 'Mensagem com tamanho minimo suficiente.',
-    })).resolves.toEqual({ ok: true })
+    await expect(
+      submitContactForm({
+        name: 'Gabriel',
+        email: 'gabriel@example.com',
+        message: 'Mensagem com tamanho minimo suficiente.',
+      })
+    ).resolves.toEqual({ ok: true })
   })
 
   it('throws network error when no response after retry', async () => {
@@ -62,11 +64,13 @@ describe('contact-api', () => {
     isAxiosErrorMock.mockReturnValue(true)
 
     const { ContactRequestError, submitContactForm } = await import('@/lib/contact-api')
-    await expect(submitContactForm({
-      name: 'Gabriel',
-      email: 'gabriel@example.com',
-      message: 'Mensagem com tamanho minimo suficiente.',
-    })).rejects.toMatchObject({
+    await expect(
+      submitContactForm({
+        name: 'Gabriel',
+        email: 'gabriel@example.com',
+        message: 'Mensagem com tamanho minimo suficiente.',
+      })
+    ).rejects.toMatchObject({
       name: 'ContactRequestError',
       message: 'contact.form.error_network',
       kind: 'network',
@@ -74,7 +78,9 @@ describe('contact-api', () => {
   })
 
   it('throws validation error for 400/422 responses', async () => {
-    postMock.mockRejectedValue({ response: { status: 422, data: { message: ['invalid message'] } } })
+    postMock.mockRejectedValue({
+      response: { status: 422, data: { message: ['invalid message'] } },
+    })
     isAxiosErrorMock.mockReturnValue(true)
 
     const { submitContactForm } = await import('@/lib/contact-api')
@@ -83,7 +89,7 @@ describe('contact-api', () => {
         name: 'Gabriel',
         email: 'gabriel@example.com',
         message: 'Mensagem com tamanho minimo suficiente.',
-      }),
+      })
     ).rejects.toMatchObject({ message: 'invalid message', kind: 'validation' })
   })
 
@@ -97,7 +103,7 @@ describe('contact-api', () => {
         name: 'Gabriel',
         email: 'gabriel@example.com',
         message: 'Mensagem com tamanho minimo suficiente.',
-      }),
+      })
     ).rejects.toMatchObject({ message: 'server down', kind: 'server' })
   })
 
@@ -111,7 +117,7 @@ describe('contact-api', () => {
         name: 'Gabriel',
         email: 'gabriel@example.com',
         message: 'Mensagem com tamanho minimo suficiente.',
-      }),
+      })
     ).rejects.toMatchObject({ message: 'contact.form.error_fallback', kind: 'server' })
   })
 
@@ -125,14 +131,16 @@ describe('contact-api', () => {
         name: 'Gabriel',
         email: 'gabriel@example.com',
         message: 'Mensagem com tamanho minimo suficiente.',
-      }),
+      })
     ).rejects.toMatchObject({ message: 'contact.form.error_fallback', kind: 'server' })
   })
 
   it('normalizes VITE_API_URL removing trailing slashes', async () => {
     vi.stubEnv('VITE_API_URL', 'https://api.example.com///')
     await import('@/lib/contact-api')
-    expect(createMock).toHaveBeenCalledWith(expect.objectContaining({ baseURL: 'https://api.example.com' }))
+    expect(createMock).toHaveBeenCalledWith(
+      expect.objectContaining({ baseURL: 'https://api.example.com' })
+    )
   })
 
   it('uses the default API base URL when env is empty', async () => {

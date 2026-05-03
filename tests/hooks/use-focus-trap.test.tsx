@@ -29,33 +29,33 @@ describe('useFocusTrap', () => {
   it('traps focus forward on Tab', () => {
     const { container } = render(<Trap enabled />)
     const elements = container.querySelectorAll('button')
-    
+
     elements[1].focus()
     expect(document.activeElement?.textContent).toBe('last')
-    
+
     const event = new window.KeyboardEvent('keydown', { key: 'Tab' })
     container.firstElementChild?.dispatchEvent(event)
-    
+
     expect(document.activeElement?.textContent).toBe('first')
   })
 
   it('traps focus backward on Shift+Tab', () => {
     const { container } = render(<Trap enabled />)
     expect(document.activeElement?.textContent).toBe('first')
-    
+
     const event = new window.KeyboardEvent('keydown', { key: 'Tab', shiftKey: true })
     container.firstElementChild?.dispatchEvent(event)
-    
+
     expect(document.activeElement?.textContent).toBe('last')
   })
 
   it('ignores other keys', () => {
     const { container } = render(<Trap enabled />)
     expect(document.activeElement?.textContent).toBe('first')
-    
+
     const event = new window.KeyboardEvent('keydown', { key: 'Enter' })
     container.firstElementChild?.dispatchEvent(event)
-    
+
     expect(document.activeElement?.textContent).toBe('first')
   })
 })

@@ -1,4 +1,9 @@
-import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetOrbitTilt, getPlanetPosition } from '@/components/three/orbit-utils'
+import {
+  getPlanetOrbitCenterY,
+  getPlanetOrbitRotation,
+  getPlanetOrbitTilt,
+  getPlanetPosition,
+} from '@/components/three/orbit-utils'
 import { PLANETS } from '@/data/portfolio'
 import { describe, expect, it } from 'vitest'
 

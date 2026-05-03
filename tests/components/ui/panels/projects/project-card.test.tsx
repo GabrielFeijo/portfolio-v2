@@ -23,7 +23,8 @@ const mockProject: Project = {
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string, options?: any) => {
-      if (key.includes('highlights') && options?.returnObjects) return returnTranslatedHighlights ? ['H1'] : undefined
+      if (key.includes('highlights') && options?.returnObjects)
+        return returnTranslatedHighlights ? ['H1'] : undefined
       return key
     },
   }),

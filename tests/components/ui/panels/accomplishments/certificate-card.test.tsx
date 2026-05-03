@@ -12,22 +12,17 @@ const mockCertificate = {
 }
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string, optionsOrValue?: any) => {
-        if (typeof optionsOrValue === 'string') return optionsOrValue
-        return optionsOrValue?.defaultValue ?? key
+      if (typeof optionsOrValue === 'string') return optionsOrValue
+      return optionsOrValue?.defaultValue ?? key
     },
   }),
 }))
 
 describe('CertificateCard', () => {
   it('renders correctly with image', () => {
-    render(
-      <CertificateCard 
-        certificate={mockCertificate as any} 
-        transition={{ delay: 0 }} 
-      />
-    )
+    render(<CertificateCard certificate={mockCertificate as any} transition={{ delay: 0 }} />)
     expect(screen.getByText('Course')).toBeInTheDocument()
     expect(screen.getByAltText('Course')).toBeInTheDocument()
     expect(screen.getByText('Desc')).toBeInTheDocument()
@@ -35,9 +30,9 @@ describe('CertificateCard', () => {
 
   it('renders correctly without image and description', () => {
     render(
-      <CertificateCard 
-        certificate={{ ...mockCertificate, image: undefined, description: undefined } as any} 
-        transition={{ delay: 0 }} 
+      <CertificateCard
+        certificate={{ ...mockCertificate, image: undefined, description: undefined } as any}
+        transition={{ delay: 0 }}
       />
     )
     expect(screen.getByText('Course')).toBeInTheDocument()

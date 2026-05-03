@@ -5,12 +5,12 @@ import { describe, expect, it, vi } from 'vitest'
 let mockReturnObjects: any[] | null = []
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string, options?: any) => {
       if (options?.returnObjects && mockReturnObjects) return mockReturnObjects
       if (options?.returnObjects && !mockReturnObjects) return null
       return key
-    }
+    },
   }),
 }))
 
@@ -28,4 +28,3 @@ describe('SkillsPanel', () => {
     expect(screen.getByText('Trabalho em equipe')).toBeInTheDocument()
   })
 })
-

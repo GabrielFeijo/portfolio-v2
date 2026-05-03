@@ -5,11 +5,11 @@ import { describe, expect, it, vi } from 'vitest'
 let mockReturnObjects: any[] | null = []
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string, options?: any) => {
       if (options?.returnObjects) return mockReturnObjects
       return key
-    }
+    },
   }),
 }))
 
@@ -33,4 +33,3 @@ describe('AboutPanel', () => {
     expect(screen.getByText(/curiosidade sobre como sites/)).toBeInTheDocument()
   })
 })
-

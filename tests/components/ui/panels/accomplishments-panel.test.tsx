@@ -7,12 +7,12 @@ const { mockCertificates } = vi.hoisted(() => ({
 }))
 
 vi.mock('@/data/portfolio', async () => {
-    const actual = await vi.importActual('@/data/portfolio')
-    return {
-        ...actual,
-        CERTIFICATES: mockCertificates,
-        ACCOMPLISHMENTS: [{ id: '1', title: 'Acc 1', date: '2021', icon: 'User' }],
-    }
+  const actual = await vi.importActual('@/data/portfolio')
+  return {
+    ...actual,
+    CERTIFICATES: mockCertificates,
+    ACCOMPLISHMENTS: [{ id: '1', title: 'Acc 1', date: '2021', icon: 'User' }],
+  }
 })
 
 vi.mock('react-i18next', () => ({

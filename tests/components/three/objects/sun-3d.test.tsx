@@ -1,7 +1,7 @@
 import { ShootingStar, Sun3D } from '@/components/three/objects/sun-3d'
 import { act, fireEvent, render } from '@testing-library/react'
 import * as THREE from 'three'
-import { afterEach, beforeEach, describe, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockFrameCallbacks: any[] = []
 let frameCallCount = 0
@@ -31,16 +31,18 @@ vi.mock('react-i18next', () => ({
 }))
 
 vi.mock('@react-three/fiber', () => ({
-  useFrame: (cb: any) => { mockFrameCallbacks.push(cb) },
+  useFrame: (cb: any) => {
+    mockFrameCallbacks.push(cb)
+  },
   extend: vi.fn(),
-  useThree: () => ({ camera: new THREE.PerspectiveCamera(), clock: new THREE.Clock() })
+  useThree: () => ({ camera: new THREE.PerspectiveCamera(), clock: new THREE.Clock() }),
 }))
 
 vi.mock('@react-three/drei', () => ({
   Sphere: ({ children }: any) => <div>{children}</div>,
   Sparkles: () => <div>Sparkles</div>,
   Html: ({ children }: any) => <div>{children}</div>,
-  shaderMaterial: vi.fn(() => class { }),
+  shaderMaterial: vi.fn(() => class {}),
 }))
 
 vi.mock('react', async () => {
@@ -57,7 +59,7 @@ vi.mock('react', async () => {
           refObj.current = {
             rotation: { x: 0, y: 0, z: 0 },
             scale: { x: 1, y: 1, z: 1 },
-            position: { x: 0, y: 0, z: 0 }
+            position: { x: 0, y: 0, z: 0 },
           }
         } else if (refMode === 'sun' && frameCallCount === 2) {
           sunMaterialRef = refObj
@@ -66,25 +68,25 @@ vi.mock('react', async () => {
               uTime: { value: 0 },
               uColorPrimary: { value: new THREE.Color() },
               uColorSecondary: { value: new THREE.Color() },
-              uIntensity: { value: 0 }
-            }
+              uIntensity: { value: 0 },
+            },
           }
         } else if (refMode === 'sun') {
           refObj.current = {
             scale: { setScalar: vi.fn() },
-            position: { set: vi.fn() }
+            position: { set: vi.fn() },
           }
           solarFlareRefs.push(refObj)
         } else if (refMode === 'shooting-star' && frameCallCount === 1) {
           shootingStarGroupRef = refObj
           refObj.current = {
             position: new THREE.Vector3(),
-            visible: true
+            visible: true,
           }
         } else if (refMode === 'shooting-star' && frameCallCount === 2) {
           shootingStarTrailRef = refObj
           refObj.current = {
-            scale: { set: vi.fn() }
+            scale: { set: vi.fn() },
           }
         }
       }
@@ -96,7 +98,7 @@ vi.mock('react', async () => {
         return (actual as any).createElement('div', props, ...children)
       }
       return (actual as any).createElement(type, props, ...children)
-    }
+    },
   }
 })
 
@@ -118,7 +120,7 @@ describe('Sun3D', () => {
       sunMeshRef.current = {
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
-        position: { x: 0, y: 0, z: 0 }
+        position: { x: 0, y: 0, z: 0 },
       }
     }
     if (sunMaterialRef) {
@@ -127,55 +129,55 @@ describe('Sun3D', () => {
           uTime: { value: 0 },
           uColorPrimary: { value: new THREE.Color() },
           uColorSecondary: { value: new THREE.Color() },
-          uIntensity: { value: 0 }
-        }
+          uIntensity: { value: 0 },
+        },
       }
     }
     solarFlareRefs.forEach((ref) => {
       ref.current = {
         scale: { setScalar: vi.fn() },
-        position: { set: vi.fn() }
+        position: { set: vi.fn() },
       }
     })
   }
 
   it('renders and runs frame loop', async () => {
-	    render(<Sun3D />)
-        restoreSunRefs()
+    render(<Sun3D />)
+    restoreSunRefs()
     let frameCalled = false
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 5.0 } }, 0.016)
           frameCalled = true
-        } catch (e) { }
+        } catch (e) {}
       })
     })
   })
 
   it('updates sun mesh rotation on frame', async () => {
-	    render(<Sun3D />)
-        restoreSunRefs()
+    render(<Sun3D />)
+    restoreSunRefs()
     const initialRotY = sunMeshRef?.current?.rotation?.y ?? 0
 
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016)
-        } catch (e) { }
+        } catch (e) {}
       })
     })
   })
 
   it('updates material uniforms on frame', async () => {
-	    render(<Sun3D />)
-        restoreSunRefs()
+    render(<Sun3D />)
+    restoreSunRefs()
 
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 10.5 } }, 0.016)
-        } catch (e) { }
+        } catch (e) {}
       })
     })
   })
@@ -191,26 +193,26 @@ describe('Sun3D', () => {
     })
 
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 2.0 } }, 0.016)
-        } catch (e) { }
+        } catch (e) {}
       })
     })
   })
 
   it('renders multiple frame cycles', async () => {
-	    render(<Sun3D />)
-        restoreSunRefs()
+    render(<Sun3D />)
+    restoreSunRefs()
 
-	    await act(async () => {
-	      for (let i = 0; i < 3; i++) {
-	        mockFrameCallbacks.forEach(cb => {
-	          try {
-	            cb({ clock: { getElapsedTime: () => i } }, 0.016)
-	          } catch (e) { }
-	        })
-	      }
+    await act(async () => {
+      for (let i = 0; i < 3; i++) {
+        mockFrameCallbacks.forEach((cb) => {
+          try {
+            cb({ clock: { getElapsedTime: () => i } }, 0.016)
+          } catch (e) {}
+        })
+      }
     })
   })
 
@@ -233,7 +235,9 @@ describe('Sun3D', () => {
 
   it('marks the help label as hovered on pointer enter', () => {
     const { container } = render(<Sun3D />)
-    const mesh = Array.from(container.querySelectorAll('*')).find((node) => node.tagName.toLowerCase() === 'mesh')
+    const mesh = Array.from(container.querySelectorAll('*')).find(
+      (node) => node.tagName.toLowerCase() === 'mesh'
+    )
 
     if (mesh) {
       fireEvent.pointerEnter(mesh)
@@ -258,12 +262,12 @@ describe('ShootingStar', () => {
     if (shootingStarGroupRef) {
       shootingStarGroupRef.current = {
         position: new THREE.Vector3(),
-        visible: true
+        visible: true,
       }
     }
     if (shootingStarTrailRef) {
       shootingStarTrailRef.current = {
-        scale: { set: vi.fn() }
+        scale: { set: vi.fn() },
       }
     }
   }
@@ -273,35 +277,37 @@ describe('ShootingStar', () => {
   })
 
   it('renders and runs frame loop', async () => {
-	    render(<ShootingStar />)
-        restoreShootingStarRefs()
+    render(<ShootingStar />)
+    restoreShootingStarRefs()
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
-        try { cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016) } catch (e) { }
+      mockFrameCallbacks.forEach((cb) => {
+        try {
+          cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016)
+        } catch (e) {}
       })
     })
   })
 
   it('handles active phase (t < 2.5)', async () => {
-	    render(<ShootingStar />)
-        restoreShootingStarRefs()
+    render(<ShootingStar />)
+    restoreShootingStarRefs()
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 0.5 } }, 0.016)
-        } catch { }
+        } catch {}
       })
     })
   })
 
   it('handles inactive phase (t >= 2.5)', async () => {
-	    render(<ShootingStar />)
-        restoreShootingStarRefs()
+    render(<ShootingStar />)
+    restoreShootingStarRefs()
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
+      mockFrameCallbacks.forEach((cb) => {
         try {
           cb({ clock: { getElapsedTime: () => 5.0 } }, 0.016)
-        } catch { }
+        } catch {}
       })
     })
   })
@@ -312,23 +318,25 @@ describe('ShootingStar', () => {
 
     await act(async () => {
       for (let t of [0.0, 1.0, 2.5, 5.0, 10.0, 17.9]) {
-        mockFrameCallbacks.forEach(cb => {
+        mockFrameCallbacks.forEach((cb) => {
           try {
             cb({ clock: { getElapsedTime: () => t } }, 0.016)
-          } catch { }
+          } catch {}
         })
       }
     })
   })
 
   it('handles null group refs', async () => {
-	    render(<ShootingStar />)
-        restoreShootingStarRefs()
+    render(<ShootingStar />)
+    restoreShootingStarRefs()
     if (shootingStarGroupRef) shootingStarGroupRef.current = null
 
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
-        try { cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016) } catch { }
+      mockFrameCallbacks.forEach((cb) => {
+        try {
+          cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016)
+        } catch {}
       })
     })
   })
@@ -339,8 +347,10 @@ describe('ShootingStar', () => {
     if (shootingStarTrailRef) shootingStarTrailRef.current = null
 
     await act(async () => {
-      mockFrameCallbacks.forEach(cb => {
-        try { cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016) } catch { }
+      mockFrameCallbacks.forEach((cb) => {
+        try {
+          cb({ clock: { getElapsedTime: () => 1.0 } }, 0.016)
+        } catch {}
       })
     })
   })

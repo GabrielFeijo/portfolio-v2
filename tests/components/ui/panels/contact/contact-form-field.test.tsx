@@ -1,4 +1,7 @@
-import { ContactFormField, getContactFieldClassName } from '@/components/ui/panels/contact/contact-form-field'
+import {
+  ContactFormField,
+  getContactFieldClassName,
+} from '@/components/ui/panels/contact/contact-form-field'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 

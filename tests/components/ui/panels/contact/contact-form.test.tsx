@@ -4,8 +4,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
-    t: (key: string, options?: any) => options?.defaultValue || key
+  useTranslation: () => ({
+    t: (key: string, options?: any) => options?.defaultValue || key,
   }),
 }))
 
@@ -17,9 +17,9 @@ describe('ContactForm', () => {
   it('submits form successfully', async () => {
     vi.mocked(submitContactForm).mockResolvedValueOnce({} as any)
     const setCursorVariant = vi.fn()
-    
+
     render(<ContactForm setCursorVariant={setCursorVariant} />)
-    
+
     const nameInput = screen.getByPlaceholderText('contact.form.name_placeholder')
     const emailInput = screen.getByPlaceholderText('contact.form.email_placeholder')
     const messageInput = screen.getByPlaceholderText('contact.form.message_placeholder')
@@ -28,7 +28,9 @@ describe('ContactForm', () => {
     await act(async () => {
       fireEvent.change(nameInput, { target: { value: 'John Doe' } })
       fireEvent.change(emailInput, { target: { value: 'john@example.com' } })
-      fireEvent.change(messageInput, { target: { value: 'Hello, this is a test message with enough length.' } })
+      fireEvent.change(messageInput, {
+        target: { value: 'Hello, this is a test message with enough length.' },
+      })
       fireEvent.click(submitButton)
     })
 
@@ -37,20 +39,26 @@ describe('ContactForm', () => {
       email: 'john@example.com',
       message: 'Hello, this is a test message with enough length.',
     })
-    
+
     expect(screen.getByText('contact.form.sent')).toBeInTheDocument()
   })
 
   it('shows error state when submission fails', async () => {
     vi.mocked(submitContactForm).mockRejectedValueOnce(new Error('Network error'))
     const setCursorVariant = vi.fn()
-    
+
     render(<ContactForm setCursorVariant={setCursorVariant} />)
-    
+
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText('contact.form.name_placeholder'), { target: { value: 'John' } })
-      fireEvent.change(screen.getByPlaceholderText('contact.form.email_placeholder'), { target: { value: 'j@e.com' } })
-      fireEvent.change(screen.getByPlaceholderText('contact.form.message_placeholder'), { target: { value: 'Message length enough' } })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.name_placeholder'), {
+        target: { value: 'John' },
+      })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.email_placeholder'), {
+        target: { value: 'j@e.com' },
+      })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.message_placeholder'), {
+        target: { value: 'Message length enough' },
+      })
       fireEvent.click(screen.getByRole('button'))
     })
 
@@ -64,9 +72,15 @@ describe('ContactForm', () => {
     render(<ContactForm setCursorVariant={setCursorVariant} />)
 
     await act(async () => {
-      fireEvent.change(screen.getByPlaceholderText('contact.form.name_placeholder'), { target: { value: 'John' } })
-      fireEvent.change(screen.getByPlaceholderText('contact.form.email_placeholder'), { target: { value: 'j@e.com' } })
-      fireEvent.change(screen.getByPlaceholderText('contact.form.message_placeholder'), { target: { value: 'Message length enough' } })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.name_placeholder'), {
+        target: { value: 'John' },
+      })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.email_placeholder'), {
+        target: { value: 'j@e.com' },
+      })
+      fireEvent.change(screen.getByPlaceholderText('contact.form.message_placeholder'), {
+        target: { value: 'Message length enough' },
+      })
       fireEvent.click(screen.getByRole('button'))
     })
 

@@ -3,7 +3,7 @@ import { act, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string) => key,
   }),
 }))
@@ -32,7 +32,7 @@ describe('WebGLError', () => {
     render(<WebGLError />)
     const btn = screen.getByText('webgl.actions.try_again')
     act(() => {
-        btn.click()
+      btn.click()
     })
     expect(reloadMock).toHaveBeenCalled()
   })

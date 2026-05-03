@@ -6,10 +6,11 @@ let mockWarpActive = true
 let mockWarpSetting = true
 
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: (selector: any) => selector({
-    warpActive: mockWarpActive,
-    experienceSettings: { warpEffects: mockWarpSetting }
-  }),
+  useSpaceStore: (selector: any) =>
+    selector({
+      warpActive: mockWarpActive,
+      experienceSettings: { warpEffects: mockWarpSetting },
+    }),
 }))
 
 describe('WarpEffect', () => {
@@ -38,4 +39,3 @@ describe('WarpEffect', () => {
     expect(canvas).not.toBeInTheDocument()
   })
 })
-

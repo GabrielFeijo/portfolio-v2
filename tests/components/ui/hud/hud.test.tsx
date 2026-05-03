@@ -10,22 +10,22 @@ let resolvedLanguage = 'en'
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector?: any) => {
     const state = {
-        openSettings,
-        setCursorVariant,
-        setLanguage,
+      openSettings,
+      setCursorVariant,
+      setLanguage,
     }
     return selector ? selector(state) : state
-  }
+  },
 }))
 
 const changeLanguage = vi.fn()
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string) => key,
     i18n: {
       resolvedLanguage,
       changeLanguage,
-    }
+    },
   }),
 }))
 
@@ -43,7 +43,7 @@ describe('HUD', () => {
   it('renders and updates time', () => {
     render(<HUD />)
     expect(screen.getByText('Gabriel Feijó')).toBeInTheDocument()
-    
+
     const configBtn = screen.getByLabelText('settings.title')
     fireEvent.click(configBtn)
     expect(openSettings).toHaveBeenCalled()
@@ -51,10 +51,10 @@ describe('HUD', () => {
 
   it('changes language when buttons are clicked', () => {
     render(<HUD />)
-    
+
     const ptBtn = screen.getByText('pt')
     fireEvent.click(ptBtn)
-    
+
     expect(changeLanguage).toHaveBeenCalledWith('pt')
     expect(setLanguage).toHaveBeenCalledWith('pt')
 
@@ -64,12 +64,12 @@ describe('HUD', () => {
   })
 
   it('sets cursor on mouse enter', () => {
-      render(<HUD />)
-      const ptBtn = screen.getByText('pt')
-      fireEvent.mouseEnter(ptBtn)
-      fireEvent.mouseLeave(ptBtn)
-      expect(setCursorVariant).toHaveBeenCalledWith('link')
-      expect(setCursorVariant).toHaveBeenCalledWith('default')
+    render(<HUD />)
+    const ptBtn = screen.getByText('pt')
+    fireEvent.mouseEnter(ptBtn)
+    fireEvent.mouseLeave(ptBtn)
+    expect(setCursorVariant).toHaveBeenCalledWith('link')
+    expect(setCursorVariant).toHaveBeenCalledWith('default')
   })
 
   it('refreshes the clock interval and clears it on unmount', () => {

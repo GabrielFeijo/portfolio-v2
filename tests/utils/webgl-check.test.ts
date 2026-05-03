@@ -4,7 +4,9 @@ import { describe, expect, it, vi } from 'vitest'
 describe('webgl-check', () => {
   it('returns true when webgl context exists', () => {
     const getContext = vi.fn((type: string) => (type === 'webgl' ? {} : null))
-    vi.spyOn(document, 'createElement').mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
+    vi.spyOn(document, 'createElement').mockReturnValue({
+      getContext,
+    } as unknown as HTMLCanvasElement)
     vi.stubGlobal('WebGLRenderingContext', function W() {})
 
     expect(isWebGLAvailable()).toBe(true)
@@ -12,7 +14,9 @@ describe('webgl-check', () => {
 
   it('supports experimental-webgl fallback', () => {
     const getContext = vi.fn((type: string) => (type === 'experimental-webgl' ? {} : null))
-    vi.spyOn(document, 'createElement').mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
+    vi.spyOn(document, 'createElement').mockReturnValue({
+      getContext,
+    } as unknown as HTMLCanvasElement)
     vi.stubGlobal('WebGLRenderingContext', function W() {})
 
     expect(isWebGLAvailable()).toBe(true)
@@ -20,7 +24,9 @@ describe('webgl-check', () => {
 
   it('returns false if context is unavailable', () => {
     const getContext = vi.fn(() => null)
-    vi.spyOn(document, 'createElement').mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
+    vi.spyOn(document, 'createElement').mockReturnValue({
+      getContext,
+    } as unknown as HTMLCanvasElement)
     vi.stubGlobal('WebGLRenderingContext', undefined)
 
     expect(isWebGLAvailable()).toBe(false)
@@ -36,7 +42,9 @@ describe('webgl-check', () => {
 
   it('returns true when webgl2 context exists', () => {
     const getContext = vi.fn((type: string) => (type === 'webgl2' ? {} : null))
-    vi.spyOn(document, 'createElement').mockReturnValue({ getContext } as unknown as HTMLCanvasElement)
+    vi.spyOn(document, 'createElement').mockReturnValue({
+      getContext,
+    } as unknown as HTMLCanvasElement)
     vi.stubGlobal('WebGL2RenderingContext', function W2() {})
 
     expect(isWebGL2Available()).toBe(true)

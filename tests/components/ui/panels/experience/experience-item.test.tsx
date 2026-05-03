@@ -20,7 +20,8 @@ const mockExperience: Experience = {
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string, options?: any) => {
-      if (key.includes('achievements') && options?.returnObjects) return returnTranslatedAchievements ? ['A1'] : undefined
+      if (key.includes('achievements') && options?.returnObjects)
+        return returnTranslatedAchievements ? ['A1'] : undefined
       return key
     },
   }),

@@ -5,7 +5,7 @@ import {
   PanelNotice,
   PanelTag,
   PanelTagList,
-  PanelTopGlow
+  PanelTopGlow,
 } from '@/components/ui/panels/panel-content-primitives'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
@@ -46,11 +46,20 @@ describe('panel-content-primitives', () => {
   it('PanelTopGlow sets proper style', () => {
     const { container } = render(<PanelTopGlow color="#ff0000" />)
     const element = container.firstChild as HTMLElement
-    expect(element.style.background).toMatch(/linear-gradient\(180deg, rgba\(255, 0, 0, 0\.13\d*\), transparent\)/)
+    expect(element.style.background).toMatch(
+      /linear-gradient\(180deg, rgba\(255, 0, 0, 0\.13\d*\), transparent\)/
+    )
   })
 
   it('PanelImageFrame renders image correctly', () => {
-    render(<PanelImageFrame src="/test.jpg" alt="Test Image" className="image-class" style={{ zIndex: 10 }} />)
+    render(
+      <PanelImageFrame
+        src="/test.jpg"
+        alt="Test Image"
+        className="image-class"
+        style={{ zIndex: 10 }}
+      />
+    )
     const img = screen.getByRole('img')
     expect(img).toBeInTheDocument()
     expect(img).toHaveAttribute('src', '/test.jpg')

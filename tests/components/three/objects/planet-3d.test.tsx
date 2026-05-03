@@ -97,7 +97,9 @@ describe('Planet3D', () => {
 
   it('renders rings and disposes texture on unmount', () => {
     const ringPlanet = PLANETS.find((p) => p.hasRings)!
-    const { unmount } = render(<Planet3D angleRef={{ current: { [ringPlanet.id]: 0 } }} planet={ringPlanet} />)
+    const { unmount } = render(
+      <Planet3D angleRef={{ current: { [ringPlanet.id]: 0 } }} planet={ringPlanet} />
+    )
     unmount()
     expect(disposeMock).toHaveBeenCalled()
   })

@@ -3,7 +3,14 @@ import { describe, expect, it } from 'vitest'
 
 describe('portfolio data', () => {
   it('contains all expected panel ids', () => {
-    expect(PANEL_IDS).toEqual(['about', 'skills', 'projects', 'experience', 'accomplishments', 'contact'])
+    expect(PANEL_IDS).toEqual([
+      'about',
+      'skills',
+      'projects',
+      'experience',
+      'accomplishments',
+      'contact',
+    ])
   })
 
   it('keeps planets aligned with panel ids', () => {

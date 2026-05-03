@@ -12,7 +12,7 @@ const mockAccomplishment = {
 }
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
+  useTranslation: () => ({
     t: (key: string) => key,
   }),
 }))
@@ -20,10 +20,7 @@ vi.mock('react-i18next', () => ({
 describe('AccomplishmentCard', () => {
   it('renders correctly', () => {
     render(
-      <AccomplishmentCard 
-        accomplishment={mockAccomplishment as any} 
-        transition={{ delay: 0 }} 
-      />
+      <AccomplishmentCard accomplishment={mockAccomplishment as any} transition={{ delay: 0 }} />
     )
     expect(screen.getByText('accomplishments_items.acc-1.title')).toBeInTheDocument()
     expect(screen.getByText('accomplishments_items.acc-1.category')).toBeInTheDocument()

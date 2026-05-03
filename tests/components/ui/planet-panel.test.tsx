@@ -34,12 +34,24 @@ vi.mock('@/hooks/use-focus-trap', () => ({
   useFocusTrap: vi.fn(),
 }))
 
-vi.mock('@/components/ui/panels/about-panel', () => ({ AboutPanel: () => <div data-testid="about-panel">About</div> }))
-vi.mock('@/components/ui/panels/skills-panel', () => ({ SkillsPanel: () => <div data-testid="skills-panel">Skills</div> }))
-vi.mock('@/components/ui/panels/projects-panel', () => ({ ProjectsPanel: () => <div data-testid="projects-panel">Projects</div> }))
-vi.mock('@/components/ui/panels/experience-panel', () => ({ ExperiencePanel: () => <div data-testid="experience-panel">Experience</div> }))
-vi.mock('@/components/ui/panels/accomplishments-panel', () => ({ AccomplishmentsPanel: () => <div data-testid="accomplishments-panel">Accomplishments</div> }))
-vi.mock('@/components/ui/panels/contact-panel', () => ({ ContactPanel: () => <div data-testid="contact-panel">Contact</div> }))
+vi.mock('@/components/ui/panels/about-panel', () => ({
+  AboutPanel: () => <div data-testid="about-panel">About</div>,
+}))
+vi.mock('@/components/ui/panels/skills-panel', () => ({
+  SkillsPanel: () => <div data-testid="skills-panel">Skills</div>,
+}))
+vi.mock('@/components/ui/panels/projects-panel', () => ({
+  ProjectsPanel: () => <div data-testid="projects-panel">Projects</div>,
+}))
+vi.mock('@/components/ui/panels/experience-panel', () => ({
+  ExperiencePanel: () => <div data-testid="experience-panel">Experience</div>,
+}))
+vi.mock('@/components/ui/panels/accomplishments-panel', () => ({
+  AccomplishmentsPanel: () => <div data-testid="accomplishments-panel">Accomplishments</div>,
+}))
+vi.mock('@/components/ui/panels/contact-panel', () => ({
+  ContactPanel: () => <div data-testid="contact-panel">Contact</div>,
+}))
 
 describe('PlanetPanel', () => {
   beforeEach(() => {
@@ -56,7 +68,7 @@ describe('PlanetPanel', () => {
   it('renders the active panel and its content', async () => {
     mockStore.activePanel = 'about'
     render(<PlanetPanel />)
-    
+
     expect(await screen.findByTestId('about-panel')).toBeDefined()
     expect(screen.getByText('planets.about.name')).toBeDefined()
   })
@@ -77,7 +89,7 @@ describe('PlanetPanel', () => {
   it('calls closePanel when clicking backdrop', () => {
     mockStore.activePanel = 'about'
     const { container } = render(<PlanetPanel />)
-    
+
     const backdrop = (container.firstChild as HTMLElement).childNodes[0] as HTMLElement
     fireEvent.click(backdrop)
     expect(mockStore.closePanel).toHaveBeenCalled()
@@ -86,7 +98,7 @@ describe('PlanetPanel', () => {
   it('calls closePanel when clicking close button', () => {
     mockStore.activePanel = 'about'
     render(<PlanetPanel />)
-    
+
     const closeBtn = screen.getByLabelText('planet_panel.close_aria')
     fireEvent.click(closeBtn)
     expect(mockStore.closePanel).toHaveBeenCalled()
@@ -95,7 +107,7 @@ describe('PlanetPanel', () => {
   it('navigates to next panel', () => {
     mockStore.activePanel = 'about'
     render(<PlanetPanel />)
-    
+
     const nextBtn = screen.getByText('planets.skills.name').closest('button')!
     fireEvent.click(nextBtn)
     expect(mockStore.navigateToPanel).toHaveBeenCalledWith('skills')
@@ -104,7 +116,7 @@ describe('PlanetPanel', () => {
   it('navigates to previous panel', () => {
     mockStore.activePanel = 'skills'
     render(<PlanetPanel />)
-    
+
     const prevBtn = screen.getByText('planets.about.name').closest('button')!
     fireEvent.click(prevBtn)
     expect(mockStore.navigateToPanel).toHaveBeenCalledWith('about')
@@ -113,7 +125,7 @@ describe('PlanetPanel', () => {
   it('renders correctly for the last panel (no next button)', () => {
     mockStore.activePanel = 'contact'
     render(<PlanetPanel />)
-    
+
     expect(screen.queryByLabelText(/planet_panel.next_aria/)).toBeNull()
   })
 
@@ -152,7 +164,7 @@ describe('PlanetPanel', () => {
   it('updates cursor variant on mouse enter backdrop', () => {
     mockStore.activePanel = 'about'
     const { container } = render(<PlanetPanel />)
-    
+
     const backdrop = (container.firstChild as HTMLElement).childNodes[0] as HTMLElement
     fireEvent.mouseEnter(backdrop)
     expect(mockStore.setCursorVariant).toHaveBeenCalledWith('default')

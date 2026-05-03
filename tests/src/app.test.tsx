@@ -11,7 +11,13 @@ vi.mock('framer-motion', async () => {
 })
 
 vi.mock('@react-three/fiber', () => ({
-  Canvas: ({ children, onCreated }: { children: React.ReactNode; onCreated?: (state: any) => void }) => {
+  Canvas: ({
+    children,
+    onCreated,
+  }: {
+    children: React.ReactNode
+    onCreated?: (state: any) => void
+  }) => {
     if (onCreated) {
       const gl = {
         domElement: {
@@ -40,15 +46,29 @@ vi.mock('zustand/react/shallow', () => ({
   useShallow: (selector: unknown) => selector,
 }))
 
-vi.mock('@/components/three/scene/space-scene', () => ({ SpaceScene: () => <div data-testid="scene" /> }))
-vi.mock('@/components/ui/hud/custom-cursor', () => ({ CustomCursor: () => <div data-testid="cursor" /> }))
+vi.mock('@/components/three/scene/space-scene', () => ({
+  SpaceScene: () => <div data-testid="scene" />,
+}))
+vi.mock('@/components/ui/hud/custom-cursor', () => ({
+  CustomCursor: () => <div data-testid="cursor" />,
+}))
 vi.mock('@/components/ui/hud/hud', () => ({ HUD: () => <div data-testid="hud" /> }))
-vi.mock('@/components/ui/hud/loading-screen', () => ({ LoadingScreen: () => <div data-testid="loading" /> }))
-vi.mock('@/components/ui/hud/space-music', () => ({ SpaceMusic: () => <div data-testid="music" /> }))
+vi.mock('@/components/ui/hud/loading-screen', () => ({
+  LoadingScreen: () => <div data-testid="loading" />,
+}))
+vi.mock('@/components/ui/hud/space-music', () => ({
+  SpaceMusic: () => <div data-testid="music" />,
+}))
 vi.mock('@/components/ui/hud/warp-effect', () => ({ WarpEffect: () => <div data-testid="warp" /> }))
-vi.mock('@/components/ui/overlays/help-overlay', () => ({ HelpOverlay: () => <div data-testid="help" /> }))
-vi.mock('@/components/ui/overlays/settings-overlay', () => ({ SettingsOverlay: () => <div data-testid="settings" /> }))
-vi.mock('@/components/ui/overlays/webgl-error', () => ({ WebGLError: ({ variant }: { variant: string }) => <div data-testid="webgl">{variant}</div> }))
+vi.mock('@/components/ui/overlays/help-overlay', () => ({
+  HelpOverlay: () => <div data-testid="help" />,
+}))
+vi.mock('@/components/ui/overlays/settings-overlay', () => ({
+  SettingsOverlay: () => <div data-testid="settings" />,
+}))
+vi.mock('@/components/ui/overlays/webgl-error', () => ({
+  WebGLError: ({ variant }: { variant: string }) => <div data-testid="webgl">{variant}</div>,
+}))
 vi.mock('@/components/ui/planet-panel', () => ({ PlanetPanel: () => <div data-testid="panel" /> }))
 
 const state = {
@@ -114,7 +134,7 @@ describe('App', () => {
     render(<App />)
 
     const event = { preventDefault: vi.fn() }
-    
+
     await act(async () => {
       ;(window as any).__triggerContextLost?.(event)
     })

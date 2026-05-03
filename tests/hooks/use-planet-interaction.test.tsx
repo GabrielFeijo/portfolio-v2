@@ -9,29 +9,31 @@ describe('usePlanetInteraction', () => {
     const setCursorVariant = vi.fn()
     const setWarpActive = vi.fn()
 
-    const { result } = renderHook(() => usePlanetInteraction({
-      planetId: 'about',
-      openPanel,
-      setActivePlanet,
-      setCursorVariant,
-      setWarpActive,
-      settings: {
-        antialias: true,
-        asteroidDensity: 1,
-        autoRotate: true,
-        dpr: 1,
-        musicEnabled: false,
-        musicVolume: 0,
-        nebula: true,
-        orbitalParticles: true,
-        planetRotation: true,
-        shootingStars: true,
-        shadows: true,
-        starDensity: 1,
-        transitionAnimations: false,
-        warpEffects: false,
-      },
-    }))
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'about',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          antialias: true,
+          asteroidDensity: 1,
+          autoRotate: true,
+          dpr: 1,
+          musicEnabled: false,
+          musicVolume: 0,
+          nebula: true,
+          orbitalParticles: true,
+          planetRotation: true,
+          shootingStars: true,
+          shadows: true,
+          starDensity: 1,
+          transitionAnimations: false,
+          warpEffects: false,
+        },
+      })
+    )
 
     const stopPropagation = vi.fn()
     act(() => result.current.handleClick({ stopPropagation } as never))
@@ -50,29 +52,31 @@ describe('usePlanetInteraction', () => {
     const setCursorVariant = vi.fn()
     const setWarpActive = vi.fn()
 
-    const { result } = renderHook(() => usePlanetInteraction({
-      planetId: 'contact',
-      openPanel,
-      setActivePlanet,
-      setCursorVariant,
-      setWarpActive,
-      settings: {
-        antialias: true,
-        asteroidDensity: 1,
-        autoRotate: true,
-        dpr: 1,
-        musicEnabled: false,
-        musicVolume: 0,
-        nebula: true,
-        orbitalParticles: true,
-        planetRotation: true,
-        shootingStars: true,
-        shadows: true,
-        starDensity: 1,
-        transitionAnimations: true,
-        warpEffects: false,
-      },
-    }))
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'contact',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          antialias: true,
+          asteroidDensity: 1,
+          autoRotate: true,
+          dpr: 1,
+          musicEnabled: false,
+          musicVolume: 0,
+          nebula: true,
+          orbitalParticles: true,
+          planetRotation: true,
+          shootingStars: true,
+          shadows: true,
+          starDensity: 1,
+          transitionAnimations: true,
+          warpEffects: false,
+        },
+      })
+    )
 
     act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
     expect(setWarpActive).not.toHaveBeenCalled()
@@ -93,29 +97,31 @@ describe('usePlanetInteraction', () => {
     const setCursorVariant = vi.fn()
     const setWarpActive = vi.fn()
 
-    const { result } = renderHook(() => usePlanetInteraction({
-      planetId: 'skills',
-      openPanel,
-      setActivePlanet,
-      setCursorVariant,
-      setWarpActive,
-      settings: {
-        antialias: true,
-        asteroidDensity: 1,
-        autoRotate: true,
-        dpr: 1,
-        musicEnabled: false,
-        musicVolume: 0,
-        nebula: true,
-        orbitalParticles: true,
-        planetRotation: true,
-        shootingStars: true,
-        shadows: true,
-        starDensity: 1,
-        transitionAnimations: true,
-        warpEffects: true,
-      },
-    }))
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'skills',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          antialias: true,
+          asteroidDensity: 1,
+          autoRotate: true,
+          dpr: 1,
+          musicEnabled: false,
+          musicVolume: 0,
+          nebula: true,
+          orbitalParticles: true,
+          planetRotation: true,
+          shootingStars: true,
+          shadows: true,
+          starDensity: 1,
+          transitionAnimations: true,
+          warpEffects: true,
+        },
+      })
+    )
 
     act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
     expect(setWarpActive).toHaveBeenCalledWith(true)
@@ -142,58 +148,62 @@ describe('usePlanetInteraction', () => {
     const setCursorVariant = vi.fn()
     const setWarpActive = vi.fn()
 
-    const { result, unmount } = renderHook(() => usePlanetInteraction({
-      planetId: 'projects',
-      openPanel,
-      setActivePlanet,
-      setCursorVariant,
-      setWarpActive,
-      settings: {
-        antialias: true,
-        asteroidDensity: 1,
-        autoRotate: true,
-        dpr: 1,
-        musicEnabled: false,
-        musicVolume: 0,
-        nebula: true,
-        orbitalParticles: true,
-        planetRotation: true,
-        shootingStars: true,
-        shadows: true,
-        starDensity: 1,
-        transitionAnimations: true,
-        warpEffects: true,
-      },
-    }))
+    const { result, unmount } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'projects',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          antialias: true,
+          asteroidDensity: 1,
+          autoRotate: true,
+          dpr: 1,
+          musicEnabled: false,
+          musicVolume: 0,
+          nebula: true,
+          orbitalParticles: true,
+          planetRotation: true,
+          shootingStars: true,
+          shadows: true,
+          starDensity: 1,
+          transitionAnimations: true,
+          warpEffects: true,
+        },
+      })
+    )
 
     act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
     expect(setWarpActive).toHaveBeenCalledWith(true)
 
     unmount()
 
-    const { result: r2 } = renderHook(() => usePlanetInteraction({
-      planetId: 'projects',
-      openPanel,
-      setActivePlanet,
-      setCursorVariant,
-      setWarpActive,
-      settings: {
-        antialias: true,
-        asteroidDensity: 1,
-        autoRotate: true,
-        dpr: 1,
-        musicEnabled: false,
-        musicVolume: 0,
-        nebula: true,
-        orbitalParticles: true,
-        planetRotation: true,
-        shootingStars: true,
-        shadows: true,
-        starDensity: 1,
-        transitionAnimations: true,
-        warpEffects: true,
-      },
-    }))
+    const { result: r2 } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'projects',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          antialias: true,
+          asteroidDensity: 1,
+          autoRotate: true,
+          dpr: 1,
+          musicEnabled: false,
+          musicVolume: 0,
+          nebula: true,
+          orbitalParticles: true,
+          planetRotation: true,
+          shootingStars: true,
+          shadows: true,
+          starDensity: 1,
+          transitionAnimations: true,
+          warpEffects: true,
+        },
+      })
+    )
 
     act(() => r2.current.handleClick({ stopPropagation: vi.fn() } as never))
     act(() => r2.current.handleClick({ stopPropagation: vi.fn() } as never))
