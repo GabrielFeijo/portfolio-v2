@@ -43,7 +43,10 @@ export interface UiSlice {
   warpActive: boolean
   setWarpActive: (active: boolean) => void
   experienceSettings: ExperienceSettings
-  setExperienceSetting: <Key extends keyof ExperienceSettings>(key: Key, value: ExperienceSettings[Key]) => void
+  setExperienceSetting: <Key extends keyof ExperienceSettings>(
+    key: Key,
+    value: ExperienceSettings[Key]
+  ) => void
   applyExperiencePreset: (preset: ExperiencePreset) => void
   resetExperienceSettings: () => void
   language: 'pt' | 'en'

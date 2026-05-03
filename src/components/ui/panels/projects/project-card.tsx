@@ -1,10 +1,16 @@
+import type { Project } from '@/data/portfolio'
+import type { CursorVariant } from '@/types/store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Code, ExternalLink } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { Project } from '@/data/portfolio'
-import type { CursorVariant } from '@/types/store'
+import {
+  PanelBulletList,
+  PanelImageFrame,
+  PanelInsetCard,
+  PanelTagList,
+  PanelTopGlow,
+} from '../panel-content-primitives'
 import { createCursorHandlers } from '../panel-primitives'
-import { PanelBulletList, PanelImageFrame, PanelInsetCard, PanelTagList, PanelTopGlow } from '../panel-content-primitives'
 import { ProjectLink } from './project-link'
 
 interface ProjectCardProps {
@@ -23,7 +29,10 @@ export function ProjectCard({
   transition,
 }: ProjectCardProps) {
   const { t } = useTranslation()
-  const categoryLabel = t(`projects.filters.${project.category.toLowerCase().replace(/\s+/g, '_')}`, project.category)
+  const categoryLabel = t(
+    `projects.filters.${project.category.toLowerCase().replace(/\s+/g, '_')}`,
+    project.category
+  )
 
   return (
     <motion.article
@@ -35,7 +44,9 @@ export function ProjectCard({
       {...createCursorHandlers(setCursorVariant)}
       className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
       style={{
-        boxShadow: isSelected ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12` : undefined,
+        boxShadow: isSelected
+          ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12`
+          : undefined,
       }}
     >
       <PanelTopGlow color={project.color} className="h-24" />
@@ -45,7 +56,6 @@ export function ProjectCard({
           {t('common.featured')}
         </div>
       )}
-
 
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
@@ -80,14 +90,35 @@ export function ProjectCard({
                 <div className="mb-3 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
                   {t('common.highlights')}
                 </div>
-                <PanelBulletList items={t(`projects_items.${project.id}.highlights`, { returnObjects: true }) as string[] || project.highlights} />
+                <PanelBulletList
+                  items={
+                    (t(`projects_items.${project.id}.highlights`, {
+                      returnObjects: true,
+                    }) as string[]) || project.highlights
+                  }
+                />
               </PanelInsetCard>
             )}
 
             <div className="flex gap-2">
-              {project.live && <ProjectLink href={project.live} icon={ExternalLink} label={t('common.open_project')} primary setCursorVariant={setCursorVariant} />}
+              {project.live && (
+                <ProjectLink
+                  href={project.live}
+                  icon={ExternalLink}
+                  label={t('common.open_project')}
+                  primary
+                  setCursorVariant={setCursorVariant}
+                />
+              )}
 
-              {project.github && <ProjectLink href={project.github} icon={Code} label={t('common.view_code')} setCursorVariant={setCursorVariant} />}
+              {project.github && (
+                <ProjectLink
+                  href={project.github}
+                  icon={Code}
+                  label={t('common.view_code')}
+                  setCursorVariant={setCursorVariant}
+                />
+              )}
             </div>
           </motion.div>
         )}

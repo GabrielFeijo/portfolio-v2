@@ -1,21 +1,41 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { Code, Briefcase, Mail, Globe, Send, MapPin, MessageSquareQuote } from 'lucide-react'
-import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
+import { motion } from 'framer-motion'
+import { Briefcase, Code, Globe, Mail, MapPin, MessageSquareQuote, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { ContactForm } from './contact/contact-form'
 import { ContactLinkCard } from './contact/contact-link-card'
+import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
 
 export function ContactPanel() {
   const { setCursorVariant } = useSpaceStore()
   const { t } = useTranslation()
 
   const links = [
-    { icon: Code, label: t('contact.links.github'), href: DEVELOPER.github, desc: t('contact.github_desc') },
-    { icon: Briefcase, label: t('contact.links.linkedin'), href: DEVELOPER.linkedin, desc: t('contact.linkedin_desc') },
-    { icon: Mail, label: t('contact.links.email'), href: `mailto:${DEVELOPER.email}`, desc: DEVELOPER.email },
-    { icon: Globe, label: t('contact.links.website'), href: DEVELOPER.website, desc: t('contact.website_desc') },
+    {
+      icon: Code,
+      label: t('contact.links.github'),
+      href: DEVELOPER.github,
+      desc: t('contact.github_desc'),
+    },
+    {
+      icon: Briefcase,
+      label: t('contact.links.linkedin'),
+      href: DEVELOPER.linkedin,
+      desc: t('contact.linkedin_desc'),
+    },
+    {
+      icon: Mail,
+      label: t('contact.links.email'),
+      href: `mailto:${DEVELOPER.email}`,
+      desc: DEVELOPER.email,
+    },
+    {
+      icon: Globe,
+      label: t('contact.links.website'),
+      href: DEVELOPER.website,
+      desc: t('contact.website_desc'),
+    },
   ]
 
   return (
@@ -52,9 +72,7 @@ export function ContactPanel() {
         title={t('contact.send_message')}
         ringClassName="-left-8 bottom-5 h-24 w-24"
       >
-        <p className="text-sm text-(--text-secondary) leading-7 mb-5">
-          {t('contact.form_notice')}
-        </p>
+        <p className="text-sm text-(--text-secondary) leading-7 mb-5">{t('contact.form_notice')}</p>
 
         <ContactForm setCursorVariant={setCursorVariant} />
       </PanelSection>

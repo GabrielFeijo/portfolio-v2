@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { Building2, Calendar, ChevronRight } from 'lucide-react'
 import type { Experience } from '@/data/portfolio'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Building2, Calendar, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives'
 
 interface ExperienceItemProps {
@@ -11,12 +11,7 @@ interface ExperienceItemProps {
   transition: { delay: number }
 }
 
-export function ExperienceItem({
-  experience,
-  isOpen,
-  onToggle,
-  transition,
-}: ExperienceItemProps) {
+export function ExperienceItem({ experience, isOpen, onToggle, transition }: ExperienceItemProps) {
   const { t } = useTranslation()
 
   return (
@@ -31,7 +26,9 @@ export function ExperienceItem({
         style={{
           background: isOpen ? 'var(--panel-accent)' : 'var(--deep-space)',
           borderColor: 'var(--panel-accent)',
-          boxShadow: isOpen ? '0 0 20px color-mix(in srgb, var(--panel-glow) 40%, transparent)' : 'none',
+          boxShadow: isOpen
+            ? '0 0 20px color-mix(in srgb, var(--panel-glow) 40%, transparent)'
+            : 'none',
         }}
       />
 
@@ -40,7 +37,9 @@ export function ExperienceItem({
         whileHover={{ x: 3 }}
         className={`cursor-none rounded-3xl px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
         style={{
-          boxShadow: isOpen ? '0 18px 40px rgba(0,0,0,0.24), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)' : undefined,
+          boxShadow: isOpen
+            ? '0 18px 40px rgba(0,0,0,0.24), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)'
+            : undefined,
         }}
       >
         <div className="flex items-start justify-between gap-4">
@@ -63,7 +62,10 @@ export function ExperienceItem({
             </div>
           </div>
 
-          <motion.div animate={{ rotate: isOpen ? 90 : 0 }} className="mt-1 shrink-0 panel-highlight-text">
+          <motion.div
+            animate={{ rotate: isOpen ? 90 : 0 }}
+            className="mt-1 shrink-0 panel-highlight-text"
+          >
             <ChevronRight size={18} />
           </motion.div>
         </div>
@@ -86,7 +88,13 @@ export function ExperienceItem({
                   <div className="mb-3 font-mono-space text-[11px] font-semibold uppercase tracking-[0.18em] panel-eyebrow">
                     {t('common.key_deliveries')}
                   </div>
-                  <PanelBulletList items={t(`experience_items.${experience.id}.achievements`, { returnObjects: true }) as string[] || experience.achievements} />
+                  <PanelBulletList
+                    items={
+                      (t(`experience_items.${experience.id}.achievements`, {
+                        returnObjects: true,
+                      }) as string[]) || experience.achievements
+                    }
+                  />
                 </PanelInsetCard>
               )}
 

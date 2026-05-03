@@ -1,7 +1,15 @@
+import type {
+  ExperiencePreset,
+  ExperienceSettings,
+  NavigationSlice,
+  SpaceStore,
+  UiSlice,
+} from '@/types/store'
 import { create } from 'zustand'
-import type { ExperiencePreset, ExperienceSettings, NavigationSlice, SpaceStore, UiSlice } from '@/types/store'
 
-type SliceSet = (partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)) => void
+type SliceSet = (
+  partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)
+) => void
 
 export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
   antialias: true,
@@ -95,12 +103,13 @@ const createUiSlice = (set: SliceSet): UiSlice => ({
   warpActive: false,
   setWarpActive: (active) => set({ warpActive: active }),
   experienceSettings: MAX_EXPERIENCE_SETTINGS,
-  setExperienceSetting: (key, value) => set((state) => ({
-    experienceSettings: {
-      ...state.experienceSettings,
-      [key]: value,
-    },
-  })),
+  setExperienceSetting: (key, value) =>
+    set((state) => ({
+      experienceSettings: {
+        ...state.experienceSettings,
+        [key]: value,
+      },
+    })),
   applyExperiencePreset: (preset) => set({ experienceSettings: EXPERIENCE_PRESETS[preset] }),
   resetExperienceSettings: () => set({ experienceSettings: MAX_EXPERIENCE_SETTINGS }),
   language: 'pt',

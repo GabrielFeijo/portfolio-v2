@@ -1,5 +1,5 @@
-import * as THREE from 'three'
 import { shaderMaterial } from '@react-three/drei'
+import * as THREE from 'three'
 
 export const NOISE_CHUNK = `
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
@@ -86,7 +86,7 @@ export const AdvancedAtmosphereMaterial = shaderMaterial(
     uIntensity: 1.0,
     uTime: 0.0,
   },
- `
+  `
   varying vec3 vNormal;
   varying vec3 vPosition;
   varying vec3 vViewDir;
@@ -99,7 +99,7 @@ export const AdvancedAtmosphereMaterial = shaderMaterial(
     gl_Position = projectionMatrix * mvPosition;
   }
   `,
- `
+  `
   uniform vec3 uColor;
   uniform float uIntensity;
   uniform float uTime;
@@ -128,10 +128,10 @@ export const AAA_PlanetMaterial = shaderMaterial(
   {
     uTime: 0,
     uColor: new THREE.Color(),
-    uType: 0, 
+    uType: 0,
     uLightDir: new THREE.Vector3(1, 0.5, 0.5).normalize(),
   },
-`
+  `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
@@ -161,7 +161,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
   }
   `,
-`
+  `
   uniform float uTime;
   uniform int uType;
   uniform vec3 uColor;
@@ -306,7 +306,7 @@ export const SunMaterial = shaderMaterial(
     uColorSecondary: new THREE.Color('#FF4500'),
     uIntensity: 1.5,
   },
- `
+  `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
@@ -325,7 +325,7 @@ export const SunMaterial = shaderMaterial(
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
   }
   `,
- `
+  `
   uniform float uTime;
   uniform vec3 uColorPrimary;
   uniform vec3 uColorSecondary;

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ThreeEvent } from '@react-three/fiber'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import type { PanelId } from '@/types/portfolio'
 import type { CursorVariant, ExperienceSettings } from '@/types/store'
+import type { ThreeEvent } from '@react-three/fiber'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UsePlanetInteractionOptions {
   planetId: PanelId
@@ -32,30 +32,40 @@ export function usePlanetInteraction({
     }
   }, [])
 
-  const handleClick = useCallback((event: ThreeEvent<MouseEvent>) => {
-    event.stopPropagation()
-    setActivePlanet(planetId)
+  const handleClick = useCallback(
+    (event: ThreeEvent<MouseEvent>) => {
+      event.stopPropagation()
+      setActivePlanet(planetId)
 
-    if (!settings.transitionAnimations) {
-      openPanel(planetId)
-      return
-    }
-
-    if (settings.warpEffects) {
-      setWarpActive(true)
-
-      if (warpTimeoutRef.current !== null) {
-        window.clearTimeout(warpTimeoutRef.current)
+      if (!settings.transitionAnimations) {
+        openPanel(planetId)
+        return
       }
 
-      warpTimeoutRef.current = window.setTimeout(() => {
-        setWarpActive(false)
-        warpTimeoutRef.current = null
-      }, ANIMATION_SETTINGS.warpDurationMs)
-    }
+      if (settings.warpEffects) {
+        setWarpActive(true)
 
-    window.setTimeout(() => openPanel(planetId), ANIMATION_SETTINGS.panelOpenDelayMs)
-  }, [openPanel, planetId, setActivePlanet, setWarpActive, settings.transitionAnimations, settings.warpEffects])
+        if (warpTimeoutRef.current !== null) {
+          window.clearTimeout(warpTimeoutRef.current)
+        }
+
+        warpTimeoutRef.current = window.setTimeout(() => {
+          setWarpActive(false)
+          warpTimeoutRef.current = null
+        }, ANIMATION_SETTINGS.warpDurationMs)
+      }
+
+      window.setTimeout(() => openPanel(planetId), ANIMATION_SETTINGS.panelOpenDelayMs)
+    },
+    [
+      openPanel,
+      planetId,
+      setActivePlanet,
+      setWarpActive,
+      settings.transitionAnimations,
+      settings.warpEffects,
+    ]
+  )
 
   const handlePointerEnter = useCallback(() => {
     setHovered(true)

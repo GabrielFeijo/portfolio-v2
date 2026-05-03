@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { PROJECTS, type ProjectCategory } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
+import { motion } from 'framer-motion'
 import { Layers3 } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
 import { ProjectCard } from './projects/project-card'
 
@@ -17,8 +17,14 @@ export function ProjectsPanel() {
   const [filter, setFilter] = useState<ProjectFilter>(ALL_PROJECTS_FILTER)
   const linkCursor = createCursorHandlers(setCursorVariant)
 
-  const categories: ProjectFilter[] = [ALL_PROJECTS_FILTER, ...Array.from(new Set(PROJECTS.map((project) => project.category)))]
-  const filtered = filter === ALL_PROJECTS_FILTER ? PROJECTS : PROJECTS.filter((project) => project.category === filter)
+  const categories: ProjectFilter[] = [
+    ALL_PROJECTS_FILTER,
+    ...Array.from(new Set(PROJECTS.map((project) => project.category))),
+  ]
+  const filtered =
+    filter === ALL_PROJECTS_FILTER
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.category === filter)
   const getFilterLabel = (value: ProjectFilter) => {
     if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all')
     const key = value.toLowerCase().replace(/\s+/g, '_')
@@ -35,7 +41,6 @@ export function ProjectsPanel() {
         ringClassName="-right-14 -top-14 h-40 w-40"
         glowClassName="left-10 top-8 h-24 w-24"
       >
-
         <div className="mt-5 flex gap-2 flex-wrap">
           {categories.map((cat) => (
             <motion.button
@@ -46,10 +51,16 @@ export function ProjectsPanel() {
               {...linkCursor}
               className="px-3.5 py-1.5 rounded-full text-xs font-medium cursor-none transition-all duration-200 border"
               style={{
-                background: filter === cat ? 'linear-gradient(180deg, var(--panel-accent), var(--panel-glow))' : 'rgba(255,255,255,0.03)',
+                background:
+                  filter === cat
+                    ? 'linear-gradient(180deg, var(--panel-accent), var(--panel-glow))'
+                    : 'rgba(255,255,255,0.03)',
                 borderColor: filter === cat ? 'var(--panel-border-strong)' : 'var(--panel-border)',
                 color: filter === cat ? 'white' : 'var(--text-secondary)',
-                boxShadow: filter === cat ? '0 16px 32px color-mix(in srgb, var(--panel-glow) 26%, transparent)' : 'none',
+                boxShadow:
+                  filter === cat
+                    ? '0 16px 32px color-mix(in srgb, var(--panel-glow) 26%, transparent)'
+                    : 'none',
               }}
             >
               {getFilterLabel(cat)}
@@ -58,7 +69,10 @@ export function ProjectsPanel() {
         </div>
       </PanelIntroCard>
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+      <div
+        className="grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}
+      >
         {filtered.map((project, i) => {
           return (
             <ProjectCard

@@ -1,20 +1,21 @@
-import { useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useShallow } from 'zustand/react/shallow'
 import { useSpaceStore } from '@/store/space-store'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 export function WarpEffect() {
-  const { warpActive, warpEffects } = useSpaceStore(useShallow((state) => ({
-    warpActive: state.warpActive,
-    warpEffects: state.experienceSettings.warpEffects,
-  })))
+  const { warpActive, warpEffects } = useSpaceStore(
+    useShallow((state) => ({
+      warpActive: state.warpActive,
+      warpEffects: state.experienceSettings.warpEffects,
+    }))
+  )
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const animRef = useRef<number>(0)
 
   useEffect(() => {
     if (!warpActive || !warpEffects) return
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const canvas = canvasRef.current!
     const ctx = canvas.getContext('2d')!
 
     canvas.width = window.innerWidth
@@ -39,7 +40,7 @@ export function WarpEffect() {
       ctx.fillStyle = 'rgba(0, 0, 8, 0.18)'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      stars.forEach(star => {
+      stars.forEach((star) => {
         star.pz = star.z
         star.z -= 18
 

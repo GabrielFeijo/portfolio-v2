@@ -1,14 +1,14 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { submitContactForm } from '@/lib/contact-api'
 import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema'
+import type { CursorVariant } from '@/types/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { createCursorHandlers } from '../panel-primitives'
 import { useTemporaryFlag } from '../use-temporary-flag'
-import type { CursorVariant } from '@/types/store'
 import { ContactFormField, getContactFieldClassName } from './contact-form-field'
-import { submitContactForm } from '@/lib/contact-api'
-import { useState } from 'react'
 
 interface ContactFormProps {
   setCursorVariant: (variant: CursorVariant) => void
@@ -35,8 +35,9 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
     },
   })
 
-  const messageValue = watch('message') ?? ''
-  const resolveErrorMessage = (message?: string) => (message ? t(message, { defaultValue: message }) : undefined)
+  const messageValue = watch('message')
+  const resolveErrorMessage = (message?: string) =>
+    message ? t(message, { defaultValue: message }) : undefined
 
   const onSubmit = async (values: ContactFormValues) => {
     setSubmitError(null)
@@ -89,7 +90,10 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       <ContactFormField
         errorId="contact-message-error"
         label={t('contact.form.message')}
-        error={resolveErrorMessage(errors.message?.message) ?? resolveErrorMessage(submitError ?? undefined)}
+        error={
+          resolveErrorMessage(errors.message?.message) ??
+          resolveErrorMessage(submitError ?? undefined)
+        }
         helperText={`${messageValue.trim().length}/600 ${t('contact.form.characters')}`}
         input={
           <textarea
@@ -98,7 +102,10 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
             aria-invalid={Boolean(errors.message)}
             aria-describedby="contact-message-error"
             {...register('message')}
-            className={getContactFieldClassName(Boolean(errors.message), 'min-h-38 resize-none rounded-[22px]')}
+            className={getContactFieldClassName(
+              Boolean(errors.message),
+              'min-h-38 resize-none rounded-[22px]'
+            )}
           />
         }
       />
@@ -111,7 +118,11 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         disabled={isSubmitting}
         className={`px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors ${isSubmitting ? 'opacity-70' : ''}`}
       >
-        {sent ? t('contact.form.sent') : isSubmitting ? t('contact.form.sending') : t('contact.send_message')}
+        {sent
+          ? t('contact.form.sent')
+          : isSubmitting
+            ? t('contact.form.sending')
+            : t('contact.send_message')}
       </motion.button>
     </form>
   )

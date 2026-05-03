@@ -1,6 +1,6 @@
+import type { SkillItem } from '@/data/portfolio'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import type { SkillItem } from '@/data/portfolio'
 
 const getLevelKey = (level: number) => {
   if (level >= 95) return 'expert'
@@ -37,7 +37,9 @@ export function SkillBar({ delay, skill }: SkillBarProps) {
       <div className="relative z-10">
         <div className="mb-2 flex items-center justify-between gap-3">
           <span className="text-sm font-semibold text-(--text-primary)">{skill.name}</span>
-          <span className="font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">{levelText}</span>
+          <span className="font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
+            {levelText}
+          </span>
         </div>
 
         <div className="h-2 w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.05)]">

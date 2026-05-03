@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { CameraControls } from '@react-three/drei'
-import { useShallow } from 'zustand/react/shallow'
-import * as THREE from 'three'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { CAMERA_SETTINGS } from '@/constants/camera'
 import { useCameraTransition } from '@/hooks/use-camera-transition'
 import { useSpaceStore } from '@/store/space-store'
 import type { PlanetAnglesRef } from '@/types/three'
+import { CameraControls } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
+import * as THREE from 'three'
+import { useShallow } from 'zustand/react/shallow'
 
 interface CameraControllerProps {
   planetAngles: PlanetAnglesRef
@@ -16,19 +16,15 @@ interface CameraControllerProps {
 export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null)
   const { camera, size } = useThree()
-  const {
-    activePanel,
-    activePlanet,
-    settings,
-    setWarpActive,
-    warpActive,
-  } = useSpaceStore(useShallow((state) => ({
-    activePanel: state.activePanel,
-    activePlanet: state.activePlanet,
-    settings: state.experienceSettings,
-    setWarpActive: state.setWarpActive,
-    warpActive: state.warpActive,
-  })))
+  const { activePanel, activePlanet, settings, setWarpActive, warpActive } = useSpaceStore(
+    useShallow((state) => ({
+      activePanel: state.activePanel,
+      activePlanet: state.activePlanet,
+      settings: state.experienceSettings,
+      setWarpActive: state.setWarpActive,
+      warpActive: state.warpActive,
+    }))
+  )
   const previousPanelRef = useRef(activePanel)
 
   useEffect(() => {
@@ -46,7 +42,8 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
   useEffect(() => {
     const previousPanel = previousPanelRef.current
     previousPanelRef.current = activePanel
-    if (!previousPanel || activePanel || !settings.transitionAnimations || !settings.warpEffects) return
+    if (!previousPanel || activePanel || !settings.transitionAnimations || !settings.warpEffects)
+      return
 
     setWarpActive(true)
     const timeout = window.setTimeout(() => setWarpActive(false), ANIMATION_SETTINGS.warpDurationMs)
@@ -82,5 +79,11 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     camera.updateProjectionMatrix()
   })
 
-  return <CameraControls ref={controlsRef} makeDefault smoothTime={settings.transitionAnimations ? CAMERA_SETTINGS.smoothTime : 0.05} />
+  return (
+    <CameraControls
+      ref={controlsRef}
+      makeDefault
+      smoothTime={settings.transitionAnimations ? CAMERA_SETTINGS.smoothTime : 0.05}
+    />
+  )
 }

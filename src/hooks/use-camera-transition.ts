@@ -1,13 +1,13 @@
-import { useEffect } from 'react'
-import type { MutableRefObject } from 'react'
-import type { CameraControls } from '@react-three/drei'
-import * as THREE from 'three'
-import { CAMERA_SETTINGS, IDLE_CAMERA_POSITION, IDLE_LOOK_AT } from '@/constants/camera'
-import { PLANETS } from '@/data/portfolio'
 import { getPlanetPosition } from '@/components/three/orbit-utils'
-import { getPanelCameraLookAt } from '@/utils/camera'
+import { IDLE_CAMERA_POSITION, IDLE_LOOK_AT } from '@/constants/camera'
+import { PLANETS } from '@/data/portfolio'
 import type { PanelId } from '@/types/portfolio'
 import type { PlanetAnglesRef } from '@/types/three'
+import { getPanelCameraLookAt } from '@/utils/camera'
+import type { CameraControls } from '@react-three/drei'
+import type { MutableRefObject } from 'react'
+import { useEffect } from 'react'
+import * as THREE from 'three'
 
 interface UseCameraTransitionOptions {
   activePanel: PanelId | null
@@ -51,7 +51,7 @@ export function useCameraTransition({
         lookAt.targetPosition.x,
         lookAt.targetPosition.y,
         lookAt.targetPosition.z,
-        smooth,
+        smooth
       )
       return
     }
@@ -63,7 +63,7 @@ export function useCameraTransition({
       IDLE_LOOK_AT.x,
       IDLE_LOOK_AT.y,
       IDLE_LOOK_AT.z,
-      smooth,
+      smooth
     )
   }, [activePanel, activePlanet, camera, controlsRef, planetAngles, smooth, viewportWidth])
 }

@@ -1,6 +1,6 @@
+import { useSpaceStore } from '@/store/space-store'
 import { useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useSpaceStore } from '@/store/space-store'
 
 interface MusicGraph {
   context: AudioContext
@@ -11,10 +11,12 @@ interface MusicGraph {
 const MUSIC_URL = '/audio/space-music.mp3'
 
 export function SpaceMusic() {
-  const { enabled, volume } = useSpaceStore(useShallow((state) => ({
-    enabled: state.experienceSettings.musicEnabled,
-    volume: state.experienceSettings.musicVolume,
-  })))
+  const { enabled, volume } = useSpaceStore(
+    useShallow((state) => ({
+      enabled: state.experienceSettings.musicEnabled,
+      volume: state.experienceSettings.musicVolume,
+    }))
+  )
 
   const graphRef = useRef<MusicGraph | null>(null)
 
@@ -110,5 +112,3 @@ export function SpaceMusic() {
 
   return null
 }
-
-

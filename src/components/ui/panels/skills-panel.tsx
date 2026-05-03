@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio'
-import { Code2, Server, Wrench, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Code2, Server, Sparkles, Wrench } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { PanelIconBadge, PanelIntroCard } from './panel-primitives'
 import { SkillBar } from './skills/skill-bar'
 
@@ -9,9 +9,27 @@ export function SkillsPanel() {
   const { t } = useTranslation()
 
   const CATEGORIES = [
-    { key: 'frontend', label: t('skills.categories.frontend'), icon: Code2, skills: SKILLS.frontend, tone: 'var(--panel-accent-soft)' },
-    { key: 'backend', label: t('skills.categories.backend'), icon: Server, skills: SKILLS.backend, tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)' },
-    { key: 'devops', label: t('skills.categories.devops_platform'), icon: Wrench, skills: SKILLS.devops, tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)' },
+    {
+      key: 'frontend',
+      label: t('skills.categories.frontend'),
+      icon: Code2,
+      skills: SKILLS.frontend,
+      tone: 'var(--panel-accent-soft)',
+    },
+    {
+      key: 'backend',
+      label: t('skills.categories.backend'),
+      icon: Server,
+      skills: SKILLS.backend,
+      tone: 'color-mix(in srgb, var(--panel-glow) 18%, transparent)',
+    },
+    {
+      key: 'devops',
+      label: t('skills.categories.devops_platform'),
+      icon: Wrench,
+      skills: SKILLS.devops,
+      tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)',
+    },
   ] as const
 
   return (
@@ -39,13 +57,18 @@ export function SkillsPanel() {
               style={{ background: `linear-gradient(180deg, ${cat.tone}, rgba(255,255,255,0.02))` }}
             />
             <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">{t('common.specialty')}</div>
+              <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+                {t('common.specialty')}
+              </div>
               <div className="text-lg font-semibold text-(--text-primary)">{cat.label}</div>
             </div>
             <div className="flex-1 h-px ml-2 panel-soft-divider" />
           </div>
 
-          <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+          <div
+            className="grid gap-3"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}
+          >
             {cat.skills.map((skill, si) => (
               <SkillBar key={skill.name} skill={skill} delay={si * 0.06} />
             ))}
@@ -63,8 +86,12 @@ export function SkillsPanel() {
         <div className="flex items-center gap-3 mb-5">
           <PanelIconBadge icon={Sparkles} />
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">{t('common.expansion')}</div>
-            <h3 className="text-lg font-semibold text-(--text-primary)">{t('common.complementary_skills')}</h3>
+            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+              {t('common.expansion')}
+            </div>
+            <h3 className="text-lg font-semibold text-(--text-primary)">
+              {t('common.complementary_skills')}
+            </h3>
           </div>
         </div>
 
@@ -73,7 +100,9 @@ export function SkillsPanel() {
             const groupKeys = ['general', 'ui', 'db', 'cloud'] as const
             const groupKey = groupKeys[gi] || 'general'
             const title = t(`skill_groups.${groupKey}`, group.title)
-            const items = t(`skills.group_items.${groupKey}`, { returnObjects: true }) as string[] || group.items
+            const items =
+              (t(`skills.group_items.${groupKey}`, { returnObjects: true }) as string[]) ||
+              group.items
             return (
               <div key={group.title} className="panel-card p-5">
                 <div className="text-sm font-semibold text-(--text-primary) mb-3">{title}</div>

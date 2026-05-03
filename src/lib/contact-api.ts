@@ -1,5 +1,5 @@
-import axios from 'axios'
 import type { ContactFormValues } from '@/schemas/contact-form-schema'
+import axios from 'axios'
 
 const DEFAULT_API_URL = '/v2'
 const CONTACT_ERROR_KEYS = {
@@ -66,10 +66,9 @@ export async function submitContactForm(payload: ContactFormValues) {
         throw new ContactRequestError(CONTACT_ERROR_KEYS.network, 'network')
       }
 
-      const kind = error.response.status === 400 || error.response.status === 422 ? 'validation' : 'server'
+      const kind =
+        error.response.status === 400 || error.response.status === 422 ? 'validation' : 'server'
       throw new ContactRequestError(getErrorMessage(error.response.data), kind)
     }
   }
-
-  throw new ContactRequestError(CONTACT_ERROR_KEYS.fallback)
 }

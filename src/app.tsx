@@ -1,10 +1,3 @@
-import { useEffect, Suspense, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { Preload } from '@react-three/drei'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { useSpaceStore } from '@/store/space-store'
 import { SpaceScene } from '@/components/three/scene/space-scene'
 import { CustomCursor } from '@/components/ui/hud/custom-cursor'
 import { HUD } from '@/components/ui/hud/hud'
@@ -15,18 +8,29 @@ import { HelpOverlay } from '@/components/ui/overlays/help-overlay'
 import { SettingsOverlay } from '@/components/ui/overlays/settings-overlay'
 import { WebGLError } from '@/components/ui/overlays/webgl-error'
 import { PlanetPanel } from '@/components/ui/planet-panel'
+import { useSpaceStore } from '@/store/space-store'
 import { isWebGLAvailable } from '@/utils/webgl-check'
+import { Preload } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { AnimatePresence } from 'framer-motion'
+import { Suspense, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 export default function App() {
   const { t } = useTranslation()
-  const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(useShallow((state) => ({
-    activePanel: state.activePanel,
-    helpOpen: state.helpOpen,
-    isLoaded: state.isLoaded,
-    settings: state.experienceSettings,
-    settingsOpen: state.settingsOpen,
-  })))
-  const [webGLStatus, setWebGLStatus] = useState<'checking' | 'available' | 'unavailable' | 'context_lost'>('checking')
+  const { activePanel, helpOpen, isLoaded, settings, settingsOpen } = useSpaceStore(
+    useShallow((state) => ({
+      activePanel: state.activePanel,
+      helpOpen: state.helpOpen,
+      isLoaded: state.isLoaded,
+      settings: state.experienceSettings,
+      settingsOpen: state.settingsOpen,
+    }))
+  )
+  const [webGLStatus, setWebGLStatus] = useState<
+    'checking' | 'available' | 'unavailable' | 'context_lost'
+  >('checking')
 
   useEffect(() => {
     setWebGLStatus(isWebGLAvailable() ? 'available' : 'unavailable')

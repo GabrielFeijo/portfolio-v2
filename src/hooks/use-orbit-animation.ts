@@ -1,10 +1,10 @@
-import { useMemo } from 'react'
-import type { MutableRefObject } from 'react'
-import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import { getPlanetPosition } from '@/components/three/orbit-utils'
 import type { Planet } from '@/types/portfolio'
 import type { PlanetAnglesRef } from '@/types/three'
-import { getPlanetPosition } from '@/components/three/orbit-utils'
+import { useFrame } from '@react-three/fiber'
+import type { MutableRefObject } from 'react'
+import { useMemo } from 'react'
+import * as THREE from 'three'
 
 interface UseOrbitAnimationOptions {
   activePanel: string | null

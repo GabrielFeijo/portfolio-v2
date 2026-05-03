@@ -1,10 +1,7 @@
 import { z } from 'zod'
 
 export const contactFormSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, 'contact.form.validation.name_min'),
+  name: z.string().trim().min(2, 'contact.form.validation.name_min'),
   email: z
     .string()
     .trim()

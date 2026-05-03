@@ -1,7 +1,7 @@
+import type { CursorVariant } from '@/types/store'
 import { motion } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
 import { PanelIconBadge, createCursorHandlers } from '../panel-primitives'
-import type { CursorVariant } from '@/types/store'
 
 interface ContactLinkCardProps {
   desc: string

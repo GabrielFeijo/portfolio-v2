@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
+import { motion } from 'framer-motion'
 import { GraduationCap, Trophy } from 'lucide-react'
-import { PanelIntroCard, PanelSection } from './panel-primitives'
+import { useTranslation } from 'react-i18next'
 import { AccomplishmentCard } from './accomplishments/accomplishment-card'
 import { CertificateCard } from './accomplishments/certificate-card'
+import { PanelIntroCard, PanelSection } from './panel-primitives'
 
 export function AccomplishmentsPanel() {
   const { t } = useTranslation()
@@ -19,7 +19,10 @@ export function AccomplishmentsPanel() {
         ringClassName="-right-16 -top-12 h-44 w-44"
       />
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
+      <div
+        className="grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}
+      >
         {ACCOMPLISHMENTS.map((item, i) => (
           <AccomplishmentCard
             key={item.id}
