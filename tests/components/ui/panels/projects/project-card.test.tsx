@@ -11,20 +11,21 @@ const mockProject: Project = {
   description: 'Desc',
   tech: ['React'],
   category: 'Frontend',
-  year: '2023',
+  year: 2023,
   color: '#000000',
   highlights: ['H1'],
   live: 'https://live.com',
   github: 'https://github.com',
-  image: 'img.png'
+  image: 'img.png',
+  featured: true,
 }
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ 
-	    t: (key: string, options?: any) => {
-	        if (key.includes('highlights') && options?.returnObjects) return returnTranslatedHighlights ? ['H1'] : undefined
-	        return key
-	    },
+  useTranslation: () => ({
+    t: (key: string, options?: any) => {
+      if (key.includes('highlights') && options?.returnObjects) return returnTranslatedHighlights ? ['H1'] : undefined
+      return key
+    },
   }),
 }))
 
@@ -34,12 +35,12 @@ describe('ProjectCard', () => {
   })
   it('renders correctly', () => {
     render(
-      <ProjectCard 
-        project={mockProject} 
-        isSelected={false} 
-        onToggle={vi.fn()} 
-        setCursorVariant={vi.fn()} 
-        transition={{ delay: 0 }} 
+      <ProjectCard
+        project={mockProject}
+        isSelected={false}
+        onToggle={vi.fn()}
+        setCursorVariant={vi.fn()}
+        transition={{ delay: 0 }}
       />
     )
     expect(screen.getByText('projects_items.proj-1.name')).toBeInTheDocument()
@@ -48,12 +49,12 @@ describe('ProjectCard', () => {
 
   it('renders expanded details when isSelected', () => {
     render(
-      <ProjectCard 
-        project={mockProject} 
-        isSelected={true} 
-        onToggle={vi.fn()} 
-        setCursorVariant={vi.fn()} 
-        transition={{ delay: 0 }} 
+      <ProjectCard
+        project={mockProject}
+        isSelected={true}
+        onToggle={vi.fn()}
+        setCursorVariant={vi.fn()}
+        transition={{ delay: 0 }}
       />
     )
     expect(screen.getByText('common.highlights')).toBeInTheDocument()
@@ -61,22 +62,22 @@ describe('ProjectCard', () => {
     expect(screen.getByText('common.open_project')).toBeInTheDocument()
   })
 
-	  it('calls onToggle when clicked', () => {
+  it('calls onToggle when clicked', () => {
     const onToggle = vi.fn()
     render(
-      <ProjectCard 
-        project={mockProject} 
-        isSelected={false} 
-        onToggle={onToggle} 
-        setCursorVariant={vi.fn()} 
-        transition={{ delay: 0 }} 
+      <ProjectCard
+        project={mockProject}
+        isSelected={false}
+        onToggle={onToggle}
+        setCursorVariant={vi.fn()}
+        transition={{ delay: 0 }}
       />
     )
     act(() => {
-        screen.getByRole('article').click()
+      screen.getByRole('article').click()
     })
     expect(onToggle).toHaveBeenCalled()
-	  })
+  })
 
   it('falls back to project highlights when translations are unavailable', () => {
     returnTranslatedHighlights = false
@@ -93,4 +94,4 @@ describe('ProjectCard', () => {
 
     expect(screen.getByText('H1')).toBeInTheDocument()
   })
-	})
+})
