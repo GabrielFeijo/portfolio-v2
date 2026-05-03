@@ -1,4 +1,4 @@
-import type { CursorVariant } from '@/types/store'
+import type { CursorVariant } from '@/types/store';
 
 export const CURSOR_VARIANTS: Record<CursorVariant, { width: number; height: number; borderWidth: number; opacity: number }> = {
   default: { width: 16, height: 16, borderWidth: 1.5, opacity: 0.9 },

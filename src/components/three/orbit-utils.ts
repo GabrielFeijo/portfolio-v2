@@ -1,5 +1,5 @@
-import * as THREE from 'three'
 import type { Planet } from '@/data/portfolio'
+import * as THREE from 'three'
 
 export function getPlanetOrbitCenterY(planet: Planet) {
   return (planet.orbitY ?? 0) * 0.45

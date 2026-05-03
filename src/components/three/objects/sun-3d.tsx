@@ -1,11 +1,11 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
-import type { CSSProperties } from 'react'
-import { extend, useFrame } from '@react-three/fiber'
+import { useSpaceStore } from '@/store/space-store'
+import { Html, Sparkles, Sphere } from '@react-three/drei'
 import type { ThreeEvent } from '@react-three/fiber'
-import { Sphere, Sparkles, Html } from '@react-three/drei'
+import { extend, useFrame } from '@react-three/fiber'
+import type { CSSProperties } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
-import { useSpaceStore } from '@/store/space-store'
 import { SunMaterial } from '../shaders/sun-material'
 
 extend({ SunMaterial })

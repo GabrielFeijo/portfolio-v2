@@ -1,6 +1,6 @@
+import type { Certificate } from '@/data/portfolio'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import type { Certificate } from '@/data/portfolio'
 
 interface CertificateCardProps {
   certificate: Certificate

@@ -1,8 +1,8 @@
-import type { CSSProperties, ReactNode } from 'react'
-import { motion, type Variants } from 'framer-motion'
-import { Clock, Hammer, HelpCircle, Radio, Trophy, User, Zap } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import type { CursorVariant } from '@/types/store'
+import { motion, type Variants } from 'framer-motion'
+import type { LucideIcon } from 'lucide-react'
+import { Clock, Hammer, HelpCircle, Radio, Trophy, User, Zap } from 'lucide-react'
+import type { CSSProperties, ReactNode } from 'react'
 
 export const panelStagger: Variants = {
   hidden: { opacity: 0 },

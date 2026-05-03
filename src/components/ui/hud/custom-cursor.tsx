@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor'
 import { useSpaceStore } from '@/store/space-store'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 export function CustomCursor() {
   const cursorVariant = useSpaceStore((state) => state.cursorVariant)
@@ -17,8 +17,6 @@ export function CustomCursor() {
   const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 })
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
     const updateCapability = () => {
       const enabled = mediaQuery.matches

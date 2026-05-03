@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import type { ExperiencePreset, ExperienceSettings, NavigationSlice, SpaceStore, UiSlice } from '@/types/store'
+import { create } from 'zustand'
 
 type SliceSet = (partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)) => void
 

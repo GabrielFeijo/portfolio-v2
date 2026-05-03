@@ -1,6 +1,6 @@
-import * as THREE from 'three'
 import { CAMERA_SETTINGS } from '@/constants/camera'
 import type { Planet } from '@/types/portfolio'
+import * as THREE from 'three'
 
 interface PanelCameraOffsetInput {
   camera: THREE.PerspectiveCamera

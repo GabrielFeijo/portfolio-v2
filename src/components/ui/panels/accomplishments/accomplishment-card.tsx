@@ -1,7 +1,6 @@
+import type { Accomplishment } from '@/data/portfolio'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { Award } from 'lucide-react'
-import type { Accomplishment } from '@/data/portfolio'
 import { PanelTopGlow } from '../panel-content-primitives'
 import { getLucideIcon, PanelIconBadge } from '../panel-primitives'
 
@@ -33,7 +32,7 @@ export function AccomplishmentCard({
           className="mb-4 flex justify-start"
         >
           <PanelIconBadge
-            icon={getLucideIcon(accomplishment.icon) ?? Award}
+            icon={getLucideIcon(accomplishment.icon)}
             className="h-11 w-11"
             style={{
               background: `${accomplishment.color}18`,

@@ -1,5 +1,5 @@
-import type { MutableRefObject, RefAttributes } from 'react'
 import type { ThreeElements as FiberThreeElements } from '@react-three/fiber'
+import type { MutableRefObject, RefAttributes } from 'react'
 import * as THREE from 'three'
 
 export type PlanetAnglesRef = MutableRefObject<Record<string, number>>

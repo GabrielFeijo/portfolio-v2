@@ -1,9 +1,9 @@
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
-import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
+import { motion } from 'framer-motion'
+import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
+import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 import { createCursorHandlers } from '../panels/panel-primitives'
 

@@ -1,5 +1,5 @@
-import * as THREE from 'three'
 import { shaderMaterial } from '@react-three/drei'
+import * as THREE from 'three'
 
 export const NOISE_CHUNK = `
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }

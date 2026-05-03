@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { Building2, Calendar, ChevronRight } from 'lucide-react'
 import type { Experience } from '@/data/portfolio'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Building2, Calendar, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives'
 
 interface ExperienceItemProps {

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import type { ThreeEvent } from '@react-three/fiber'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import type { PanelId } from '@/types/portfolio'
 import type { CursorVariant, ExperienceSettings } from '@/types/store'
+import type { ThreeEvent } from '@react-three/fiber'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UsePlanetInteractionOptions {
   planetId: PanelId

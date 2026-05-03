@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { PROJECTS, type ProjectCategory } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
+import { motion } from 'framer-motion'
 import { Layers3 } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
 import { ProjectCard } from './projects/project-card'
 

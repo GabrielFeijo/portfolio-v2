@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { EXPERIENCE } from '@/data/portfolio'
+import { motion } from 'framer-motion'
 import { BriefcaseBusiness } from 'lucide-react'
-import { PanelIntroCard } from './panel-primitives'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ExperienceItem } from './experience/experience-item'
+import { PanelIntroCard } from './panel-primitives'
 
 export function ExperiencePanel() {
   const { t } = useTranslation()

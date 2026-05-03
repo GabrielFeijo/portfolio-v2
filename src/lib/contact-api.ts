@@ -1,5 +1,5 @@
-import axios from 'axios'
 import type { ContactFormValues } from '@/schemas/contact-form-schema'
+import axios from 'axios'
 
 const DEFAULT_API_URL = '/v2'
 const CONTACT_ERROR_KEYS = {
@@ -71,5 +71,4 @@ export async function submitContactForm(payload: ContactFormValues) {
     }
   }
 
-  throw new ContactRequestError(CONTACT_ERROR_KEYS.fallback)
 }

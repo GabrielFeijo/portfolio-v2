@@ -14,5 +14,5 @@ export type {
   ProjectCategory,
   SkillCategory,
   SkillGroup,
-  SkillItem,
-} from '@/data/portfolio'
+  SkillItem
+} from '@/data/portfolio';

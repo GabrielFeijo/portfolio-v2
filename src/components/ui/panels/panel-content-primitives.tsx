@@ -1,6 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react'
-import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
+import type { CSSProperties, ReactNode } from 'react'
 import { cn } from './panel-primitives'
 
 export function PanelTag({

@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
-import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { useSpaceStore } from '@/store/space-store'
 import { DEVELOPER } from '@/data/portfolio'
+import { useSpaceStore } from '@/store/space-store'
+import { motion } from 'framer-motion'
+import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { UIBadge, UIIconTile } from '../design-system'
-import { createCursorHandlers, cn } from '../panels/panel-primitives'
+import { cn, createCursorHandlers } from '../panels/panel-primitives'
 
 export function HUD() {
   const { openSettings, setCursorVariant, setLanguage } = useSpaceStore()

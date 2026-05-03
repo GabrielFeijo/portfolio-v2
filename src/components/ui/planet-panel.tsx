@@ -1,15 +1,15 @@
-import { lazy, Suspense, useCallback, useMemo, useRef } from 'react'
-import type { ComponentType, CSSProperties } from 'react'
-import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { PLANETS, type PanelId } from '@/data/portfolio'
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
-import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives'
+import { motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import type { ComponentType, CSSProperties } from 'react'
+import { lazy, Suspense, useCallback, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { UIBadge } from './design-system'
+import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives'
 
 const AboutPanel = lazy(() => import('./panels/about-panel').then((module) => ({ default: module.AboutPanel })))
 const SkillsPanel = lazy(() => import('./panels/skills-panel').then((module) => ({ default: module.SkillsPanel })))

@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio'
-import { Code2, Server, Wrench, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Code2, Server, Sparkles, Wrench } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { PanelIconBadge, PanelIntroCard } from './panel-primitives'
 import { SkillBar } from './skills/skill-bar'
 

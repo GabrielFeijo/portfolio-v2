@@ -1,5 +1,5 @@
-import * as THREE from 'three'
 import { createRandom } from '@/utils/textures'
+import * as THREE from 'three'
 
 export function createStarPositions(count: number, radius: number, spread: number, seed: number) {
   const rand = createRandom(seed)

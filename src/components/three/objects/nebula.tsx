@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import type { Vec3Tuple } from '@/types/three'
 import { createStarColors, createStarPositions } from '@/utils/geometry'
 import { createCloudTexture, createGlowTexture, createRandom } from '@/utils/textures'
-import type { Vec3Tuple } from '@/types/three'
+import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 
 type Vec3 = Vec3Tuple
 

@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { DEVELOPER } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { Code, Briefcase, Mail, Globe, Send, MapPin, MessageSquareQuote } from 'lucide-react'
-import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
+import { motion } from 'framer-motion'
+import { Briefcase, Code, Globe, Mail, MapPin, MessageSquareQuote, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { ContactForm } from './contact/contact-form'
 import { ContactLinkCard } from './contact/contact-link-card'
+import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
 
 export function ContactPanel() {
   const { setCursorVariant } = useSpaceStore()

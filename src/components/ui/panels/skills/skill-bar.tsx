@@ -1,6 +1,6 @@
+import type { SkillItem } from '@/data/portfolio'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import type { SkillItem } from '@/data/portfolio'
 
 const getLevelKey = (level: number) => {
   if (level >= 95) return 'expert'

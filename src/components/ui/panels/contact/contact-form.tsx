@@ -1,14 +1,14 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { submitContactForm } from '@/lib/contact-api'
 import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema'
+import type { CursorVariant } from '@/types/store'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { createCursorHandlers } from '../panel-primitives'
 import { useTemporaryFlag } from '../use-temporary-flag'
-import type { CursorVariant } from '@/types/store'
 import { ContactFormField, getContactFieldClassName } from './contact-form-field'
-import { submitContactForm } from '@/lib/contact-api'
-import { useState } from 'react'
 
 interface ContactFormProps {
   setCursorVariant: (variant: CursorVariant) => void
@@ -35,7 +35,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
     },
   })
 
-  const messageValue = watch('message') ?? ''
+  const messageValue = watch('message')
   const resolveErrorMessage = (message?: string) => (message ? t(message, { defaultValue: message }) : undefined)
 
   const onSubmit = async (values: ContactFormValues) => {

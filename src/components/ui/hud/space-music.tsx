@@ -1,6 +1,6 @@
+import { useSpaceStore } from '@/store/space-store'
 import { useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useSpaceStore } from '@/store/space-store'
 
 interface MusicGraph {
   context: AudioContext

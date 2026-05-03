@@ -1,17 +1,17 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
-import { Code, Briefcase, Mail, GraduationCap, Sparkles, MapPin, Radar } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Briefcase, Code, GraduationCap, Mail, MapPin, Radar, Sparkles } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { AboutContactButton } from './about/about-contact-button'
 import { AboutInfoPill } from './about/about-info-pill'
+import { PanelNotice } from './panel-content-primitives'
 import {
   PanelBadge,
   PanelSection,
   panelFadeUp,
   panelStagger,
 } from './panel-primitives'
-import { PanelNotice } from './panel-content-primitives'
 
 const STAT_TONES = [
   'var(--panel-accent-soft)',
@@ -84,7 +84,7 @@ export function AboutPanel() {
             key={stat.label}
             className="panel-card relative overflow-hidden p-4 sm:p-5"
             style={{
-              background: `linear-gradient(180deg, rgba(18,28,52,0.86), rgba(8,13,25,0.72)), radial-gradient(circle at top right, ${STAT_TONES[index] ?? STAT_TONES[0]}, transparent 45%)`,
+              background: `linear-gradient(180deg, rgba(18,28,52,0.86), rgba(8,13,25,0.72)), radial-gradient(circle at top right, ${STAT_TONES[index]}, transparent 45%)`,
             }}
           >
             <div className="text-2xl sm:text-3xl font-bold text-(--text-primary)">{stat.value}</div>

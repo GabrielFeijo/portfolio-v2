@@ -1,13 +1,13 @@
-import { useEffect, useRef } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { CameraControls } from '@react-three/drei'
-import { useShallow } from 'zustand/react/shallow'
-import * as THREE from 'three'
 import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { CAMERA_SETTINGS } from '@/constants/camera'
 import { useCameraTransition } from '@/hooks/use-camera-transition'
 import { useSpaceStore } from '@/store/space-store'
 import type { PlanetAnglesRef } from '@/types/three'
+import { CameraControls } from '@react-three/drei'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
+import * as THREE from 'three'
+import { useShallow } from 'zustand/react/shallow'
 
 interface CameraControllerProps {
   planetAngles: PlanetAnglesRef

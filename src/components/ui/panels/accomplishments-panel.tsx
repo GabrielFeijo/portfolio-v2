@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
+import { motion } from 'framer-motion'
 import { GraduationCap, Trophy } from 'lucide-react'
-import { PanelIntroCard, PanelSection } from './panel-primitives'
+import { useTranslation } from 'react-i18next'
 import { AccomplishmentCard } from './accomplishments/accomplishment-card'
 import { CertificateCard } from './accomplishments/certificate-card'
+import { PanelIntroCard, PanelSection } from './panel-primitives'
 
 export function AccomplishmentsPanel() {
   const { t } = useTranslation()

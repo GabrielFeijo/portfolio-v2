@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { AlertTriangle, RefreshCcw, ShieldCheck, Cpu, AppWindow, ExternalLink } from 'lucide-react'
+import { AlertTriangle, AppWindow, Cpu, ExternalLink, RefreshCcw, ShieldCheck } from 'lucide-react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 
