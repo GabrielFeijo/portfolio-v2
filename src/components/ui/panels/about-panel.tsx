@@ -108,8 +108,8 @@ export function AboutPanel() {
       </PanelSection>
 
       <PanelSection icon={GraduationCap} eyebrow={t('about.sections.education.eyebrow')} title={t('about.sections.education.title')}>
-        {education.map((entry) => (
-          <div key={entry.title} className="panel-card rounded-[20px] p-5">
+        {education.map((entry, index) => (
+          <div key={index} className="panel-card rounded-[20px] p-5">
             <div className="text-base font-semibold text-(--text-primary)">{entry.title}</div>
             <div className="mt-1 text-xs uppercase tracking-[0.16em] panel-eyebrow">
               {entry.institution} • {entry.period}
