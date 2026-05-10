@@ -5,6 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?logo=vite)](https://vitejs.dev/)
+[![Bun](https://img.shields.io/badge/Bun-1.2-black?logo=bun)](https://bun.sh/)
 [![Three.js](https://img.shields.io/badge/Three.js-0.169-black?logo=three.js)](https://threejs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.2-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 
@@ -95,5 +96,26 @@ portfolio-v2/
 ├── vite.config.ts                        # Build/chunks/aliases
 ├── tsconfig.json
 ├── package.json
+├── bun.lock
 └── README.md
+```
+
+---
+
+## ⚙️ Ambiente de Desenvolvimento
+
+Este projeto usa **Bun** como gerenciador de pacotes e executor dos scripts.
+
+```bash
+bun install
+bun run dev
+```
+
+### Scripts Úteis
+
+```bash
+bun run typecheck
+bun run build
+bun run test
+bun run check
 ```
