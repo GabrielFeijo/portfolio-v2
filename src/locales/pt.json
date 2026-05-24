@@ -346,7 +346,7 @@
     },
     "ambient_orbital": "Ambient orbital",
     "music_description": "Uma trilha sonora atmosférica e imersiva, com pads etéreos e profundidade orbital para acompanhar sua jornada pelo cosmos.",
-    "music_credits": "Música por {{author}} via Pixabay",
+    "music_credits": "Música por",
     "state_status": "Estado atual",
     "state_description": "Default máximo: todas as opções ligadas, densidade total e DPR em 1.8."
   },

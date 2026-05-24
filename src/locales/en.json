@@ -346,7 +346,7 @@
     },
     "ambient_orbital": "Ambient orbital",
     "music_description": "An atmospheric and immersive soundtrack, with ethereal pads and orbital depth to accompany your journey through the cosmos.",
-    "music_credits": "Music by {{author}} via Pixabay",
+    "music_credits": "Music by",
     "state_status": "Current state",
     "state_description": "Maximum default: all options on, full density, and DPR at 1.8."
   },
