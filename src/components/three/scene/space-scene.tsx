@@ -4,6 +4,7 @@ import { PLANETS } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
 import { Stars } from '@react-three/drei'
 import { useEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 import { useShallow } from 'zustand/react/shallow'
 import { AsteroidBelt } from '../objects/asteroid-belt'
 import { Nebula } from '../objects/nebula'
@@ -45,9 +46,11 @@ export function SpaceScene() {
   const innerAsteroidCount = Math.round(260 * settings.asteroidDensity)
   const outerAsteroidCount = Math.round(110 * settings.asteroidDensity)
 
+  const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), [])
+
   return (
     <>
-      <color attach="background" args={[SCENE_SETTINGS.background]} />
+      <color attach="background" args={[backgroundColor]} />
 
       <ambientLight intensity={0.14} color="#09111f" />
       <hemisphereLight intensity={0.22} color="#8ad8ff" groundColor="#03050d" />
@@ -122,7 +125,7 @@ export function SpaceScene() {
 
       <fog
         attach="fog"
-        args={[SCENE_SETTINGS.background, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]}
+        args={[backgroundColor, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]}
       />
 
       <CameraController planetAngles={planetAngles} />

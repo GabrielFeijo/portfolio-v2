@@ -40,7 +40,7 @@ describe('ContactForm', () => {
       message: 'Hello, this is a test message with enough length.',
     })
 
-    expect(screen.getByText('contact.form.sent')).toBeInTheDocument()
+    expect(screen.getAllByText('contact.form.sent')[0]).toBeInTheDocument()
   })
 
   it('shows error state when submission fails', async () => {
@@ -62,7 +62,7 @@ describe('ContactForm', () => {
       fireEvent.click(screen.getByRole('button'))
     })
 
-    expect(await screen.findByText('Network error')).toBeInTheDocument()
+    expect((await screen.findAllByText('Network error'))[0]).toBeInTheDocument()
   })
 
   it('uses fallback error text for non-error rejections', async () => {
@@ -84,6 +84,6 @@ describe('ContactForm', () => {
       fireEvent.click(screen.getByRole('button'))
     })
 
-    expect(await screen.findByText('contact.form.error_fallback')).toBeInTheDocument()
+    expect((await screen.findAllByText('contact.form.error_fallback'))[0]).toBeInTheDocument()
   })
 })

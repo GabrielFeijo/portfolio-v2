@@ -21,10 +21,11 @@ export interface ExperienceSettings {
 }
 
 export interface NavigationSlice {
-  activePlanet: string | null
-  setActivePlanet: (id: string | null) => void
+  activePlanet: PanelId | null
+  setActivePlanet: (id: PanelId | null) => void
   activePanel: PanelId | null
   openPanel: (panel: PanelId) => void
+  handlePlanetClick: (planetId: PanelId) => void
   closePanel: () => void
   navigateToPanel: (id: PanelId) => void
   helpOpen: boolean

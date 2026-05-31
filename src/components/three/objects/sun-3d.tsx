@@ -1,14 +1,11 @@
 import { useSpaceStore } from '@/store/space-store'
 import { Html, Sparkles, Sphere } from '@react-three/drei'
 import type { ThreeEvent } from '@react-three/fiber'
-import { extend, useFrame } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import type { CSSProperties } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
-import { SunMaterial } from '../shaders/sun-material'
-
-extend({ SunMaterial })
 
 interface HelpLabelStyle extends CSSProperties {
   '--planet-accent': string
@@ -82,7 +79,7 @@ export function Sun3D() {
         />
       </mesh>
 
-      {Array.from({ length: 12 }).map((_, i) => {
+      {useMemo(() => Array.from({ length: 12 }).map((_, i) => {
         const angle = (i / 12) * Math.PI * 2
         const r = 4.8 + (i % 3) * 0.4
         return (
@@ -93,7 +90,7 @@ export function Sun3D() {
             size={0.15 + (i % 4) * 0.08}
           />
         )
-      })}
+      }), [])}
 
       <Sparkles
         count={320}

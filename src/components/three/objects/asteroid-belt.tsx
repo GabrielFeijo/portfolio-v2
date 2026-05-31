@@ -30,7 +30,6 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       rotX: Math.random() * Math.PI * 2,
       rotY: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.8,
-      geoIdx: Math.floor(Math.random() * GEOMETRIES.length),
     }))
   }, [count, innerRadius, outerRadius])
 
@@ -42,16 +41,18 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
     }
   }, [rockTexture])
 
-  useMemo(() => {
+  useEffect(() => {
     if (!meshRef.current) return
     asteroids.forEach((a, i) => {
       dummy.position.set(Math.cos(a.angle) * a.radius, a.height, Math.sin(a.angle) * a.radius)
       dummy.scale.setScalar(a.size)
       dummy.rotation.set(a.rotX, a.rotY, 0)
       dummy.updateMatrix()
-      meshRef.current?.setMatrixAt(i, dummy.matrix)
+      meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    meshRef.current.instanceMatrix.needsUpdate = true
+    if (meshRef.current.instanceMatrix) {
+      meshRef.current.instanceMatrix.needsUpdate = true
+    }
   }, [asteroids, dummy])
 
   useFrame((_, delta) => {
@@ -69,9 +70,11 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.scale.setScalar(a.size)
       dummy.rotation.set(a.rotX, a.rotY, 0)
       dummy.updateMatrix()
-      meshRef.current?.setMatrixAt(i, dummy.matrix)
+      meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    meshRef.current.instanceMatrix.needsUpdate = true
+    if (meshRef.current.instanceMatrix) {
+      meshRef.current.instanceMatrix.needsUpdate = true
+    }
   })
 
   return (

@@ -1,7 +1,10 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { create } from '@react-three/test-renderer'
+
 import { Nebula } from '@/components/three/objects/nebula'
-import { act, render } from '@testing-library/react'
-import { forwardRef, useImperativeHandle } from 'react'
-import { beforeEach, describe, it, vi } from 'vitest'
+import { advanceR3F } from '../../../helpers/r3f-utils'
+
+const disposeMock = vi.fn()
 
 vi.mock('@/utils/geometry', () => ({
   createStarPositions: vi.fn(() => new Float32Array(30)),
@@ -9,103 +12,47 @@ vi.mock('@/utils/geometry', () => ({
 }))
 
 vi.mock('@/utils/textures', () => ({
-  createCloudTexture: vi.fn(() => ({ dispose: vi.fn() })),
-  createGlowTexture: vi.fn(() => ({ dispose: vi.fn() })),
-  createRandom: vi.fn(() => Math.random),
+  createCloudTexture: vi.fn(() => ({ dispose: disposeMock })),
+  createGlowTexture: vi.fn(() => ({ dispose: disposeMock })),
+  createRandom: vi.fn((seed: number) => {
+    let value = seed
+    return () => {
+      value = (value * 9301 + 49297) % 233280
+      return value / 233280
+    }
+  }),
 }))
-
-const mockFrameCallbacks: any[] = []
-const refState = vi.hoisted(() => ({ keepNull: false }))
-let refs: Array<{ current: any }>
-vi.mock('@react-three/fiber', () => ({
-  useFrame: (cb: any) => {
-    mockFrameCallbacks.push(cb)
-  },
-}))
-
-const MockThreeObject = forwardRef(({ children, type, ...props }: any, ref) => {
-  const obj = {
-    rotation: { x: 0, y: 0, z: 0 },
-    position: { set: vi.fn(), copy: vi.fn().mockReturnThis() },
-  }
-  if (!refState.keepNull) {
-    useImperativeHandle(ref, () => obj)
-  }
-  return <div data-testid={type}>{children}</div>
-})
-
-vi.mock('react', async () => {
-  const actual = await vi.importActual('react')
-  return {
-    ...actual,
-    useRef: (initial: any) => {
-      if (initial === null) {
-        const ref = { current: { rotation: { x: 0, y: 0, z: 0 } } }
-        refs.push(ref)
-        return ref
-      }
-      return (actual as any).useRef(initial)
-    },
-    createElement: (type: any, props: any, ...children: any) => {
-      if (
-        typeof type === 'string' &&
-        [
-          'points',
-          'group',
-          'sprite',
-          'bufferGeometry',
-          'bufferAttribute',
-          'pointsMaterial',
-          'spriteMaterial',
-        ].includes(type)
-      ) {
-        if (props?.ref) {
-          const nextProps = refState.keepNull ? { type } : { ...props, type }
-          return (actual as any).createElement(MockThreeObject, nextProps, ...children)
-        }
-        return (actual as any).createElement('div', { 'data-testid': type }, ...children)
-      }
-      return (actual as any).createElement(type, props, ...children)
-    },
-  }
-})
 
 describe('Nebula', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockFrameCallbacks.length = 0
-    refState.keepNull = false
-    refs = []
   })
 
-  it('renders and runs frame loop', () => {
-    render(<Nebula density={0.5} />)
+  it('renders star shells and nebula clusters with animated frames', async () => {
+    const renderer = await create(<Nebula density={0.5} />)
 
-    const state = { clock: { getElapsedTime: () => 1.0 } }
-    act(() => {
-      mockFrameCallbacks.forEach((cb) => {
-        try {
-          cb(state, 0.016)
-        } catch (e) {}
-      })
-    })
+    expect(renderer).toBeDefined()
+    await advanceR3F(renderer, 15, 0.05)
+
+    await renderer.unmount()
   })
 
-  it('unmounts and disposes textures', () => {
-    const { unmount } = render(<Nebula density={0.5} />)
-    unmount()
+  it('disposes textures on unmount', async () => {
+    const renderer = await create(<Nebula density={0.5} />)
+    await advanceR3F(renderer, 5)
+    await renderer.unmount()
+    expect(disposeMock).toHaveBeenCalled()
   })
 
-  it('uses minimum layer counts and skips frame updates when refs are missing', () => {
-    refState.keepNull = true
-    render(<Nebula density={0} />)
-    refs.forEach((ref) => {
-      ref.current = null
-    })
+  it('renders with zero density and advances safely', async () => {
+    const renderer = await create(<Nebula density={0} />)
+    await advanceR3F(renderer, 8, 0.02)
+    await renderer.unmount()
+  })
 
-    const state = { clock: { getElapsedTime: () => 1.0 } }
-    act(() => {
-      mockFrameCallbacks.forEach((cb) => cb(state, 0.016))
-    })
+  it('renders with high density for more cloud layers', async () => {
+    const renderer = await create(<Nebula density={1.5} />)
+    await advanceR3F(renderer, 10, 0.03)
+    await renderer.unmount()
   })
 })

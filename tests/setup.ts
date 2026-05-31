@@ -1,6 +1,29 @@
 import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
 
+;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
+  true
+
+vi.mock('@react-three/fiber', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@react-three/fiber')>()
+
+  return {
+    ...actual,
+    useFrame: (
+      callback: (state: { clock: { getElapsedTime: () => number } }, delta: number) => void,
+      priority?: number
+    ) => {
+      try {
+        callback({ clock: { getElapsedTime: () => 0 } }, 0)
+      } catch {
+        // Callbacks may run before refs/materials are ready; mounted frames are covered via advanceFrames.
+      }
+
+      return actual.useFrame(callback, priority)
+    },
+  }
+})
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
@@ -28,7 +51,7 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
     return {
       fillRect: () => {},
       clearRect: () => {},
-      getImageData: (x: number, y: number, w: number, h: number) => ({
+      getImageData: (_x: number, _y: number, w: number, h: number) => ({
         data: new Array(w * h * 4),
       }),
       putImageData: () => {},
@@ -115,9 +138,5 @@ console.error = (...args: any[]) => {
   originalConsoleError(...args)
 }
 
-const originalConsoleWarn = console.warn
-console.warn = (...args: any[]) => {
-  const msg = args.join(' ')
-  if (msg.includes('Multiple instances of Three.js being imported')) return
-  originalConsoleWarn(...args)
-}
+// Single Three.js instance is enforced via resolve.alias + dedupe in vitest/vite configs.
+import '@/components/three/register-materials'

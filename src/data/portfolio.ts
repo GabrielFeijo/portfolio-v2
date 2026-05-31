@@ -127,8 +127,8 @@ export interface SkillGroup {
 
 export interface Project {
   id: string
-  name: string
-  description: string
+  name?: string
+  description?: string
   tech: string[]
   github?: string
   live?: string
@@ -347,26 +347,15 @@ export const SKILL_GROUPS: SkillGroup[] = [
 export const PROJECTS: Project[] = [
   {
     id: 'arsenal_academy',
-    name: 'Arsenal Academy',
-    description:
-      'Plataforma de educação empreendedora voltada para universitários, com diagnóstico personalizado, trilhas em microlearning e acompanhamento da evolução de cada usuário.',
     tech: ['React', 'Next.js', 'TypeScript', 'NestJS', 'Sequelize', 'MySQL', 'AWS', 'Nginx'],
     color: '#00D4FF',
     featured: true,
     year: 2023,
     category: 'Full Stack',
     image: 'https://i.imgur.com/o0VuVZP.png',
-    highlights: [
-      'Diagnóstico automatizado do perfil empreendedor',
-      'Trilhas de aprendizagem adaptadas ao usuário',
-      'Ciclo completo de desenvolvimento do frontend ao backend',
-    ],
   },
   {
     id: 'vscode_portfolio',
-    name: 'VsCode Portfolio',
-    description:
-      'Releitura da IDE Visual Studio Code transformada em portfólio interativo, com sistema de arquivos virtual, terminal funcional, temas e internacionalização.',
     tech: [
       'React',
       'TypeScript',
@@ -384,17 +373,9 @@ export const PROJECTS: Project[] = [
     year: 2024,
     category: 'Portfolio',
     image: 'https://i.imgur.com/BwtTCxP.png',
-    highlights: [
-      'Simulação fiel da interface do VS Code',
-      'Terminal com comandos customizados',
-      'Suporte a PT/EN e tema claro/escuro',
-    ],
   },
   {
     id: 'arsenal_innovation_lp',
-    name: 'Arsenal Inovação LP',
-    description:
-      'Landing page institucional para startup do Porto Digital com foco em empreendedorismo e inovação na era digital.',
     tech: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
     color: '#5EEAD4',
     featured: false,
@@ -404,9 +385,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'scoordena',
-    name: 'SCoordena',
-    description:
-      'Gerenciador de eventos criado como projeto final do curso de backend, com foco em organização, acompanhamento e experiência intuitiva para administradores e participantes.',
     tech: [
       'React',
       'Next.js',
@@ -427,9 +405,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'recife_radars',
-    name: 'Radares Recife',
-    description:
-      'Mapa interativo construído com dados públicos da Prefeitura do Recife para consulta de radares e câmeras de trânsito em uma interface clara e navegável.',
     tech: ['TypeScript', 'React', 'Next.js', 'Tailwind CSS', 'Leaflet', 'Vercel'],
     github: 'https://github.com/GabrielFeijo/radares-recife',
     live: 'https://radares-recife.vercel.app',
@@ -441,9 +416,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'fsw_foods',
-    name: 'FSW Foods',
-    description:
-      'Aplicação inspirada no iFood desenvolvida durante a Full Stack Week, unindo fluxo de pedidos, boa experiência de navegação e integração full stack.',
     tech: [
       'React',
       'Next.js',
@@ -463,9 +435,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'react_native_99pets',
-    name: 'React Native 99Pets',
-    description:
-      'Aplicativo mobile para tutores de pets, conectando serviços, pet shops e logística de transporte em uma experiência simples para o usuário final.',
     tech: ['React Native', 'JavaScript', 'Redux', 'Express', 'Node.js', 'MongoDB', 'Expo'],
     github: 'https://github.com/GabrielFeijo/React-Native-99Pets',
     color: '#FFB800',
@@ -476,9 +445,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'arsenal_project_v1',
-    name: 'Projeto Arsenal V1',
-    description:
-      'Primeira versão da solução da Arsenal, focada no diagnóstico automatizado do momento empreendedor e sugestão de jornada de aprendizado.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Java', 'Spring', 'MySQL', 'Heroku'],
     github: 'https://github.com/GabrielFeijo/Spring-Arsenal',
     color: '#F97316',
@@ -489,9 +455,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'react_todo',
-    name: 'React ToDo',
-    description:
-      'Gerenciador de tarefas simples e direto, criado para praticar fluxo CRUD, organização de estado e integração entre frontend e backend.',
     tech: ['React', 'React Router', 'Vite', 'Express', 'Node.js', 'MongoDB'],
     github: 'https://github.com/GabrielFeijo/React-ToDo',
     live: 'https://gg-tasks.netlify.app/',

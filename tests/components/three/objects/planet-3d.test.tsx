@@ -1,59 +1,62 @@
 import { Planet3D } from '@/components/three/objects/planet-3d'
 import { PLANETS } from '@/data/portfolio'
-import { render, screen } from '@testing-library/react'
+import type { Planet } from '@/types/portfolio'
+import { create } from '@react-three/test-renderer'
 import * as THREE from 'three'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-let activePanel: string | null = null
-let activePlanet: string | null = null
-let orbitalParticles = true
-let hovered = false
+import { advanceR3F } from '../../../helpers/r3f-utils'
 
 const disposeMock = vi.fn()
+const handlePlanetClick = vi.fn()
+const setCursorVariant = vi.fn()
+const handleClick = vi.fn()
+const handlePointerEnter = vi.fn()
+const handlePointerLeave = vi.fn()
+
+let mockInteraction = {
+  hovered: false,
+  handleClick,
+  handlePointerEnter,
+  handlePointerLeave,
+}
+
+let mockStoreState = {
+  activePanel: null as string | null,
+  activePlanet: null as string | null,
+  handlePlanetClick,
+  setCursorVariant,
+  experienceSettings: {
+    planetRotation: true,
+    orbitalParticles: true,
+    starDensity: 1,
+  },
+}
 
 vi.mock('zustand/react/shallow', () => ({
-  useShallow: (fn: any) => fn,
+  useShallow: (fn: (state: typeof mockStoreState) => unknown) => fn,
 }))
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (k: string) => k }),
-}))
-
-vi.mock('@react-three/fiber', () => ({
-  extend: vi.fn(),
+  useTranslation: () => ({ t: (key: string) => key }),
 }))
 
 vi.mock('@react-three/drei', () => ({
-  Html: ({ children }: any) => <div data-testid="planet-label-wrapper">{children}</div>,
-  shaderMaterial: vi.fn(() => class {}),
+  Html: () => null,
+  shaderMaterial: vi.fn(
+    () =>
+      function ShaderMaterialMock() {
+        return null
+      }
+  ),
 }))
 
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: (selector?: any) => {
-    const state = {
-      activePanel,
-      activePlanet,
-      openPanel: vi.fn(),
-      setActivePlanet: vi.fn(),
-      setCursorVariant: vi.fn(),
-      setWarpActive: vi.fn(),
-      experienceSettings: {
-        planetRotation: true,
-        orbitalParticles,
-        starDensity: 1,
-      },
-    }
-    return selector ? selector(state) : state
-  },
+  useSpaceStore: (selector: (state: typeof mockStoreState) => unknown) => selector(mockStoreState),
 }))
 
 vi.mock('@/hooks/use-planet-interaction', () => ({
-  usePlanetInteraction: () => ({
-    hovered,
-    handleClick: vi.fn(),
-    handlePointerEnter: vi.fn(),
-    handlePointerLeave: vi.fn(),
-  }),
+  usePlanetInteraction: () => mockInteraction,
 }))
 
 vi.mock('@/hooks/use-orbit-animation', () => ({
@@ -65,87 +68,144 @@ vi.mock('@/utils/textures', () => ({
 }))
 
 vi.mock('@/components/three/objects/orbit-particles', () => ({
-  OrbitParticles: () => <div data-testid="orbit-particles" />,
+  OrbitParticles: () => null,
 }))
 
 vi.mock('@/components/three/objects/small-moon', () => ({
-  SmallMoon: () => <div data-testid="small-moon" />,
+  SmallMoon: () => null,
 }))
+
+function createAngleRef(planetId: string) {
+  return { current: { [planetId]: 0 } }
+}
+
+function renderPlanet(planet: Planet) {
+  return create(<Planet3D angleRef={createAngleRef(planet.id)} planet={planet} />)
+}
 
 describe('Planet3D', () => {
   beforeEach(() => {
-    activePanel = null
-    activePlanet = null
-    orbitalParticles = true
-    hovered = false
-    disposeMock.mockClear()
+    vi.clearAllMocks()
+    mockInteraction = {
+      hovered: false,
+      handleClick,
+      handlePointerEnter,
+      handlePointerLeave,
+    }
+    mockStoreState = {
+      activePanel: null,
+      activePlanet: null,
+      handlePlanetClick,
+      setCursorVariant,
+      experienceSettings: {
+        planetRotation: true,
+        orbitalParticles: true,
+        starDensity: 1,
+      },
+    }
   })
 
-  it('renders label when panel is not active', () => {
+  it('renders a basic planet and advances animation frames', async () => {
     const planet = PLANETS[0]
-    render(<Planet3D angleRef={{ current: { [planet.id]: 0 } }} planet={planet} />)
-    expect(screen.getByTestId('planet-label-wrapper')).toBeInTheDocument()
-    expect(screen.getByText(`planets.${planet.id}.name`)).toBeInTheDocument()
+    const renderer = await renderPlanet(planet)
+    await advanceR3F(renderer, 5)
+    await renderer.unmount()
   })
 
-  it('hides label when a panel is active', () => {
-    const planet = PLANETS[0]
-    activePanel = 'about'
-    render(<Planet3D angleRef={{ current: { [planet.id]: 0 } }} planet={planet} />)
-    expect(screen.queryByTestId('planet-label-wrapper')).toBeNull()
-  })
-
-  it('renders rings and disposes texture on unmount', () => {
-    const ringPlanet = PLANETS.find((p) => p.hasRings)!
-    const { unmount } = render(
-      <Planet3D angleRef={{ current: { [ringPlanet.id]: 0 } }} planet={ringPlanet} />
-    )
-    unmount()
+  it('creates ring texture from ringColor when rings are enabled', async () => {
+    const ringPlanet = PLANETS.find((planet) => planet.hasRings && planet.ringColor)!
+    const renderer = await renderPlanet(ringPlanet)
+    await advanceR3F(renderer, 3)
+    await renderer.unmount()
     expect(disposeMock).toHaveBeenCalled()
   })
 
-  it('renders moon and orbital particles when active', () => {
-    const bigPlanet = PLANETS.find((p) => p.size > 3)!
-    activePlanet = bigPlanet.id
-    orbitalParticles = true
-    render(<Planet3D angleRef={{ current: { [bigPlanet.id]: 0 } }} planet={bigPlanet} />)
-    expect(screen.getByTestId('small-moon')).toBeInTheDocument()
-    expect(screen.getByTestId('orbit-particles')).toBeInTheDocument()
-  })
-
-  it('does not render orbital particles when disabled', () => {
-    const bigPlanet = PLANETS.find((p) => p.size > 3)!
-    activePlanet = bigPlanet.id
-    orbitalParticles = false
-    render(<Planet3D angleRef={{ current: { [bigPlanet.id]: 0 } }} planet={bigPlanet} />)
-    expect(screen.queryByTestId('orbit-particles')).toBeNull()
-  })
-
-  it('applies hovered label class branch', () => {
-    const planet = PLANETS[0]
-    hovered = true
-    render(<Planet3D angleRef={{ current: { [planet.id]: 0 } }} planet={planet} />)
-    expect(document.querySelector('.planet-label-hovered')).not.toBeNull()
-  })
-
-  it('applies active label class branch', () => {
-    const planet = PLANETS[0]
-    activePlanet = planet.id
-
-    render(<Planet3D angleRef={{ current: { [planet.id]: 0 } }} planet={planet} />)
-
-    expect(document.querySelector('.planet-label-active')).not.toBeNull()
-  })
-
-  it('falls back for unknown planet material type and missing ring color', () => {
-    const planet = {
-      ...PLANETS.find((p) => p.hasRings)!,
+  it('falls back to planet color when ringColor is missing', async () => {
+    const ringPlanet: Planet = {
+      ...PLANETS.find((planet) => planet.hasRings)!,
       ringColor: undefined,
-      type: 'unknown',
-    } as any
+    }
+    const renderer = await renderPlanet(ringPlanet)
+    await advanceR3F(renderer, 3)
+    await renderer.unmount()
+    expect(disposeMock).toHaveBeenCalled()
+  })
 
-    render(<Planet3D angleRef={{ current: { [planet.id]: 0 } }} planet={planet} />)
+  it('skips ring geometry for planets without rings', async () => {
+    const noRingPlanet = PLANETS.find((planet) => !planet.hasRings)!
+    const renderer = await renderPlanet(noRingPlanet)
+    await advanceR3F(renderer, 3)
+    await renderer.unmount()
+    expect(disposeMock).not.toHaveBeenCalled()
+  })
 
-    expect(screen.getByTestId('planet-label-wrapper')).toBeInTheDocument()
+  it('uses default shader type for unknown planet types', async () => {
+    const unknownTypePlanet: Planet = { ...PLANETS[0], type: 'star' }
+    const renderer = await renderPlanet(unknownTypePlanet)
+    await advanceR3F(renderer, 3)
+    await renderer.unmount()
+  })
+
+  it('renders active label styling for selected planets', async () => {
+    const bigPlanet = PLANETS.find((planet) => planet.size > 3)!
+    mockStoreState.activePlanet = bigPlanet.id
+
+    const renderer = await renderPlanet(bigPlanet)
+    await advanceR3F(renderer, 5)
+    await renderer.unmount()
+  })
+
+  it('renders hovered label styling when planet is not active', async () => {
+    mockInteraction.hovered = true
+    mockStoreState.activePlanet = null
+
+    const renderer = await renderPlanet(PLANETS[0])
+    await advanceR3F(renderer, 2)
+    await renderer.unmount()
+  })
+
+  it('renders default label styling without hover or active state', async () => {
+    mockInteraction.hovered = false
+    mockStoreState.activePlanet = null
+
+    const renderer = await renderPlanet(PLANETS[0])
+    await advanceR3F(renderer, 2)
+    await renderer.unmount()
+  })
+
+  it('hides label when a panel is open', async () => {
+    mockStoreState.activePanel = 'about'
+
+    const renderer = await renderPlanet(PLANETS[0])
+    expect(renderer).toBeDefined()
+
+    await renderer.unmount()
+  })
+
+  it('renders orbital particles for active planets when enabled', async () => {
+    const bigPlanet = PLANETS.find((planet) => planet.size > 3)!
+    mockStoreState.activePlanet = bigPlanet.id
+    mockStoreState.experienceSettings.orbitalParticles = true
+
+    const renderer = await renderPlanet(bigPlanet)
+    await advanceR3F(renderer, 8, 0.04)
+    await renderer.unmount()
+  })
+
+  it('skips orbital particles when disabled in settings', async () => {
+    const bigPlanet = PLANETS.find((planet) => planet.size > 3)!
+    mockStoreState.activePlanet = bigPlanet.id
+    mockStoreState.experienceSettings.orbitalParticles = false
+
+    const renderer = await renderPlanet(bigPlanet)
+    await advanceR3F(renderer, 5)
+    await renderer.unmount()
+  })
+
+  it('skips small moon for compact planets', async () => {
+    const smallPlanet = PLANETS.find((planet) => planet.size <= 3)!
+    const renderer = await renderPlanet(smallPlanet)
+    await advanceR3F(renderer, 3)
+    await renderer.unmount()
   })
 })

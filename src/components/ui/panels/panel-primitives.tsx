@@ -1,7 +1,19 @@
 import type { CursorVariant } from '@/types/store'
 import { motion, type Variants } from 'framer-motion'
 import type { LucideIcon } from 'lucide-react'
-import { Clock, Hammer, HelpCircle, Radio, Trophy, User, Zap } from 'lucide-react'
+import {
+  Clock,
+  Hammer,
+  HelpCircle,
+  Radio,
+  Trophy,
+  User,
+  Zap,
+  Rocket,
+  GraduationCap,
+  Cloud,
+  Smartphone,
+} from 'lucide-react'
 import type { CSSProperties, ReactNode } from 'react'
 
 export const panelStagger: Variants = {
@@ -36,6 +48,10 @@ export function getLucideIcon(name: string) {
     Trophy,
     User,
     Zap,
+    Rocket,
+    GraduationCap,
+    Cloud,
+    Smartphone,
   }
 
   return iconMap[name] ?? HelpCircle
