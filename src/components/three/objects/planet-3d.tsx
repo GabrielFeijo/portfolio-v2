@@ -3,22 +3,17 @@ import { useOrbitAnimation } from '@/hooks/use-orbit-animation'
 import { usePlanetInteraction } from '@/hooks/use-planet-interaction'
 import { useSpaceStore } from '@/store/space-store'
 import type { Planet } from '@/types/portfolio'
-import type { PlanetAnglesRef } from '@/types/three'
+import type { GroupRef, MeshRef, PlanetAnglesRef, ShaderMaterialRef } from '@/types/three'
+import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from '@/utils/orbit-utils'
 import { makeRingTexture } from '@/utils/textures'
 import { Html } from '@react-three/drei'
-import { extend } from '@react-three/fiber'
 import type { CSSProperties } from 'react'
 import { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
 import { useShallow } from 'zustand/react/shallow'
-import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from '../orbit-utils'
-import { AdvancedAtmosphereMaterial } from '../shaders/atmosphere-material'
-import { AAA_PlanetMaterial } from '../shaders/planet-material'
 import { OrbitParticles } from './orbit-particles'
 import { SmallMoon } from './small-moon'
-
-extend({ AdvancedAtmosphereMaterial, AaaPlanetMaterial: AAA_PlanetMaterial })
 
 interface Planet3DProps {
   angleRef: PlanetAnglesRef
@@ -34,36 +29,30 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
   const {
     activePanel,
     activePlanet,
-    openPanel,
-    setActivePlanet,
+    handlePlanetClick,
     setCursorVariant,
-    setWarpActive,
     settings,
   } = useSpaceStore(
     useShallow((state) => ({
       activePanel: state.activePanel,
       activePlanet: state.activePlanet,
-      openPanel: state.openPanel,
-      setActivePlanet: state.setActivePlanet,
+      handlePlanetClick: state.handlePlanetClick,
       setCursorVariant: state.setCursorVariant,
-      setWarpActive: state.setWarpActive,
       settings: state.experienceSettings,
     }))
   )
 
-  const meshRef = useRef<THREE.Mesh | null>(null)
-  const groupRef = useRef<THREE.Group | null>(null)
-  const atmosphereRef = useRef<THREE.Mesh | null>(null)
-  const planetMaterialRef = useRef<THREE.ShaderMaterial | null>(null)
-  const atmosphereMaterialRef = useRef<THREE.ShaderMaterial | null>(null)
+  const groupPositionScratch = useRef(new THREE.Vector3())
+  const meshRef = useRef<MeshRef['current']>(null)
+  const groupRef = useRef<GroupRef['current']>(null)
+  const atmosphereRef = useRef<MeshRef['current']>(null)
+  const planetMaterialRef = useRef<ShaderMaterialRef['current']>(null)
+  const atmosphereMaterialRef = useRef<ShaderMaterialRef['current']>(null)
   const isActive = activePlanet === planet.id
   const interaction = usePlanetInteraction({
-    openPanel,
+    handlePlanetClick,
     planetId: planet.id,
-    setActivePlanet,
     setCursorVariant,
-    setWarpActive,
-    settings,
   })
   const lightDirection = useOrbitAnimation({
     activePanel,
@@ -115,7 +104,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
         />
       </mesh>
 
-      <group ref={groupRef} position={getPlanetPosition(planet, angleRef.current[planet.id])}>
+      <group ref={groupRef} position={getPlanetPosition(planet, angleRef.current[planet.id], groupPositionScratch.current)}>
         <mesh
           ref={atmosphereRef}
           scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}

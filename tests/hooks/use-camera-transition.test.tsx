@@ -77,7 +77,7 @@ describe('useCameraTransition', () => {
     renderHook(() =>
       useCameraTransition({
         activePanel: 'about',
-        activePlanet: 'invalid-planet',
+        activePlanet: 'invalid-planet' as 'about',
         camera,
         controlsRef: controlsRef as never,
         planetAngles: { current: {} },

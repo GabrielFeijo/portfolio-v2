@@ -1,4 +1,4 @@
-import { getPlanetPosition } from '@/components/three/orbit-utils'
+import { getPlanetPositionTo } from '@/utils/orbit-utils'
 import type { Planet } from '@/types/portfolio'
 import type { PlanetAnglesRef } from '@/types/three'
 import { useFrame } from '@react-three/fiber'
@@ -44,9 +44,8 @@ export function useOrbitAnimation({
     const time = state.clock.getElapsedTime()
 
     if (group && !activePanel) {
-      const position = getPlanetPosition(planet, angleRef.current[planet.id])
-      group.position.copy(position)
-      lightDirection.set(-position.x, 10, -position.z).normalize()
+      getPlanetPositionTo(planet, angleRef.current[planet.id], group.position)
+      lightDirection.set(-group.position.x, 10, -group.position.z).normalize()
     }
 
     if (mesh && planetRotation) {

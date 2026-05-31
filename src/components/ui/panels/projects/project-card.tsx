@@ -31,7 +31,7 @@ export function ProjectCard({
   const { t } = useTranslation()
   const categoryLabel = t(
     `projects.filters.${project.category.toLowerCase().replace(/\s+/g, '_')}`,
-    project.category
+    { defaultValue: project.category }
   )
 
   return (
@@ -60,7 +60,7 @@ export function ProjectCard({
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-semibold text-(--text-primary)">
-            {t(`projects_items.${project.id}.name`, project.name)}
+            {t(`projects_items.${project.id}.name`, { defaultValue: project.name ?? '' })}
           </h3>
           <div className="mt-1 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
             {project.year} • {categoryLabel}
@@ -69,10 +69,12 @@ export function ProjectCard({
       </div>
 
       <p className="mb-4 line-clamp-4 text-sm leading-7 text-(--text-secondary)">
-        {t(`projects_items.${project.id}.description`, project.description)}
+        {t(`projects_items.${project.id}.description`, { defaultValue: project.description ?? '' })}
       </p>
 
-      {project.image && <PanelImageFrame src={project.image} alt={project.name} className="mb-4" />}
+      {project.image && (
+        <PanelImageFrame src={project.image} alt={project.name ?? ''} className="mb-4" />
+      )}
 
       <PanelTagList items={project.tech} limit={5} className="mb-4 gap-1.5" />
 
