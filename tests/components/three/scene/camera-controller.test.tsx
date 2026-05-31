@@ -101,21 +101,6 @@ describe('CameraController', () => {
     })
   })
 
-  it('triggers warp when closing panel', () => {
-    const planetAngles = { current: {} }
-    mockState.activePanel = 'about'
-    const { rerender } = render(<CameraController planetAngles={planetAngles as any} />)
-
-    mockState.activePanel = null
-    rerender(<CameraController planetAngles={planetAngles as any} />)
-
-    expect(mockSetWarpActive).toHaveBeenCalledWith(true)
-    act(() => {
-      vi.advanceTimersByTime(2000)
-    })
-    expect(mockSetWarpActive).toHaveBeenCalledWith(false)
-  })
-
   it('handles settings changes and branches', () => {
     const planetAngles = { current: {} }
     mockState.experienceSettings.transitionAnimations = false

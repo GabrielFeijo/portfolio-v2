@@ -1,5 +1,5 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { useRef } from 'react'
 import { describe, expect, it } from 'vitest'
 
@@ -16,9 +16,9 @@ function Trap({ enabled }: { enabled: boolean }) {
 }
 
 describe('useFocusTrap', () => {
-  it('focuses first element when enabled', () => {
+  it('focuses first element when enabled', async () => {
     render(<Trap enabled />)
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 
   it('does nothing when disabled', () => {
@@ -26,7 +26,7 @@ describe('useFocusTrap', () => {
     expect(document.activeElement?.textContent).not.toBe('last')
   })
 
-  it('traps focus forward on Tab', () => {
+  it('traps focus forward on Tab', async () => {
     const { container } = render(<Trap enabled />)
     const elements = container.querySelectorAll('button')
 
@@ -36,12 +36,12 @@ describe('useFocusTrap', () => {
     const event = new window.KeyboardEvent('keydown', { key: 'Tab' })
     container.firstElementChild?.dispatchEvent(event)
 
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 
-  it('traps focus backward on Shift+Tab', () => {
+  it('traps focus backward on Shift+Tab', async () => {
     const { container } = render(<Trap enabled />)
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
 
     const event = new window.KeyboardEvent('keydown', { key: 'Tab', shiftKey: true })
     container.firstElementChild?.dispatchEvent(event)
@@ -49,13 +49,13 @@ describe('useFocusTrap', () => {
     expect(document.activeElement?.textContent).toBe('last')
   })
 
-  it('ignores other keys', () => {
+  it('ignores other keys', async () => {
     const { container } = render(<Trap enabled />)
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
 
     const event = new window.KeyboardEvent('keydown', { key: 'Enter' })
     container.firstElementChild?.dispatchEvent(event)
 
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 })

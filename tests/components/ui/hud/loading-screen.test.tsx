@@ -39,6 +39,6 @@ describe('LoadingScreen', () => {
   it('uses default phases if translation returns null', () => {
     mockPhases = null
     render(<LoadingScreen />)
-    expect(screen.getByText(/SINCRONIZANDO/)).toBeInTheDocument()
+    expect(screen.getByText(/INITIALIZING/)).toBeInTheDocument()
   })
 })

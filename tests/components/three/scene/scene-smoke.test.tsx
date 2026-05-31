@@ -2,7 +2,7 @@ import { act, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@react-three/drei', () => ({
-  Stars: () => <div data-testid="stars" />,
+  Stars: () => null,
 }))
 
 vi.mock('zustand/react/shallow', () => ({
