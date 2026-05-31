@@ -1,4 +1,3 @@
-import { ANIMATION_SETTINGS } from '@/constants/animation'
 import { CAMERA_SETTINGS } from '@/constants/camera'
 import { useCameraTransition } from '@/hooks/use-camera-transition'
 import { useSpaceStore } from '@/store/space-store'
@@ -16,16 +15,14 @@ interface CameraControllerProps {
 export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null)
   const { camera, size } = useThree()
-  const { activePanel, activePlanet, settings, setWarpActive, warpActive } = useSpaceStore(
+  const { activePanel, activePlanet, settings, warpActive } = useSpaceStore(
     useShallow((state) => ({
       activePanel: state.activePanel,
       activePlanet: state.activePlanet,
       settings: state.experienceSettings,
-      setWarpActive: state.setWarpActive,
       warpActive: state.warpActive,
     }))
   )
-  const previousPanelRef = useRef(activePanel)
 
   useEffect(() => {
     const controls = controlsRef.current
@@ -38,17 +35,6 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     controls.minDistance = CAMERA_SETTINGS.minDistance
     controls.maxDistance = CAMERA_SETTINGS.maxDistance
   }, [])
-
-  useEffect(() => {
-    const previousPanel = previousPanelRef.current
-    previousPanelRef.current = activePanel
-    if (!previousPanel || activePanel || !settings.transitionAnimations || !settings.warpEffects)
-      return
-
-    setWarpActive(true)
-    const timeout = window.setTimeout(() => setWarpActive(false), ANIMATION_SETTINGS.warpDurationMs)
-    return () => window.clearTimeout(timeout)
-  }, [activePanel, setWarpActive, settings.transitionAnimations, settings.warpEffects])
 
   useCameraTransition({
     activePanel,

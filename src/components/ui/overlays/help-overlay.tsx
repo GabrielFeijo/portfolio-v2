@@ -33,6 +33,7 @@ export function HelpOverlay() {
         className="absolute inset-0 bg-[rgba(2,4,12,0.72)] backdrop-blur-md pointer-events-auto cursor-none"
         onClick={closeHelp}
         onMouseEnter={() => setCursorVariant('default')}
+        aria-hidden="true"
       />
 
       <motion.div

@@ -124,6 +124,12 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
             ? t('contact.form.sending')
             : t('contact.send_message')}
       </motion.button>
+
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {sent && t('contact.form.sent')}
+        {isSubmitting && t('contact.form.sending')}
+        {submitError && submitError}
+      </div>
     </form>
   )
 }

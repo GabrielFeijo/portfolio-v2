@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { DEVELOPER } from '@/data/portfolio'
 import { UIBadge, UIInset, UISurface } from '../design-system'
 
 export function LoadingScreen() {
@@ -9,12 +10,11 @@ export function LoadingScreen() {
   const [phase, setPhase] = useState(0)
 
   const phases = (t('loading.phases', { returnObjects: true }) as string[]) || [
-    'SINCRONIZANDO NAVEGAÇÃO ESTELAR...',
-    'CARREGANDO ARQUIVOS DE PORTFÓLIO...',
-    'CALIBRANDO SINAIS DO UNIVERSO...',
-    'ESTABILIZANDO ORBITAS E PAINÉIS...',
-    'MAPEANDO SEÇÕES INTERATIVAS...',
-    'SISTEMA ONLINE',
+    'INITIALIZING SYSTEMS...',
+    'LOADING ASSETS...',
+    'CALIBRATING ORBITS...',
+    'ESTABLISHING CONNECTION...',
+    'READY',
   ]
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export function LoadingScreen() {
             className="mb-8 text-center"
           >
             <div className="mb-1 font-display text-[18px] font-black uppercase tracking-[0.4em] text-white">
-              Gabriel Feijó
+              {DEVELOPER.name}
             </div>
             <div className="font-mono-space text-[9px] uppercase tracking-[0.3em] text-[rgba(240,244,255,0.3)]">
               {t('loading.universe')}

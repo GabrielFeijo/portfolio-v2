@@ -9,12 +9,17 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement>, enabled: bool
     const container = containerRef.current
     if (!enabled || !container) return
 
+    const previousFocus = document.activeElement as HTMLElement
+
     const focusable = Array.from(
       container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
     ).filter((element) => !element.hasAttribute('disabled'))
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
-    first?.focus()
+
+    const raf = requestAnimationFrame(() => {
+      first?.focus()
+    })
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Tab' || !first || !last) return
@@ -31,6 +36,10 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement>, enabled: bool
     }
 
     container.addEventListener('keydown', handleKeyDown)
-    return () => container.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      cancelAnimationFrame(raf)
+      container.removeEventListener('keydown', handleKeyDown)
+      previousFocus?.focus()
+    }
   }, [containerRef, enabled])
 }
