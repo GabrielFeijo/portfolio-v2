@@ -190,4 +190,27 @@ describe('SpaceMusic', () => {
 
     expect(mockSource.stop).not.toHaveBeenCalled()
   })
+
+  it('handles fetch abort/timeout error', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const fetchMock = vi.fn().mockImplementation((url, options) => {
+      return new Promise((resolve, reject) => {
+        options.signal.addEventListener('abort', () => {
+          reject(new DOMException('The user aborted a request.', 'AbortError'))
+        })
+      })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    await act(async () => {
+      render(<SpaceMusic />)
+    })
+
+    await act(async () => {
+      vi.advanceTimersByTime(15000)
+    })
+
+    expect(consoleSpy).toHaveBeenCalledWith('SpaceMusic: audio fetch timed out')
+    consoleSpy.mockRestore()
+  })
 })

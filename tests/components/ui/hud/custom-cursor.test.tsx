@@ -4,8 +4,15 @@ import { renderToString } from 'react-dom/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 let mockVariant = 'default'
+let mockCustomCursor = true
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: (selector: any) => selector({ cursorVariant: mockVariant }),
+  useSpaceStore: (selector: any) =>
+    selector({
+      cursorVariant: mockVariant,
+      experienceSettings: {
+        customCursor: mockCustomCursor,
+      },
+    }),
 }))
 
 describe('CustomCursor', () => {
@@ -20,6 +27,9 @@ describe('CustomCursor', () => {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
         get matches() {
+          if (query.includes('prefers-reduced-motion')) {
+            return false
+          }
           return matches
         },
         media: query,
