@@ -35,16 +35,21 @@ const MockThreeObject = forwardRef(({ children, type, ...props }: any, ref) => {
 
 vi.mock('react', async () => {
   const actual = await vi.importActual('react')
-  const meshRef = { current: mockMesh }
   return {
     ...actual,
     useRef: (initial: any) => {
       if (initial === null) {
         if (refState.keepNull) {
-          refState.lastRef = { current: null }
-          return refState.lastRef
+          const lastRef = { current: null }
+          refState.lastRef = lastRef
+          return lastRef
         }
-        return meshRef
+        return {
+          get current() {
+            return mockMesh
+          },
+          set current(_) {},
+        }
       }
       return (actual as any).useRef(initial)
     },
