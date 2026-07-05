@@ -1,10 +1,13 @@
 import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor'
+import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
 import { useSpaceStore } from '@/store/space-store'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 export function CustomCursor() {
   const cursorVariant = useSpaceStore((state) => state.cursorVariant)
+  const customCursorEnabled = useSpaceStore((state) => state.experienceSettings.customCursor)
+  const prefersReducedMotion = usePrefersReducedMotion()
   const [isCursorCapable, setIsCursorCapable] = useState(false)
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
@@ -16,12 +19,14 @@ export function CustomCursor() {
   const trailSpringX = useSpring(trailX, { damping: 35, stiffness: 200, mass: 1 })
   const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 })
 
+  const shouldUseCustomCursor =
+    isCursorCapable && customCursorEnabled && !prefersReducedMotion
+
   useEffect(() => {
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
     const updateCapability = () => {
       const enabled = mediaQuery.matches
       setIsCursorCapable(enabled)
-      document.body.classList.toggle('cursor-fallback-mode', !enabled)
     }
 
     updateCapability()
@@ -29,12 +34,16 @@ export function CustomCursor() {
 
     return () => {
       mediaQuery.removeEventListener('change', updateCapability)
-      document.body.classList.remove('cursor-fallback-mode')
     }
   }, [])
 
   useEffect(() => {
-    if (!isCursorCapable) return
+    document.body.classList.toggle('cursor-fallback-mode', !shouldUseCustomCursor)
+    return () => document.body.classList.remove('cursor-fallback-mode')
+  }, [shouldUseCustomCursor])
+
+  useEffect(() => {
+    if (!shouldUseCustomCursor) return
 
     const move = (e: MouseEvent) => {
       cursorX.set(e.clientX - 8)
@@ -44,14 +53,12 @@ export function CustomCursor() {
     }
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
-  }, [cursorX, cursorY, isCursorCapable, trailX, trailY])
+  }, [cursorX, cursorY, shouldUseCustomCursor, trailX, trailY])
 
-  if (typeof window === 'undefined') return null
+  if (typeof window === 'undefined' || !shouldUseCustomCursor) return null
 
   const current = CURSOR_VARIANTS[cursorVariant]
   const color = CURSOR_COLORS[cursorVariant]
-
-  if (!isCursorCapable) return null
 
   return (
     <>
