@@ -20,6 +20,9 @@
     "highlights": "Highlights",
     "loading_short": "Loading..."
   },
+  "nav": {
+    "planets_aria": "Portfolio section navigation"
+  },
   "developer": {
     "title": "Full Stack Developer",
     "location": "Recife, Brazil",
@@ -332,6 +335,7 @@
       "transitions": "Planet entry and exit",
       "warp": "Warp effect",
       "auto_rotate": "Automatic camera rotation",
+      "custom_cursor": "Custom cursor",
       "planet_rotation": "Planet rotation",
       "nebula": "Nebulae",
       "shooting_stars": "Shooting stars",

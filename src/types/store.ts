@@ -7,6 +7,7 @@ export interface ExperienceSettings {
   antialias: boolean
   asteroidDensity: number
   autoRotate: boolean
+  customCursor: boolean
   dpr: number
   nebula: boolean
   musicEnabled: boolean

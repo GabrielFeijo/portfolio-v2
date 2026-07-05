@@ -198,6 +198,11 @@ export function SettingsOverlay() {
                   label={t('settings.controls.planet_rotation')}
                   onChange={(checked) => update('planetRotation', checked)}
                 />
+                <ToggleControl
+                  checked={settings.customCursor}
+                  label={t('settings.controls.custom_cursor')}
+                  onChange={(checked) => update('customCursor', checked)}
+                />
               </SettingsGroup>
 
               <SettingsGroup icon={Sparkles} title={t('settings.groups.visual_elements')}>
