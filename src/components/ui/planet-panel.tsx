@@ -142,6 +142,7 @@ export function PlanetPanel() {
         className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
         ref={panelRef}
         role="dialog"
+        aria-modal="true"
         aria-labelledby="planet-panel-title"
         style={panelTheme}
         onClick={(e) => e.stopPropagation()}
