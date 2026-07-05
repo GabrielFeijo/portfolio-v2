@@ -2,6 +2,28 @@ import { usePlanetInteraction } from '@/hooks/use-planet-interaction'
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+vi.mock('@/hooks/use-prefers-reduced-motion', () => ({
+  usePrefersReducedMotion: vi.fn(() => false),
+}))
+
+const baseSettings = {
+  antialias: true,
+  asteroidDensity: 1,
+  autoRotate: true,
+  customCursor: true,
+  dpr: 1,
+  musicEnabled: false,
+  musicVolume: 0,
+  nebula: true,
+  orbitalParticles: true,
+  planetRotation: true,
+  shootingStars: true,
+  shadows: true,
+  starDensity: 1,
+  transitionAnimations: true,
+  warpEffects: true,
+}
+
 describe('usePlanetInteraction', () => {
   it('opens panel immediately when transitions are disabled', () => {
     const openPanel = vi.fn()
@@ -17,18 +39,7 @@ describe('usePlanetInteraction', () => {
         setCursorVariant,
         setWarpActive,
         settings: {
-          antialias: true,
-          asteroidDensity: 1,
-          autoRotate: true,
-          dpr: 1,
-          musicEnabled: false,
-          musicVolume: 0,
-          nebula: true,
-          orbitalParticles: true,
-          planetRotation: true,
-          shootingStars: true,
-          shadows: true,
-          starDensity: 1,
+          ...baseSettings,
           transitionAnimations: false,
           warpEffects: false,
         },
@@ -60,19 +71,7 @@ describe('usePlanetInteraction', () => {
         setCursorVariant,
         setWarpActive,
         settings: {
-          antialias: true,
-          asteroidDensity: 1,
-          autoRotate: true,
-          dpr: 1,
-          musicEnabled: false,
-          musicVolume: 0,
-          nebula: true,
-          orbitalParticles: true,
-          planetRotation: true,
-          shootingStars: true,
-          shadows: true,
-          starDensity: 1,
-          transitionAnimations: true,
+          ...baseSettings,
           warpEffects: false,
         },
       })
@@ -104,22 +103,7 @@ describe('usePlanetInteraction', () => {
         setActivePlanet,
         setCursorVariant,
         setWarpActive,
-        settings: {
-          antialias: true,
-          asteroidDensity: 1,
-          autoRotate: true,
-          dpr: 1,
-          musicEnabled: false,
-          musicVolume: 0,
-          nebula: true,
-          orbitalParticles: true,
-          planetRotation: true,
-          shootingStars: true,
-          shadows: true,
-          starDensity: 1,
-          transitionAnimations: true,
-          warpEffects: true,
-        },
+        settings: baseSettings,
       })
     )
 
@@ -155,22 +139,7 @@ describe('usePlanetInteraction', () => {
         setActivePlanet,
         setCursorVariant,
         setWarpActive,
-        settings: {
-          antialias: true,
-          asteroidDensity: 1,
-          autoRotate: true,
-          dpr: 1,
-          musicEnabled: false,
-          musicVolume: 0,
-          nebula: true,
-          orbitalParticles: true,
-          planetRotation: true,
-          shootingStars: true,
-          shadows: true,
-          starDensity: 1,
-          transitionAnimations: true,
-          warpEffects: true,
-        },
+        settings: baseSettings,
       })
     )
 
@@ -186,22 +155,7 @@ describe('usePlanetInteraction', () => {
         setActivePlanet,
         setCursorVariant,
         setWarpActive,
-        settings: {
-          antialias: true,
-          asteroidDensity: 1,
-          autoRotate: true,
-          dpr: 1,
-          musicEnabled: false,
-          musicVolume: 0,
-          nebula: true,
-          orbitalParticles: true,
-          planetRotation: true,
-          shootingStars: true,
-          shadows: true,
-          starDensity: 1,
-          transitionAnimations: true,
-          warpEffects: true,
-        },
+        settings: baseSettings,
       })
     )
 
@@ -210,5 +164,64 @@ describe('usePlanetInteraction', () => {
     expect(setWarpActive).toHaveBeenCalled()
 
     vi.useRealTimers()
+  })
+
+  it('clears panel open timer on unmount', () => {
+    vi.useFakeTimers()
+
+    const openPanel = vi.fn()
+    const setActivePlanet = vi.fn()
+    const setCursorVariant = vi.fn()
+    const setWarpActive = vi.fn()
+
+    const { result, unmount } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'about',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: baseSettings,
+      })
+    )
+
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+    unmount()
+
+    act(() => {
+      vi.advanceTimersByTime(2000)
+    })
+
+    expect(openPanel).not.toHaveBeenCalled()
+
+    vi.useRealTimers()
+  })
+
+  it('opens panel immediately when reduced motion is preferred', async () => {
+    const { usePrefersReducedMotion } = await import('@/hooks/use-prefers-reduced-motion')
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(true)
+
+    const openPanel = vi.fn()
+    const setActivePlanet = vi.fn()
+    const setCursorVariant = vi.fn()
+    const setWarpActive = vi.fn()
+
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'experience',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: baseSettings,
+      })
+    )
+
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+
+    expect(openPanel).toHaveBeenCalledWith('experience')
+    expect(setWarpActive).not.toHaveBeenCalled()
+
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false)
   })
 })
