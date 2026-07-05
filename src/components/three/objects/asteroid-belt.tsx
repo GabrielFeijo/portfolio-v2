@@ -1,6 +1,6 @@
 import { makeRockTexture } from '@/utils/textures'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface AsteroidBeltProps {
@@ -37,7 +37,7 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
     }
   }, [geometry, rockTexture])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
 
     asteroids.forEach((a, i) => {
@@ -47,9 +47,8 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.updateMatrix()
       meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    if (meshRef.current.instanceMatrix) {
-      meshRef.current.instanceMatrix.needsUpdate = true
-    }
+
+    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true })
   }, [asteroids, dummy])
 
   useFrame((_, delta) => {
@@ -70,9 +69,8 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.updateMatrix()
       meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    if (meshRef.current.instanceMatrix) {
-      meshRef.current.instanceMatrix.needsUpdate = true
-    }
+
+    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true })
   })
 
   return (

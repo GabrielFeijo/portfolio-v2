@@ -125,6 +125,68 @@ describe('usePlanetInteraction', () => {
     expect(openPanel).toHaveBeenCalledWith('contact')
   })
 
+  it('skips warp activation when warp effects are disabled', () => {
+    vi.useFakeTimers()
+
+    const openPanel = vi.fn()
+    const setActivePlanet = vi.fn()
+    const setCursorVariant = vi.fn()
+    const setWarpActive = vi.fn()
+
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'contact',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: {
+          ...baseSettings,
+          warpEffects: false,
+        },
+      })
+    )
+
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+    expect(setWarpActive).not.toHaveBeenCalled()
+
+    act(() => {
+      vi.advanceTimersByTime(2000)
+    })
+    expect(openPanel).toHaveBeenCalledWith('contact')
+  })
+
+  it('clears pending timers when a new click arrives before the previous transition completes', () => {
+    vi.useFakeTimers()
+
+    const openPanel = vi.fn()
+    const setActivePlanet = vi.fn()
+    const setCursorVariant = vi.fn()
+    const setWarpActive = vi.fn()
+
+    const { result } = renderHook(() =>
+      usePlanetInteraction({
+        planetId: 'projects',
+        openPanel,
+        setActivePlanet,
+        setCursorVariant,
+        setWarpActive,
+        settings: baseSettings,
+      })
+    )
+
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+
+    expect(setWarpActive).toHaveBeenCalledTimes(2)
+
+    act(() => {
+      vi.advanceTimersByTime(2000)
+    })
+
+    expect(openPanel).toHaveBeenCalledWith('projects')
+  })
+
   it('clears panel open timer on unmount', () => {
     vi.useFakeTimers()
 

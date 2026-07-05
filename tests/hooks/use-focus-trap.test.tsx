@@ -1,7 +1,7 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { act, render, waitFor } from '@testing-library/react'
 import { useRef } from 'react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 function Trap({ enabled }: { enabled: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -105,5 +105,24 @@ describe('useFocusTrap', () => {
     externalRef.current = null
 
     await flushFocusFrame()
+  })
+
+  it('falls back gracefully when activeElement is not an HTMLElement', async () => {
+    const originalActiveElement = document.activeElement
+    Object.defineProperty(document, 'activeElement', {
+      configurable: true,
+      get: () => ({}) as Element,
+    })
+
+    try {
+      const { unmount } = render(<Trap enabled />)
+      await flushFocusFrame()
+      unmount()
+    } finally {
+      Object.defineProperty(document, 'activeElement', {
+        configurable: true,
+        get: () => originalActiveElement,
+      })
+    }
   })
 })
