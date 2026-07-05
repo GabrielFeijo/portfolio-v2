@@ -1,7 +1,7 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { act, render, waitFor } from '@testing-library/react'
 import { useRef } from 'react'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 function Trap({ enabled }: { enabled: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
