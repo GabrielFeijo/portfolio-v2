@@ -1,4 +1,5 @@
 import { ANIMATION_SETTINGS } from '@/constants/animation'
+import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
 import type { PanelId } from '@/types/portfolio'
 import type { CursorVariant, ExperienceSettings } from '@/types/store'
 import type { ThreeEvent } from '@react-three/fiber'
@@ -23,11 +24,16 @@ export function usePlanetInteraction({
 }: UsePlanetInteractionOptions) {
   const [hovered, setHovered] = useState(false)
   const warpTimeoutRef = useRef<number | null>(null)
+  const panelOpenTimerRef = useRef<number | null>(null)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     return () => {
       if (warpTimeoutRef.current !== null) {
         window.clearTimeout(warpTimeoutRef.current)
+      }
+      if (panelOpenTimerRef.current !== null) {
+        window.clearTimeout(panelOpenTimerRef.current)
       }
     }
   }, [])
@@ -35,9 +41,17 @@ export function usePlanetInteraction({
   const handleClick = useCallback(
     (event: ThreeEvent<MouseEvent>) => {
       event.stopPropagation()
+
+      if (panelOpenTimerRef.current !== null) {
+        window.clearTimeout(panelOpenTimerRef.current)
+        panelOpenTimerRef.current = null
+      }
+
       setActivePlanet(planetId)
 
-      if (!settings.transitionAnimations) {
+      const useTransitions = settings.transitionAnimations && !prefersReducedMotion
+
+      if (!useTransitions) {
         openPanel(planetId)
         return
       }
@@ -55,11 +69,15 @@ export function usePlanetInteraction({
         }, ANIMATION_SETTINGS.warpDurationMs)
       }
 
-      window.setTimeout(() => openPanel(planetId), ANIMATION_SETTINGS.panelOpenDelayMs)
+      panelOpenTimerRef.current = window.setTimeout(() => {
+        panelOpenTimerRef.current = null
+        openPanel(planetId)
+      }, ANIMATION_SETTINGS.panelOpenDelayMs)
     },
     [
       openPanel,
       planetId,
+      prefersReducedMotion,
       setActivePlanet,
       setWarpActive,
       settings.transitionAnimations,
