@@ -1,4 +1,4 @@
-import { DEVELOPER } from '@/data/portfolio'
+import { DEVELOPER, PLANETS } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
 import { motion } from 'framer-motion'
 import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
@@ -8,7 +8,8 @@ import { UIBadge, UIIconTile } from '../design-system'
 import { cn, createCursorHandlers } from '../panels/panel-primitives'
 
 export function HUD() {
-  const { openSettings, setCursorVariant, setLanguage } = useSpaceStore()
+  const { activePanel, navigateToPanel, openSettings, setCursorVariant, setLanguage } =
+    useSpaceStore()
   const [time, setTime] = useState(new Date())
   const { t, i18n } = useTranslation()
   const linkCursor = createCursorHandlers(setCursorVariant)
@@ -37,6 +38,20 @@ export function HUD() {
       transition={{ duration: 0.6 }}
       className="fixed inset-0 pointer-events-none z-100"
     >
+      {!activePanel && (
+        <nav aria-label={t('nav.planets_aria')} className="sr-only pointer-events-auto">
+          <ul>
+            {PLANETS.map((planet) => (
+              <li key={planet.id}>
+                <button type="button" onClick={() => navigateToPanel(planet.id)}>
+                  {t(`planets.${planet.id}.name`)} — {t(`planets.${planet.id}.subtitle`)}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
       <div className="ds-topbar absolute top-3 left-3 right-3 min-h-20 rounded-[26px] flex items-start sm:items-center justify-between px-4 sm:px-6 py-4 z-100 pointer-events-auto">
         <div className="flex items-center gap-4">
           <motion.div

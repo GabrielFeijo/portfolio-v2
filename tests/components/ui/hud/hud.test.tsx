@@ -5,11 +5,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 const openSettings = vi.fn()
 const setLanguage = vi.fn()
 const setCursorVariant = vi.fn()
+const navigateToPanel = vi.fn()
 let resolvedLanguage = 'en'
 
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector?: any) => {
     const state = {
+      activePanel: null,
+      navigateToPanel,
       openSettings,
       setCursorVariant,
       setLanguage,
@@ -87,5 +90,15 @@ describe('HUD', () => {
     resolvedLanguage = 'pt-BR'
     render(<HUD />)
     expect(setLanguage).toHaveBeenCalledWith('pt')
+  })
+
+  it('renders screen reader planet navigation when no panel is open', () => {
+    render(<HUD />)
+    expect(screen.getByRole('navigation', { name: 'nav.planets_aria' })).toBeInTheDocument()
+    const buttons = screen.getAllByRole('button', { name: /planets\./ })
+    expect(buttons.length).toBeGreaterThan(0)
+
+    fireEvent.click(buttons[0])
+    expect(navigateToPanel).toHaveBeenCalled()
   })
 })

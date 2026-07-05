@@ -32,7 +32,7 @@ describe('contact-api', () => {
     })
 
     expect(data).toEqual({ ok: true })
-    expect(postMock).toHaveBeenCalledWith('/contact', expect.any(Object))
+    expect(postMock).toHaveBeenCalledWith('/contact', expect.any(Object), expect.any(Object))
   })
 
   it('retries on first network failure and succeeds', async () => {
@@ -143,10 +143,63 @@ describe('contact-api', () => {
     )
   })
 
+  it('uses bare origin URL without pathname correctly', async () => {
+    vi.stubEnv('VITE_API_URL', 'https://api.example.com')
+    await import('@/lib/contact-api')
+    expect(createMock).toHaveBeenCalledWith(
+      expect.objectContaining({ baseURL: 'https://api.example.com' })
+    )
+  })
+
+  it('normalizes custom API base URL subpath trailing slashes', async () => {
+    vi.stubEnv('VITE_API_URL', 'https://api.example.com/v1///')
+    await import('@/lib/contact-api')
+    expect(createMock).toHaveBeenCalledWith(
+      expect.objectContaining({ baseURL: 'https://api.example.com/v1' })
+    )
+  })
+
   it('uses the default API base URL when env is empty', async () => {
     vi.stubEnv('VITE_API_URL', '   ')
     await import('@/lib/contact-api')
     expect(createMock).toHaveBeenCalledWith(expect.objectContaining({ baseURL: '/v2' }))
+  })
+
+  it('falls back to default API base URL when env has invalid format', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.stubEnv('VITE_API_URL', 'not-a-valid-url')
+    await import('@/lib/contact-api')
+    expect(createMock).toHaveBeenCalledWith(expect.objectContaining({ baseURL: '/v2' }))
+    expect(warnSpy).toHaveBeenCalled()
+    warnSpy.mockRestore()
+  })
+
+  it('falls back to default API base URL when env URL constructor throws', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.stubEnv('VITE_API_URL', 'https://')
+    await import('@/lib/contact-api')
+    expect(createMock).toHaveBeenCalledWith(expect.objectContaining({ baseURL: '/v2' }))
+    expect(warnSpy).toHaveBeenCalled()
+    warnSpy.mockRestore()
+  })
+
+  it('falls back to default API base URL when window.location.origin has invalid protocol', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const originalLocation = window.location
+    delete (window as any).location
+    window.location = {
+      ...originalLocation,
+      origin: 'ftp://localhost',
+    } as any
+
+    vi.stubEnv('VITE_API_URL', '/api')
+    await import('@/lib/contact-api')
+    
+    expect(createMock).toHaveBeenCalledWith(expect.objectContaining({ baseURL: '/v2' }))
+    expect(warnSpy).toHaveBeenCalled()
+
+    ;(window as any).location = originalLocation
+    warnSpy.mockRestore()
   })
 
   it('constructs ContactRequestError with the default server kind', async () => {

@@ -38,7 +38,16 @@ export function SpaceMusic() {
     if (graph.source) return
 
     try {
-      const response = await fetch(MUSIC_URL)
+      const controller = new AbortController()
+      const timeoutId = window.setTimeout(() => controller.abort(), 15_000)
+
+      let response: Response
+      try {
+        response = await fetch(MUSIC_URL, { signal: controller.signal })
+      } finally {
+        window.clearTimeout(timeoutId)
+      }
+
       if (!response.ok) throw new Error('Failed to fetch audio file')
 
       const arrayBuffer = await response.arrayBuffer()
@@ -59,6 +68,10 @@ export function SpaceMusic() {
       graph.master.gain.cancelScheduledValues(graph.context.currentTime)
       graph.master.gain.linearRampToValueAtTime(volume, graph.context.currentTime + 2.5)
     } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        console.warn('SpaceMusic: audio fetch timed out')
+        return
+      }
       console.error('SpaceMusic Error:', error)
     }
   }, [initGraph, volume])

@@ -14,7 +14,27 @@ function getApiBaseUrl() {
     return DEFAULT_API_URL
   }
 
-  return configuredBaseUrl.replace(/\/+$/, '')
+  if (
+    !configuredBaseUrl.startsWith('/') &&
+    !/^https?:\/\//i.test(configuredBaseUrl)
+  ) {
+    console.warn('[contact-api] Invalid VITE_API_URL, using default base URL.')
+    return DEFAULT_API_URL
+  }
+
+  try {
+    const url = new URL(configuredBaseUrl, window.location.origin)
+
+    if (!['http:', 'https:'].includes(url.protocol)) {
+      throw new Error('Invalid protocol')
+    }
+
+    const pathname = url.pathname === '/' ? '' : url.pathname.replace(/\/+$/, '')
+    return `${url.origin}${pathname}`
+  } catch {
+    console.warn('[contact-api] Invalid VITE_API_URL, using default base URL.')
+    return DEFAULT_API_URL
+  }
 }
 
 export class ContactRequestError extends Error {
@@ -49,8 +69,11 @@ function getErrorMessage(responseBody: unknown) {
 
 export async function submitContactForm(payload: ContactFormValues) {
   for (let attempt = 0; attempt < 2; attempt += 1) {
+    const controller = new AbortController()
+    const timeoutId = window.setTimeout(() => controller.abort(), 10_000)
+
     try {
-      const response = await contactApi.post('/contact', payload)
+      const response = await contactApi.post('/contact', payload, { signal: controller.signal })
       return response.data
     } catch (error) {
       if (!axios.isAxiosError(error)) {
@@ -69,6 +92,8 @@ export async function submitContactForm(payload: ContactFormValues) {
       const kind =
         error.response.status === 400 || error.response.status === 422 ? 'validation' : 'server'
       throw new ContactRequestError(getErrorMessage(error.response.data), kind)
+    } finally {
+      window.clearTimeout(timeoutId)
     }
   }
 }

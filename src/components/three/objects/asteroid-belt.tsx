@@ -10,15 +10,10 @@ interface AsteroidBeltProps {
   color: string
 }
 
-const GEOMETRIES = [
-  new THREE.DodecahedronGeometry(1, 0),
-  new THREE.OctahedronGeometry(1, 0),
-  new THREE.IcosahedronGeometry(1, 0),
-]
-
 export function AsteroidBelt({ innerRadius, outerRadius, count, color }: AsteroidBeltProps) {
   const meshRef = useRef<THREE.InstancedMesh | null>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
+  const geometry = useMemo(() => new THREE.DodecahedronGeometry(1, 0), [])
 
   const asteroids = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
@@ -38,11 +33,13 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   useEffect(() => {
     return () => {
       rockTexture.dispose()
+      geometry.dispose()
     }
-  }, [rockTexture])
+  }, [geometry, rockTexture])
 
   useEffect(() => {
-    if (!meshRef.current) return
+    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
+
     asteroids.forEach((a, i) => {
       dummy.position.set(Math.cos(a.angle) * a.radius, a.height, Math.sin(a.angle) * a.radius)
       dummy.scale.setScalar(a.size)
@@ -50,13 +47,13 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.updateMatrix()
       meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    if (meshRef.current.instanceMatrix) {
-      meshRef.current.instanceMatrix.needsUpdate = true
-    }
+
+    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true })
   }, [asteroids, dummy])
 
   useFrame((_, delta) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
+
     asteroids.forEach((a, i) => {
       a.angle += delta * a.speed
       a.rotX += delta * a.rotSpeed * 0.7
@@ -72,14 +69,12 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.updateMatrix()
       meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    if (meshRef.current.instanceMatrix) {
-      meshRef.current.instanceMatrix.needsUpdate = true
-    }
+
+    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true })
   })
 
   return (
-    <instancedMesh ref={meshRef} args={[GEOMETRIES[0], undefined, count]}>
-      <dodecahedronGeometry args={[1, 0]} />
+    <instancedMesh ref={meshRef} args={[geometry, undefined, count]}>
       <meshStandardMaterial map={rockTexture} roughness={0.95} metalness={0.05} color={color} />
     </instancedMesh>
   )

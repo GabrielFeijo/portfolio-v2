@@ -20,6 +20,9 @@
     "highlights": "Destaques",
     "loading_short": "Carregando..."
   },
+  "nav": {
+    "planets_aria": "Navegação por seções do portfólio"
+  },
   "developer": {
     "title": "Desenvolvedor Full Stack",
     "location": "Recife, Brasil",
@@ -332,6 +335,7 @@
       "transitions": "Entrada e saída de planetas",
       "warp": "Efeito warp",
       "auto_rotate": "Rotação automática da câmera",
+      "custom_cursor": "Cursor customizado",
       "planet_rotation": "Rotação dos planetas",
       "nebula": "Nebulosas",
       "shooting_stars": "Estrelas cadentes",
