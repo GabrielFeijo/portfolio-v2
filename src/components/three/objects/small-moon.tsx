@@ -2,6 +2,17 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
+function hashString(value: string) {
+  let hash = 0
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(index)
+    hash |= 0
+  }
+
+  return Math.abs(hash)
+}
+
 interface SmallMoonProps {
   color: string
   lightDir: THREE.Vector3
@@ -11,7 +22,10 @@ interface SmallMoonProps {
 export function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
   const ref = useRef<THREE.Group | null>(null)
   const materialRef = useRef<THREE.ShaderMaterial | null>(null)
-  const inclination = useMemo(() => (Math.random() - 0.5) * 0.8, [])
+  const inclination = useMemo(() => {
+    const seed = hashString(`${color}:${size}`)
+    return ((seed % 1000) / 1000 - 0.5) * 0.8
+  }, [color, size])
   const baseColor = useMemo(() => new THREE.Color('#99AAAA'), [])
 
   useFrame((state) => {
