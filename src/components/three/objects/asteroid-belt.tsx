@@ -1,6 +1,6 @@
 import { makeRockTexture } from '@/utils/textures'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface AsteroidBeltProps {
@@ -10,15 +10,10 @@ interface AsteroidBeltProps {
   color: string
 }
 
-const GEOMETRIES = [
-  new THREE.DodecahedronGeometry(1, 0),
-  new THREE.OctahedronGeometry(1, 0),
-  new THREE.IcosahedronGeometry(1, 0),
-]
-
 export function AsteroidBelt({ innerRadius, outerRadius, count, color }: AsteroidBeltProps) {
   const meshRef = useRef<THREE.InstancedMesh | null>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
+  const geometry = useMemo(() => new THREE.DodecahedronGeometry(1, 0), [])
 
   const asteroids = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
@@ -30,7 +25,6 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       rotX: Math.random() * Math.PI * 2,
       rotY: Math.random() * Math.PI * 2,
       rotSpeed: (Math.random() - 0.5) * 0.8,
-      geoIdx: Math.floor(Math.random() * GEOMETRIES.length),
     }))
   }, [count, innerRadius, outerRadius])
 
@@ -39,11 +33,13 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   useEffect(() => {
     return () => {
       rockTexture.dispose()
+      geometry.dispose()
     }
-  }, [rockTexture])
+  }, [geometry, rockTexture])
 
-  useMemo(() => {
-    if (!meshRef.current) return
+  useLayoutEffect(() => {
+    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
+
     asteroids.forEach((a, i) => {
       dummy.position.set(Math.cos(a.angle) * a.radius, a.height, Math.sin(a.angle) * a.radius)
       dummy.scale.setScalar(a.size)
@@ -55,7 +51,8 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   }, [asteroids, dummy])
 
   useFrame((_, delta) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
+
     asteroids.forEach((a, i) => {
       a.angle += delta * a.speed
       a.rotX += delta * a.rotSpeed * 0.7
@@ -75,8 +72,7 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   })
 
   return (
-    <instancedMesh ref={meshRef} args={[GEOMETRIES[0], undefined, count]}>
-      <dodecahedronGeometry args={[1, 0]} />
+    <instancedMesh ref={meshRef} args={[geometry, undefined, count]}>
       <meshStandardMaterial map={rockTexture} roughness={0.95} metalness={0.05} color={color} />
     </instancedMesh>
   )

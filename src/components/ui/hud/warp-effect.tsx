@@ -15,8 +15,12 @@ export function WarpEffect() {
 
   useEffect(() => {
     if (!warpActive || !warpEffects) return
-    const canvas = canvasRef.current!
-    const ctx = canvas.getContext('2d')!
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
