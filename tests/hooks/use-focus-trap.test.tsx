@@ -1,5 +1,5 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap'
-import { act, render } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import { useRef } from 'react'
 import { describe, expect, it } from 'vitest'
 
@@ -26,8 +26,7 @@ async function flushFocusFrame() {
 describe('useFocusTrap', () => {
   it('focuses first element when enabled', async () => {
     render(<Trap enabled />)
-    await flushFocusFrame()
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 
   it('does nothing when disabled', async () => {
@@ -47,13 +46,12 @@ describe('useFocusTrap', () => {
     const event = new window.KeyboardEvent('keydown', { key: 'Tab' })
     container.firstElementChild?.dispatchEvent(event)
 
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 
   it('traps focus backward on Shift+Tab', async () => {
     const { container } = render(<Trap enabled />)
-    await flushFocusFrame()
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
 
     const event = new window.KeyboardEvent('keydown', { key: 'Tab', shiftKey: true })
     container.firstElementChild?.dispatchEvent(event)
@@ -63,23 +61,21 @@ describe('useFocusTrap', () => {
 
   it('ignores other keys', async () => {
     const { container } = render(<Trap enabled />)
-    await flushFocusFrame()
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
 
     const event = new window.KeyboardEvent('keydown', { key: 'Enter' })
     container.firstElementChild?.dispatchEvent(event)
 
-    expect(document.activeElement?.textContent).toBe('first')
+    await waitFor(() => expect(document.activeElement?.textContent).toBe('first'))
   })
 
   it('handles null ref during keydown', async () => {
-    let refObj: any
+    const externalRef = { current: null as HTMLDivElement | null }
+
     function TestComponent() {
-      const ref = useRef<HTMLDivElement>(null)
-      refObj = ref
-      useFocusTrap(ref, true)
+      useFocusTrap(externalRef, true)
       return (
-        <div ref={ref}>
+        <div ref={externalRef}>
           <button>btn</button>
         </div>
       )
@@ -87,27 +83,26 @@ describe('useFocusTrap', () => {
     const { container } = render(<TestComponent />)
     await flushFocusFrame()
 
-    refObj.current = null
+    externalRef.current = null
 
     const event = new window.KeyboardEvent('keydown', { key: 'Tab' })
     container.firstElementChild?.dispatchEvent(event)
   })
 
   it('handles null ref in requestAnimationFrame', async () => {
-    let refObj: any
+    const externalRef = { current: null as HTMLDivElement | null }
+
     function TestComponent() {
-      const ref = useRef<HTMLDivElement>(null)
-      refObj = ref
-      useFocusTrap(ref, true)
+      useFocusTrap(externalRef, true)
       return (
-        <div ref={ref}>
+        <div ref={externalRef}>
           <button>btn</button>
         </div>
       )
     }
     render(<TestComponent />)
 
-    refObj.current = null
+    externalRef.current = null
 
     await flushFocusFrame()
   })

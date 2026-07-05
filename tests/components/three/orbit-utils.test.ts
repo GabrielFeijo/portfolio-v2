@@ -3,7 +3,7 @@ import {
   getPlanetOrbitRotation,
   getPlanetOrbitTilt,
   getPlanetPosition,
-} from '@/components/three/orbit-utils'
+} from '@/utils/orbit-utils'
 import { PLANETS } from '@/data/portfolio'
 import { describe, expect, it } from 'vitest'
 

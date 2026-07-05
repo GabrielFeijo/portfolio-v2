@@ -30,11 +30,7 @@ export default function App() {
   )
   const [webGLStatus, setWebGLStatus] = useState<
     'checking' | 'available' | 'unavailable' | 'context_lost'
-  >('checking')
-
-  useEffect(() => {
-    setWebGLStatus(isWebGLAvailable() ? 'available' : 'unavailable')
-  }, [])
+  >(isWebGLAvailable() ? 'available' : 'unavailable')
 
   useEffect(() => {
     const prevent = (e: Event) => e.preventDefault()
@@ -45,7 +41,6 @@ export default function App() {
   if (webGLStatus === 'unavailable' || webGLStatus === 'context_lost') {
     return <WebGLError variant={webGLStatus} />
   }
-  if (webGLStatus === 'checking') return null
 
   return (
     <div className="relative w-screen h-screen overflow-hidden">

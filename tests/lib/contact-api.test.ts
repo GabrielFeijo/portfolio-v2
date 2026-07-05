@@ -36,7 +36,7 @@ describe('contact-api', () => {
   })
 
   it('retries on first network failure and succeeds', async () => {
-    vi.spyOn(window, 'setTimeout').mockImplementation(((handler: TimerHandler) => {
+    vi.spyOn(window, 'setTimeout').mockImplementation(((handler: Parameters<typeof setTimeout>[0]) => {
       if (typeof handler === 'function') handler()
       return 0
     }) as any)
@@ -56,14 +56,14 @@ describe('contact-api', () => {
   })
 
   it('throws network error when no response after retry', async () => {
-    vi.spyOn(window, 'setTimeout').mockImplementation(((handler: TimerHandler) => {
+    vi.spyOn(window, 'setTimeout').mockImplementation(((handler: Parameters<typeof setTimeout>[0]) => {
       if (typeof handler === 'function') handler()
       return 0
     }) as any)
     postMock.mockRejectedValue({ isAxiosError: true })
     isAxiosErrorMock.mockReturnValue(true)
 
-    const { ContactRequestError, submitContactForm } = await import('@/lib/contact-api')
+    const { submitContactForm } = await import('@/lib/contact-api')
     await expect(
       submitContactForm({
         name: 'Gabriel',

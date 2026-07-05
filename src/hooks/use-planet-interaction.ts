@@ -7,15 +7,17 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UsePlanetInteractionOptions {
   planetId: PanelId
-  openPanel: (panel: PanelId) => void
-  setActivePlanet: (id: string | null) => void
+  handlePlanetClick?: (panel: PanelId) => void
+  openPanel?: (panel: PanelId) => void
+  setActivePlanet?: (id: string | null) => void
   setCursorVariant: (variant: CursorVariant) => void
-  setWarpActive: (active: boolean) => void
-  settings: ExperienceSettings
+  setWarpActive?: (active: boolean) => void
+  settings?: ExperienceSettings
 }
 
 export function usePlanetInteraction({
   planetId,
+  handlePlanetClick,
   openPanel,
   setActivePlanet,
   setCursorVariant,
@@ -42,46 +44,51 @@ export function usePlanetInteraction({
     (event: ThreeEvent<MouseEvent>) => {
       event.stopPropagation()
 
-      if (panelOpenTimerRef.current !== null) {
-        window.clearTimeout(panelOpenTimerRef.current)
-        panelOpenTimerRef.current = null
-      }
+      if (openPanel && setActivePlanet && setWarpActive && settings) {
+        if (panelOpenTimerRef.current !== null) {
+          window.clearTimeout(panelOpenTimerRef.current)
+          panelOpenTimerRef.current = null
+        }
 
-      setActivePlanet(planetId)
+        setActivePlanet(planetId)
 
-      const useTransitions = settings.transitionAnimations && !prefersReducedMotion
+        const useTransitions = settings.transitionAnimations && !prefersReducedMotion
 
-      if (!useTransitions) {
-        openPanel(planetId)
+        if (!useTransitions) {
+          openPanel(planetId)
+          return
+        }
+
+        if (settings.warpEffects) {
+          setWarpActive(true)
+
+          if (warpTimeoutRef.current !== null) {
+            window.clearTimeout(warpTimeoutRef.current)
+          }
+
+          warpTimeoutRef.current = window.setTimeout(() => {
+            setWarpActive(false)
+            warpTimeoutRef.current = null
+          }, ANIMATION_SETTINGS.warpDurationMs)
+        }
+
+        panelOpenTimerRef.current = window.setTimeout(() => {
+          panelOpenTimerRef.current = null
+          openPanel(planetId)
+        }, ANIMATION_SETTINGS.panelOpenDelayMs)
         return
       }
 
-      if (settings.warpEffects) {
-        setWarpActive(true)
-
-        if (warpTimeoutRef.current !== null) {
-          window.clearTimeout(warpTimeoutRef.current)
-        }
-
-        warpTimeoutRef.current = window.setTimeout(() => {
-          setWarpActive(false)
-          warpTimeoutRef.current = null
-        }, ANIMATION_SETTINGS.warpDurationMs)
-      }
-
-      panelOpenTimerRef.current = window.setTimeout(() => {
-        panelOpenTimerRef.current = null
-        openPanel(planetId)
-      }, ANIMATION_SETTINGS.panelOpenDelayMs)
+      handlePlanetClick?.(planetId)
     },
     [
+      handlePlanetClick,
       openPanel,
       planetId,
       prefersReducedMotion,
       setActivePlanet,
       setWarpActive,
-      settings.transitionAnimations,
-      settings.warpEffects,
+      settings,
     ]
   )
 

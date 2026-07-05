@@ -4,19 +4,24 @@ import { useEffect } from 'react'
 const FOCUSABLE_SELECTOR =
   'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
 
-export function useFocusTrap(containerRef: RefObject<HTMLElement>, enabled: boolean) {
+export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, enabled: boolean) {
   useEffect(() => {
     const container = containerRef.current
     if (!enabled || !container) return
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const focusable = Array.from(
-        containerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? []
-      ).filter((element) => !element.hasAttribute('disabled'))
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
 
+    const getFocusableElements = () =>
+      Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+        (element) => !element.hasAttribute('disabled')
+      )
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const focusable = getFocusableElements()
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
-      if (!first || !last || event.key !== 'Tab') return
+
+      if (event.key !== 'Tab' || !first || !last) return
 
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault()
@@ -30,19 +35,14 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement>, enabled: bool
     }
 
     const rafId = requestAnimationFrame(() => {
-      if (!containerRef.current) return
-
-      const focusable = Array.from(
-        containerRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
-      ).filter((element) => !element.hasAttribute('disabled'))
-
-      focusable[0]?.focus()
+      getFocusableElements()[0]?.focus()
     })
 
     container.addEventListener('keydown', handleKeyDown)
     return () => {
       cancelAnimationFrame(rafId)
       container.removeEventListener('keydown', handleKeyDown)
+      previousFocus?.focus()
     }
   }, [containerRef, enabled])
 }

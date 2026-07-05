@@ -21,7 +21,7 @@ vi.mock('@react-three/fiber', () => ({
     if (onCreated) {
       const gl = {
         domElement: {
-          addEventListener: (event: string, cb: EventListener) => {
+          addEventListener: (event: string, cb: (...args: unknown[]) => void) => {
             if (event === 'webglcontextlost') {
               ;(window as any).__triggerContextLost = cb
             }

@@ -27,8 +27,7 @@ export function ProjectsPanel() {
       : PROJECTS.filter((project) => project.category === filter)
   const getFilterLabel = (value: ProjectFilter) => {
     if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all')
-    const key = value.toLowerCase().replace(/\s+/g, '_')
-    return t(`projects.filters.${key}`, value)
+    return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value)
   }
 
   return (

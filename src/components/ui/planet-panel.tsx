@@ -120,6 +120,7 @@ export function PlanetPanel() {
         className="absolute inset-0 pointer-events-auto cursor-none"
         onClick={closePanel}
         onMouseEnter={() => setCursorVariant('default')}
+        aria-hidden="true"
       />
 
       <div

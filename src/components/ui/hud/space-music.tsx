@@ -1,5 +1,5 @@
 import { useSpaceStore } from '@/store/space-store'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 interface MusicGraph {
@@ -20,7 +20,7 @@ export function SpaceMusic() {
 
   const graphRef = useRef<MusicGraph | null>(null)
 
-  const initGraph = async () => {
+  const initGraph = useCallback(async () => {
     if (graphRef.current) return graphRef.current
 
     const AudioCtx = window.AudioContext
@@ -31,9 +31,9 @@ export function SpaceMusic() {
 
     graphRef.current = { context, master, source: null }
     return graphRef.current
-  }
+  }, [])
 
-  const startPlayback = async () => {
+  const startPlayback = useCallback(async () => {
     const graph = await initGraph()
     if (graph.source) return
 
@@ -74,9 +74,9 @@ export function SpaceMusic() {
       }
       console.error('SpaceMusic Error:', error)
     }
-  }
+  }, [initGraph, volume])
 
-  const stopPlayback = () => {
+  const stopPlayback = useCallback(() => {
     const graph = graphRef.current
     if (!graph || !graph.source) return
 
@@ -91,7 +91,7 @@ export function SpaceMusic() {
         graph.source = null
       }
     }, 1300)
-  }
+  }, [])
 
   useEffect(() => {
     if (enabled) {
@@ -99,7 +99,7 @@ export function SpaceMusic() {
     } else {
       stopPlayback()
     }
-  }, [enabled])
+  }, [enabled, startPlayback, stopPlayback])
 
   useEffect(() => {
     const graph = graphRef.current

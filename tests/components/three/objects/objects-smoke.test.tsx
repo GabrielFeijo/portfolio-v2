@@ -1,25 +1,13 @@
 import { PLANETS } from '@/data/portfolio'
-import { render } from '@testing-library/react'
+import { create } from '@react-three/test-renderer'
 import * as THREE from 'three'
 import { describe, expect, it, vi } from 'vitest'
 
-const frameCallbacks: Array<
-  (state: { clock: { getElapsedTime: () => number } }, delta: number) => void
-> = []
-
-vi.mock('@react-three/fiber', () => ({
-  useFrame: (cb: (state: { clock: { getElapsedTime: () => number } }, delta: number) => void) =>
-    frameCallbacks.push(cb),
-  extend: vi.fn(),
-  useThree: (selector: (s: { size: { width: number; height: number } }) => unknown) =>
-    selector({ size: { width: 1200, height: 800 } }),
-}))
-
 vi.mock('@react-three/drei', () => ({
-  Html: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  Sphere: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  Sparkles: () => <div data-testid="sparkles" />,
-  Stars: () => <div data-testid="stars" />,
+  Html: () => null,
+  Sphere: () => null,
+  Sparkles: () => null,
+  Stars: () => null,
   shaderMaterial: () =>
     function ShaderMaterialMock() {
       return null
@@ -89,41 +77,46 @@ import { SmallMoon } from '@/components/three/objects/small-moon'
 import { ShootingStar, Sun3D } from '@/components/three/objects/sun-3d'
 
 describe('3d objects smoke', () => {
-  it('renders asteroid belt', () => {
-    const { container } = render(
-      <AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#fff" />
-    )
-    expect(container).toBeDefined()
+  it('renders asteroid belt', async () => {
+    const renderer = await create(<AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#fff" />)
+    expect(renderer).toBeDefined()
+    await renderer.unmount()
   })
 
-  it('renders nebula', () => {
-    const { container } = render(<Nebula density={0.5} />)
-    expect(container).toBeDefined()
+  it('renders nebula', async () => {
+    const renderer = await create(<Nebula density={0.5} />)
+    expect(renderer).toBeDefined()
+    await renderer.unmount()
   })
 
-  it('renders orbit particles', () => {
-    const { container } = render(<OrbitParticles color="#fff" density={0.5} size={2} />)
-    expect(container).toBeDefined()
+  it('renders orbit particles', async () => {
+    const renderer = await create(<OrbitParticles color="#fff" density={0.5} size={2} />)
+    expect(renderer).toBeDefined()
+    await renderer.unmount()
   })
 
-  it('renders planet and moon', () => {
-    const { container: planetContainer } = render(
+  it('renders planet and moon', async () => {
+    const renderer = await create(
       <Planet3D
         angleRef={{ current: Object.fromEntries(PLANETS.map((p) => [p.id, 0])) }}
         planet={PLANETS[0]}
       />
     )
-    const { container: moonContainer } = render(
+    const moonRenderer = await create(
       <SmallMoon color="#fff" lightDir={new THREE.Vector3(1, 0, 0)} size={2} />
     )
-    expect(planetContainer).toBeDefined()
-    expect(moonContainer).toBeDefined()
+    expect(renderer).toBeDefined()
+    expect(moonRenderer).toBeDefined()
+    await renderer.unmount()
+    await moonRenderer.unmount()
   })
 
-  it('renders sun and shooting star', () => {
-    const { container: sunContainer } = render(<Sun3D />)
-    const { container: starContainer } = render(<ShootingStar />)
-    expect(sunContainer).toBeDefined()
-    expect(starContainer).toBeDefined()
+  it('renders sun and shooting star', async () => {
+    const sunRenderer = await create(<Sun3D />)
+    const starRenderer = await create(<ShootingStar />)
+    expect(sunRenderer).toBeDefined()
+    expect(starRenderer).toBeDefined()
+    await sunRenderer.unmount()
+    await starRenderer.unmount()
   })
 })

@@ -1,5 +1,6 @@
 import { MAX_EXPERIENCE_SETTINGS, useSpaceStore } from '@/store/space-store'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { act } from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('space-store', () => {
   beforeEach(() => {
@@ -68,5 +69,88 @@ describe('space-store', () => {
 
     useSpaceStore.getState().resetExperienceSettings()
     expect(useSpaceStore.getState().experienceSettings).toEqual(MAX_EXPERIENCE_SETTINGS)
+  })
+
+  it('handles complex planet click with warp and delays', () => {
+    vi.useFakeTimers()
+    const store = useSpaceStore.getState()
+
+    store.handlePlanetClick('about')
+    expect(useSpaceStore.getState().warpActive).toBe(true)
+    expect(useSpaceStore.getState().activePlanet).toBe('about')
+    expect(useSpaceStore.getState().activePanel).toBeNull()
+
+    act(() => {
+      vi.advanceTimersByTime(800)
+    })
+    expect(useSpaceStore.getState().warpActive).toBe(false)
+    act(() => {
+      vi.advanceTimersByTime(1200)
+    })
+    expect(useSpaceStore.getState().activePanel).toBe('about')
+
+    useSpaceStore.getState().setExperienceSetting('transitionAnimations', false)
+    useSpaceStore.getState().handlePlanetClick('contact')
+    expect(useSpaceStore.getState().activePlanet).toBe('contact')
+    expect(useSpaceStore.getState().activePanel).toBe('contact')
+    expect(useSpaceStore.getState().warpActive).toBe(false)
+
+    vi.useRealTimers()
+  })
+
+  it('cancels pending panel timers when a new planet is clicked', () => {
+    vi.useFakeTimers()
+    const store = useSpaceStore.getState()
+
+    store.handlePlanetClick('about')
+    store.handlePlanetClick('skills')
+
+    act(() => {
+      vi.advanceTimersByTime(2000)
+    })
+
+    expect(useSpaceStore.getState().activePanel).toBe('skills')
+    expect(useSpaceStore.getState().activePlanet).toBe('skills')
+
+    vi.useRealTimers()
+  })
+
+  it('closePanel triggers warp when warpEffects and transitionAnimations are enabled', () => {
+    vi.useFakeTimers()
+
+    useSpaceStore.getState().navigateToPanel('skills')
+    expect(useSpaceStore.getState().activePanel).toBe('skills')
+
+    useSpaceStore.getState().closePanel()
+    expect(useSpaceStore.getState().warpActive).toBe(true)
+    expect(useSpaceStore.getState().activePanel).toBeNull()
+    expect(useSpaceStore.getState().activePlanet).toBeNull()
+
+    act(() => {
+      vi.advanceTimersByTime(1000)
+    })
+    expect(useSpaceStore.getState().warpActive).toBe(false)
+
+    vi.useRealTimers()
+  })
+
+  it('handles planet click and closePanel when warpEffects disabled', () => {
+    vi.useFakeTimers()
+
+    useSpaceStore.getState().setExperienceSetting('warpEffects', false)
+    useSpaceStore.getState().setExperienceSetting('transitionAnimations', true)
+
+    useSpaceStore.getState().handlePlanetClick('contact')
+    expect(useSpaceStore.getState().activePlanet).toBe('contact')
+    expect(useSpaceStore.getState().warpActive).toBe(false)
+
+    act(() => vi.advanceTimersByTime(2000))
+    expect(useSpaceStore.getState().activePanel).toBe('contact')
+
+    useSpaceStore.getState().navigateToPanel('skills')
+    useSpaceStore.getState().closePanel()
+    expect(useSpaceStore.getState().warpActive).toBe(false)
+
+    vi.useRealTimers()
   })
 })

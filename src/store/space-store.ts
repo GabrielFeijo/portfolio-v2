@@ -1,3 +1,4 @@
+import { ANIMATION_SETTINGS } from '@/constants/animation'
 import type {
   ExperiencePreset,
   ExperienceSettings,
@@ -10,6 +11,29 @@ import { create } from 'zustand'
 type SliceSet = (
   partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)
 ) => void
+type SliceGet = () => SpaceStore
+
+let panelOpenTimer: ReturnType<typeof setTimeout> | null = null
+let warpOffTimer: ReturnType<typeof setTimeout> | null = null
+
+function clearNavigationTimers() {
+  if (panelOpenTimer !== null) {
+    clearTimeout(panelOpenTimer)
+    panelOpenTimer = null
+  }
+
+  if (warpOffTimer !== null) {
+    clearTimeout(warpOffTimer)
+    warpOffTimer = null
+  }
+}
+
+function scheduleWarpOff(set: SliceSet) {
+  warpOffTimer = setTimeout(() => {
+    set({ warpActive: false })
+    warpOffTimer = null
+  }, ANIMATION_SETTINGS.warpDurationMs)
+}
 
 export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
   antialias: true,
@@ -84,12 +108,45 @@ const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
   },
 }
 
-const createNavigationSlice = (set: SliceSet): NavigationSlice => ({
+const createNavigationSlice = (set: SliceSet, get: SliceGet): NavigationSlice => ({
   activePlanet: null,
   setActivePlanet: (id) => set({ activePlanet: id }),
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
-  closePanel: () => set({ activePanel: null, activePlanet: null }),
+  handlePlanetClick: (planetId) => {
+    clearNavigationTimers()
+
+    const { transitionAnimations, warpEffects } = get().experienceSettings
+
+    if (!transitionAnimations) {
+      set({ activePlanet: planetId, activePanel: planetId })
+      return
+    }
+
+    set({ activePlanet: planetId })
+
+    if (warpEffects) {
+      set({ warpActive: true })
+      scheduleWarpOff(set)
+    }
+
+    panelOpenTimer = setTimeout(() => {
+      set({ activePanel: planetId })
+      panelOpenTimer = null
+    }, ANIMATION_SETTINGS.panelOpenDelayMs)
+  },
+  closePanel: () => {
+    clearNavigationTimers()
+
+    const { transitionAnimations, warpEffects } = get().experienceSettings
+
+    if (transitionAnimations && warpEffects) {
+      set({ warpActive: true })
+      scheduleWarpOff(set)
+    }
+
+    set({ activePanel: null, activePlanet: null })
+  },
   navigateToPanel: (id) => set({ activePlanet: id, activePanel: id }),
   helpOpen: false,
   openHelp: () => set({ helpOpen: true, activePanel: null, activePlanet: null }),
@@ -120,7 +177,7 @@ const createUiSlice = (set: SliceSet): UiSlice => ({
   setLanguage: (lang) => set({ language: lang }),
 })
 
-export const useSpaceStore = create<SpaceStore>((set) => ({
-  ...createNavigationSlice(set),
+export const useSpaceStore = create<SpaceStore>((set, get) => ({
+  ...createNavigationSlice(set, get),
   ...createUiSlice(set),
 }))

@@ -45,9 +45,11 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.scale.setScalar(a.size)
       dummy.rotation.set(a.rotX, a.rotY, 0)
       dummy.updateMatrix()
-      meshRef.current?.setMatrixAt(i, dummy.matrix)
+      meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    meshRef.current.instanceMatrix.needsUpdate = true
+    if (meshRef.current.instanceMatrix) {
+      meshRef.current.instanceMatrix.needsUpdate = true
+    }
   }, [asteroids, dummy])
 
   useFrame((_, delta) => {
@@ -66,9 +68,11 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
       dummy.scale.setScalar(a.size)
       dummy.rotation.set(a.rotX, a.rotY, 0)
       dummy.updateMatrix()
-      meshRef.current?.setMatrixAt(i, dummy.matrix)
+      meshRef.current?.setMatrixAt?.(i, dummy.matrix)
     })
-    meshRef.current.instanceMatrix.needsUpdate = true
+    if (meshRef.current.instanceMatrix) {
+      meshRef.current.instanceMatrix.needsUpdate = true
+    }
   })
 
   return (

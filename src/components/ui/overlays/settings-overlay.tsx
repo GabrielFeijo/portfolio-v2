@@ -15,7 +15,7 @@ import {
   Zap,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { useRef } from 'react'
+import { useId, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
@@ -43,7 +43,6 @@ export function SettingsOverlay() {
   const {
     applyExperiencePreset,
     closeSettings,
-    resetExperienceSettings,
     setCursorVariant,
     setExperienceSetting,
     settings,
@@ -51,7 +50,6 @@ export function SettingsOverlay() {
     useShallow((state) => ({
       applyExperiencePreset: state.applyExperiencePreset,
       closeSettings: state.closeSettings,
-      resetExperienceSettings: state.resetExperienceSettings,
       setCursorVariant: state.setCursorVariant,
       setExperienceSetting: state.setExperienceSetting,
       settings: state.experienceSettings,
@@ -105,6 +103,7 @@ export function SettingsOverlay() {
         className="absolute inset-0 bg-[rgba(2,4,12,0.72)] backdrop-blur-md pointer-events-auto cursor-none"
         onClick={closeSettings}
         onMouseEnter={() => setCursorVariant('default')}
+        aria-hidden="true"
       />
 
       <motion.div
@@ -352,32 +351,40 @@ function SettingsGroup({
 }
 
 function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
+  const id = useId()
   return (
-    <label className="flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
-      <span className="text-sm text-[rgba(240,244,255,0.78)]">{label}</span>
+    <div className="flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+      <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
+        {label}
+      </label>
       <input
+        id={id}
         type="checkbox"
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
         className="h-5 w-5 accent-[#7dd3fc]"
       />
-    </label>
+    </div>
   )
 }
 
 function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeControlProps) {
+  const id = useId()
   const displayValue = suffix === '%' ? Math.round(value * 100) : value.toFixed(2)
 
   return (
-    <label className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+    <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
       <div className="mb-3 flex items-center justify-between gap-4">
-        <span className="text-sm text-[rgba(240,244,255,0.78)]">{label}</span>
+        <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
+          {label}
+        </label>
         <span className="font-mono-space text-xs text-[rgba(125,211,252,0.8)]">
           {displayValue}
           {suffix ?? ''}
         </span>
       </div>
       <input
+        id={id}
         type="range"
         min={min}
         max={max}
@@ -386,6 +393,6 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
         onChange={(event) => onChange(Number(event.target.value))}
         className="w-full accent-[#7dd3fc]"
       />
-    </label>
+    </div>
   )
 }

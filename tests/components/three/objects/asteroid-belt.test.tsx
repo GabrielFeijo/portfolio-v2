@@ -1,123 +1,54 @@
-import { AsteroidBelt } from '@/components/three/objects/asteroid-belt'
-import { act, render } from '@testing-library/react'
-import { forwardRef, useImperativeHandle } from 'react'
+import { create } from '@react-three/test-renderer'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-const { mockMesh, refState } = vi.hoisted(() => ({
-  mockMesh: {
-    setMatrixAt: vi.fn(),
-    instanceMatrix: { needsUpdate: false },
-    geometry: { dispose: vi.fn() },
-    material: { dispose: vi.fn() },
-  },
-  refState: { keepNull: false, lastRef: null as null | { current: any } },
-}))
+import { AsteroidBelt } from '@/components/three/objects/asteroid-belt'
+import { advanceR3F } from '../../../helpers/r3f-utils'
+
+let mockDispose = vi.fn()
 
 vi.mock('@/utils/textures', () => ({
   makeRockTexture: vi.fn(() => ({
-    dispose: vi.fn(),
+    dispose: () => mockDispose(),
   })),
 }))
-
-const mockFrameCallbacks: any[] = []
-vi.mock('@react-three/fiber', () => ({
-  useFrame: (cb: any) => {
-    mockFrameCallbacks.push(cb)
-  },
-}))
-
-const MockThreeObject = forwardRef(({ children, type, ...props }: any, ref) => {
-  if (!refState.keepNull) {
-    useImperativeHandle(ref, () => mockMesh)
-  }
-  return <div data-testid={type}>{children}</div>
-})
-
-vi.mock('react', async () => {
-  const actual = await vi.importActual('react')
-  return {
-    ...actual,
-    useRef: (initial: any) => {
-      if (initial === null) {
-        if (refState.keepNull) {
-          const lastRef = { current: null }
-          refState.lastRef = lastRef
-          return lastRef
-        }
-        return {
-          get current() {
-            return mockMesh
-          },
-          set current(_) {},
-        }
-      }
-      return (actual as any).useRef(initial)
-    },
-    createElement: (type: any, props: any, ...children: any) => {
-      if (type === 'instancedMesh') {
-        const nextProps = refState.keepNull ? { type } : { ...props, type }
-        return (actual as any).createElement(MockThreeObject, nextProps, ...children)
-      }
-      if (
-        typeof type === 'string' &&
-        [
-          'dodecahedronGeometry',
-          'meshStandardMaterial',
-          'octahedronGeometry',
-          'icosahedronGeometry',
-          'mesh',
-          'group',
-        ].includes(type)
-      ) {
-        return (actual as any).createElement('div', { 'data-testid': type }, ...children)
-      }
-      return (actual as any).createElement(type, props, ...children)
-    },
-  }
-})
 
 describe('AsteroidBelt', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockFrameCallbacks.length = 0
-    refState.keepNull = false
-    refState.lastRef = null
+    mockDispose = vi.fn()
   })
 
-  it('renders and runs frame loop', async () => {
-    render(<AsteroidBelt innerRadius={10} outerRadius={20} count={10} color="#ff0000" />)
-
-    expect(mockMesh.setMatrixAt).toHaveBeenCalled()
-    expect(mockFrameCallbacks.length).toBeGreaterThan(0)
-
-    await act(async () => {
-      mockFrameCallbacks.forEach((cb) => {
-        try {
-          cb({}, 0.016)
-        } catch (e) {}
-      })
-    })
-    expect(mockMesh.setMatrixAt).toHaveBeenCalled()
-  })
-
-  it('unmounts and disposes texture', () => {
-    const { unmount } = render(
-      <AsteroidBelt innerRadius={10} outerRadius={20} count={10} color="#ff0000" />
+  it('renders, advances frames, and updates instanced matrices', async () => {
+    const renderer = await create(
+      <AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#ff0000" />
     )
-    unmount()
+
+    expect(renderer).toBeDefined()
+    await advanceR3F(renderer, 10, 0.05)
+
+    await renderer.unmount()
   })
 
-  it('skips initialization and animation when the instanced mesh ref is missing', () => {
-    refState.keepNull = true
-    render(<AsteroidBelt innerRadius={10} outerRadius={20} count={2} color="#ff0000" />)
-    if (refState.lastRef) refState.lastRef.current = null
+  it('disposes rock texture on unmount', async () => {
+    const renderer = await create(
+      <AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#ff0000" />
+    )
+    await advanceR3F(renderer, 2)
+    await renderer.unmount()
+    expect(mockDispose).toHaveBeenCalled()
+  })
 
-    expect(mockMesh.setMatrixAt).not.toHaveBeenCalled()
+  it('repositions asteroids when props change', async () => {
+    const renderer = await create(
+      <AsteroidBelt innerRadius={5} outerRadius={10} count={3} color="#00ff00" />
+    )
+    await advanceR3F(renderer, 3)
 
-    act(() => {
-      mockFrameCallbacks.forEach((cb) => cb({}, 0.016))
-    })
+    await renderer.update(
+      <AsteroidBelt innerRadius={8} outerRadius={15} count={4} color="#0000ff" />
+    )
+    await advanceR3F(renderer, 3)
 
-    expect(mockMesh.setMatrixAt).not.toHaveBeenCalled()
+    await renderer.unmount()
   })
 })

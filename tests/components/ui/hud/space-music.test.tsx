@@ -193,8 +193,8 @@ describe('SpaceMusic', () => {
 
   it('handles fetch abort/timeout error', async () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const fetchMock = vi.fn().mockImplementation((url, options) => {
-      return new Promise((resolve, reject) => {
+    const fetchMock = vi.fn().mockImplementation((_url, options) => {
+      return new Promise((_, reject) => {
         options.signal.addEventListener('abort', () => {
           reject(new DOMException('The user aborted a request.', 'AbortError'))
         })
