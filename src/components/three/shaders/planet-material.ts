@@ -1,5 +1,5 @@
 import { NOISE_CHUNK } from '@/utils/glsl/noise.glsl'
-import { shaderMaterial } from '@react-three/drei'
+import { shaderMaterial } from '@react-three/drei/core/shaderMaterial'
 import * as THREE from 'three'
 
 export { NOISE_CHUNK }

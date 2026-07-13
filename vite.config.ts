@@ -6,6 +6,8 @@ import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const threeModule = path.resolve(__dirname, 'node_modules/three/build/three.module.js')
+const threeRoot = path.resolve(__dirname, 'node_modules/three')
 
 export default defineConfig(({ command }) => ({
   plugins: [
@@ -56,10 +58,11 @@ export default defineConfig(({ command }) => ({
     sourcemapIgnoreList: false,
   },
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      three: path.resolve(__dirname, 'node_modules/three/build/three.module.js'),
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: /^three$/, replacement: threeModule },
+      { find: /^three\/(.*)$/, replacement: `${threeRoot}/$1` },
+    ],
     dedupe: ['three'],
   },
 }))

@@ -2,13 +2,15 @@ import path from 'path'
 import { defineConfig } from 'vitest/config'
 
 const threeModule = path.resolve(__dirname, 'node_modules/three/build/three.module.js')
+const threeRoot = path.resolve(__dirname, 'node_modules/three')
 
 export default defineConfig({
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      three: threeModule,
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: /^three$/, replacement: threeModule },
+      { find: /^three\/(.*)$/, replacement: `${threeRoot}/$1` },
+    ],
     dedupe: ['three'],
   },
   test: {

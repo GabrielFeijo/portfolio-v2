@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { create } from '@react-three/test-renderer'
+import { act, create } from '@react-three/test-renderer'
 
 import { Sun3D } from '@/components/three/objects/sun-3d'
 import { advanceR3F } from '../../../helpers/r3f-utils'
@@ -80,16 +80,22 @@ describe('Sun3D', () => {
     expect(sunHandlers.click).toBeTypeOf('function')
     expect(sunHandlers.leave).toBeTypeOf('function')
 
-    sunHandlers.enter!()
+    await act(async () => {
+      sunHandlers.enter!()
+    })
     await advanceR3F(renderer, 1, 0.016)
     expect(setCursorVariant).toHaveBeenCalledWith('planet')
 
     const stopPropagation = vi.fn()
-    sunHandlers.click!({ stopPropagation })
+    await act(async () => {
+      sunHandlers.click!({ stopPropagation })
+    })
     expect(stopPropagation).toHaveBeenCalled()
     expect(openHelp).toHaveBeenCalled()
 
-    sunHandlers.leave!()
+    await act(async () => {
+      sunHandlers.leave!()
+    })
     expect(setCursorVariant).toHaveBeenCalledWith('default')
 
     await renderer.unmount()
