@@ -1,15 +1,15 @@
-import { DEVELOPER } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { Briefcase, Code, Globe, Mail, MapPin, MessageSquareQuote, Send } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { ContactForm } from './contact/contact-form'
-import { ContactLinkCard } from './contact/contact-link-card'
-import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
+import { DEVELOPER } from '@/data/portfolio';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { Briefcase, Code, Globe, Mail, MapPin, MessageSquareQuote, Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { ContactForm } from './contact/contact-form';
+import { ContactLinkCard } from './contact/contact-link-card';
+import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives';
 
 export function ContactPanel() {
-  const { setCursorVariant } = useSpaceStore()
-  const { t } = useTranslation()
+  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
+  const { t } = useTranslation();
 
   const links = [
     {
@@ -36,7 +36,7 @@ export function ContactPanel() {
       href: DEVELOPER.website,
       desc: t('contact.website_desc'),
     },
-  ]
+  ];
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
@@ -77,5 +77,5 @@ export function ContactPanel() {
         <ContactForm setCursorVariant={setCursorVariant} />
       </PanelSection>
     </motion.div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import { MAX_EXPERIENCE_SETTINGS, useSpaceStore } from '@/store/space-store'
-import { act } from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { MAX_EXPERIENCE_SETTINGS, useSpaceStore } from '@/store/space-store';
+import { act } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('space-store', () => {
   beforeEach(() => {
@@ -14,143 +14,143 @@ describe('space-store', () => {
       warpActive: false,
       experienceSettings: MAX_EXPERIENCE_SETTINGS,
       language: 'pt',
-    })
-  })
+    });
+  });
 
   it('navigates between panels', () => {
-    useSpaceStore.getState().setActivePlanet('skills')
-    expect(useSpaceStore.getState().activePlanet).toBe('skills')
+    useSpaceStore.getState().setActivePlanet('skills');
+    expect(useSpaceStore.getState().activePlanet).toBe('skills');
 
-    useSpaceStore.getState().openPanel('skills')
-    expect(useSpaceStore.getState().activePanel).toBe('skills')
+    useSpaceStore.getState().openPanel('skills');
+    expect(useSpaceStore.getState().activePanel).toBe('skills');
 
-    useSpaceStore.getState().navigateToPanel('about')
-    expect(useSpaceStore.getState().activePanel).toBe('about')
-    expect(useSpaceStore.getState().activePlanet).toBe('about')
+    useSpaceStore.getState().navigateToPanel('about');
+    expect(useSpaceStore.getState().activePanel).toBe('about');
+    expect(useSpaceStore.getState().activePlanet).toBe('about');
 
-    useSpaceStore.getState().closePanel()
-    expect(useSpaceStore.getState().activePanel).toBeNull()
-    expect(useSpaceStore.getState().activePlanet).toBeNull()
-  })
+    useSpaceStore.getState().closePanel();
+    expect(useSpaceStore.getState().activePanel).toBeNull();
+    expect(useSpaceStore.getState().activePlanet).toBeNull();
+  });
 
   it('updates UI state', () => {
-    useSpaceStore.getState().setCursorVariant('planet')
-    useSpaceStore.getState().setIsLoaded(true)
-    useSpaceStore.getState().setWarpActive(true)
-    useSpaceStore.getState().setLanguage('en')
+    useSpaceStore.getState().setCursorVariant('planet');
+    useSpaceStore.getState().setIsLoaded(true);
+    useSpaceStore.getState().setWarpActive(true);
+    useSpaceStore.getState().setLanguage('en');
 
-    const state = useSpaceStore.getState()
-    expect(state.cursorVariant).toBe('planet')
-    expect(state.isLoaded).toBe(true)
-    expect(state.warpActive).toBe(true)
-    expect(state.language).toBe('en')
-  })
+    const state = useSpaceStore.getState();
+    expect(state.cursorVariant).toBe('planet');
+    expect(state.isLoaded).toBe(true);
+    expect(state.warpActive).toBe(true);
+    expect(state.language).toBe('en');
+  });
 
   it('opens and closes overlays', () => {
-    useSpaceStore.getState().openHelp()
-    expect(useSpaceStore.getState().helpOpen).toBe(true)
-    expect(useSpaceStore.getState().activePanel).toBeNull()
+    useSpaceStore.getState().openHelp();
+    expect(useSpaceStore.getState().helpOpen).toBe(true);
+    expect(useSpaceStore.getState().activePanel).toBeNull();
 
-    useSpaceStore.getState().closeHelp()
-    expect(useSpaceStore.getState().helpOpen).toBe(false)
+    useSpaceStore.getState().closeHelp();
+    expect(useSpaceStore.getState().helpOpen).toBe(false);
 
-    useSpaceStore.getState().openSettings()
-    expect(useSpaceStore.getState().settingsOpen).toBe(true)
-    useSpaceStore.getState().closeSettings()
-    expect(useSpaceStore.getState().settingsOpen).toBe(false)
-  })
+    useSpaceStore.getState().openSettings();
+    expect(useSpaceStore.getState().settingsOpen).toBe(true);
+    useSpaceStore.getState().closeSettings();
+    expect(useSpaceStore.getState().settingsOpen).toBe(false);
+  });
 
   it('applies and resets experience presets', () => {
-    useSpaceStore.getState().applyExperiencePreset('performance')
-    expect(useSpaceStore.getState().experienceSettings.antialias).toBe(false)
+    useSpaceStore.getState().applyExperiencePreset('performance');
+    expect(useSpaceStore.getState().experienceSettings.antialias).toBe(false);
 
-    useSpaceStore.getState().setExperienceSetting('musicEnabled', true)
-    expect(useSpaceStore.getState().experienceSettings.musicEnabled).toBe(true)
+    useSpaceStore.getState().setExperienceSetting('musicEnabled', true);
+    expect(useSpaceStore.getState().experienceSettings.musicEnabled).toBe(true);
 
-    useSpaceStore.getState().resetExperienceSettings()
-    expect(useSpaceStore.getState().experienceSettings).toEqual(MAX_EXPERIENCE_SETTINGS)
-  })
+    useSpaceStore.getState().resetExperienceSettings();
+    expect(useSpaceStore.getState().experienceSettings).toEqual(MAX_EXPERIENCE_SETTINGS);
+  });
 
   it('handles complex planet click with warp and delays', () => {
-    vi.useFakeTimers()
-    const store = useSpaceStore.getState()
+    vi.useFakeTimers();
+    const store = useSpaceStore.getState();
 
-    store.handlePlanetClick('about')
-    expect(useSpaceStore.getState().warpActive).toBe(true)
-    expect(useSpaceStore.getState().activePlanet).toBe('about')
-    expect(useSpaceStore.getState().activePanel).toBeNull()
+    store.handlePlanetClick('about');
+    expect(useSpaceStore.getState().warpActive).toBe(true);
+    expect(useSpaceStore.getState().activePlanet).toBe('about');
+    expect(useSpaceStore.getState().activePanel).toBeNull();
 
     act(() => {
-      vi.advanceTimersByTime(800)
-    })
-    expect(useSpaceStore.getState().warpActive).toBe(false)
+      vi.advanceTimersByTime(800);
+    });
+    expect(useSpaceStore.getState().warpActive).toBe(false);
     act(() => {
-      vi.advanceTimersByTime(1200)
-    })
-    expect(useSpaceStore.getState().activePanel).toBe('about')
+      vi.advanceTimersByTime(1200);
+    });
+    expect(useSpaceStore.getState().activePanel).toBe('about');
 
-    useSpaceStore.getState().setExperienceSetting('transitionAnimations', false)
-    useSpaceStore.getState().handlePlanetClick('contact')
-    expect(useSpaceStore.getState().activePlanet).toBe('contact')
-    expect(useSpaceStore.getState().activePanel).toBe('contact')
-    expect(useSpaceStore.getState().warpActive).toBe(false)
+    useSpaceStore.getState().setExperienceSetting('transitionAnimations', false);
+    useSpaceStore.getState().handlePlanetClick('contact');
+    expect(useSpaceStore.getState().activePlanet).toBe('contact');
+    expect(useSpaceStore.getState().activePanel).toBe('contact');
+    expect(useSpaceStore.getState().warpActive).toBe(false);
 
-    vi.useRealTimers()
-  })
+    vi.useRealTimers();
+  });
 
   it('cancels pending panel timers when a new planet is clicked', () => {
-    vi.useFakeTimers()
-    const store = useSpaceStore.getState()
+    vi.useFakeTimers();
+    const store = useSpaceStore.getState();
 
-    store.handlePlanetClick('about')
-    store.handlePlanetClick('skills')
+    store.handlePlanetClick('about');
+    store.handlePlanetClick('skills');
 
     act(() => {
-      vi.advanceTimersByTime(2000)
-    })
+      vi.advanceTimersByTime(2000);
+    });
 
-    expect(useSpaceStore.getState().activePanel).toBe('skills')
-    expect(useSpaceStore.getState().activePlanet).toBe('skills')
+    expect(useSpaceStore.getState().activePanel).toBe('skills');
+    expect(useSpaceStore.getState().activePlanet).toBe('skills');
 
-    vi.useRealTimers()
-  })
+    vi.useRealTimers();
+  });
 
   it('closePanel triggers warp when warpEffects and transitionAnimations are enabled', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    useSpaceStore.getState().navigateToPanel('skills')
-    expect(useSpaceStore.getState().activePanel).toBe('skills')
+    useSpaceStore.getState().navigateToPanel('skills');
+    expect(useSpaceStore.getState().activePanel).toBe('skills');
 
-    useSpaceStore.getState().closePanel()
-    expect(useSpaceStore.getState().warpActive).toBe(true)
-    expect(useSpaceStore.getState().activePanel).toBeNull()
-    expect(useSpaceStore.getState().activePlanet).toBeNull()
+    useSpaceStore.getState().closePanel();
+    expect(useSpaceStore.getState().warpActive).toBe(true);
+    expect(useSpaceStore.getState().activePanel).toBeNull();
+    expect(useSpaceStore.getState().activePlanet).toBeNull();
 
     act(() => {
-      vi.advanceTimersByTime(1000)
-    })
-    expect(useSpaceStore.getState().warpActive).toBe(false)
+      vi.advanceTimersByTime(1000);
+    });
+    expect(useSpaceStore.getState().warpActive).toBe(false);
 
-    vi.useRealTimers()
-  })
+    vi.useRealTimers();
+  });
 
   it('handles planet click and closePanel when warpEffects disabled', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    useSpaceStore.getState().setExperienceSetting('warpEffects', false)
-    useSpaceStore.getState().setExperienceSetting('transitionAnimations', true)
+    useSpaceStore.getState().setExperienceSetting('warpEffects', false);
+    useSpaceStore.getState().setExperienceSetting('transitionAnimations', true);
 
-    useSpaceStore.getState().handlePlanetClick('contact')
-    expect(useSpaceStore.getState().activePlanet).toBe('contact')
-    expect(useSpaceStore.getState().warpActive).toBe(false)
+    useSpaceStore.getState().handlePlanetClick('contact');
+    expect(useSpaceStore.getState().activePlanet).toBe('contact');
+    expect(useSpaceStore.getState().warpActive).toBe(false);
 
-    act(() => vi.advanceTimersByTime(2000))
-    expect(useSpaceStore.getState().activePanel).toBe('contact')
+    act(() => vi.advanceTimersByTime(2000));
+    expect(useSpaceStore.getState().activePanel).toBe('contact');
 
-    useSpaceStore.getState().navigateToPanel('skills')
-    useSpaceStore.getState().closePanel()
-    expect(useSpaceStore.getState().warpActive).toBe(false)
+    useSpaceStore.getState().navigateToPanel('skills');
+    useSpaceStore.getState().closePanel();
+    expect(useSpaceStore.getState().warpActive).toBe(false);
 
-    vi.useRealTimers()
-  })
-})
+    vi.useRealTimers();
+  });
+});

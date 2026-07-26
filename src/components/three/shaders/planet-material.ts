@@ -1,8 +1,8 @@
-import { NOISE_CHUNK } from '@/utils/glsl/noise.glsl'
-import { shaderMaterial } from '@react-three/drei/core/shaderMaterial'
-import * as THREE from 'three'
+import { NOISE_CHUNK } from '@/utils/glsl/noise.glsl';
+import { shaderMaterial } from '@react-three/drei/core/shaderMaterial';
+import * as THREE from 'three';
 
-export { NOISE_CHUNK }
+export { NOISE_CHUNK };
 
 export const AdvancedAtmosphereMaterial = shaderMaterial(
   {
@@ -46,7 +46,7 @@ export const AdvancedAtmosphereMaterial = shaderMaterial(
     gl_FragColor = vec4(finalColor, alpha * uIntensity * 0.45);
   }
   `
-)
+);
 
 export const AAA_PlanetMaterial = shaderMaterial(
   {
@@ -221,7 +221,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
     gl_FragColor.rgb = pow(gl_FragColor.rgb, vec3(1.0 / 2.2));
   }
   `
-)
+);
 
 export const SunMaterial = shaderMaterial(
   {
@@ -278,4 +278,4 @@ export const SunMaterial = shaderMaterial(
     gl_FragColor = vec4(color * uIntensity, 1.0);
   }
   `
-)
+);

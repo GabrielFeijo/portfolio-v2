@@ -1,52 +1,53 @@
-import { ANIMATION_SETTINGS } from '@/constants/animation'
-import { SCENE_SETTINGS } from '@/constants/scene'
-import { PLANETS } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
-import { Stars } from '@react-three/drei'
-import { useEffect, useMemo, useRef } from 'react'
-import * as THREE from 'three'
-import { useShallow } from 'zustand/react/shallow'
-import { AsteroidBelt } from '../objects/asteroid-belt'
-import { Nebula } from '../objects/nebula'
-import { Planet3D } from '../objects/planet-3d'
-import { ShootingStar, Sun3D } from '../objects/sun-3d'
-import { CameraController } from './camera-controller'
+import { ANIMATION_SETTINGS } from '@/constants/animation';
+import { SCENE_SETTINGS } from '@/constants/scene';
+import { PLANETS } from '@/data/portfolio';
+import { useSpaceStore } from '@/store/space-store';
+import { Stars } from '@react-three/drei';
+import { useEffect, useMemo, useRef } from 'react';
+import * as THREE from 'three';
+import { useShallow } from 'zustand/react/shallow';
+import { AsteroidBelt } from '../objects/asteroid-belt';
+import { Nebula } from '../objects/nebula';
+import { Planet3D } from '../objects/planet-3d';
+import { ShootingStar, Sun3D } from '../objects/sun-3d';
+import { CameraController } from './camera-controller';
 
 export function SpaceScene() {
-  const { settings, setIsLoaded } = useSpaceStore(
+  const { asteroidDensity, nebula, setIsLoaded, shootingStars, starDensity } = useSpaceStore(
     useShallow((state) => ({
-      settings: state.experienceSettings,
+      asteroidDensity: state.experienceSettings.asteroidDensity,
+      nebula: state.experienceSettings.nebula,
       setIsLoaded: state.setIsLoaded,
+      shootingStars: state.experienceSettings.shootingStars,
+      starDensity: state.experienceSettings.starDensity,
     }))
-  )
+  );
   const angleOffsets = useMemo(
     () => Object.fromEntries(PLANETS.map((planet) => [planet.id, planet.orbitPhase ?? 0])),
     []
-  )
+  );
   const planetAngles = useRef<Record<string, number>>(
     Object.fromEntries(PLANETS.map((planet) => [planet.id, angleOffsets[planet.id]]))
-  )
+  );
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => setIsLoaded(true), ANIMATION_SETTINGS.loadingDelayMs)
-    return () => window.clearTimeout(timeout)
-  }, [setIsLoaded])
+    const timeout = window.setTimeout(() => setIsLoaded(true), ANIMATION_SETTINGS.loadingDelayMs);
+    return () => window.clearTimeout(timeout);
+  }, [setIsLoaded]);
 
   const primaryStarCount = Math.max(
     300,
-    Math.round(SCENE_SETTINGS.primaryStars.count * settings.starDensity)
-  )
+    Math.round(SCENE_SETTINGS.primaryStars.count * starDensity)
+  );
   const secondaryStarCount = Math.max(
     120,
-    Math.round(SCENE_SETTINGS.secondaryStars.count * settings.starDensity)
-  )
-  const shootingStarCount = settings.shootingStars
-    ? Math.max(1, Math.round(5 * settings.starDensity))
-    : 0
-  const innerAsteroidCount = Math.round(260 * settings.asteroidDensity)
-  const outerAsteroidCount = Math.round(110 * settings.asteroidDensity)
+    Math.round(SCENE_SETTINGS.secondaryStars.count * starDensity)
+  );
+  const shootingStarCount = shootingStars ? Math.max(1, Math.round(4 * starDensity)) : 0;
+  const innerAsteroidCount = Math.round(220 * asteroidDensity);
+  const outerAsteroidCount = Math.round(90 * asteroidDensity);
 
-  const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), [])
+  const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), []);
 
   return (
     <>
@@ -94,7 +95,7 @@ export function SpaceScene() {
 
       <Stars {...SCENE_SETTINGS.primaryStars} count={primaryStarCount} fade />
       <Stars {...SCENE_SETTINGS.secondaryStars} count={secondaryStarCount} fade />
-      {settings.nebula && <Nebula density={settings.starDensity} />}
+      {nebula && <Nebula density={starDensity} />}
 
       <Sun3D />
 
@@ -123,12 +124,9 @@ export function SpaceScene() {
         />
       )}
 
-      <fog
-        attach="fog"
-        args={[backgroundColor, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]}
-      />
+      <fog attach="fog" args={[backgroundColor, SCENE_SETTINGS.fogNear, SCENE_SETTINGS.fogFar]} />
 
       <CameraController planetAngles={planetAngles} />
     </>
-  )
+  );
 }

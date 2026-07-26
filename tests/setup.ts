@@ -1,11 +1,11 @@
-import '@testing-library/jest-dom/vitest'
-import { vi } from 'vitest'
-
-;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
-  true
+import '@testing-library/jest-dom/vitest';
+import { vi } from 'vitest';
+(
+  globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }
+).IS_REACT_ACT_ENVIRONMENT = true;
 
 vi.mock('@react-three/fiber', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@react-three/fiber')>()
+  const actual = await importOriginal<typeof import('@react-three/fiber')>();
 
   return {
     ...actual,
@@ -14,15 +14,15 @@ vi.mock('@react-three/fiber', async (importOriginal) => {
       priority?: number
     ) => {
       try {
-        callback({ clock: { getElapsedTime: () => 0 } }, 0)
+        callback({ clock: { getElapsedTime: () => 0 } }, 0);
       } catch {
         // Callbacks may run before refs/materials are ready; mounted frames are covered via advanceFrames.
       }
 
-      return actual.useFrame(callback, priority)
+      return actual.useFrame(callback, priority);
     },
-  }
-})
+  };
+});
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -36,7 +36,7 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+});
 
 class ResizeObserverMock {
   observe() {}
@@ -44,7 +44,7 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
-vi.stubGlobal('ResizeObserver', ResizeObserverMock)
+vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
 Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
   value: () => {
@@ -78,13 +78,13 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
       createRadialGradient: () => ({
         addColorStop: () => {},
       }),
-    }
+    };
   },
-})
+});
 
-const originalConsoleError = console.error
+const originalConsoleError = console.error;
 console.error = (...args: any[]) => {
-  const message = args.join(' ')
+  const message = args.join(' ');
   if (
     message.includes('is unrecognized in this browser') ||
     message.includes('is using incorrect casing') ||
@@ -132,11 +132,11 @@ console.error = (...args: any[]) => {
       message.includes('makeDefault') ||
       message.includes('smoothTime')
     ) {
-      return
+      return;
     }
   }
-  originalConsoleError(...args)
-}
+  originalConsoleError(...args);
+};
 
 // Single Three.js instance is enforced via resolve.alias + dedupe in vitest/vite configs.
-import '@/components/three/register-materials'
+import '@/components/three/register-materials';

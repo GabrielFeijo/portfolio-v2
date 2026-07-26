@@ -1,12 +1,12 @@
-import { SKILLS, SKILL_GROUPS } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { Code2, Server, Sparkles, Wrench } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { PanelIconBadge, PanelIntroCard } from './panel-primitives'
-import { SkillBar } from './skills/skill-bar'
+import { SKILLS, SKILL_GROUPS } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { Code2, Server, Sparkles, Wrench } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { PanelIconBadge, PanelIntroCard } from './panel-primitives';
+import { SkillBar } from './skills/skill-bar';
 
 export function SkillsPanel() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const CATEGORIES = [
     {
@@ -30,7 +30,7 @@ export function SkillsPanel() {
       skills: SKILLS.devops,
       tone: 'color-mix(in srgb, var(--panel-accent) 14%, transparent)',
     },
-  ] as const
+  ] as const;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
@@ -97,12 +97,12 @@ export function SkillsPanel() {
 
         <div className="grid gap-4 md:grid-cols-2">
           {SKILL_GROUPS.map((group, gi) => {
-            const groupKeys = ['general', 'ui', 'db', 'cloud'] as const
-            const groupKey = groupKeys[gi] || 'general'
-            const title = t(`skill_groups.${groupKey}`, group.title)
+            const groupKeys = ['general', 'ui', 'db', 'cloud'] as const;
+            const groupKey = groupKeys[gi] || 'general';
+            const title = t(`skill_groups.${groupKey}`, group.title);
             const items =
               (t(`skills.group_items.${groupKey}`, { returnObjects: true }) as string[]) ||
-              group.items
+              group.items;
             return (
               <div key={group.title} className="panel-card p-5">
                 <div className="text-sm font-semibold text-(--text-primary) mb-3">{title}</div>
@@ -118,10 +118,10 @@ export function SkillsPanel() {
                   ))}
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </motion.section>
     </motion.div>
-  )
+  );
 }

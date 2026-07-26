@@ -1,11 +1,11 @@
-import { SettingsOverlay } from '@/components/ui/overlays/settings-overlay'
-import { fireEvent, render, screen } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { SettingsOverlay } from '@/components/ui/overlays/settings-overlay';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const applyExperiencePreset = vi.fn()
-const closeSettings = vi.fn()
-const setExperienceSetting = vi.fn()
-const setCursorVariant = vi.fn()
+const applyExperiencePreset = vi.fn();
+const closeSettings = vi.fn();
+const setExperienceSetting = vi.fn();
+const setCursorVariant = vi.fn();
 
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: any) =>
@@ -33,36 +33,36 @@ vi.mock('@/store/space-store', () => ({
         dpr: 1.5,
       },
     }),
-}))
+}));
 
 vi.mock('zustand/react/shallow', () => ({
   useShallow: (fn: any) => fn,
-}))
+}));
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
-}))
+}));
 
 vi.mock('@/hooks/use-focus-trap', () => ({
   useFocusTrap: vi.fn(),
-}))
+}));
 
 describe('SettingsOverlay', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
   it('calls applyExperiencePreset when a preset is clicked', () => {
-    render(<SettingsOverlay />)
-    const balancedPreset = screen.getByText('settings.presets.balanced.title')
-    fireEvent.click(balancedPreset)
-    expect(applyExperiencePreset).toHaveBeenCalledWith('balanced')
-  })
+    render(<SettingsOverlay />);
+    const balancedPreset = screen.getByText('settings.presets.balanced.title');
+    fireEvent.click(balancedPreset);
+    expect(applyExperiencePreset).toHaveBeenCalledWith('balanced');
+  });
 
   it('updates all settings when controls are interacted with', () => {
-    render(<SettingsOverlay />)
+    render(<SettingsOverlay />);
 
     const toggles = [
       'settings.controls.transitions',
@@ -76,48 +76,48 @@ describe('SettingsOverlay', () => {
       'settings.controls.shadows',
       'settings.controls.music',
       'settings.controls.antialias',
-    ]
+    ];
 
     toggles.forEach((labelTxt) => {
-      const input = screen.getByLabelText(labelTxt)
-      fireEvent.click(input)
-    })
-    expect(setExperienceSetting).toHaveBeenCalledTimes(toggles.length)
+      const input = screen.getByLabelText(labelTxt);
+      fireEvent.click(input);
+    });
+    expect(setExperienceSetting).toHaveBeenCalledTimes(toggles.length);
 
     const ranges = [
       'settings.controls.volume',
       'settings.controls.stars',
       'settings.controls.asteroids',
       'settings.controls.dpr',
-    ]
+    ];
     ranges.forEach((labelTxt) => {
-      const input = screen.getByLabelText(new RegExp(labelTxt))
-      fireEvent.change(input, { target: { value: '0.9' } })
-    })
-    expect(setExperienceSetting).toHaveBeenCalledTimes(toggles.length + ranges.length)
-  })
+      const input = screen.getByLabelText(new RegExp(labelTxt));
+      fireEvent.change(input, { target: { value: '0.9' } });
+    });
+    expect(setExperienceSetting).toHaveBeenCalledTimes(toggles.length + ranges.length);
+  });
 
   it('closes when close button or backdrop is clicked', () => {
-    render(<SettingsOverlay />)
+    render(<SettingsOverlay />);
 
-    const closeBtn = screen.getByLabelText('common.close')
-    fireEvent.click(closeBtn)
-    expect(closeSettings).toHaveBeenCalledTimes(1)
+    const closeBtn = screen.getByLabelText('common.close');
+    fireEvent.click(closeBtn);
+    expect(closeSettings).toHaveBeenCalledTimes(1);
 
-    const backdrop = screen.getByRole('dialog').querySelector('.absolute.inset-0')!
-    fireEvent.click(backdrop)
-    expect(closeSettings).toHaveBeenCalledTimes(2)
+    const backdrop = screen.getByRole('dialog').querySelector('.absolute.inset-0')!;
+    fireEvent.click(backdrop);
+    expect(closeSettings).toHaveBeenCalledTimes(2);
 
-    fireEvent.mouseEnter(backdrop)
-    expect(setCursorVariant).toHaveBeenCalledWith('default')
-  })
+    fireEvent.mouseEnter(backdrop);
+    expect(setCursorVariant).toHaveBeenCalledWith('default');
+  });
 
   it('stops propagation on dialog click', () => {
-    render(<SettingsOverlay />)
+    render(<SettingsOverlay />);
     const dialog =
       screen.getByRole('dialog').querySelector('.UISurface') ||
-      screen.getByRole('dialog').children[1]
-    fireEvent.click(dialog)
-    expect(closeSettings).toHaveBeenCalledTimes(0)
-  })
-})
+      screen.getByRole('dialog').children[1];
+    fireEvent.click(dialog);
+    expect(closeSettings).toHaveBeenCalledTimes(0);
+  });
+});

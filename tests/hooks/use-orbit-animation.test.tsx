@@ -1,34 +1,34 @@
-import { PLANETS } from '@/data/portfolio'
-import { renderHook } from '@testing-library/react'
-import * as THREE from 'three'
-import { describe, expect, it, vi } from 'vitest'
+import { PLANETS } from '@/data/portfolio';
+import { renderHook } from '@testing-library/react';
+import * as THREE from 'three';
+import { describe, expect, it, vi } from 'vitest';
 
-const useFrameMock = vi.fn()
+const useFrameMock = vi.fn();
 vi.mock('@react-three/fiber', () => ({
   useFrame: (cb: (state: { clock: { getElapsedTime: () => number } }, delta: number) => void) =>
     useFrameMock(cb),
-}))
+}));
 
-import { useOrbitAnimation } from '@/hooks/use-orbit-animation'
+import { useOrbitAnimation } from '@/hooks/use-orbit-animation';
 
 describe('useOrbitAnimation', () => {
   it('updates refs inside frame callback', () => {
     let frameCb:
       | ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void)
-      | undefined
+      | undefined;
     useFrameMock.mockImplementation((cb) => {
-      frameCb = cb
-    })
+      frameCb = cb;
+    });
 
-    const group = new THREE.Group()
-    const mesh = new THREE.Mesh()
+    const group = new THREE.Group();
+    const mesh = new THREE.Mesh();
     const planetMaterial = {
       uniforms: { uTime: { value: 0 }, uLightDir: { value: new THREE.Vector3(0, 0, 0) } },
-    } as any
+    } as any;
     const atmosphereMaterial = {
       uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } },
-    } as any
-    const atmosphereMesh = { scale: { setScalar: vi.fn() } } as any
+    } as any;
+    const atmosphereMesh = { scale: { setScalar: vi.fn() } } as any;
 
     renderHook(() =>
       useOrbitAnimation({
@@ -44,23 +44,23 @@ describe('useOrbitAnimation', () => {
         planetMaterialRef: { current: planetMaterial },
         planetRotation: true,
       })
-    )
+    );
 
-    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16)
+    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16);
 
-    expect(planetMaterial.uniforms.uTime.value).toBe(2)
-    expect(planetMaterial.uniforms.uLightDir.value.length()).toBeGreaterThan(0)
-    expect(atmosphereMesh.scale.setScalar).toHaveBeenCalled()
-    expect(atmosphereMaterial.uniforms.uIntensity.value).toBe(1.2)
-  })
+    expect(planetMaterial.uniforms.uTime.value).toBe(2);
+    expect(planetMaterial.uniforms.uLightDir.value.length()).toBeGreaterThan(0);
+    expect(atmosphereMesh.scale.setScalar).toHaveBeenCalled();
+    expect(atmosphereMaterial.uniforms.uIntensity.value).toBe(1.2);
+  });
 
   it('handles null refs and disabled states gracefully', () => {
     let frameCb:
       | ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void)
-      | undefined
+      | undefined;
     useFrameMock.mockImplementation((cb) => {
-      frameCb = cb
-    })
+      frameCb = cb;
+    });
 
     renderHook(() =>
       useOrbitAnimation({
@@ -76,24 +76,24 @@ describe('useOrbitAnimation', () => {
         planetMaterialRef: { current: null },
         planetRotation: false,
       })
-    )
+    );
 
-    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16)
+    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16);
 
-    expect(frameCb).toBeDefined()
-  })
+    expect(frameCb).toBeDefined();
+  });
 
   it('updates intensity correctly when active or not hovered', () => {
     let frameCb:
       | ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void)
-      | undefined
+      | undefined;
     useFrameMock.mockImplementation((cb) => {
-      frameCb = cb
-    })
+      frameCb = cb;
+    });
 
     const atmosphereMaterial = {
       uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } },
-    } as any
+    } as any;
 
     renderHook(() =>
       useOrbitAnimation({
@@ -109,20 +109,20 @@ describe('useOrbitAnimation', () => {
         planetMaterialRef: { current: null },
         planetRotation: true,
       })
-    )
+    );
 
-    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16)
-    expect((atmosphereMaterial as any).uniforms.uIntensity.value).toBe(1.6)
+    frameCb?.({ clock: { getElapsedTime: () => 2 } }, 0.16);
+    expect((atmosphereMaterial as any).uniforms.uIntensity.value).toBe(1.6);
 
     let frameCb2:
       | ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void)
-      | undefined
+      | undefined;
     useFrameMock.mockImplementation((cb) => {
-      frameCb2 = cb
-    })
+      frameCb2 = cb;
+    });
     const atmosphereMaterial2 = {
       uniforms: { uTime: { value: 0 }, uIntensity: { value: 0 } },
-    } as any
+    } as any;
 
     renderHook(() =>
       useOrbitAnimation({
@@ -138,9 +138,9 @@ describe('useOrbitAnimation', () => {
         planetMaterialRef: { current: null },
         planetRotation: true,
       })
-    )
+    );
 
-    frameCb2?.({ clock: { getElapsedTime: () => 2 } }, 0.16)
-    expect((atmosphereMaterial2 as any).uniforms.uIntensity.value).toBe(0.85)
-  })
-})
+    frameCb2?.({ clock: { getElapsedTime: () => 2 } }, 0.16);
+    expect((atmosphereMaterial2 as any).uniforms.uIntensity.value).toBe(0.85);
+  });
+});

@@ -1,24 +1,24 @@
-import { submitContactForm } from '@/lib/contact-api'
-import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema'
-import type { CursorVariant } from '@/types/store'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
-import { createCursorHandlers } from '../panel-primitives'
-import { useTemporaryFlag } from '../use-temporary-flag'
-import { ContactFormField, getContactFieldClassName } from './contact-form-field'
+import { submitContactForm } from '@/lib/contact-api';
+import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema';
+import type { CursorVariant } from '@/types/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { createCursorHandlers } from '../panel-primitives';
+import { useTemporaryFlag } from '../use-temporary-flag';
+import { ContactFormField, getContactFieldClassName } from './contact-form-field';
 
 interface ContactFormProps {
-  setCursorVariant: (variant: CursorVariant) => void
+  setCursorVariant: (variant: CursorVariant) => void;
 }
 
 export function ContactForm({ setCursorVariant }: ContactFormProps) {
-  const { t } = useTranslation()
-  const { active: sent, trigger } = useTemporaryFlag(3500)
-  const [submitError, setSubmitError] = useState<string | null>(null)
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const { t } = useTranslation();
+  const { active: sent, trigger } = useTemporaryFlag(3500);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const linkCursor = createCursorHandlers(setCursorVariant);
   const {
     register,
     handleSubmit,
@@ -33,23 +33,23 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
       email: '',
       message: '',
     },
-  })
+  });
 
-  const messageValue = watch('message')
+  const messageValue = watch('message');
   const resolveErrorMessage = (message?: string) =>
-    message ? t(message, { defaultValue: message }) : undefined
+    message ? t(message, { defaultValue: message }) : undefined;
 
   const onSubmit = async (values: ContactFormValues) => {
-    setSubmitError(null)
+    setSubmitError(null);
 
     try {
-      await submitContactForm(values)
-      trigger()
-      reset()
+      await submitContactForm(values);
+      trigger();
+      reset();
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : t('contact.form.error_fallback'))
+      setSubmitError(error instanceof Error ? error.message : t('contact.form.error_fallback'));
     }
-  }
+  };
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -131,5 +131,5 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         {submitError && submitError}
       </div>
     </form>
-  )
+  );
 }

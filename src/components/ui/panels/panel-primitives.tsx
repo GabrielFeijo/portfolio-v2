@@ -1,6 +1,6 @@
-import type { CursorVariant } from '@/types/store'
-import { motion, type Variants } from 'framer-motion'
-import type { LucideIcon } from 'lucide-react'
+import type { CursorVariant } from '@/types/store';
+import { motion, type Variants } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 import {
   Clock,
   Hammer,
@@ -13,21 +13,21 @@ import {
   GraduationCap,
   Cloud,
   Smartphone,
-} from 'lucide-react'
-import type { CSSProperties, ReactNode } from 'react'
+} from 'lucide-react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export const panelStagger: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-}
+};
 
 export const panelFadeUp: Variants = {
   hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
-}
+};
 
 export function cn(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 export function createCursorHandlers(
@@ -37,7 +37,7 @@ export function createCursorHandlers(
   return {
     onMouseEnter: () => setCursorVariant(variant),
     onMouseLeave: () => setCursorVariant('default'),
-  }
+  };
 }
 
 export function getLucideIcon(name: string) {
@@ -52,16 +52,16 @@ export function getLucideIcon(name: string) {
     GraduationCap,
     Cloud,
     Smartphone,
-  }
+  };
 
-  return iconMap[name] ?? HelpCircle
+  return iconMap[name] ?? HelpCircle;
 }
 
 interface PanelHeaderProps {
-  icon: LucideIcon
-  eyebrow: string
-  title: string
-  description?: string
+  icon: LucideIcon;
+  eyebrow: string;
+  title: string;
+  description?: string;
 }
 
 export function PanelHeader({ icon: Icon, eyebrow, title, description }: PanelHeaderProps) {
@@ -81,14 +81,14 @@ export function PanelHeader({ icon: Icon, eyebrow, title, description }: PanelHe
         <p className="mt-4 max-w-2xl text-sm leading-7 text-(--text-secondary)">{description}</p>
       )}
     </>
-  )
+  );
 }
 
 interface PanelIntroCardProps extends PanelHeaderProps {
-  children?: ReactNode
-  className?: string
-  ringClassName?: string
-  glowClassName?: string
+  children?: ReactNode;
+  className?: string;
+  ringClassName?: string;
+  glowClassName?: string;
 }
 
 export function PanelIntroCard({
@@ -110,14 +110,14 @@ export function PanelIntroCard({
       <PanelHeader icon={icon} eyebrow={eyebrow} title={title} description={description} />
       {children}
     </section>
-  )
+  );
 }
 
 interface PanelSectionProps extends PanelHeaderProps {
-  children: ReactNode
-  className?: string
-  ringClassName?: string
-  glowClassName?: string
+  children: ReactNode;
+  className?: string;
+  ringClassName?: string;
+  glowClassName?: string;
 }
 
 export function PanelSection({
@@ -138,7 +138,7 @@ export function PanelSection({
       </div>
       {children}
     </motion.section>
-  )
+  );
 }
 
 export function PanelIconBadge({
@@ -146,9 +146,9 @@ export function PanelIconBadge({
   className,
   style,
 }: {
-  icon: LucideIcon
-  className?: string
-  style?: CSSProperties
+  icon: LucideIcon;
+  className?: string;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -160,7 +160,7 @@ export function PanelIconBadge({
     >
       <Icon size={18} />
     </div>
-  )
+  );
 }
 
 export function PanelMetaChip({
@@ -168,9 +168,9 @@ export function PanelMetaChip({
   children,
   className,
 }: {
-  icon?: LucideIcon
-  children: ReactNode
-  className?: string
+  icon?: LucideIcon;
+  children: ReactNode;
+  className?: string;
 }) {
   return (
     <div
@@ -182,7 +182,7 @@ export function PanelMetaChip({
       {Icon && <Icon size={13} />}
       <span>{children}</span>
     </div>
-  )
+  );
 }
 
 export function PanelBadge({ children, className }: { children: ReactNode; className?: string }) {
@@ -195,5 +195,5 @@ export function PanelBadge({ children, className }: { children: ReactNode; class
     >
       {children}
     </div>
-  )
+  );
 }

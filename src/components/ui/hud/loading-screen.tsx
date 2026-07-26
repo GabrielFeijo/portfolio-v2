@@ -1,13 +1,13 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { DEVELOPER } from '@/data/portfolio'
-import { UIBadge, UIInset, UISurface } from '../design-system'
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { DEVELOPER } from '@/data/portfolio';
+import { UIBadge, UIInset, UISurface } from '../design-system';
 
 export function LoadingScreen() {
-  const { t } = useTranslation()
-  const [progress, setProgress] = useState(0)
-  const [phase, setPhase] = useState(0)
+  const { t } = useTranslation();
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase] = useState(0);
 
   const phases = (t('loading.phases', { returnObjects: true }) as string[]) || [
     'INITIALIZING SYSTEMS...',
@@ -15,25 +15,25 @@ export function LoadingScreen() {
     'CALIBRATING ORBITS...',
     'ESTABLISHING CONNECTION...',
     'READY',
-  ]
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((p) => {
-        const next = p + Math.random() * 8 + 2
+        const next = p + Math.random() * 8 + 2;
         if (next >= 100) {
-          clearInterval(interval)
-          return 100
+          clearInterval(interval);
+          return 100;
         }
-        return next
-      })
-    }, 80)
-    return () => clearInterval(interval)
-  }, [])
+        return next;
+      });
+    }, 80);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
-    setPhase(Math.min(phases.length - 1, Math.floor((progress / 100) * phases.length)))
-  }, [progress, phases.length])
+    setPhase(Math.min(phases.length - 1, Math.floor((progress / 100) * phases.length)));
+  }, [progress, phases.length]);
 
   return (
     <motion.div
@@ -126,5 +126,5 @@ export function LoadingScreen() {
         </div>
       </UISurface>
     </motion.div>
-  )
+  );
 }

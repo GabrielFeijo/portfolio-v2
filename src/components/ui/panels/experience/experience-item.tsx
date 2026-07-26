@@ -1,18 +1,18 @@
-import type { Experience } from '@/data/portfolio'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Building2, Calendar, ChevronRight } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives'
+import type { Experience } from '@/data/portfolio';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Building2, Calendar, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives';
 
 interface ExperienceItemProps {
-  experience: Experience
-  isOpen: boolean
-  onToggle: () => void
-  transition: { delay: number }
+  experience: Experience;
+  isOpen: boolean;
+  onToggle: () => void;
+  transition: { delay: number };
 }
 
 export function ExperienceItem({ experience, isOpen, onToggle, transition }: ExperienceItemProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -104,5 +104,5 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
         </AnimatePresence>
       </motion.article>
     </motion.div>
-  )
+  );
 }

@@ -1,38 +1,38 @@
-import { ANIMATION_SETTINGS } from '@/constants/animation'
+import { ANIMATION_SETTINGS } from '@/constants/animation';
 import type {
   ExperiencePreset,
   ExperienceSettings,
   NavigationSlice,
   SpaceStore,
   UiSlice,
-} from '@/types/store'
-import { create } from 'zustand'
+} from '@/types/store';
+import { create } from 'zustand';
 
 type SliceSet = (
   partial: Partial<SpaceStore> | ((state: SpaceStore) => Partial<SpaceStore>)
-) => void
-type SliceGet = () => SpaceStore
+) => void;
+type SliceGet = () => SpaceStore;
 
-let panelOpenTimer: ReturnType<typeof setTimeout> | null = null
-let warpOffTimer: ReturnType<typeof setTimeout> | null = null
+let panelOpenTimer: ReturnType<typeof setTimeout> | null = null;
+let warpOffTimer: ReturnType<typeof setTimeout> | null = null;
 
 function clearNavigationTimers() {
   if (panelOpenTimer !== null) {
-    clearTimeout(panelOpenTimer)
-    panelOpenTimer = null
+    clearTimeout(panelOpenTimer);
+    panelOpenTimer = null;
   }
 
   if (warpOffTimer !== null) {
-    clearTimeout(warpOffTimer)
-    warpOffTimer = null
+    clearTimeout(warpOffTimer);
+    warpOffTimer = null;
   }
 }
 
 function scheduleWarpOff(set: SliceSet) {
   warpOffTimer = setTimeout(() => {
-    set({ warpActive: false })
-    warpOffTimer = null
-  }, ANIMATION_SETTINGS.warpDurationMs)
+    set({ warpActive: false });
+    warpOffTimer = null;
+  }, ANIMATION_SETTINGS.warpDurationMs);
 }
 
 export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
@@ -51,7 +51,7 @@ export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
   starDensity: 1,
   transitionAnimations: true,
   warpEffects: true,
-}
+};
 
 const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
   cinematic: MAX_EXPERIENCE_SETTINGS,
@@ -106,7 +106,7 @@ const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
     transitionAnimations: false,
     warpEffects: false,
   },
-}
+};
 
 const createNavigationSlice = (set: SliceSet, get: SliceGet): NavigationSlice => ({
   activePlanet: null,
@@ -114,38 +114,38 @@ const createNavigationSlice = (set: SliceSet, get: SliceGet): NavigationSlice =>
   activePanel: null,
   openPanel: (panel) => set({ activePanel: panel }),
   handlePlanetClick: (planetId) => {
-    clearNavigationTimers()
+    clearNavigationTimers();
 
-    const { transitionAnimations, warpEffects } = get().experienceSettings
+    const { transitionAnimations, warpEffects } = get().experienceSettings;
 
     if (!transitionAnimations) {
-      set({ activePlanet: planetId, activePanel: planetId })
-      return
+      set({ activePlanet: planetId, activePanel: planetId });
+      return;
     }
 
-    set({ activePlanet: planetId })
+    set({ activePlanet: planetId });
 
     if (warpEffects) {
-      set({ warpActive: true })
-      scheduleWarpOff(set)
+      set({ warpActive: true });
+      scheduleWarpOff(set);
     }
 
     panelOpenTimer = setTimeout(() => {
-      set({ activePanel: planetId })
-      panelOpenTimer = null
-    }, ANIMATION_SETTINGS.panelOpenDelayMs)
+      set({ activePanel: planetId });
+      panelOpenTimer = null;
+    }, ANIMATION_SETTINGS.panelOpenDelayMs);
   },
   closePanel: () => {
-    clearNavigationTimers()
+    clearNavigationTimers();
 
-    const { transitionAnimations, warpEffects } = get().experienceSettings
+    const { transitionAnimations, warpEffects } = get().experienceSettings;
 
     if (transitionAnimations && warpEffects) {
-      set({ warpActive: true })
-      scheduleWarpOff(set)
+      set({ warpActive: true });
+      scheduleWarpOff(set);
     }
 
-    set({ activePanel: null, activePlanet: null })
+    set({ activePanel: null, activePlanet: null });
   },
   navigateToPanel: (id) => set({ activePlanet: id, activePanel: id }),
   helpOpen: false,
@@ -154,7 +154,7 @@ const createNavigationSlice = (set: SliceSet, get: SliceGet): NavigationSlice =>
   settingsOpen: false,
   openSettings: () => set({ settingsOpen: true }),
   closeSettings: () => set({ settingsOpen: false }),
-})
+});
 
 const createUiSlice = (set: SliceSet): UiSlice => ({
   cursorVariant: 'default',
@@ -175,9 +175,9 @@ const createUiSlice = (set: SliceSet): UiSlice => ({
   resetExperienceSettings: () => set({ experienceSettings: MAX_EXPERIENCE_SETTINGS }),
   language: 'pt',
   setLanguage: (lang) => set({ language: lang }),
-})
+});
 
 export const useSpaceStore = create<SpaceStore>((set, get) => ({
   ...createNavigationSlice(set, get),
   ...createUiSlice(set),
-}))
+}));

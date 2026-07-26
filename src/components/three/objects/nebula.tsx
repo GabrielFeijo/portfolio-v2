@@ -1,11 +1,11 @@
-import type { Vec3Tuple } from '@/types/three'
-import { createStarColors, createStarPositions } from '@/utils/geometry'
-import { createCloudTexture, createGlowTexture, createRandom } from '@/utils/textures'
-import { useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef } from 'react'
-import * as THREE from 'three'
+import type { Vec3Tuple } from '@/types/three';
+import { createStarColors, createStarPositions } from '@/utils/geometry';
+import { createCloudTexture, createGlowTexture, createRandom } from '@/utils/textures';
+import { useFrame } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
+import * as THREE from 'three';
 
-type Vec3 = Vec3Tuple
+type Vec3 = Vec3Tuple;
 
 function StarShell({
   count,
@@ -15,30 +15,30 @@ function StarShell({
   opacity,
   seed,
 }: {
-  count: number
-  radius: number
-  spread: number
-  size: number
-  opacity: number
-  seed: number
+  count: number;
+  radius: number;
+  spread: number;
+  size: number;
+  opacity: number;
+  seed: number;
 }) {
-  const ref = useRef<THREE.Points>(null)
+  const ref = useRef<THREE.Points>(null);
   const positions = useMemo(
     () => createStarPositions(count, radius, spread, seed),
     [count, radius, seed, spread]
-  )
+  );
   const colors = useMemo(
     () => createStarColors(count, ['#c1dbff', '#f9fbff', '#8fdcff', '#ffe6b8'], seed + 7),
     [count, seed]
-  )
+  );
 
   useFrame((state) => {
-    if (!ref.current) return
+    if (!ref.current) return;
 
-    const time = state.clock.getElapsedTime()
-    ref.current.rotation.y = time * 0.0025 + seed * 0.0001
-    ref.current.rotation.x = Math.sin(time * 0.03 + seed) * 0.03
-  })
+    const time = state.clock.getElapsedTime();
+    ref.current.rotation.y = time * 0.0025 + seed * 0.0001;
+    ref.current.rotation.x = Math.sin(time * 0.03 + seed) * 0.03;
+  });
 
   return (
     <points ref={ref} frustumCulled={false}>
@@ -56,7 +56,7 @@ function StarShell({
         blending={THREE.AdditiveBlending}
       />
     </points>
-  )
+  );
 }
 
 function NebulaCluster({
@@ -69,20 +69,20 @@ function NebulaCluster({
   seed,
   rotationSpeed,
 }: {
-  density: number
-  position: Vec3
-  scale: Vec3
-  texture: THREE.Texture
-  glowTexture: THREE.Texture
-  glowColor: string
-  seed: number
-  rotationSpeed: number
+  density: number;
+  position: Vec3;
+  scale: Vec3;
+  texture: THREE.Texture;
+  glowTexture: THREE.Texture;
+  glowColor: string;
+  seed: number;
+  rotationSpeed: number;
 }) {
-  const groupRef = useRef<THREE.Group>(null)
+  const groupRef = useRef<THREE.Group>(null);
   const cloudLayers = useMemo(() => {
-    const rand = createRandom(seed)
+    const rand = createRandom(seed);
 
-    return Array.from({ length: Math.max(2, Math.round(9 * density)) }, (_, index) => ({
+    return Array.from({ length: Math.max(2, Math.round(7 * density)) }, (_, index) => ({
       key: `cloud-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.45,
@@ -92,13 +92,13 @@ function NebulaCluster({
       spriteScale: 90 + rand() * 120,
       opacity: 0.12 + rand() * 0.08,
       color: new THREE.Color().setHSL(0.56 + rand() * 0.08, 0.7, 0.58 + rand() * 0.15),
-    }))
-  }, [density, scale, seed])
+    }));
+  }, [density, scale, seed]);
 
   const glowLayers = useMemo(() => {
-    const rand = createRandom(seed + 99)
+    const rand = createRandom(seed + 99);
 
-    return Array.from({ length: Math.max(1, Math.round(3 * density)) }, (_, index) => ({
+    return Array.from({ length: Math.max(1, Math.round(2 * density)) }, (_, index) => ({
       key: `glow-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.18,
@@ -107,16 +107,16 @@ function NebulaCluster({
       ] as Vec3,
       spriteScale: 42 + rand() * 34,
       opacity: 0.12 + rand() * 0.08,
-    }))
-  }, [density, scale, seed])
+    }));
+  }, [density, scale, seed]);
 
   useFrame((state) => {
-    if (!groupRef.current) return
+    if (!groupRef.current) return;
 
-    const time = state.clock.getElapsedTime()
-    groupRef.current.rotation.y = Math.sin(time * rotationSpeed) * 0.18
-    groupRef.current.rotation.z = Math.cos(time * rotationSpeed * 0.7) * 0.08
-  })
+    const time = state.clock.getElapsedTime();
+    groupRef.current.rotation.y = Math.sin(time * rotationSpeed) * 0.18;
+    groupRef.current.rotation.z = Math.cos(time * rotationSpeed * 0.7) * 0.08;
+  });
 
   return (
     <group ref={groupRef} position={position}>
@@ -156,11 +156,11 @@ function NebulaCluster({
         </sprite>
       ))}
     </group>
-  )
+  );
 }
 
 interface NebulaProps {
-  density: number
+  density: number;
 }
 
 export function Nebula({ density }: NebulaProps) {
@@ -175,18 +175,18 @@ export function Nebula({ density }: NebulaProps) {
       amberGlow: createGlowTexture(43, '#ffbf7a'),
     }),
     []
-  )
+  );
 
   useEffect(() => {
     return () => {
-      Object.values(textures).forEach((texture) => texture.dispose())
-    }
-  }, [textures])
+      Object.values(textures).forEach((texture) => texture.dispose());
+    };
+  }, [textures]);
 
   return (
     <group>
       <StarShell
-        count={Math.max(180, Math.round(1800 * density))}
+        count={Math.max(144, Math.round(1350 * density))}
         radius={520}
         spread={180}
         size={1.5}
@@ -194,7 +194,7 @@ export function Nebula({ density }: NebulaProps) {
         seed={101}
       />
       <StarShell
-        count={Math.max(90, Math.round(900 * density))}
+        count={Math.max(72, Math.round(675 * density))}
         radius={340}
         spread={120}
         size={1.1}
@@ -243,5 +243,5 @@ export function Nebula({ density }: NebulaProps) {
         rotationSpeed={0.041}
       />
     </group>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { useFocusTrap } from '@/hooks/use-focus-trap'
-import { useSpaceStore } from '@/store/space-store'
-import type { ExperiencePreset, ExperienceSettings } from '@/types/store'
-import { motion } from 'framer-motion'
-import type { LucideIcon } from 'lucide-react'
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useSpaceStore } from '@/store/space-store';
+import type { ExperiencePreset, ExperienceSettings } from '@/types/store';
+import { motion } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
 import {
   Gauge,
   MonitorCog,
@@ -13,81 +13,79 @@ import {
   Volume2,
   X,
   Zap,
-} from 'lucide-react'
-import type { ReactNode } from 'react'
-import { useId, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
-import { createCursorHandlers } from '../panels/panel-primitives'
+} from 'lucide-react';
+import type { ReactNode } from 'react';
+import { useCallback, useId, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
+import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system';
+import { createCursorHandlers } from '../panels/panel-primitives';
 
 interface ToggleControlProps {
-  checked: boolean
-  label: string
-  onChange: (checked: boolean) => void
+  checked: boolean;
+  label: string;
+  onChange: (checked: boolean) => void;
 }
 
 interface RangeControlProps {
-  label: string
-  max: number
-  min: number
-  onChange: (value: number) => void
-  step: number
-  suffix?: string
-  value: number
+  label: string;
+  max: number;
+  min: number;
+  onChange: (value: number) => void;
+  step: number;
+  suffix?: string;
+  value: number;
 }
 
 export function SettingsOverlay() {
-  const dialogRef = useRef<HTMLDivElement | null>(null)
-  const { t } = useTranslation()
-  const {
-    applyExperiencePreset,
-    closeSettings,
-    setCursorVariant,
-    setExperienceSetting,
-    settings,
-  } = useSpaceStore(
-    useShallow((state) => ({
-      applyExperiencePreset: state.applyExperiencePreset,
-      closeSettings: state.closeSettings,
-      setCursorVariant: state.setCursorVariant,
-      setExperienceSetting: state.setExperienceSetting,
-      settings: state.experienceSettings,
-    }))
-  )
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useTranslation();
+  const { applyExperiencePreset, closeSettings, setCursorVariant, setExperienceSetting, settings } =
+    useSpaceStore(
+      useShallow((state) => ({
+        applyExperiencePreset: state.applyExperiencePreset,
+        closeSettings: state.closeSettings,
+        setCursorVariant: state.setCursorVariant,
+        setExperienceSetting: state.setExperienceSetting,
+        settings: state.experienceSettings,
+      }))
+    );
 
-  const PRESETS: Array<{ id: ExperiencePreset; label: string; description: string }> = [
-    {
-      id: 'cinematic',
-      label: t('settings.presets.cinematic.title'),
-      description: t('settings.presets.cinematic.description'),
-    },
-    {
-      id: 'balanced',
-      label: t('settings.presets.balanced.title'),
-      description: t('settings.presets.balanced.description'),
-    },
-    {
-      id: 'performance',
-      label: t('settings.presets.performance.title'),
-      description: t('settings.presets.performance.description'),
-    },
-    {
-      id: 'minimal',
-      label: t('settings.presets.minimal.title'),
-      description: t('settings.presets.minimal.description'),
-    },
-  ]
+  const presets = useMemo<Array<{ id: ExperiencePreset; label: string; description: string }>>(
+    () => [
+      {
+        id: 'cinematic',
+        label: t('settings.presets.cinematic.title'),
+        description: t('settings.presets.cinematic.description'),
+      },
+      {
+        id: 'balanced',
+        label: t('settings.presets.balanced.title'),
+        description: t('settings.presets.balanced.description'),
+      },
+      {
+        id: 'performance',
+        label: t('settings.presets.performance.title'),
+        description: t('settings.presets.performance.description'),
+      },
+      {
+        id: 'minimal',
+        label: t('settings.presets.minimal.title'),
+        description: t('settings.presets.minimal.description'),
+      },
+    ],
+    [t]
+  );
 
-  const linkCursor = createCursorHandlers(setCursorVariant)
-  useFocusTrap(dialogRef, true)
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
+  useFocusTrap(dialogRef, true);
 
-  const update = <Key extends keyof ExperienceSettings>(
-    key: Key,
-    value: ExperienceSettings[Key]
-  ) => {
-    setExperienceSetting(key, value)
-  }
+  const update = useCallback(
+    <Key extends keyof ExperienceSettings>(key: Key, value: ExperienceSettings[Key]) => {
+      setExperienceSetting(key, value);
+    },
+    [setExperienceSetting]
+  );
 
   return (
     <motion.div
@@ -155,7 +153,7 @@ export function SettingsOverlay() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
-              {PRESETS.map((preset) => (
+              {presets.map((preset) => (
                 <motion.button
                   key={preset.id}
                   type="button"
@@ -325,7 +323,7 @@ export function SettingsOverlay() {
         </UISurface>
       </motion.div>
     </motion.div>
-  )
+  );
 }
 
 function SettingsGroup({
@@ -333,9 +331,9 @@ function SettingsGroup({
   icon: Icon,
   title,
 }: {
-  children: ReactNode
-  icon: LucideIcon
-  title: string
+  children: ReactNode;
+  icon: LucideIcon;
+  title: string;
 }) {
   return (
     <UIInset className="p-5 sm:p-6">
@@ -347,11 +345,11 @@ function SettingsGroup({
       </div>
       <div className="grid gap-3">{children}</div>
     </UIInset>
-  )
+  );
 }
 
 function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
-  const id = useId()
+  const id = useId();
   return (
     <div className="flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
       <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
@@ -365,12 +363,12 @@ function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
         className="h-5 w-5 accent-[#7dd3fc]"
       />
     </div>
-  )
+  );
 }
 
 function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeControlProps) {
-  const id = useId()
-  const displayValue = suffix === '%' ? Math.round(value * 100) : value.toFixed(2)
+  const id = useId();
+  const displayValue = suffix === '%' ? Math.round(value * 100) : value.toFixed(2);
 
   return (
     <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
@@ -394,5 +392,5 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
         className="w-full accent-[#7dd3fc]"
       />
     </div>
-  )
+  );
 }

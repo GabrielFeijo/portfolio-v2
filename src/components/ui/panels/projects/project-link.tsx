@@ -1,14 +1,14 @@
-import type { CursorVariant } from '@/types/store'
-import { motion } from 'framer-motion'
-import type { LucideIcon } from 'lucide-react'
-import { createCursorHandlers } from '../panel-primitives'
+import type { CursorVariant } from '@/types/store';
+import { motion } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
+import { createCursorHandlers } from '../panel-primitives';
 
 interface ProjectLinkProps {
-  href: string
-  icon: LucideIcon
-  label: string
-  primary?: boolean
-  setCursorVariant: (variant: CursorVariant) => void
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  primary?: boolean;
+  setCursorVariant: (variant: CursorVariant) => void;
 }
 
 export function ProjectLink({
@@ -32,5 +32,5 @@ export function ProjectLink({
       <Icon size={14} />
       {label}
     </motion.a>
-  )
+  );
 }

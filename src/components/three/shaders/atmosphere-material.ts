@@ -1,1 +1,1 @@
-export { AdvancedAtmosphereMaterial } from './planet-material'
+export { AdvancedAtmosphereMaterial } from './planet-material';

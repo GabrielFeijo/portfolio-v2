@@ -1,14 +1,14 @@
-import { EXPERIENCE } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { BriefcaseBusiness } from 'lucide-react'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { ExperienceItem } from './experience/experience-item'
-import { PanelIntroCard } from './panel-primitives'
+import { EXPERIENCE } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { BriefcaseBusiness } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ExperienceItem } from './experience/experience-item';
+import { PanelIntroCard } from './panel-primitives';
 
 export function ExperiencePanel() {
-  const { t } = useTranslation()
-  const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id)
+  const { t } = useTranslation();
+  const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
@@ -39,10 +39,10 @@ export function ExperiencePanel() {
                 onToggle={() => setExpanded(expanded === exp.id ? null : exp.id)}
                 transition={{ delay: i * 0.08 }}
               />
-            )
+            );
           })}
         </div>
       </div>
     </motion.div>
-  )
+  );
 }

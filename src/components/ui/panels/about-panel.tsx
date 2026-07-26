@@ -1,33 +1,34 @@
-import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { Briefcase, Code, GraduationCap, Mail, MapPin, Radar, Sparkles } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { AboutContactButton } from './about/about-contact-button'
-import { AboutInfoPill } from './about/about-info-pill'
-import { PanelNotice } from './panel-content-primitives'
-import { PanelBadge, PanelSection, panelFadeUp, panelStagger } from './panel-primitives'
+import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { Briefcase, Code, GraduationCap, Mail, MapPin, Radar, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { AboutContactButton } from './about/about-contact-button';
+import { AboutInfoPill } from './about/about-info-pill';
+import { PanelNotice } from './panel-content-primitives';
+import { PanelBadge, PanelSection, panelFadeUp, panelStagger } from './panel-primitives';
 
 const STAT_TONES = [
   'var(--panel-accent-soft)',
   'color-mix(in srgb, var(--panel-glow) 18%, transparent)',
   'color-mix(in srgb, var(--panel-accent) 12%, transparent)',
-]
+];
 
 export function AboutPanel() {
-  const { setCursorVariant } = useSpaceStore()
-  const { t } = useTranslation()
+  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
+  const { t } = useTranslation();
 
   const stats = [
     { label: t('developer.stats.years'), value: DEVELOPER.stats[0].value },
     { label: t('developer.stats.projects'), value: DEVELOPER.stats[1].value },
     { label: t('developer.stats.stacks'), value: DEVELOPER.stats[2].value },
-  ]
+  ];
 
-  const summary = (t('developer.summary', { returnObjects: true }) as string[]) || DEVELOPER.summary
+  const summary =
+    (t('developer.summary', { returnObjects: true }) as string[]) || DEVELOPER.summary;
   const education =
     (t('developer.education', { returnObjects: true }) as DeveloperEducation[]) ||
-    DEVELOPER.education
+    DEVELOPER.education;
 
   return (
     <motion.div
@@ -161,5 +162,5 @@ export function AboutPanel() {
         <PanelNotice>{t('developer.availability')}</PanelNotice>
       </PanelSection>
     </motion.div>
-  )
+  );
 }

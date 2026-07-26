@@ -1,13 +1,13 @@
-import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { GraduationCap, Trophy } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
-import { AccomplishmentCard } from './accomplishments/accomplishment-card'
-import { CertificateCard } from './accomplishments/certificate-card'
-import { PanelIntroCard, PanelSection } from './panel-primitives'
+import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { GraduationCap, Trophy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { AccomplishmentCard } from './accomplishments/accomplishment-card';
+import { CertificateCard } from './accomplishments/certificate-card';
+import { PanelIntroCard, PanelSection } from './panel-primitives';
 
 export function AccomplishmentsPanel() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
@@ -51,5 +51,5 @@ export function AccomplishmentsPanel() {
         </PanelSection>
       )}
     </motion.div>
-  )
+  );
 }

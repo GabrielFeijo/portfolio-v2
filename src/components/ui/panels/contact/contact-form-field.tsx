@@ -1,12 +1,12 @@
-import type { ReactNode } from 'react'
-import { cn } from '../panel-primitives'
+import type { ReactNode } from 'react';
+import { cn } from '../panel-primitives';
 
 interface ContactFormFieldProps {
-  errorId?: string
-  error?: string
-  helperText?: string
-  input: ReactNode
-  label: string
+  errorId?: string;
+  error?: string;
+  helperText?: string;
+  input: ReactNode;
+  label: string;
 }
 
 export function ContactFormField({
@@ -34,7 +34,7 @@ export function ContactFormField({
         )}
       </div>
     </label>
-  )
+  );
 }
 
 export function getContactFieldClassName(hasError: boolean, extraClassName?: string) {
@@ -42,5 +42,5 @@ export function getContactFieldClassName(hasError: boolean, extraClassName?: str
     'px-4 py-3 rounded-2xl panel-input text-sm transition-colors cursor-none',
     hasError && 'border-[#FF9A52] shadow-[0_0_0_1px_rgba(255,154,82,0.28)]',
     extraClassName
-  )
+  );
 }

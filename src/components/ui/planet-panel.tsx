@@ -1,36 +1,36 @@
-import { ANIMATION_SETTINGS } from '@/constants/animation'
-import { PLANETS, type PanelId } from '@/data/portfolio'
-import { useFocusTrap } from '@/hooks/use-focus-trap'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import type { ComponentType, CSSProperties } from 'react'
-import { lazy, Suspense, useCallback, useMemo, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { UIBadge } from './design-system'
-import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives'
+import { ANIMATION_SETTINGS } from '@/constants/animation';
+import { PLANETS, type PanelId } from '@/data/portfolio';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import type { ComponentType, CSSProperties } from 'react';
+import { lazy, Suspense, useCallback, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
+import { UIBadge } from './design-system';
+import { createCursorHandlers, getLucideIcon } from './panels/panel-primitives';
 
 const AboutPanel = lazy(() =>
   import('./panels/about-panel').then((module) => ({ default: module.AboutPanel }))
-)
+);
 const SkillsPanel = lazy(() =>
   import('./panels/skills-panel').then((module) => ({ default: module.SkillsPanel }))
-)
+);
 const ProjectsPanel = lazy(() =>
   import('./panels/projects-panel').then((module) => ({ default: module.ProjectsPanel }))
-)
+);
 const ExperiencePanel = lazy(() =>
   import('./panels/experience-panel').then((module) => ({ default: module.ExperiencePanel }))
-)
+);
 const AccomplishmentsPanel = lazy(() =>
   import('./panels/accomplishments-panel').then((module) => ({
     default: module.AccomplishmentsPanel,
   }))
-)
+);
 const ContactPanel = lazy(() =>
   import('./panels/contact-panel').then((module) => ({ default: module.ContactPanel }))
-)
+);
 
 const PANELS: Record<PanelId, ComponentType> = {
   about: AboutPanel,
@@ -39,38 +39,39 @@ const PANELS: Record<PanelId, ComponentType> = {
   experience: ExperiencePanel,
   accomplishments: AccomplishmentsPanel,
   contact: ContactPanel,
-}
+};
 
 interface PanelTheme extends CSSProperties {
-  '--panel-accent': string
-  '--panel-glow': string
-  '--panel-accent-soft': string
-  '--panel-accent-faint': string
-  '--panel-border': string
-  '--panel-border-strong': string
+  '--panel-accent': string;
+  '--panel-glow': string;
+  '--panel-accent-soft': string;
+  '--panel-accent-faint': string;
+  '--panel-border': string;
+  '--panel-border-strong': string;
 }
 
 export function PlanetPanel() {
-  const { t } = useTranslation()
-  const panelRef = useRef<HTMLDivElement | null>(null)
-  const { activePanel, closePanel, navigateToPanel, setCursorVariant, settings } = useSpaceStore(
-    useShallow((state) => ({
-      activePanel: state.activePanel,
-      closePanel: state.closePanel,
-      navigateToPanel: state.navigateToPanel,
-      setCursorVariant: state.setCursorVariant,
-      settings: state.experienceSettings,
-    }))
-  )
+  const { t } = useTranslation();
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const { activePanel, closePanel, navigateToPanel, setCursorVariant, transitionAnimations } =
+    useSpaceStore(
+      useShallow((state) => ({
+        activePanel: state.activePanel,
+        closePanel: state.closePanel,
+        navigateToPanel: state.navigateToPanel,
+        setCursorVariant: state.setCursorVariant,
+        transitionAnimations: state.experienceSettings.transitionAnimations,
+      }))
+    );
 
-  useFocusTrap(panelRef, Boolean(activePanel))
+  useFocusTrap(panelRef, Boolean(activePanel));
 
-  const planet = PLANETS.find((p) => p.id === activePanel)
-  const PanelContent = activePanel ? PANELS[activePanel] : null
-  const linkCursor = createCursorHandlers(setCursorVariant)
-  const idx = PLANETS.findIndex((p) => p.id === activePanel)
-  const prev = idx > -1 ? PLANETS[idx - 1] : undefined
-  const next = idx > -1 ? PLANETS[idx + 1] : undefined
+  const planet = PLANETS.find((p) => p.id === activePanel);
+  const PanelContent = activePanel ? PANELS[activePanel] : null;
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
+  const idx = PLANETS.findIndex((p) => p.id === activePanel);
+  const prev = idx > -1 ? PLANETS[idx - 1] : undefined;
+  const next = idx > -1 ? PLANETS[idx + 1] : undefined;
 
   const fallbackTheme = useMemo<PanelTheme>(
     () => ({
@@ -82,14 +83,14 @@ export function PlanetPanel() {
       '--panel-border-strong': '#2b6fff48',
     }),
     []
-  )
+  );
 
   const handleNav = useCallback(
     (id: PanelId) => {
-      navigateToPanel(id)
+      navigateToPanel(id);
     },
     [navigateToPanel]
-  )
+  );
 
   const planetTheme = useMemo<PanelTheme | null>(
     () =>
@@ -104,10 +105,10 @@ export function PlanetPanel() {
           }
         : null,
     [planet]
-  )
-  const panelTheme = planetTheme ?? fallbackTheme
+  );
+  const panelTheme = planetTheme ?? fallbackTheme;
 
-  if (!activePanel || !planet || !PanelContent) return null
+  if (!activePanel || !planet || !PanelContent) return null;
 
   return (
     <motion.div
@@ -137,9 +138,7 @@ export function PlanetPanel() {
         initial={{ x: '100%', opacity: 0.5 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
-        transition={
-          settings.transitionAnimations ? ANIMATION_SETTINGS.panelSpring : { duration: 0 }
-        }
+        transition={transitionAnimations ? ANIMATION_SETTINGS.panelSpring : { duration: 0 }}
         className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
         ref={panelRef}
         role="dialog"
@@ -182,7 +181,7 @@ export function PlanetPanel() {
                 }}
               >
                 {(() => {
-                  const IconComp = getLucideIcon(planet.icon)
+                  const IconComp = getLucideIcon(planet.icon);
                   return (
                     <IconComp
                       size={18}
@@ -191,7 +190,7 @@ export function PlanetPanel() {
                         filter: `drop-shadow(0 0 8px ${planet.glowColor})`,
                       }}
                     />
-                  )
+                  );
                 })()}
               </motion.div>
 
@@ -260,5 +259,5 @@ export function PlanetPanel() {
         </div>
       </motion.div>
     </motion.div>
-  )
+  );
 }
