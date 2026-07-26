@@ -17,10 +17,13 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: () => ({
-    closeHelp,
-    setCursorVariant,
-  }),
+  useSpaceStore: (selector?: any) => {
+    const state = {
+      closeHelp,
+      setCursorVariant,
+    };
+    return selector ? selector(state) : state;
+  },
 }));
 
 describe('HelpOverlay', () => {

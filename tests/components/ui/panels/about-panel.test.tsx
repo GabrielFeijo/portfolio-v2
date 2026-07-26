@@ -14,9 +14,12 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: () => ({
-    setCursorVariant: vi.fn(),
-  }),
+  useSpaceStore: (selector?: any) => {
+    const state = {
+      setCursorVariant: vi.fn(),
+    };
+    return selector ? selector(state) : state;
+  },
 }));
 
 describe('AboutPanel', () => {
