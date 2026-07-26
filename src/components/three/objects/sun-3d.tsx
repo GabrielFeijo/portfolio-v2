@@ -1,61 +1,61 @@
-import { useSpaceStore } from '@/store/space-store'
-import { Html, Sparkles, Sphere } from '@react-three/drei'
-import type { ThreeEvent } from '@react-three/fiber'
-import { useFrame } from '@react-three/fiber'
-import type { CSSProperties } from 'react'
-import { memo, useCallback, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import * as THREE from 'three'
-import { useShallow } from 'zustand/react/shallow'
+import { useSpaceStore } from '@/store/space-store';
+import { Html, Sparkles, Sphere } from '@react-three/drei';
+import type { ThreeEvent } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
+import type { CSSProperties } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import * as THREE from 'three';
+import { useShallow } from 'zustand/react/shallow';
 
 interface HelpLabelStyle extends CSSProperties {
-  '--planet-accent': string
+  '--planet-accent': string;
 }
 
 export const Sun3D = memo(function Sun3D() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const { openHelp, setCursorVariant } = useSpaceStore(
     useShallow((state) => ({
       openHelp: state.openHelp,
       setCursorVariant: state.setCursorVariant,
     }))
-  )
-  const sunRef = useRef<THREE.Mesh | null>(null)
-  const sunMatRef = useRef<THREE.ShaderMaterial | null>(null)
-  const [hovered, setHovered] = useState(false)
-  const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), [])
-  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), [])
-  const labelStyle = useMemo<HelpLabelStyle>(() => ({ '--planet-accent': '#FFD67A' }), [])
+  );
+  const sunRef = useRef<THREE.Mesh | null>(null);
+  const sunMatRef = useRef<THREE.ShaderMaterial | null>(null);
+  const [hovered, setHovered] = useState(false);
+  const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), []);
+  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []);
+  const labelStyle = useMemo<HelpLabelStyle>(() => ({ '--planet-accent': '#FFD67A' }), []);
   const handleClick = useCallback(
     (event: ThreeEvent<MouseEvent>) => {
-      event.stopPropagation()
-      openHelp()
+      event.stopPropagation();
+      openHelp();
     },
     [openHelp]
-  )
+  );
   const handlePointerEnter = useCallback(() => {
-    setHovered(true)
-    setCursorVariant('planet')
-  }, [setCursorVariant])
+    setHovered(true);
+    setCursorVariant('planet');
+  }, [setCursorVariant]);
   const handlePointerLeave = useCallback(() => {
-    setHovered(false)
-    setCursorVariant('default')
-  }, [setCursorVariant])
+    setHovered(false);
+    setCursorVariant('default');
+  }, [setCursorVariant]);
 
   useFrame((state) => {
-    const sun = sunRef.current
-    const material = sunMatRef.current
-    const time = state.clock.getElapsedTime()
+    const sun = sunRef.current;
+    const material = sunMatRef.current;
+    const time = state.clock.getElapsedTime();
 
     if (sun) {
-      sun.rotation.y += 0.002
-      sun.rotation.z += 0.001
+      sun.rotation.y += 0.002;
+      sun.rotation.z += 0.001;
     }
 
     if (material) {
-      material.uniforms.uTime.value = time
+      material.uniforms.uTime.value = time;
     }
-  })
+  });
 
   return (
     <group>
@@ -85,18 +85,26 @@ export const Sun3D = memo(function Sun3D() {
         />
       </mesh>
 
-      {useMemo(() => Array.from({ length: 12 }).map((_, i) => {
-        const angle = (i / 12) * Math.PI * 2
-        const r = 4.8 + (i % 3) * 0.4
-        return (
-          <SolarFlare
-            key={i}
-            basePos={[Math.cos(angle) * r, Math.sin(angle) * r, Math.sin(angle * 0.4) * r * 0.6]}
-            delay={i * 0.3}
-            size={0.15 + (i % 4) * 0.08}
-          />
-        )
-      }), [])}
+      {useMemo(
+        () =>
+          Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i / 12) * Math.PI * 2;
+            const r = 4.8 + (i % 3) * 0.4;
+            return (
+              <SolarFlare
+                key={i}
+                basePos={[
+                  Math.cos(angle) * r,
+                  Math.sin(angle) * r,
+                  Math.sin(angle * 0.4) * r * 0.6,
+                ]}
+                delay={i * 0.3}
+                size={0.15 + (i % 4) * 0.08}
+              />
+            );
+          }),
+        []
+      )}
 
       <Sparkles
         count={240}
@@ -138,31 +146,31 @@ export const Sun3D = memo(function Sun3D() {
       <pointLight position={[0, 0, 0]} intensity={22} color="#FFF1D8" distance={520} decay={1.45} />
       <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />
     </group>
-  )
-})
+  );
+});
 
 interface SolarFlareProps {
-  basePos: [number, number, number]
-  delay: number
-  size: number
+  basePos: [number, number, number];
+  delay: number;
+  size: number;
 }
 
 function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
-  const ref = useRef<THREE.Mesh | null>(null)
+  const ref = useRef<THREE.Mesh | null>(null);
 
   useFrame((state) => {
-    const flare = ref.current
-    if (!flare) return
+    const flare = ref.current;
+    if (!flare) return;
 
-    const time = state.clock.getElapsedTime() + delay
-    const pulse = 0.6 + Math.abs(Math.sin(time * 1.5)) * 0.8
-    flare.scale.setScalar(pulse)
+    const time = state.clock.getElapsedTime() + delay;
+    const pulse = 0.6 + Math.abs(Math.sin(time * 1.5)) * 0.8;
+    flare.scale.setScalar(pulse);
     flare.position.set(
       basePos[0] + Math.sin(time * 1.2) * 0.8,
       basePos[1] + Math.cos(time * 0.9) * 0.8,
       basePos[2] + Math.sin(time * 1.4) * 0.6
-    )
-  })
+    );
+  });
 
   return (
     <mesh ref={ref} position={basePos}>
@@ -175,12 +183,12 @@ function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
         depthWrite={false}
       />
     </mesh>
-  )
+  );
 }
 
 export function ShootingStar() {
-  const ref = useRef<THREE.Group | null>(null)
-  const trailRef = useRef<THREE.Mesh | null>(null)
+  const ref = useRef<THREE.Group | null>(null);
+  const trailRef = useRef<THREE.Mesh | null>(null);
 
   const { start, dir, delay } = useMemo(
     () => ({
@@ -197,24 +205,24 @@ export function ShootingStar() {
       delay: Math.random() * 15,
     }),
     []
-  )
+  );
 
   useFrame((state) => {
-    const t = (state.clock.getElapsedTime() + delay) % 18
-    const group = ref.current
-    const trail = trailRef.current
+    const t = (state.clock.getElapsedTime() + delay) % 18;
+    const group = ref.current;
+    const trail = trailRef.current;
 
     if (group) {
       if (t < 2.5) {
-        const progress = t / 2.5
-        group.position.copy(start).addScaledVector(dir, progress * 240)
-        group.visible = progress > 0.05
-        if (trail) trail.scale.set(1, 1, 1 + progress * 35)
+        const progress = t / 2.5;
+        group.position.copy(start).addScaledVector(dir, progress * 240);
+        group.visible = progress > 0.05;
+        if (trail) trail.scale.set(1, 1, 1 + progress * 35);
       } else {
-        group.visible = false
+        group.visible = false;
       }
     }
-  })
+  });
 
   return (
     <group ref={ref}>
@@ -238,5 +246,5 @@ export function ShootingStar() {
         />
       </mesh>
     </group>
-  )
+  );
 }

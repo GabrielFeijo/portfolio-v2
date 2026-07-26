@@ -1,24 +1,24 @@
-import type { Project } from '@/data/portfolio'
-import type { CursorVariant } from '@/types/store'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Code, ExternalLink } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import type { Project } from '@/data/portfolio';
+import type { CursorVariant } from '@/types/store';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Code, ExternalLink } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   PanelBulletList,
   PanelImageFrame,
   PanelInsetCard,
   PanelTagList,
   PanelTopGlow,
-} from '../panel-content-primitives'
-import { createCursorHandlers } from '../panel-primitives'
-import { ProjectLink } from './project-link'
+} from '../panel-content-primitives';
+import { createCursorHandlers } from '../panel-primitives';
+import { ProjectLink } from './project-link';
 
 interface ProjectCardProps {
-  isSelected: boolean
-  onToggle: () => void
-  project: Project
-  setCursorVariant: (variant: CursorVariant) => void
-  transition: { delay: number }
+  isSelected: boolean;
+  onToggle: () => void;
+  project: Project;
+  setCursorVariant: (variant: CursorVariant) => void;
+  transition: { delay: number };
 }
 
 export function ProjectCard({
@@ -28,11 +28,11 @@ export function ProjectCard({
   setCursorVariant,
   transition,
 }: ProjectCardProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const categoryLabel = t(
     `projects.filters.${project.category.toLowerCase().replace(/\s+/g, '_')}`,
     { defaultValue: project.category }
-  )
+  );
 
   return (
     <motion.article
@@ -126,5 +126,5 @@ export function ProjectCard({
         )}
       </AnimatePresence>
     </motion.article>
-  )
+  );
 }

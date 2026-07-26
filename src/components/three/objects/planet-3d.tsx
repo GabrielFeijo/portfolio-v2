@@ -1,31 +1,35 @@
-import { PLANET_TYPE_MAP } from '@/constants/scene'
-import { useOrbitAnimation } from '@/hooks/use-orbit-animation'
-import { usePlanetInteraction } from '@/hooks/use-planet-interaction'
-import { useSpaceStore } from '@/store/space-store'
-import type { Planet } from '@/types/portfolio'
-import type { GroupRef, MeshRef, PlanetAnglesRef, ShaderMaterialRef } from '@/types/three'
-import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from '@/utils/orbit-utils'
-import { makeRingTexture } from '@/utils/textures'
-import { Html } from '@react-three/drei'
-import type { CSSProperties } from 'react'
-import { memo, useEffect, useMemo, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import * as THREE from 'three'
-import { useShallow } from 'zustand/react/shallow'
-import { OrbitParticles } from './orbit-particles'
-import { SmallMoon } from './small-moon'
+import { PLANET_TYPE_MAP } from '@/constants/scene';
+import { useOrbitAnimation } from '@/hooks/use-orbit-animation';
+import { usePlanetInteraction } from '@/hooks/use-planet-interaction';
+import { useSpaceStore } from '@/store/space-store';
+import type { Planet } from '@/types/portfolio';
+import type { GroupRef, MeshRef, PlanetAnglesRef, ShaderMaterialRef } from '@/types/three';
+import {
+  getPlanetOrbitCenterY,
+  getPlanetOrbitRotation,
+  getPlanetPosition,
+} from '@/utils/orbit-utils';
+import { makeRingTexture } from '@/utils/textures';
+import { Html } from '@react-three/drei';
+import type { CSSProperties } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import * as THREE from 'three';
+import { useShallow } from 'zustand/react/shallow';
+import { OrbitParticles } from './orbit-particles';
+import { SmallMoon } from './small-moon';
 
 interface Planet3DProps {
-  angleRef: PlanetAnglesRef
-  planet: Planet
+  angleRef: PlanetAnglesRef;
+  planet: Planet;
 }
 
 interface PlanetLabelStyle extends CSSProperties {
-  '--planet-accent': string
+  '--planet-accent': string;
 }
 
 export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const {
     activePanel,
     activePlanet,
@@ -44,20 +48,20 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
       setCursorVariant: state.setCursorVariant,
       starDensity: state.experienceSettings.starDensity,
     }))
-  )
+  );
 
-  const groupPositionScratch = useRef(new THREE.Vector3())
-  const meshRef = useRef<MeshRef['current']>(null)
-  const groupRef = useRef<GroupRef['current']>(null)
-  const atmosphereRef = useRef<MeshRef['current']>(null)
-  const planetMaterialRef = useRef<ShaderMaterialRef['current']>(null)
-  const atmosphereMaterialRef = useRef<ShaderMaterialRef['current']>(null)
-  const isActive = activePlanet === planet.id
+  const groupPositionScratch = useRef(new THREE.Vector3());
+  const meshRef = useRef<MeshRef['current']>(null);
+  const groupRef = useRef<GroupRef['current']>(null);
+  const atmosphereRef = useRef<MeshRef['current']>(null);
+  const planetMaterialRef = useRef<ShaderMaterialRef['current']>(null);
+  const atmosphereMaterialRef = useRef<ShaderMaterialRef['current']>(null);
+  const isActive = activePlanet === planet.id;
   const interaction = usePlanetInteraction({
     handlePlanetClick,
     planetId: planet.id,
     setCursorVariant,
-  })
+  });
   const lightDirection = useOrbitAnimation({
     activePanel,
     angleRef,
@@ -70,31 +74,31 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
     planet,
     planetMaterialRef,
     planetRotation,
-  })
+  });
   const ringTexture = useMemo(
     () => (planet.hasRings ? makeRingTexture(planet.ringColor ?? planet.color) : null),
     [planet.color, planet.hasRings, planet.ringColor]
-  )
-  const planetType = PLANET_TYPE_MAP[planet.type] ?? 0
-  const orbitRotation = useMemo(() => getPlanetOrbitRotation(planet), [planet])
-  const orbitCenterY = useMemo(() => getPlanetOrbitCenterY(planet), [planet])
-  const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color])
+  );
+  const planetType = PLANET_TYPE_MAP[planet.type] ?? 0;
+  const orbitRotation = useMemo(() => getPlanetOrbitRotation(planet), [planet]);
+  const orbitCenterY = useMemo(() => getPlanetOrbitCenterY(planet), [planet]);
+  const baseColor = useMemo(() => new THREE.Color(planet.color), [planet.color]);
   const atmosphereColor = useMemo(
     () => new THREE.Color(planet.atmosphereColor),
     [planet.atmosphereColor]
-  )
+  );
   const labelStyle = useMemo<PlanetLabelStyle>(
     () => ({
       '--planet-accent': planet.glowColor,
     }),
     [planet.glowColor]
-  )
+  );
 
   useEffect(() => {
     return () => {
-      ringTexture?.dispose()
-    }
-  }, [ringTexture])
+      ringTexture?.dispose();
+    };
+  }, [ringTexture]);
 
   return (
     <>
@@ -108,7 +112,14 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
         />
       </mesh>
 
-      <group ref={groupRef} position={getPlanetPosition(planet, angleRef.current[planet.id], groupPositionScratch.current)}>
+      <group
+        ref={groupRef}
+        position={getPlanetPosition(
+          planet,
+          angleRef.current[planet.id],
+          groupPositionScratch.current
+        )}
+      >
         <mesh
           ref={atmosphereRef}
           scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}
@@ -194,13 +205,9 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
         )}
 
         {isActive && orbitalParticles && (
-          <OrbitParticles
-            color={planet.glowColor}
-            density={starDensity}
-            size={planet.size}
-          />
+          <OrbitParticles color={planet.glowColor} density={starDensity} size={planet.size} />
         )}
       </group>
     </>
-  )
-})
+  );
+});

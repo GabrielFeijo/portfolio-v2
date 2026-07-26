@@ -1,14 +1,14 @@
-import type { Certificate } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
+import type { Certificate } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface CertificateCardProps {
-  certificate: Certificate
-  transition: { delay: number }
+  certificate: Certificate;
+  transition: { delay: number };
 }
 
 export function CertificateCard({ certificate, transition }: CertificateCardProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <motion.article
@@ -47,5 +47,5 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
         )}
       </div>
     </motion.article>
-  )
+  );
 }

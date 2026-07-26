@@ -1,14 +1,14 @@
-import { PLANETS } from '@/data/portfolio'
-import { useCameraTransition } from '@/hooks/use-camera-transition'
-import { renderHook } from '@testing-library/react'
-import * as THREE from 'three'
-import { describe, expect, it, vi } from 'vitest'
+import { PLANETS } from '@/data/portfolio';
+import { useCameraTransition } from '@/hooks/use-camera-transition';
+import { renderHook } from '@testing-library/react';
+import * as THREE from 'three';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('useCameraTransition', () => {
   it('sets idle lookAt when no active panel', () => {
-    const setLookAt = vi.fn()
-    const controlsRef = { current: { setLookAt } }
-    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000)
+    const setLookAt = vi.fn();
+    const controlsRef = { current: { setLookAt } };
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000);
 
     renderHook(() =>
       useCameraTransition({
@@ -22,15 +22,15 @@ describe('useCameraTransition', () => {
         smooth: true,
         viewportWidth: 1280,
       })
-    )
+    );
 
-    expect(setLookAt).toHaveBeenCalled()
-  })
+    expect(setLookAt).toHaveBeenCalled();
+  });
 
   it('sets focused lookAt when panel is active', () => {
-    const setLookAt = vi.fn()
-    const controlsRef = { current: { setLookAt } }
-    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000)
+    const setLookAt = vi.fn();
+    const controlsRef = { current: { setLookAt } };
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000);
 
     renderHook(() =>
       useCameraTransition({
@@ -44,15 +44,15 @@ describe('useCameraTransition', () => {
         smooth: false,
         viewportWidth: 1920,
       })
-    )
+    );
 
-    expect(setLookAt).toHaveBeenCalled()
-  })
+    expect(setLookAt).toHaveBeenCalled();
+  });
 
   it('does nothing if controls is null', () => {
-    const setLookAt = vi.fn()
-    const controlsRef = { current: null }
-    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000)
+    const setLookAt = vi.fn();
+    const controlsRef = { current: null };
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000);
 
     renderHook(() =>
       useCameraTransition({
@@ -64,15 +64,15 @@ describe('useCameraTransition', () => {
         smooth: true,
         viewportWidth: 1280,
       })
-    )
+    );
 
-    expect(setLookAt).not.toHaveBeenCalled()
-  })
+    expect(setLookAt).not.toHaveBeenCalled();
+  });
 
   it('does nothing if planet is not found', () => {
-    const setLookAt = vi.fn()
-    const controlsRef = { current: { setLookAt } }
-    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000)
+    const setLookAt = vi.fn();
+    const controlsRef = { current: { setLookAt } };
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000);
 
     renderHook(() =>
       useCameraTransition({
@@ -84,8 +84,8 @@ describe('useCameraTransition', () => {
         smooth: true,
         viewportWidth: 1280,
       })
-    )
+    );
 
-    expect(setLookAt).not.toHaveBeenCalled()
-  })
-})
+    expect(setLookAt).not.toHaveBeenCalled();
+  });
+});

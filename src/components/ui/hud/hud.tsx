@@ -1,12 +1,12 @@
-import { DEVELOPER, PLANETS } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { UIBadge, UIIconTile } from '../design-system'
-import { cn, createCursorHandlers } from '../panels/panel-primitives'
+import { DEVELOPER, PLANETS } from '@/data/portfolio';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
+import { UIBadge, UIIconTile } from '../design-system';
+import { cn, createCursorHandlers } from '../panels/panel-primitives';
 
 export function HUD() {
   const { activePanel, navigateToPanel, openSettings, setCursorVariant, setLanguage } =
@@ -18,23 +18,23 @@ export function HUD() {
         setCursorVariant: state.setCursorVariant,
         setLanguage: state.setLanguage,
       }))
-    )
-  const { t, i18n } = useTranslation()
-  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
+    );
+  const { t, i18n } = useTranslation();
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
 
-  const currentLang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt'
+  const currentLang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
 
   useEffect(() => {
-    setLanguage(currentLang)
-  }, [currentLang, setLanguage])
+    setLanguage(currentLang);
+  }, [currentLang, setLanguage]);
 
   const changeLanguage = useCallback(
     (lang: 'pt' | 'en') => {
-      i18n.changeLanguage(lang)
-      setLanguage(lang)
+      i18n.changeLanguage(lang);
+      setLanguage(lang);
     },
     [i18n, setLanguage]
-  )
+  );
 
   return (
     <motion.div
@@ -144,20 +144,20 @@ export function HUD() {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
 const HudClock = memo(function HudClock({ currentLang }: { currentLang: 'pt' | 'en' }) {
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(interval)
-  }, [])
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-  })
-})
+  });
+});

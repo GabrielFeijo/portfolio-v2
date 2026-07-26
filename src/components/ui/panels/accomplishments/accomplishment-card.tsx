@@ -1,16 +1,16 @@
-import type { Accomplishment } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
-import { PanelTopGlow } from '../panel-content-primitives'
-import { getLucideIcon, PanelIconBadge } from '../panel-primitives'
+import type { Accomplishment } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { PanelTopGlow } from '../panel-content-primitives';
+import { getLucideIcon, PanelIconBadge } from '../panel-primitives';
 
 interface AccomplishmentCardProps {
-  accomplishment: Accomplishment
-  transition: { delay: number }
+  accomplishment: Accomplishment;
+  transition: { delay: number };
 }
 
 export function AccomplishmentCard({ accomplishment, transition }: AccomplishmentCardProps) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <motion.article
@@ -51,5 +51,5 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
         </p>
       </div>
     </motion.article>
-  )
+  );
 }

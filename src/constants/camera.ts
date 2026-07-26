@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 
 export const CAMERA_SETTINGS = {
   minPolarAngle: Math.PI / 4,
@@ -12,7 +12,7 @@ export const CAMERA_SETTINGS = {
   idleFov: 54,
   panelMaxWidth: 620,
   panelBreakpoint: 640,
-} as const
+} as const;
 
-export const IDLE_CAMERA_POSITION = new THREE.Vector3(-14, 24, 68)
-export const IDLE_LOOK_AT = new THREE.Vector3(5, -1, -8)
+export const IDLE_CAMERA_POSITION = new THREE.Vector3(-14, 24, 68);
+export const IDLE_LOOK_AT = new THREE.Vector3(5, -1, -8);

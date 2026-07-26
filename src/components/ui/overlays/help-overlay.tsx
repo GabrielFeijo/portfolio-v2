@@ -1,29 +1,29 @@
-import { useFocusTrap } from '@/hooks/use-focus-trap'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
-import { useMemo, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
-import { createCursorHandlers } from '../panels/panel-primitives'
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react';
+import { useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
+import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system';
+import { createCursorHandlers } from '../panels/panel-primitives';
 
 export function HelpOverlay() {
-  const { t } = useTranslation()
-  const dialogRef = useRef<HTMLDivElement | null>(null)
+  const { t } = useTranslation();
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const { closeHelp, setCursorVariant } = useSpaceStore(
     useShallow((state) => ({
       closeHelp: state.closeHelp,
       setCursorVariant: state.setCursorVariant,
     }))
-  )
-  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
-  useFocusTrap(dialogRef, true)
-  const quickSteps = t('help.quick_steps', { returnObjects: true }) as string[]
+  );
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
+  useFocusTrap(dialogRef, true);
+  const quickSteps = t('help.quick_steps', { returnObjects: true }) as string[];
   const sections = t('help.sections', { returnObjects: true }) as Array<{
-    title: string
-    description: string
-  }>
+    title: string;
+    description: string;
+  }>;
 
   return (
     <motion.div
@@ -158,7 +158,7 @@ export function HelpOverlay() {
         </UISurface>
       </motion.div>
     </motion.div>
-  )
+  );
 }
 
 function InfoCard({
@@ -166,9 +166,9 @@ function InfoCard({
   title,
   description,
 }: {
-  icon: typeof Compass
-  title: string
-  description: string
+  icon: typeof Compass;
+  title: string;
+  description: string;
 }) {
   return (
     <UIInset className="p-5">
@@ -178,5 +178,5 @@ function InfoCard({
       </div>
       <p className="mt-2 text-sm leading-6 text-[rgba(240,244,255,0.68)]">{description}</p>
     </UIInset>
-  )
+  );
 }

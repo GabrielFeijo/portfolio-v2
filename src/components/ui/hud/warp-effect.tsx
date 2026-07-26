@@ -1,7 +1,7 @@
-import { useSpaceStore } from '@/store/space-store'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
-import { useShallow } from 'zustand/react/shallow'
+import { useSpaceStore } from '@/store/space-store';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
 export function WarpEffect() {
   const { warpActive, warpEffects } = useSpaceStore(
@@ -9,26 +9,26 @@ export function WarpEffect() {
       warpActive: state.warpActive,
       warpEffects: state.experienceSettings.warpEffects,
     }))
-  )
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const animRef = useRef<number>(0)
+  );
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animRef = useRef<number>(0);
 
   useEffect(() => {
-    if (!warpActive || !warpEffects) return
+    if (!warpActive || !warpEffects) return;
 
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    const cx = canvas.width / 2
-    const cy = canvas.height / 2
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
 
-    const stars: { x: number; y: number; z: number; pz: number; color: string }[] = []
-    const starColors = ['#FFFFFF', '#BAE6FD', '#0EA5E9', '#F0F9FF']
+    const stars: { x: number; y: number; z: number; pz: number; color: string }[] = [];
+    const starColors = ['#FFFFFF', '#BAE6FD', '#0EA5E9', '#F0F9FF'];
 
     for (let i = 0; i < 650; i++) {
       stars.push({
@@ -37,48 +37,48 @@ export function WarpEffect() {
         z: Math.random() * canvas.width,
         pz: 0,
         color: starColors[Math.floor(Math.random() * starColors.length)],
-      })
+      });
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 8, 0.18)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.fillStyle = 'rgba(0, 0, 8, 0.18)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       stars.forEach((star) => {
-        star.pz = star.z
-        star.z -= 18
+        star.pz = star.z;
+        star.z -= 18;
 
         if (star.z <= 0) {
-          star.x = Math.random() * canvas.width - cx
-          star.y = Math.random() * canvas.height - cy
-          star.z = canvas.width
-          star.pz = star.z
+          star.x = Math.random() * canvas.width - cx;
+          star.y = Math.random() * canvas.height - cy;
+          star.z = canvas.width;
+          star.pz = star.z;
         }
 
-        const sx = (star.x / star.z) * canvas.width + cx
-        const sy = (star.y / star.z) * canvas.width + cy
-        const px = (star.x / star.pz) * canvas.width + cx
-        const py = (star.y / star.pz) * canvas.width + cy
+        const sx = (star.x / star.z) * canvas.width + cx;
+        const sy = (star.y / star.z) * canvas.width + cy;
+        const px = (star.x / star.pz) * canvas.width + cx;
+        const py = (star.y / star.pz) * canvas.width + cy;
 
-        const size = Math.max(0.1, (1 - star.z / canvas.width) * 3.5)
-        const brightness = 1 - star.z / canvas.width
+        const size = Math.max(0.1, (1 - star.z / canvas.width) * 3.5);
+        const brightness = 1 - star.z / canvas.width;
 
-        ctx.beginPath()
-        ctx.strokeStyle = star.color
-        ctx.globalAlpha = brightness * 0.8
-        ctx.lineWidth = size
-        ctx.moveTo(px, py)
-        ctx.lineTo(sx, sy)
-        ctx.stroke()
-        ctx.globalAlpha = 1
-      })
+        ctx.beginPath();
+        ctx.strokeStyle = star.color;
+        ctx.globalAlpha = brightness * 0.8;
+        ctx.lineWidth = size;
+        ctx.moveTo(px, py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      });
 
-      animRef.current = requestAnimationFrame(animate)
-    }
+      animRef.current = requestAnimationFrame(animate);
+    };
 
-    animate()
-    return () => cancelAnimationFrame(animRef.current)
-  }, [warpActive, warpEffects])
+    animate();
+    return () => cancelAnimationFrame(animRef.current);
+  }, [warpActive, warpEffects]);
 
   return (
     <AnimatePresence>
@@ -93,5 +93,5 @@ export function WarpEffect() {
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }

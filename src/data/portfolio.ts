@@ -1,4 +1,4 @@
-import { calculateAge } from '../utils/date'
+import { calculateAge } from '../utils/date';
 
 export const PANEL_IDS = [
   'about',
@@ -7,57 +7,57 @@ export const PANEL_IDS = [
   'experience',
   'accomplishments',
   'contact',
-] as const
+] as const;
 
-export type PanelId = (typeof PANEL_IDS)[number]
-export type PlanetIconName = 'User' | 'Zap' | 'Hammer' | 'Clock' | 'Trophy' | 'Radio'
+export type PanelId = (typeof PANEL_IDS)[number];
+export type PlanetIconName = 'User' | 'Zap' | 'Hammer' | 'Clock' | 'Trophy' | 'Radio';
 export type AccomplishmentIconName =
   | 'Trophy'
   | 'Rocket'
   | 'Zap'
   | 'GraduationCap'
   | 'Cloud'
-  | 'Smartphone'
-export type SkillCategory = 'frontend' | 'backend' | 'devops'
+  | 'Smartphone';
+export type SkillCategory = 'frontend' | 'backend' | 'devops';
 export const PROJECT_CATEGORIES = [
   'Frontend',
   'Backend',
   'Full Stack',
   'Mobile',
   'Portfolio',
-] as const
-export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]
-export const EXPERIENCE_TYPES = ['CLT', 'PJ', 'BOLSISTA'] as const
-export type ExperienceType = (typeof EXPERIENCE_TYPES)[number]
+] as const;
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+export const EXPERIENCE_TYPES = ['CLT', 'PJ', 'BOLSISTA'] as const;
+export type ExperienceType = (typeof EXPERIENCE_TYPES)[number];
 
 export interface DeveloperEducation {
-  title: string
-  institution: string
-  period: string
-  description: string
+  title: string;
+  institution: string;
+  period: string;
+  description: string;
 }
 
 export interface DeveloperStat {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 export interface DeveloperProfile {
-  name: string
-  title: string
-  location: string
-  age: number
-  email: string
-  github: string
-  linkedin: string
-  website: string
-  profileImage: string
-  tagline: string
-  bio: string
-  availability: string
-  stats: DeveloperStat[]
-  summary: string[]
-  education: DeveloperEducation[]
+  name: string;
+  title: string;
+  location: string;
+  age: number;
+  email: string;
+  github: string;
+  linkedin: string;
+  website: string;
+  profileImage: string;
+  tagline: string;
+  bio: string;
+  availability: string;
+  stats: DeveloperStat[];
+  summary: string[];
+  education: DeveloperEducation[];
 }
 
 export const DEVELOPER: DeveloperProfile = {
@@ -92,83 +92,83 @@ export const DEVELOPER: DeveloperProfile = {
         'Formação com base em programação, banco de dados, desenvolvimento web, mobile, arquitetura de sistemas e práticas colaborativas. Parte da jornada aconteceu no programa Embarque Digital, com vivência prática e mentoria próxima do mercado.',
     },
   ],
-}
+};
 
 export interface Planet {
-  id: PanelId
-  name: string
-  subtitle: string
-  color: string
-  glowColor: string
-  ringColor?: string
-  hasRings?: boolean
-  size: number
-  orbitRadius: number
-  orbitSpeed: number
-  rotationSpeed: number
-  orbitY?: number
-  orbitPhase?: number
-  atmosphereColor: string
-  icon: PlanetIconName
-  description: string
-  type: 'rocky' | 'gas' | 'ice' | 'lava' | 'crystal' | 'oceanic' | 'forest' | 'star'
+  id: PanelId;
+  name: string;
+  subtitle: string;
+  color: string;
+  glowColor: string;
+  ringColor?: string;
+  hasRings?: boolean;
+  size: number;
+  orbitRadius: number;
+  orbitSpeed: number;
+  rotationSpeed: number;
+  orbitY?: number;
+  orbitPhase?: number;
+  atmosphereColor: string;
+  icon: PlanetIconName;
+  description: string;
+  type: 'rocky' | 'gas' | 'ice' | 'lava' | 'crystal' | 'oceanic' | 'forest' | 'star';
 }
 
 export interface SkillItem {
-  name: string
-  level: number
-  color: string
+  name: string;
+  level: number;
+  color: string;
 }
 
 export interface SkillGroup {
-  title: string
-  items: string[]
+  title: string;
+  items: string[];
 }
 
 export interface Project {
-  id: string
-  name?: string
-  description?: string
-  tech: string[]
-  github?: string
-  live?: string
-  color: string
-  featured: boolean
-  year: number
-  category: ProjectCategory
-  image?: string
-  highlights?: string[]
+  id: string;
+  name?: string;
+  description?: string;
+  tech: string[];
+  github?: string;
+  live?: string;
+  color: string;
+  featured: boolean;
+  year: number;
+  category: ProjectCategory;
+  image?: string;
+  highlights?: string[];
 }
 
 export interface Experience {
-  id: string
-  role: string
-  company: string
-  period: string
-  type: ExperienceType
-  description: string
-  achievements: string[]
-  tech: string[]
-  color: string
+  id: string;
+  role: string;
+  company: string;
+  period: string;
+  type: ExperienceType;
+  description: string;
+  achievements: string[];
+  tech: string[];
+  color: string;
 }
 
 export interface Accomplishment {
-  id: string
-  icon: AccomplishmentIconName
-  title: string
-  description: string
-  color: string
-  category: string
+  id: string;
+  icon: AccomplishmentIconName;
+  title: string;
+  description: string;
+  color: string;
+  category: string;
 }
 
 export interface Certificate {
-  id: string
-  name: string
-  issuer: string
-  year: number
-  color: string
-  image?: string
-  description?: string
+  id: string;
+  name: string;
+  issuer: string;
+  year: number;
+  color: string;
+  image?: string;
+  description?: string;
 }
 
 export const PLANETS: Planet[] = [
@@ -278,7 +278,7 @@ export const PLANETS: Planet[] = [
     type: 'ice',
     description: 'Canais para contato, networking e novas oportunidades.',
   },
-]
+];
 
 export const SKILLS: Record<SkillCategory, SkillItem[]> = {
   frontend: [
@@ -305,7 +305,7 @@ export const SKILLS: Record<SkillCategory, SkillItem[]> = {
     { name: 'Datadog / Grafana', level: 74, color: '#7B42BC' },
     { name: 'Azure DevOps', level: 76, color: '#0078D4' },
   ],
-}
+};
 
 export const SKILL_GROUPS: SkillGroup[] = [
   {
@@ -342,7 +342,7 @@ export const SKILL_GROUPS: SkillGroup[] = [
       'Scrum',
     ],
   },
-]
+];
 
 export const PROJECTS: Project[] = [
   {
@@ -464,7 +464,7 @@ export const PROJECTS: Project[] = [
     category: 'Full Stack',
     image: 'https://i.imgur.com/a8mNqoC.png',
   },
-]
+];
 
 export const EXPERIENCE: Experience[] = [
   {
@@ -616,7 +616,7 @@ export const EXPERIENCE: Experience[] = [
     tech: ['Corel Draw', 'Photoshop', 'Trade Marketing', 'Design de Materiais'],
     color: '#94A3B8',
   },
-]
+];
 
 export const ACCOMPLISHMENTS: Accomplishment[] = [
   {
@@ -673,7 +673,7 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
     color: '#61DAFB',
     category: 'Stack',
   },
-]
+];
 
 export const CERTIFICATES: Certificate[] = [
   {
@@ -750,4 +750,4 @@ export const CERTIFICATES: Certificate[] = [
     image: 'https://i.imgur.com/DZCtRXf.png',
     description: 'Fundamentos da linguagem Java como base para aplicações e sistemas.',
   },
-]
+];

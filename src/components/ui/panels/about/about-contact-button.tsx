@@ -1,13 +1,13 @@
-import type { CursorVariant } from '@/types/store'
-import { motion } from 'framer-motion'
-import type { LucideIcon } from 'lucide-react'
-import { createCursorHandlers } from '../panel-primitives'
+import type { CursorVariant } from '@/types/store';
+import { motion } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
+import { createCursorHandlers } from '../panel-primitives';
 
 interface AboutContactButtonProps {
-  href: string
-  icon: LucideIcon
-  label: string
-  setCursorVariant: (variant: CursorVariant) => void
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  setCursorVariant: (variant: CursorVariant) => void;
 }
 
 export function AboutContactButton({
@@ -28,5 +28,5 @@ export function AboutContactButton({
       <Icon size={16} />
       {label}
     </motion.a>
-  )
+  );
 }

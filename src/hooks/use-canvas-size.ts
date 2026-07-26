@@ -1,5 +1,5 @@
-import { useThree } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber';
 
 export function useCanvasSize() {
-  return useThree((state) => state.size)
+  return useThree((state) => state.size);
 }

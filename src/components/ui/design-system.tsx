@@ -1,12 +1,12 @@
-import type { LucideIcon } from 'lucide-react'
-import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react'
-import { cn } from './panels/panel-primitives'
+import type { LucideIcon } from 'lucide-react';
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
+import { cn } from './panels/panel-primitives';
 
 interface UISurfaceProps {
-  children: ReactNode
-  className?: string
-  strong?: boolean
-  style?: CSSProperties
+  children: ReactNode;
+  className?: string;
+  strong?: boolean;
+  style?: CSSProperties;
 }
 
 export function UISurface({ children, className, strong = false, style }: UISurfaceProps) {
@@ -14,45 +14,45 @@ export function UISurface({ children, className, strong = false, style }: UISurf
     <div className={cn(strong ? 'ds-surface-strong' : 'ds-surface', className)} style={style}>
       {children}
     </div>
-  )
+  );
 }
 
-UISurface.displayName = 'UISurface'
+UISurface.displayName = 'UISurface';
 
 interface UIInsetProps {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  className?: string;
 }
 
 export function UIInset({ children, className }: UIInsetProps) {
-  return <div className={cn('ds-inset', className)}>{children}</div>
+  return <div className={cn('ds-inset', className)}>{children}</div>;
 }
 
-UIInset.displayName = 'UIInset'
+UIInset.displayName = 'UIInset';
 
-type UIBadgeTone = 'cool' | 'warm' | 'danger'
+type UIBadgeTone = 'cool' | 'warm' | 'danger';
 
 interface UIBadgeProps {
-  children: ReactNode
-  className?: string
-  tone?: UIBadgeTone
+  children: ReactNode;
+  className?: string;
+  tone?: UIBadgeTone;
 }
 
 export function UIBadge({ children, className, tone = 'cool' }: UIBadgeProps) {
   const toneClassName =
-    tone === 'warm' ? 'ds-badge-warm' : tone === 'danger' ? 'ds-badge-danger' : 'ds-badge'
+    tone === 'warm' ? 'ds-badge-warm' : tone === 'danger' ? 'ds-badge-danger' : 'ds-badge';
 
-  return <div className={cn(toneClassName, className)}>{children}</div>
+  return <div className={cn(toneClassName, className)}>{children}</div>;
 }
 
-UIBadge.displayName = 'UIBadge'
+UIBadge.displayName = 'UIBadge';
 
-type UIIconTileTone = 'cool' | 'warm'
+type UIIconTileTone = 'cool' | 'warm';
 
 interface UIIconTileProps {
-  icon: LucideIcon
-  className?: string
-  tone?: UIIconTileTone
+  icon: LucideIcon;
+  className?: string;
+  tone?: UIIconTileTone;
 }
 
 export function UIIconTile({ icon: Icon, className, tone = 'cool' }: UIIconTileProps) {
@@ -60,15 +60,15 @@ export function UIIconTile({ icon: Icon, className, tone = 'cool' }: UIIconTileP
     <div className={cn(tone === 'warm' ? 'ds-icon-tile-warm' : 'ds-icon-tile', className)}>
       <Icon size={18} />
     </div>
-  )
+  );
 }
 
-UIIconTile.displayName = 'UIIconTile'
+UIIconTile.displayName = 'UIIconTile';
 
 interface UIButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode
-  className?: string
-  variant?: 'primary' | 'secondary'
+  children: ReactNode;
+  className?: string;
+  variant?: 'primary' | 'secondary';
 }
 
 export function UIButton({
@@ -88,7 +88,7 @@ export function UIButton({
     >
       {children}
     </button>
-  )
+  );
 }
 
-UIButton.displayName = 'UIButton'
+UIButton.displayName = 'UIButton';

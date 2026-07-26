@@ -18,7 +18,7 @@ export const SCENE_SETTINGS = {
     saturation: 0.18,
     speed: 0.04,
   },
-} as const
+} as const;
 
 export const PLANET_TYPE_MAP: Record<string, number> = {
   rocky: 0,
@@ -27,4 +27,4 @@ export const PLANET_TYPE_MAP: Record<string, number> = {
   crystal: 3,
   gas: 4,
   ice: 5,
-}
+};

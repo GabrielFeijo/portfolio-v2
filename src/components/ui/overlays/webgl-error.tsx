@@ -1,24 +1,24 @@
-import { motion } from 'framer-motion'
-import { AlertTriangle, AppWindow, Cpu, ExternalLink, RefreshCcw, ShieldCheck } from 'lucide-react'
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
+import { motion } from 'framer-motion';
+import { AlertTriangle, AppWindow, Cpu, ExternalLink, RefreshCcw, ShieldCheck } from 'lucide-react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system';
 
 export function WebGLError({
   variant = 'unavailable',
 }: {
-  variant?: 'unavailable' | 'context_lost'
+  variant?: 'unavailable' | 'context_lost';
 }) {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   useEffect(() => {
-    document.body.classList.add('cursor-fallback-mode')
+    document.body.classList.add('cursor-fallback-mode');
 
     return () => {
-      document.body.classList.remove('cursor-fallback-mode')
-    }
-  }, [])
+      document.body.classList.remove('cursor-fallback-mode');
+    };
+  }, []);
 
-  const isContextLost = variant === 'context_lost'
+  const isContextLost = variant === 'context_lost';
 
   return (
     <div className="relative flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
@@ -160,7 +160,7 @@ export function WebGLError({
         </UISurface>
       </motion.div>
     </div>
-  )
+  );
 }
 
 function FallbackTip({
@@ -168,9 +168,9 @@ function FallbackTip({
   title,
   description,
 }: {
-  icon: typeof AlertTriangle
-  title: string
-  description: string
+  icon: typeof AlertTriangle;
+  title: string;
+  description: string;
 }) {
   return (
     <UIInset className="p-4 text-left">
@@ -178,5 +178,5 @@ function FallbackTip({
       <div className="text-sm font-semibold text-[#F8FBFF]">{title}</div>
       <p className="mt-2 text-xs leading-6 text-[rgba(240,244,255,0.6)]">{description}</p>
     </UIInset>
-  )
+  );
 }

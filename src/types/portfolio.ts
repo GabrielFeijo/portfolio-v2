@@ -15,4 +15,4 @@ export type {
   SkillCategory,
   SkillGroup,
   SkillItem,
-} from '@/data/portfolio'
+} from '@/data/portfolio';

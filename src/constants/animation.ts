@@ -8,4 +8,4 @@ export const ANIMATION_SETTINGS = {
     damping: 32,
     mass: 0.8,
   },
-} as const
+} as const;

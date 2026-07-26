@@ -1,10 +1,10 @@
-import { usePlanetInteraction } from '@/hooks/use-planet-interaction'
-import { act, renderHook } from '@testing-library/react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { usePlanetInteraction } from '@/hooks/use-planet-interaction';
+import { act, renderHook } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/hooks/use-prefers-reduced-motion', () => ({
   usePrefersReducedMotion: vi.fn(() => false),
-}))
+}));
 
 const baseSettings = {
   antialias: true,
@@ -22,16 +22,16 @@ const baseSettings = {
   starDensity: 1,
   transitionAnimations: true,
   warpEffects: true,
-}
+};
 
 describe('usePlanetInteraction', () => {
   afterEach(() => {
-    vi.useRealTimers()
-  })
+    vi.useRealTimers();
+  });
 
   it('calls handlePlanetClick on handleClick', () => {
-    const handlePlanetClick = vi.fn()
-    const setCursorVariant = vi.fn()
+    const handlePlanetClick = vi.fn();
+    const setCursorVariant = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -39,18 +39,18 @@ describe('usePlanetInteraction', () => {
         handlePlanetClick,
         setCursorVariant,
       })
-    )
+    );
 
-    const stopPropagation = vi.fn()
-    act(() => result.current.handleClick({ stopPropagation } as never))
+    const stopPropagation = vi.fn();
+    act(() => result.current.handleClick({ stopPropagation } as never));
 
-    expect(stopPropagation).toHaveBeenCalled()
-    expect(handlePlanetClick).toHaveBeenCalledWith('about')
-  })
+    expect(stopPropagation).toHaveBeenCalled();
+    expect(handlePlanetClick).toHaveBeenCalledWith('about');
+  });
 
   it('updates cursor and hovered state on pointer events', () => {
-    const handlePlanetClick = vi.fn()
-    const setCursorVariant = vi.fn()
+    const handlePlanetClick = vi.fn();
+    const setCursorVariant = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -58,25 +58,25 @@ describe('usePlanetInteraction', () => {
         handlePlanetClick,
         setCursorVariant,
       })
-    )
+    );
 
-    act(() => result.current.handlePointerEnter())
-    expect(result.current.hovered).toBe(true)
-    expect(setCursorVariant).toHaveBeenCalledWith('planet')
+    act(() => result.current.handlePointerEnter());
+    expect(result.current.hovered).toBe(true);
+    expect(setCursorVariant).toHaveBeenCalledWith('planet');
 
-    act(() => result.current.handlePointerLeave())
-    expect(result.current.hovered).toBe(false)
-    expect(setCursorVariant).toHaveBeenCalledWith('default')
-  })
+    act(() => result.current.handlePointerLeave());
+    expect(result.current.hovered).toBe(false);
+    expect(setCursorVariant).toHaveBeenCalledWith('default');
+  });
 
   it('opens panel immediately when reduced motion is preferred', async () => {
-    const { usePrefersReducedMotion } = await import('@/hooks/use-prefers-reduced-motion')
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(true)
+    const { usePrefersReducedMotion } = await import('@/hooks/use-prefers-reduced-motion');
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
 
-    const openPanel = vi.fn()
-    const setActivePlanet = vi.fn()
-    const setCursorVariant = vi.fn()
-    const setWarpActive = vi.fn()
+    const openPanel = vi.fn();
+    const setActivePlanet = vi.fn();
+    const setCursorVariant = vi.fn();
+    const setWarpActive = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -87,23 +87,23 @@ describe('usePlanetInteraction', () => {
         setWarpActive,
         settings: baseSettings,
       })
-    )
+    );
 
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
 
-    expect(openPanel).toHaveBeenCalledWith('experience')
-    expect(setWarpActive).not.toHaveBeenCalled()
+    expect(openPanel).toHaveBeenCalledWith('experience');
+    expect(setWarpActive).not.toHaveBeenCalled();
 
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(false)
-  })
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
+  });
 
   it('runs warp and delayed open when enabled', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    const openPanel = vi.fn()
-    const setActivePlanet = vi.fn()
-    const setCursorVariant = vi.fn()
-    const setWarpActive = vi.fn()
+    const openPanel = vi.fn();
+    const setActivePlanet = vi.fn();
+    const setCursorVariant = vi.fn();
+    const setWarpActive = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -114,24 +114,24 @@ describe('usePlanetInteraction', () => {
         setWarpActive,
         settings: baseSettings,
       })
-    )
+    );
 
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
-    expect(setWarpActive).toHaveBeenCalledWith(true)
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
+    expect(setWarpActive).toHaveBeenCalledWith(true);
 
     act(() => {
-      vi.advanceTimersByTime(2000)
-    })
-    expect(openPanel).toHaveBeenCalledWith('contact')
-  })
+      vi.advanceTimersByTime(2000);
+    });
+    expect(openPanel).toHaveBeenCalledWith('contact');
+  });
 
   it('skips warp activation when warp effects are disabled', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    const openPanel = vi.fn()
-    const setActivePlanet = vi.fn()
-    const setCursorVariant = vi.fn()
-    const setWarpActive = vi.fn()
+    const openPanel = vi.fn();
+    const setActivePlanet = vi.fn();
+    const setCursorVariant = vi.fn();
+    const setWarpActive = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -145,24 +145,24 @@ describe('usePlanetInteraction', () => {
           warpEffects: false,
         },
       })
-    )
+    );
 
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
-    expect(setWarpActive).not.toHaveBeenCalled()
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
+    expect(setWarpActive).not.toHaveBeenCalled();
 
     act(() => {
-      vi.advanceTimersByTime(2000)
-    })
-    expect(openPanel).toHaveBeenCalledWith('contact')
-  })
+      vi.advanceTimersByTime(2000);
+    });
+    expect(openPanel).toHaveBeenCalledWith('contact');
+  });
 
   it('clears pending timers when a new click arrives before the previous transition completes', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    const openPanel = vi.fn()
-    const setActivePlanet = vi.fn()
-    const setCursorVariant = vi.fn()
-    const setWarpActive = vi.fn()
+    const openPanel = vi.fn();
+    const setActivePlanet = vi.fn();
+    const setCursorVariant = vi.fn();
+    const setWarpActive = vi.fn();
 
     const { result } = renderHook(() =>
       usePlanetInteraction({
@@ -173,27 +173,27 @@ describe('usePlanetInteraction', () => {
         setWarpActive,
         settings: baseSettings,
       })
-    )
+    );
 
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
 
-    expect(setWarpActive).toHaveBeenCalledTimes(2)
+    expect(setWarpActive).toHaveBeenCalledTimes(2);
 
     act(() => {
-      vi.advanceTimersByTime(2000)
-    })
+      vi.advanceTimersByTime(2000);
+    });
 
-    expect(openPanel).toHaveBeenCalledWith('projects')
-  })
+    expect(openPanel).toHaveBeenCalledWith('projects');
+  });
 
   it('clears panel open timer on unmount', () => {
-    vi.useFakeTimers()
+    vi.useFakeTimers();
 
-    const openPanel = vi.fn()
-    const setActivePlanet = vi.fn()
-    const setCursorVariant = vi.fn()
-    const setWarpActive = vi.fn()
+    const openPanel = vi.fn();
+    const setActivePlanet = vi.fn();
+    const setCursorVariant = vi.fn();
+    const setWarpActive = vi.fn();
 
     const { result, unmount } = renderHook(() =>
       usePlanetInteraction({
@@ -204,15 +204,15 @@ describe('usePlanetInteraction', () => {
         setWarpActive,
         settings: baseSettings,
       })
-    )
+    );
 
-    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never))
-    unmount()
+    act(() => result.current.handleClick({ stopPropagation: vi.fn() } as never));
+    unmount();
 
     act(() => {
-      vi.advanceTimersByTime(2000)
-    })
+      vi.advanceTimersByTime(2000);
+    });
 
-    expect(openPanel).not.toHaveBeenCalled()
-  })
-})
+    expect(openPanel).not.toHaveBeenCalled();
+  });
+});

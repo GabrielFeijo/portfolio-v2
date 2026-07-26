@@ -1,23 +1,23 @@
-import type { SkillItem } from '@/data/portfolio'
-import { motion } from 'framer-motion'
-import { useTranslation } from 'react-i18next'
+import type { SkillItem } from '@/data/portfolio';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const getLevelKey = (level: number) => {
-  if (level >= 95) return 'expert'
-  if (level >= 85) return 'advanced'
-  if (level >= 75) return 'proficient'
-  if (level >= 60) return 'intermediate'
-  return 'evolving'
-}
+  if (level >= 95) return 'expert';
+  if (level >= 85) return 'advanced';
+  if (level >= 75) return 'proficient';
+  if (level >= 60) return 'intermediate';
+  return 'evolving';
+};
 
 interface SkillBarProps {
-  delay: number
-  skill: SkillItem
+  delay: number;
+  skill: SkillItem;
 }
 
 export function SkillBar({ delay, skill }: SkillBarProps) {
-  const { t } = useTranslation()
-  const levelText = t(`skills.levels.${getLevelKey(skill.level)}`)
+  const { t } = useTranslation();
+  const levelText = t(`skills.levels.${getLevelKey(skill.level)}`);
 
   return (
     <motion.div
@@ -53,5 +53,5 @@ export function SkillBar({ delay, skill }: SkillBarProps) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 }

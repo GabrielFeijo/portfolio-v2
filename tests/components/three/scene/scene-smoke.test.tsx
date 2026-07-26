@@ -1,15 +1,15 @@
-import { act, render } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { act, render } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@react-three/drei', () => ({
   Stars: () => null,
-}))
+}));
 
 vi.mock('zustand/react/shallow', () => ({
   useShallow: (selector: unknown) => selector,
-}))
+}));
 
-const setIsLoaded = vi.fn()
+const setIsLoaded = vi.fn();
 let mockSettings = {
   antialias: true,
   asteroidDensity: 1,
@@ -25,48 +25,48 @@ let mockSettings = {
   starDensity: 1,
   transitionAnimations: true,
   warpEffects: true,
-}
+};
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: (s: any) => unknown) =>
     selector({
       experienceSettings: mockSettings,
       setIsLoaded,
     }),
-}))
+}));
 
-vi.mock('@/components/three/objects/asteroid-belt', () => ({ AsteroidBelt: () => <div /> }))
-vi.mock('@/components/three/objects/nebula', () => ({ Nebula: () => <div /> }))
-vi.mock('@/components/three/objects/planet-3d', () => ({ Planet3D: () => <div /> }))
+vi.mock('@/components/three/objects/asteroid-belt', () => ({ AsteroidBelt: () => <div /> }));
+vi.mock('@/components/three/objects/nebula', () => ({ Nebula: () => <div /> }));
+vi.mock('@/components/three/objects/planet-3d', () => ({ Planet3D: () => <div /> }));
 vi.mock('@/components/three/objects/sun-3d', () => ({
   Sun3D: () => <div />,
   ShootingStar: () => <div />,
-}))
-vi.mock('@/components/three/scene/camera-controller', () => ({ CameraController: () => <div /> }))
+}));
+vi.mock('@/components/three/scene/camera-controller', () => ({ CameraController: () => <div /> }));
 
-import { CameraController } from '@/components/three/scene/camera-controller'
-import { SpaceScene } from '@/components/three/scene/space-scene'
+import { CameraController } from '@/components/three/scene/camera-controller';
+import { SpaceScene } from '@/components/three/scene/space-scene';
 
 describe('scene smoke', () => {
   beforeEach(() => {
-    vi.useFakeTimers()
-    setIsLoaded.mockReset()
+    vi.useFakeTimers();
+    setIsLoaded.mockReset();
     mockSettings = {
       ...mockSettings,
       nebula: true,
       shootingStars: true,
       asteroidDensity: 1,
       starDensity: 1,
-    }
-  })
+    };
+  });
 
   afterEach(() => {
-    vi.useRealTimers()
-  })
+    vi.useRealTimers();
+  });
 
   it('renders space scene', () => {
-    const { container } = render(<SpaceScene />)
-    expect(container).toBeDefined()
-  })
+    const { container } = render(<SpaceScene />);
+    expect(container).toBeDefined();
+  });
 
   it('renders camera controller', () => {
     const { container } = render(
@@ -82,9 +82,9 @@ describe('scene smoke', () => {
           },
         }}
       />
-    )
-    expect(container).toBeDefined()
-  })
+    );
+    expect(container).toBeDefined();
+  });
 
   it('handles timeout load and feature toggles', () => {
     mockSettings = {
@@ -93,17 +93,17 @@ describe('scene smoke', () => {
       shootingStars: false,
       asteroidDensity: 0,
       starDensity: 0,
-    }
-    const { unmount } = render(<SpaceScene />)
+    };
+    const { unmount } = render(<SpaceScene />);
     act(() => {
-      vi.runAllTimers()
-    })
-    expect(setIsLoaded).toHaveBeenCalledWith(true)
-    unmount()
-  })
+      vi.runAllTimers();
+    });
+    expect(setIsLoaded).toHaveBeenCalledWith(true);
+    unmount();
+  });
 
   it('uses zero as the default orbit phase when planet data omits it', async () => {
-    vi.resetModules()
+    vi.resetModules();
     vi.doMock('@/data/portfolio', () => ({
       PLANETS: [
         {
@@ -122,12 +122,12 @@ describe('scene smoke', () => {
           description: 'About',
         },
       ],
-    }))
+    }));
 
     const { SpaceScene: SpaceSceneWithFallbackData } =
-      await import('@/components/three/scene/space-scene')
-    render(<SpaceSceneWithFallbackData />)
+      await import('@/components/three/scene/space-scene');
+    render(<SpaceSceneWithFallbackData />);
 
-    expect(setIsLoaded).not.toHaveBeenCalled()
-  })
-})
+    expect(setIsLoaded).not.toHaveBeenCalled();
+  });
+});

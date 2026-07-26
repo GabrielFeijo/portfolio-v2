@@ -1,21 +1,21 @@
-import { PROJECTS, type ProjectCategory } from '@/data/portfolio'
-import { useSpaceStore } from '@/store/space-store'
-import { motion } from 'framer-motion'
-import { Layers3 } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { PanelIntroCard, createCursorHandlers } from './panel-primitives'
-import { ProjectCard } from './projects/project-card'
+import { PROJECTS, type ProjectCategory } from '@/data/portfolio';
+import { useSpaceStore } from '@/store/space-store';
+import { motion } from 'framer-motion';
+import { Layers3 } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { PanelIntroCard, createCursorHandlers } from './panel-primitives';
+import { ProjectCard } from './projects/project-card';
 
-const ALL_PROJECTS_FILTER = 'all' as const
-type ProjectFilter = ProjectCategory | typeof ALL_PROJECTS_FILTER
+const ALL_PROJECTS_FILTER = 'all' as const;
+type ProjectFilter = ProjectCategory | typeof ALL_PROJECTS_FILTER;
 
 export function ProjectsPanel() {
-  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant)
-  const { t } = useTranslation()
-  const [selected, setSelected] = useState<string | null>(PROJECTS[0]?.id ?? null)
-  const [filter, setFilter] = useState<ProjectFilter>(ALL_PROJECTS_FILTER)
-  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
+  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
+  const { t } = useTranslation();
+  const [selected, setSelected] = useState<string | null>(PROJECTS[0]?.id ?? null);
+  const [filter, setFilter] = useState<ProjectFilter>(ALL_PROJECTS_FILTER);
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
 
   const categories: ProjectFilter[] = useMemo(
     () => [
@@ -23,18 +23,18 @@ export function ProjectsPanel() {
       ...Array.from(new Set(PROJECTS.map((project) => project.category))),
     ],
     []
-  )
+  );
   const filtered = useMemo(
     () =>
       filter === ALL_PROJECTS_FILTER
         ? PROJECTS
         : PROJECTS.filter((project) => project.category === filter),
     [filter]
-  )
+  );
   const getFilterLabel = (value: ProjectFilter) => {
-    if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all')
-    return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value)
-  }
+    if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all');
+    return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value);
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
@@ -88,9 +88,9 @@ export function ProjectsPanel() {
               transition={{ delay: i * 0.05 }}
               setCursorVariant={setCursorVariant}
             />
-          )
+          );
         })}
       </div>
     </motion.div>
-  )
+  );
 }

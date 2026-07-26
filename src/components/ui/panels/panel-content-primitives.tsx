@@ -1,13 +1,13 @@
-import { ChevronRight } from 'lucide-react'
-import type { CSSProperties, ReactNode } from 'react'
-import { cn } from './panel-primitives'
+import { ChevronRight } from 'lucide-react';
+import type { CSSProperties, ReactNode } from 'react';
+import { cn } from './panel-primitives';
 
 export function PanelTag({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <span className={cn('rounded-full panel-meta-chip px-3 py-1.5 text-xs', className)}>
       {children}
     </span>
-  )
+  );
 }
 
 export function PanelTagList({
@@ -15,12 +15,12 @@ export function PanelTagList({
   className,
   limit,
 }: {
-  items: string[]
-  className?: string
-  limit?: number
+  items: string[];
+  className?: string;
+  limit?: number;
 }) {
-  const visibleItems = typeof limit === 'number' ? items.slice(0, limit) : items
-  const hiddenCount = typeof limit === 'number' ? Math.max(items.length - limit, 0) : 0
+  const visibleItems = typeof limit === 'number' ? items.slice(0, limit) : items;
+  const hiddenCount = typeof limit === 'number' ? Math.max(items.length - limit, 0) : 0;
 
   return (
     <div className={cn('flex flex-wrap gap-2', className)}>
@@ -31,7 +31,7 @@ export function PanelTagList({
         <span className="px-2 py-1.5 text-xs text-(--text-muted)">+{hiddenCount}</span>
       )}
     </div>
-  )
+  );
 }
 
 export function PanelBulletList({ items, className }: { items: string[]; className?: string }) {
@@ -44,17 +44,17 @@ export function PanelBulletList({ items, className }: { items: string[]; classNa
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 export function PanelInsetCard({
   children,
   className,
 }: {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  className?: string;
 }) {
-  return <div className={cn('panel-card rounded-[20px] p-4', className)}>{children}</div>
+  return <div className={cn('panel-card rounded-[20px] p-4', className)}>{children}</div>;
 }
 
 export function PanelTopGlow({ color, className }: { color: string; className?: string }) {
@@ -63,7 +63,7 @@ export function PanelTopGlow({ color, className }: { color: string; className?: 
       className={cn('pointer-events-none absolute inset-x-0 top-0 opacity-60', className)}
       style={{ background: `linear-gradient(180deg, ${color}22, transparent)` }}
     />
-  )
+  );
 }
 
 export function PanelImageFrame({
@@ -72,10 +72,10 @@ export function PanelImageFrame({
   className,
   style,
 }: {
-  src: string
-  alt: string
-  className?: string
-  style?: CSSProperties
+  src: string;
+  alt: string;
+  className?: string;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -88,7 +88,7 @@ export function PanelImageFrame({
         className="w-full h-auto max-h-[320px] object-contain transition-transform duration-500 hover:scale-[1.03]"
       />
     </div>
-  )
+  );
 }
 
 export function PanelNotice({ children, className }: { children: ReactNode; className?: string }) {
@@ -101,5 +101,5 @@ export function PanelNotice({ children, className }: { children: ReactNode; clas
     >
       {children}
     </div>
-  )
+  );
 }

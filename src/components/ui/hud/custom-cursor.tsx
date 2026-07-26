@@ -1,9 +1,9 @@
-import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor'
-import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
-import { useSpaceStore } from '@/store/space-store'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { useShallow } from 'zustand/react/shallow'
+import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor';
+import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion';
+import { useSpaceStore } from '@/store/space-store';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
 export function CustomCursor() {
   const { cursorVariant, customCursorEnabled } = useSpaceStore(
@@ -11,59 +11,58 @@ export function CustomCursor() {
       cursorVariant: state.cursorVariant,
       customCursorEnabled: state.experienceSettings.customCursor,
     }))
-  )
-  const prefersReducedMotion = usePrefersReducedMotion()
-  const [isCursorCapable, setIsCursorCapable] = useState(false)
-  const cursorX = useMotionValue(-100)
-  const cursorY = useMotionValue(-100)
-  const trailX = useMotionValue(-100)
-  const trailY = useMotionValue(-100)
+  );
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [isCursorCapable, setIsCursorCapable] = useState(false);
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const trailX = useMotionValue(-100);
+  const trailY = useMotionValue(-100);
 
-  const springX = useSpring(cursorX, { damping: 25, stiffness: 700, mass: 0.5 })
-  const springY = useSpring(cursorY, { damping: 25, stiffness: 700, mass: 0.5 })
-  const trailSpringX = useSpring(trailX, { damping: 35, stiffness: 200, mass: 1 })
-  const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 })
+  const springX = useSpring(cursorX, { damping: 25, stiffness: 700, mass: 0.5 });
+  const springY = useSpring(cursorY, { damping: 25, stiffness: 700, mass: 0.5 });
+  const trailSpringX = useSpring(trailX, { damping: 35, stiffness: 200, mass: 1 });
+  const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 });
 
-  const shouldUseCustomCursor =
-    isCursorCapable && customCursorEnabled && !prefersReducedMotion
+  const shouldUseCustomCursor = isCursorCapable && customCursorEnabled && !prefersReducedMotion;
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
     const updateCapability = () => {
-      const enabled = mediaQuery.matches
-      setIsCursorCapable(enabled)
-    }
+      const enabled = mediaQuery.matches;
+      setIsCursorCapable(enabled);
+    };
 
-    updateCapability()
-    mediaQuery.addEventListener('change', updateCapability)
+    updateCapability();
+    mediaQuery.addEventListener('change', updateCapability);
 
     return () => {
-      mediaQuery.removeEventListener('change', updateCapability)
-    }
-  }, [])
+      mediaQuery.removeEventListener('change', updateCapability);
+    };
+  }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('cursor-fallback-mode', !shouldUseCustomCursor)
-    return () => document.body.classList.remove('cursor-fallback-mode')
-  }, [shouldUseCustomCursor])
+    document.body.classList.toggle('cursor-fallback-mode', !shouldUseCustomCursor);
+    return () => document.body.classList.remove('cursor-fallback-mode');
+  }, [shouldUseCustomCursor]);
 
   useEffect(() => {
-    if (!shouldUseCustomCursor) return
+    if (!shouldUseCustomCursor) return;
 
     const move = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 8)
-      cursorY.set(e.clientY - 8)
-      trailX.set(e.clientX - 20)
-      trailY.set(e.clientY - 20)
-    }
-    window.addEventListener('mousemove', move)
-    return () => window.removeEventListener('mousemove', move)
-  }, [cursorX, cursorY, shouldUseCustomCursor, trailX, trailY])
+      cursorX.set(e.clientX - 8);
+      cursorY.set(e.clientY - 8);
+      trailX.set(e.clientX - 20);
+      trailY.set(e.clientY - 20);
+    };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, [cursorX, cursorY, shouldUseCustomCursor, trailX, trailY]);
 
-  if (typeof window === 'undefined' || !shouldUseCustomCursor) return null
+  if (typeof window === 'undefined' || !shouldUseCustomCursor) return null;
 
-  const current = CURSOR_VARIANTS[cursorVariant]
-  const color = CURSOR_COLORS[cursorVariant]
+  const current = CURSOR_VARIANTS[cursorVariant];
+  const color = CURSOR_COLORS[cursorVariant];
 
   return (
     <>
@@ -138,5 +137,5 @@ export function CustomCursor() {
         </motion.div>
       )}
     </>
-  )
+  );
 }
