@@ -25,6 +25,10 @@ export default defineConfig(({ command }) => ({
             return undefined
           }
 
+          if (id.includes('/react/') || id.includes('/react-dom/')) {
+            return 'vendor-react'
+          }
+
           if (id.includes('@react-three') || id.includes('/three/') || id.includes('/three-stdlib/') || id.includes('/camera-controls/')) {
             return 'vendor-3d'
           }
@@ -33,23 +37,15 @@ export default defineConfig(({ command }) => ({
             return 'vendor-motion'
           }
 
-          if (id.includes('/zustand/')) {
-            return 'vendor-state'
-          }
-
           if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('/zod/')) {
             return 'vendor-form'
-          }
-
-          if (id.includes('/react/') || id.includes('/react-dom/')) {
-            return 'vendor-react'
           }
 
           if (id.includes('lucide-react')) {
             return 'vendor-icons'
           }
 
-          return 'vendor-misc'
+          return undefined
         },
       },
     },

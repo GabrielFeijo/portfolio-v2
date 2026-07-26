@@ -30,7 +30,7 @@ export function WarpEffect() {
     const stars: { x: number; y: number; z: number; pz: number; color: string }[] = []
     const starColors = ['#FFFFFF', '#BAE6FD', '#0EA5E9', '#F0F9FF']
 
-    for (let i = 0; i < 900; i++) {
+    for (let i = 0; i < 650; i++) {
       stars.push({
         x: Math.random() * canvas.width - cx,
         y: Math.random() * canvas.height - cy,

@@ -53,21 +53,22 @@ interface PanelTheme extends CSSProperties {
 export function PlanetPanel() {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement | null>(null)
-  const { activePanel, closePanel, navigateToPanel, setCursorVariant, settings } = useSpaceStore(
-    useShallow((state) => ({
-      activePanel: state.activePanel,
-      closePanel: state.closePanel,
-      navigateToPanel: state.navigateToPanel,
-      setCursorVariant: state.setCursorVariant,
-      settings: state.experienceSettings,
-    }))
-  )
+  const { activePanel, closePanel, navigateToPanel, setCursorVariant, transitionAnimations } =
+    useSpaceStore(
+      useShallow((state) => ({
+        activePanel: state.activePanel,
+        closePanel: state.closePanel,
+        navigateToPanel: state.navigateToPanel,
+        setCursorVariant: state.setCursorVariant,
+        transitionAnimations: state.experienceSettings.transitionAnimations,
+      }))
+    )
 
   useFocusTrap(panelRef, Boolean(activePanel))
 
   const planet = PLANETS.find((p) => p.id === activePanel)
   const PanelContent = activePanel ? PANELS[activePanel] : null
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
   const idx = PLANETS.findIndex((p) => p.id === activePanel)
   const prev = idx > -1 ? PLANETS[idx - 1] : undefined
   const next = idx > -1 ? PLANETS[idx + 1] : undefined
@@ -138,7 +139,7 @@ export function PlanetPanel() {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
         transition={
-          settings.transitionAnimations ? ANIMATION_SETTINGS.panelSpring : { duration: 0 }
+          transitionAnimations ? ANIMATION_SETTINGS.panelSpring : { duration: 0 }
         }
         className="relative h-full w-full pointer-events-auto overflow-hidden sm:w-155"
         ref={panelRef}

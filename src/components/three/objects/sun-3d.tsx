@@ -3,17 +3,23 @@ import { Html, Sparkles, Sphere } from '@react-three/drei'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useFrame } from '@react-three/fiber'
 import type { CSSProperties } from 'react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
+import { useShallow } from 'zustand/react/shallow'
 
 interface HelpLabelStyle extends CSSProperties {
   '--planet-accent': string
 }
 
-export function Sun3D() {
+export const Sun3D = memo(function Sun3D() {
   const { t } = useTranslation()
-  const { openHelp, setCursorVariant } = useSpaceStore()
+  const { openHelp, setCursorVariant } = useSpaceStore(
+    useShallow((state) => ({
+      openHelp: state.openHelp,
+      setCursorVariant: state.setCursorVariant,
+    }))
+  )
   const sunRef = useRef<THREE.Mesh | null>(null)
   const sunMatRef = useRef<THREE.ShaderMaterial | null>(null)
   const [hovered, setHovered] = useState(false)
@@ -70,7 +76,7 @@ export function Sun3D() {
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       >
-        <sphereGeometry args={[4.5, 128, 128]} />
+        <sphereGeometry args={[4.5, 96, 96]} />
         <sunMaterial
           ref={sunMatRef}
           uColorPrimary={colPrimary}
@@ -93,7 +99,7 @@ export function Sun3D() {
       }), [])}
 
       <Sparkles
-        count={320}
+        count={240}
         scale={[14, 14, 14]}
         size={3.8}
         speed={0.9}
@@ -101,7 +107,7 @@ export function Sun3D() {
         opacity={0.65}
       />
       <Sparkles
-        count={180}
+        count={135}
         scale={[9, 9, 9]}
         size={5.4}
         speed={0.55}
@@ -133,7 +139,7 @@ export function Sun3D() {
       <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />
     </group>
   )
-}
+})
 
 interface SolarFlareProps {
   basePos: [number, number, number]

@@ -15,7 +15,7 @@ const STAT_TONES = [
 ]
 
 export function AboutPanel() {
-  const { setCursorVariant } = useSpaceStore()
+  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant)
   const { t } = useTranslation()
 
   const stats = [

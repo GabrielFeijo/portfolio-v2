@@ -2,33 +2,39 @@ import { DEVELOPER, PLANETS } from '@/data/portfolio'
 import { useSpaceStore } from '@/store/space-store'
 import { motion } from 'framer-motion'
 import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { UIBadge, UIIconTile } from '../design-system'
 import { cn, createCursorHandlers } from '../panels/panel-primitives'
 
 export function HUD() {
   const { activePanel, navigateToPanel, openSettings, setCursorVariant, setLanguage } =
-    useSpaceStore()
-  const [time, setTime] = useState(new Date())
+    useSpaceStore(
+      useShallow((state) => ({
+        activePanel: state.activePanel,
+        navigateToPanel: state.navigateToPanel,
+        openSettings: state.openSettings,
+        setCursorVariant: state.setCursorVariant,
+        setLanguage: state.setLanguage,
+      }))
+    )
   const { t, i18n } = useTranslation()
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
 
   const currentLang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt'
-
-  useEffect(() => {
-    const t = setInterval(() => setTime(new Date()), 1000)
-    return () => clearInterval(t)
-  }, [])
 
   useEffect(() => {
     setLanguage(currentLang)
   }, [currentLang, setLanguage])
 
-  const changeLanguage = (lang: 'pt' | 'en') => {
-    i18n.changeLanguage(lang)
-    setLanguage(lang)
-  }
+  const changeLanguage = useCallback(
+    (lang: 'pt' | 'en') => {
+      i18n.changeLanguage(lang)
+      setLanguage(lang)
+    },
+    [i18n, setLanguage]
+  )
 
   return (
     <motion.div
@@ -70,11 +76,7 @@ export function HUD() {
 
         <div className="flex flex-col items-end gap-2 text-right">
           <div className="font-mono-space text-[11px] sm:text-xs text-(--text-secondary) uppercase tracking-[0.18em]">
-            {time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-            })}
+            <HudClock currentLang={currentLang} />
           </div>
           <div className="text-[11px] sm:text-xs text-(--text-muted)">
             {t('developer.location')}
@@ -144,3 +146,18 @@ export function HUD() {
     </motion.div>
   )
 }
+
+const HudClock = memo(function HudClock({ currentLang }: { currentLang: 'pt' | 'en' }) {
+  const [time, setTime] = useState(new Date())
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(new Date()), 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
+})

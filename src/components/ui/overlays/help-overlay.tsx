@@ -2,16 +2,22 @@ import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useSpaceStore } from '@/store/space-store'
 import { motion } from 'framer-motion'
 import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
 import { createCursorHandlers } from '../panels/panel-primitives'
 
 export function HelpOverlay() {
   const { t } = useTranslation()
   const dialogRef = useRef<HTMLDivElement | null>(null)
-  const { closeHelp, setCursorVariant } = useSpaceStore()
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const { closeHelp, setCursorVariant } = useSpaceStore(
+    useShallow((state) => ({
+      closeHelp: state.closeHelp,
+      setCursorVariant: state.setCursorVariant,
+    }))
+  )
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
   useFocusTrap(dialogRef, true)
   const quickSteps = t('help.quick_steps', { returnObjects: true }) as string[]
   const sections = t('help.sections', { returnObjects: true }) as Array<{

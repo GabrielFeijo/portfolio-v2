@@ -8,7 +8,7 @@ import { getPlanetOrbitCenterY, getPlanetOrbitRotation, getPlanetPosition } from
 import { makeRingTexture } from '@/utils/textures'
 import { Html } from '@react-three/drei'
 import type { CSSProperties } from 'react'
-import { useEffect, useMemo, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import * as THREE from 'three'
 import { useShallow } from 'zustand/react/shallow'
@@ -24,21 +24,25 @@ interface PlanetLabelStyle extends CSSProperties {
   '--planet-accent': string
 }
 
-export function Planet3D({ angleRef, planet }: Planet3DProps) {
+export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DProps) {
   const { t } = useTranslation()
   const {
     activePanel,
     activePlanet,
     handlePlanetClick,
+    orbitalParticles,
+    planetRotation,
     setCursorVariant,
-    settings,
+    starDensity,
   } = useSpaceStore(
     useShallow((state) => ({
       activePanel: state.activePanel,
       activePlanet: state.activePlanet,
       handlePlanetClick: state.handlePlanetClick,
+      orbitalParticles: state.experienceSettings.orbitalParticles,
+      planetRotation: state.experienceSettings.planetRotation,
       setCursorVariant: state.setCursorVariant,
-      settings: state.experienceSettings,
+      starDensity: state.experienceSettings.starDensity,
     }))
   )
 
@@ -65,7 +69,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
     meshRef,
     planet,
     planetMaterialRef,
-    planetRotation: settings.planetRotation,
+    planetRotation,
   })
   const ringTexture = useMemo(
     () => (planet.hasRings ? makeRingTexture(planet.ringColor ?? planet.color) : null),
@@ -95,7 +99,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
   return (
     <>
       <mesh rotation={orbitRotation} position={[0, orbitCenterY, 0]}>
-        <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 192]} />
+        <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 128]} />
         <meshBasicMaterial
           color={planet.color}
           transparent
@@ -109,7 +113,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
           ref={atmosphereRef}
           scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}
         >
-          <sphereGeometry args={[1, 64, 64]} />
+          <sphereGeometry args={[1, 48, 48]} />
           <advancedAtmosphereMaterial
             ref={atmosphereMaterialRef}
             uColor={atmosphereColor}
@@ -127,7 +131,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
           onPointerEnter={interaction.handlePointerEnter}
           onPointerLeave={interaction.handlePointerLeave}
         >
-          <sphereGeometry args={[planet.size, 128, 128]} />
+          <sphereGeometry args={[planet.size, 96, 96]} />
           <aaaPlanetMaterial
             ref={planetMaterialRef}
             uColor={baseColor}
@@ -139,7 +143,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
         {planet.hasRings && ringTexture && (
           <group rotation={[Math.PI / 6, 0, 0.15]}>
             <mesh>
-              <ringGeometry args={[planet.size * 1.45, planet.size * 2.3, 128]} />
+              <ringGeometry args={[planet.size * 1.45, planet.size * 2.3, 96]} />
               <meshBasicMaterial
                 map={ringTexture}
                 transparent
@@ -149,7 +153,7 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
               />
             </mesh>
             <mesh>
-              <ringGeometry args={[planet.size * 1.3, planet.size * 1.35, 128]} />
+              <ringGeometry args={[planet.size * 1.3, planet.size * 1.35, 96]} />
               <meshBasicMaterial
                 color={planet.glowColor}
                 transparent
@@ -189,14 +193,14 @@ export function Planet3D({ angleRef, planet }: Planet3DProps) {
           </Html>
         )}
 
-        {isActive && settings.orbitalParticles && (
+        {isActive && orbitalParticles && (
           <OrbitParticles
             color={planet.glowColor}
-            density={settings.starDensity}
+            density={starDensity}
             size={planet.size}
           />
         )}
       </group>
     </>
   )
-}
+})

@@ -15,14 +15,17 @@ interface CameraControllerProps {
 export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null)
   const { camera, size } = useThree()
-  const { activePanel, activePlanet, settings, warpActive } = useSpaceStore(
-    useShallow((state) => ({
-      activePanel: state.activePanel,
-      activePlanet: state.activePlanet,
-      settings: state.experienceSettings,
-      warpActive: state.warpActive,
-    }))
-  )
+  const { activePanel, activePlanet, autoRotate, transitionAnimations, warpActive, warpEffects } =
+    useSpaceStore(
+      useShallow((state) => ({
+        activePanel: state.activePanel,
+        activePlanet: state.activePlanet,
+        autoRotate: state.experienceSettings.autoRotate,
+        transitionAnimations: state.experienceSettings.transitionAnimations,
+        warpActive: state.warpActive,
+        warpEffects: state.experienceSettings.warpEffects,
+      }))
+    )
 
   useEffect(() => {
     const controls = controlsRef.current
@@ -42,7 +45,7 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     camera,
     controlsRef,
     planetAngles,
-    smooth: settings.transitionAnimations,
+    smooth: transitionAnimations,
     viewportWidth: size.width,
   })
 
@@ -50,26 +53,29 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     const controls = controlsRef.current
     if (!controls || !(camera instanceof THREE.PerspectiveCamera)) return
 
-    if (!activePanel && settings.autoRotate) {
+    if (!activePanel && autoRotate) {
       controls.azimuthAngle -= delta * CAMERA_SETTINGS.idleAzimuthSpeed
     }
 
-    if (warpActive && settings.warpEffects) {
-      camera.fov = THREE.MathUtils.lerp(camera.fov, CAMERA_SETTINGS.warpFov, delta * 5)
-    } else if (activePanel) {
-      camera.fov = THREE.MathUtils.lerp(camera.fov, CAMERA_SETTINGS.panelFov, delta * 3)
-    } else {
-      camera.fov = THREE.MathUtils.lerp(camera.fov, CAMERA_SETTINGS.idleFov, delta * 2)
-    }
+    const targetFov =
+      warpActive && warpEffects
+        ? CAMERA_SETTINGS.warpFov
+        : activePanel
+          ? CAMERA_SETTINGS.panelFov
+          : CAMERA_SETTINGS.idleFov
+    const lerpSpeed = warpActive && warpEffects ? 5 : activePanel ? 3 : 2
 
-    camera.updateProjectionMatrix()
+    if (Math.abs(camera.fov - targetFov) > 0.01) {
+      camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, delta * lerpSpeed)
+      camera.updateProjectionMatrix()
+    }
   })
 
   return (
     <CameraControls
       ref={controlsRef}
       makeDefault
-      smoothTime={settings.transitionAnimations ? CAMERA_SETTINGS.smoothTime : 0.05}
+      smoothTime={transitionAnimations ? CAMERA_SETTINGS.smoothTime : 0.05}
     />
   )
 }

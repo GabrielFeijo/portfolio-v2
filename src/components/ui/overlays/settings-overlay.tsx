@@ -15,7 +15,7 @@ import {
   Zap,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { useId, useRef } from 'react'
+import { useCallback, useId, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system'
@@ -56,38 +56,41 @@ export function SettingsOverlay() {
     }))
   )
 
-  const PRESETS: Array<{ id: ExperiencePreset; label: string; description: string }> = [
-    {
-      id: 'cinematic',
-      label: t('settings.presets.cinematic.title'),
-      description: t('settings.presets.cinematic.description'),
-    },
-    {
-      id: 'balanced',
-      label: t('settings.presets.balanced.title'),
-      description: t('settings.presets.balanced.description'),
-    },
-    {
-      id: 'performance',
-      label: t('settings.presets.performance.title'),
-      description: t('settings.presets.performance.description'),
-    },
-    {
-      id: 'minimal',
-      label: t('settings.presets.minimal.title'),
-      description: t('settings.presets.minimal.description'),
-    },
-  ]
+  const presets = useMemo<Array<{ id: ExperiencePreset; label: string; description: string }>>(
+    () => [
+      {
+        id: 'cinematic',
+        label: t('settings.presets.cinematic.title'),
+        description: t('settings.presets.cinematic.description'),
+      },
+      {
+        id: 'balanced',
+        label: t('settings.presets.balanced.title'),
+        description: t('settings.presets.balanced.description'),
+      },
+      {
+        id: 'performance',
+        label: t('settings.presets.performance.title'),
+        description: t('settings.presets.performance.description'),
+      },
+      {
+        id: 'minimal',
+        label: t('settings.presets.minimal.title'),
+        description: t('settings.presets.minimal.description'),
+      },
+    ],
+    [t]
+  )
 
-  const linkCursor = createCursorHandlers(setCursorVariant)
+  const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant])
   useFocusTrap(dialogRef, true)
 
-  const update = <Key extends keyof ExperienceSettings>(
-    key: Key,
-    value: ExperienceSettings[Key]
-  ) => {
-    setExperienceSetting(key, value)
-  }
+  const update = useCallback(
+    <Key extends keyof ExperienceSettings>(key: Key, value: ExperienceSettings[Key]) => {
+      setExperienceSetting(key, value)
+    },
+    [setExperienceSetting]
+  )
 
   return (
     <motion.div
@@ -155,7 +158,7 @@ export function SettingsOverlay() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-4">
-              {PRESETS.map((preset) => (
+              {presets.map((preset) => (
                 <motion.button
                   key={preset.id}
                   type="button"

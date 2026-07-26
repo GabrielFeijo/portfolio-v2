@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 interface OrbitParticlesProps {
@@ -8,10 +8,10 @@ interface OrbitParticlesProps {
   size: number
 }
 
-export function OrbitParticles({ color, density, size }: OrbitParticlesProps) {
+export const OrbitParticles = memo(function OrbitParticles({ color, density, size }: OrbitParticlesProps) {
   const ref = useRef<THREE.Points | null>(null)
   const positions = useMemo(() => {
-    const count = Math.max(60, Math.round(300 * density))
+    const count = Math.max(48, Math.round(220 * density))
     const values = new Float32Array(count * 3)
 
     for (let i = 0; i < count; i += 1) {
@@ -51,4 +51,4 @@ export function OrbitParticles({ color, density, size }: OrbitParticlesProps) {
       />
     </points>
   )
-}
+})

@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 function hashString(value: string) {
@@ -19,7 +19,7 @@ interface SmallMoonProps {
   size: number
 }
 
-export function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
+export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
   const ref = useRef<THREE.Group | null>(null)
   const materialRef = useRef<THREE.ShaderMaterial | null>(null)
   const inclination = useMemo(() => {
@@ -57,10 +57,10 @@ export function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
           />
         </mesh>
         <mesh>
-          <sphereGeometry args={[size * 0.18, 64, 64]} />
+          <sphereGeometry args={[size * 0.18, 48, 48]} />
           <aaaPlanetMaterial ref={materialRef} uColor={baseColor} uType={0} uLightDir={lightDir} />
         </mesh>
       </group>
     </group>
   )
-}
+})

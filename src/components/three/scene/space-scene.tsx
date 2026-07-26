@@ -13,10 +13,13 @@ import { ShootingStar, Sun3D } from '../objects/sun-3d'
 import { CameraController } from './camera-controller'
 
 export function SpaceScene() {
-  const { settings, setIsLoaded } = useSpaceStore(
+  const { asteroidDensity, nebula, setIsLoaded, shootingStars, starDensity } = useSpaceStore(
     useShallow((state) => ({
-      settings: state.experienceSettings,
+      asteroidDensity: state.experienceSettings.asteroidDensity,
+      nebula: state.experienceSettings.nebula,
       setIsLoaded: state.setIsLoaded,
+      shootingStars: state.experienceSettings.shootingStars,
+      starDensity: state.experienceSettings.starDensity,
     }))
   )
   const angleOffsets = useMemo(
@@ -34,17 +37,17 @@ export function SpaceScene() {
 
   const primaryStarCount = Math.max(
     300,
-    Math.round(SCENE_SETTINGS.primaryStars.count * settings.starDensity)
+    Math.round(SCENE_SETTINGS.primaryStars.count * starDensity)
   )
   const secondaryStarCount = Math.max(
     120,
-    Math.round(SCENE_SETTINGS.secondaryStars.count * settings.starDensity)
+    Math.round(SCENE_SETTINGS.secondaryStars.count * starDensity)
   )
-  const shootingStarCount = settings.shootingStars
-    ? Math.max(1, Math.round(5 * settings.starDensity))
+  const shootingStarCount = shootingStars
+    ? Math.max(1, Math.round(4 * starDensity))
     : 0
-  const innerAsteroidCount = Math.round(260 * settings.asteroidDensity)
-  const outerAsteroidCount = Math.round(110 * settings.asteroidDensity)
+  const innerAsteroidCount = Math.round(220 * asteroidDensity)
+  const outerAsteroidCount = Math.round(90 * asteroidDensity)
 
   const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), [])
 
@@ -94,7 +97,7 @@ export function SpaceScene() {
 
       <Stars {...SCENE_SETTINGS.primaryStars} count={primaryStarCount} fade />
       <Stars {...SCENE_SETTINGS.secondaryStars} count={secondaryStarCount} fade />
-      {settings.nebula && <Nebula density={settings.starDensity} />}
+      {nebula && <Nebula density={starDensity} />}
 
       <Sun3D />
 

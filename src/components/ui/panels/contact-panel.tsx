@@ -8,7 +8,7 @@ import { ContactLinkCard } from './contact/contact-link-card'
 import { PanelIntroCard, PanelMetaChip, PanelSection } from './panel-primitives'
 
 export function ContactPanel() {
-  const { setCursorVariant } = useSpaceStore()
+  const setCursorVariant = useSpaceStore((state) => state.setCursorVariant)
   const { t } = useTranslation()
 
   const links = [

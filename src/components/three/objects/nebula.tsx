@@ -82,7 +82,7 @@ function NebulaCluster({
   const cloudLayers = useMemo(() => {
     const rand = createRandom(seed)
 
-    return Array.from({ length: Math.max(2, Math.round(9 * density)) }, (_, index) => ({
+    return Array.from({ length: Math.max(2, Math.round(7 * density)) }, (_, index) => ({
       key: `cloud-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.45,
@@ -98,7 +98,7 @@ function NebulaCluster({
   const glowLayers = useMemo(() => {
     const rand = createRandom(seed + 99)
 
-    return Array.from({ length: Math.max(1, Math.round(3 * density)) }, (_, index) => ({
+    return Array.from({ length: Math.max(1, Math.round(2 * density)) }, (_, index) => ({
       key: `glow-${index}`,
       offset: [
         (rand() - 0.5) * scale[0] * 0.18,
@@ -186,7 +186,7 @@ export function Nebula({ density }: NebulaProps) {
   return (
     <group>
       <StarShell
-        count={Math.max(180, Math.round(1800 * density))}
+        count={Math.max(144, Math.round(1350 * density))}
         radius={520}
         spread={180}
         size={1.5}
@@ -194,7 +194,7 @@ export function Nebula({ density }: NebulaProps) {
         seed={101}
       />
       <StarShell
-        count={Math.max(90, Math.round(900 * density))}
+        count={Math.max(72, Math.round(675 * density))}
         radius={340}
         spread={120}
         size={1.1}

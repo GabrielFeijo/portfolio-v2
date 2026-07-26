@@ -10,8 +10,11 @@ interface AsteroidBeltProps {
   color: string
 }
 
+const MATRIX_UPDATE_INTERVAL = 1 / 30
+
 export function AsteroidBelt({ innerRadius, outerRadius, count, color }: AsteroidBeltProps) {
   const meshRef = useRef<THREE.InstancedMesh | null>(null)
+  const frameDeltaRef = useMemo(() => ({ current: 0 }), [])
   const dummy = useMemo(() => new THREE.Object3D(), [])
   const geometry = useMemo(() => new THREE.DodecahedronGeometry(1, 0), [])
 
@@ -54,10 +57,16 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   useFrame((_, delta) => {
     if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return
 
+    frameDeltaRef.current += delta
+    if (frameDeltaRef.current < MATRIX_UPDATE_INTERVAL) return
+
+    const elapsedDelta = frameDeltaRef.current
+    frameDeltaRef.current = 0
+
     asteroids.forEach((a, i) => {
-      a.angle += delta * a.speed
-      a.rotX += delta * a.rotSpeed * 0.7
-      a.rotY += delta * a.rotSpeed
+      a.angle += elapsedDelta * a.speed
+      a.rotX += elapsedDelta * a.rotSpeed * 0.7
+      a.rotY += elapsedDelta * a.rotSpeed
 
       dummy.position.set(
         Math.cos(a.angle) * a.radius,

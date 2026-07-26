@@ -3,10 +3,15 @@ import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
 import { useSpaceStore } from '@/store/space-store'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 export function CustomCursor() {
-  const cursorVariant = useSpaceStore((state) => state.cursorVariant)
-  const customCursorEnabled = useSpaceStore((state) => state.experienceSettings.customCursor)
+  const { cursorVariant, customCursorEnabled } = useSpaceStore(
+    useShallow((state) => ({
+      cursorVariant: state.cursorVariant,
+      customCursorEnabled: state.experienceSettings.customCursor,
+    }))
+  )
   const prefersReducedMotion = usePrefersReducedMotion()
   const [isCursorCapable, setIsCursorCapable] = useState(false)
   const cursorX = useMotionValue(-100)
