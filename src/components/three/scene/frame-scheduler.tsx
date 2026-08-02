@@ -26,7 +26,7 @@ export function FrameScheduler() {
     settings.nebula ||
     settings.shootingStars ||
     settings.asteroidDensity > 0;
-  const targetFps = obscured ? 0 : transitioning ? 60 : animated ? 30 : 0;
+  const targetFps = transitioning ? 60 : obscured ? 12 : animated ? 30 : 0;
 
   useEffect(() => {
     invalidate();

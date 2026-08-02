@@ -19,31 +19,21 @@ export function FallbackExperience() {
 
   return (
     <section
-      className="absolute inset-0 isolate overflow-hidden bg-[radial-gradient(circle_at_58%_45%,rgba(223,181,59,0.14),transparent_25%),radial-gradient(circle_at_78%_20%,rgba(245,158,11,0.08),transparent_20%),linear-gradient(145deg,#02050d_0%,#05070c_54%,#02050b_100%)]"
+      className="absolute inset-0 isolate overflow-hidden bg-[linear-gradient(145deg,#02050d_0%,#05070c_54%,#02050b_100%)]"
       data-testid="scene-2d-fallback"
       aria-label={t('fallback_2d.aria')}
     >
       <div
-        className="absolute inset-0 bg-[linear-gradient(rgba(223,181,59,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(223,181,59,0.08)_1px,transparent_1px)] bg-size-[48px_48px] opacity-20 mask-[radial-gradient(circle_at_60%_46%,black,transparent_72%)]"
+        className="absolute inset-0 bg-[linear-gradient(rgba(223,181,59,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(223,181,59,0.04)_1px,transparent_1px)] bg-size-[56px_56px] opacity-10"
         aria-hidden="true"
       />
 
-      <Orbit
-        className="size-[min(62vw,760px)] animate-[spin_70s_linear_infinite] max-md:size-[120vw]"
-        reverse={false}
-      />
-      <Orbit
-        className="size-[min(44vw,520px)] animate-[spin_52s_linear_infinite_reverse] border-dashed max-md:size-[82vw]"
-        reverse
-      />
+      <Orbit className="size-[min(62vw,760px)] max-md:size-[120vw]" />
 
       <div className="absolute top-31 right-18 bottom-23.5 left-[clamp(248px,23vw,340px)] z-2 grid place-items-center max-[900px]:top-28 max-[900px]:right-6.5 max-[900px]:bottom-38.5 max-[900px]:left-55 max-md:inset-x-3 max-md:top-20.5 max-md:bottom-37.5">
-        <main className="relative w-[min(640px,72%)] rounded-[18px] border border-[rgba(223,181,59,0.18)] bg-[linear-gradient(145deg,rgba(8,9,12,0.92),rgba(4,5,10,0.82))] p-7.5 shadow-[0_30px_100px_rgba(0,0,0,0.42),inset_0_1px_rgba(255,255,255,0.04)] backdrop-blur-lg max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
+        <main className="relative w-[min(640px,72%)] rounded-[18px] border border-[rgba(223,181,59,0.18)] bg-[#08090ce8] p-7.5 shadow-[0_16px_48px_rgba(0,0,0,0.28)] max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
           <div className="flex items-center gap-2.5 font-mono-space text-[9px] font-semibold tracking-[0.22em] text-[rgba(223,181,59,0.84)] uppercase">
-            <span
-              className="size-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(94,224,160,0.8)]"
-              aria-hidden="true"
-            />
+            <span className="size-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
             {t('fallback_2d.eyebrow')}
           </div>
 
@@ -142,17 +132,15 @@ export function FallbackExperience() {
   );
 }
 
-function Orbit({ className, reverse }: { className: string; reverse: boolean }) {
+function Orbit({ className }: { className: string }) {
   return (
     <div
       className="absolute top-[47%] left-[60%] -translate-x-1/2 -translate-y-1/2 max-md:top-[43%] max-md:left-1/2"
       aria-hidden="true"
     >
       <div className={`relative rounded-full border border-[rgba(223,181,59,0.16)] ${className}`}>
-        <span className="absolute top-[12%] left-[14%] size-1.5 animate-pulse rounded-full bg-[rgba(223,181,59,0.9)] shadow-[0_0_18px_rgba(223,181,59,0.7)]" />
-        <span
-          className={`absolute right-[10%] bottom-[16%] size-1.5 animate-pulse rounded-full bg-[rgba(245,158,11,0.9)] shadow-[0_0_18px_rgba(245,158,11,0.7)] ${reverse ? 'delay-500' : ''}`}
-        />
+        <span className="absolute top-[12%] left-[14%] size-1.5 rounded-full bg-[rgba(223,181,59,0.85)]" />
+        <span className="absolute right-[10%] bottom-[16%] size-1.5 rounded-full bg-[rgba(245,158,11,0.85)]" />
       </div>
     </div>
   );

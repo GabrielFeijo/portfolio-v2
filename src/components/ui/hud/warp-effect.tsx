@@ -4,8 +4,9 @@ import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 export function WarpEffect() {
-  const { warpActive, warpEffects } = useSpaceStore(
+  const { graphicsMode, warpActive, warpEffects } = useSpaceStore(
     useShallow((state) => ({
+      graphicsMode: state.graphicsMode,
       warpActive: state.warpActive,
       warpEffects: state.experienceSettings.warpEffects,
     }))
@@ -14,7 +15,7 @@ export function WarpEffect() {
   const animRef = useRef<number>(0);
 
   useEffect(() => {
-    if (!warpActive || !warpEffects) return;
+    if (graphicsMode !== 'webgl' || !warpActive || !warpEffects) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -78,11 +79,11 @@ export function WarpEffect() {
 
     animate();
     return () => cancelAnimationFrame(animRef.current);
-  }, [warpActive, warpEffects]);
+  }, [graphicsMode, warpActive, warpEffects]);
 
   return (
     <AnimatePresence>
-      {warpActive && warpEffects && (
+      {graphicsMode === 'webgl' && warpActive && warpEffects && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

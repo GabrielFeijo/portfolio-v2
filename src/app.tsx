@@ -1,3 +1,4 @@
+import { PerformanceOverlay } from '@/components/ui/dev/performance-overlay';
 import { CustomCursor } from '@/components/ui/hud/custom-cursor';
 import { HUD } from '@/components/ui/hud/hud';
 import { LoadingScreen } from '@/components/ui/hud/loading-screen';
@@ -62,6 +63,7 @@ export default function App() {
       <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>
       <SpaceMusic />
       <WarpEffect />
+      <PerformanceOverlay />
     </div>
   );
 }

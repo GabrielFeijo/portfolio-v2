@@ -1,13 +1,54 @@
 import { useSpaceStore } from '@/store/space-store';
 import { isWebGLAvailable } from '@/utils/webgl-check';
-import { Canvas } from '@react-three/fiber';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import { WebGLError } from '../../ui/overlays/webgl-error';
-import '../register-materials';
 import { FallbackExperience } from './fallback-experience';
-import { SpaceScene } from './space-scene';
+
+const WebGLScene = lazy(async () => {
+  await import('../register-materials');
+  const [{ Canvas }, sceneModule] = await Promise.all([
+    import('@react-three/fiber'),
+    import('./space-scene'),
+  ]);
+
+  return {
+    default: function WebGLSceneInner({
+      antialias,
+      dpr,
+      onContextLost,
+      shadows,
+      t,
+    }: {
+      antialias: boolean;
+      dpr: number;
+      onContextLost: (event: Event) => void;
+      shadows: boolean;
+      t: (key: string) => string;
+    }) {
+      const SpaceScene = sceneModule.SpaceScene;
+
+      return (
+        <Canvas
+          aria-label={t('app.canvas_aria')}
+          key={`space-canvas-${antialias ? 'aa' : 'no-aa'}`}
+          className="absolute inset-0"
+          camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
+          dpr={[1, dpr]}
+          gl={{ antialias, alpha: false, powerPreference: 'high-performance' }}
+          shadows={shadows}
+          frameloop="demand"
+          onCreated={({ gl }) => {
+            gl.domElement.addEventListener('webglcontextlost', onContextLost, { once: true });
+          }}
+        >
+          <SpaceScene />
+        </Canvas>
+      );
+    },
+  };
+});
 
 export default function SpaceExperience() {
   const { t } = useTranslation();
@@ -63,25 +104,20 @@ export default function SpaceExperience() {
     return <WebGLError variant={webGLStatus} onContinue={() => setWebGLStatus('disabled')} />;
   }
 
+  const handleContextLost = (event: Event) => {
+    event.preventDefault();
+    setWebGLStatus('context_lost');
+  };
+
   return (
-    <Canvas
-      aria-label={t('app.canvas_aria')}
-      key={`space-canvas-${antialias ? 'aa' : 'no-aa'}`}
-      className="absolute inset-0"
-      camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
-      dpr={[1, dpr]}
-      gl={{ antialias, alpha: false, powerPreference: 'high-performance' }}
-      shadows={shadows}
-      frameloop="demand"
-      onCreated={({ gl }) => {
-        const handleContextLost = (event: Event) => {
-          event.preventDefault();
-          setWebGLStatus('context_lost');
-        };
-        gl.domElement.addEventListener('webglcontextlost', handleContextLost, { once: true });
-      }}
-    >
-      <SpaceScene />
-    </Canvas>
+    <Suspense fallback={<div className="fallback-experience" aria-hidden="true" />}>
+      <WebGLScene
+        antialias={antialias}
+        dpr={dpr}
+        onContextLost={handleContextLost}
+        shadows={shadows}
+        t={t}
+      />
+    </Suspense>
   );
 }
