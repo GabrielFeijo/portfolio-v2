@@ -29,16 +29,23 @@ export function usePlanetInteraction({
   const panelOpenTimerRef = useRef<number | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  const cancelPendingInteractionTimers = useCallback(() => {
+    if (warpTimeoutRef.current !== null) {
+      window.clearTimeout(warpTimeoutRef.current);
+      warpTimeoutRef.current = null;
+    }
+
+    if (panelOpenTimerRef.current !== null) {
+      window.clearTimeout(panelOpenTimerRef.current);
+      panelOpenTimerRef.current = null;
+    }
+  }, []);
+
   useEffect(() => {
     return () => {
-      if (warpTimeoutRef.current !== null) {
-        window.clearTimeout(warpTimeoutRef.current);
-      }
-      if (panelOpenTimerRef.current !== null) {
-        window.clearTimeout(panelOpenTimerRef.current);
-      }
+      cancelPendingInteractionTimers();
     };
-  }, []);
+  }, [cancelPendingInteractionTimers]);
 
   const handleClick = useCallback(
     (event: ThreeEvent<MouseEvent>) => {

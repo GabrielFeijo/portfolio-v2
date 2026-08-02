@@ -1,9 +1,18 @@
-import { ArrowUpRight } from 'lucide-react';
+import { DEVELOPER } from '@/data/portfolio';
+import { ArrowUpRight, MapPin, Sparkles } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const FLOW_STEPS = ['product', 'interface', 'api', 'cloud'] as const;
-const STACK = ['TypeScript', 'React', 'Node.js', 'Java', 'Cloud', 'DevOps'];
+const STACK = ['TypeScript', 'React', 'Node.js', 'Java', 'Cloud', 'DevOps', 'Three.js', 'Vite'];
+const QUICK_LINKS = [
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#accomplishments', label: 'Achievements' },
+  { href: '#contact', label: 'Contact' },
+] as const;
 
 export function FallbackExperience() {
   const { t } = useTranslation();
@@ -29,7 +38,7 @@ export function FallbackExperience() {
       />
 
       <div className="absolute top-31 right-18 bottom-23.5 left-[clamp(248px,23vw,340px)] z-2 grid place-items-center max-[900px]:top-28 max-[900px]:right-6.5 max-[900px]:bottom-38.5 max-[900px]:left-55 max-md:inset-x-3 max-md:top-20.5 max-md:bottom-37.5">
-        <main className="relative w-[min(610px,72%)] rounded-xl border border-[rgba(223,181,59,0.18)] bg-[linear-gradient(145deg,rgba(8,9,12,0.92),rgba(4,5,10,0.82))] p-7.5 shadow-[0_30px_100px_rgba(0,0,0,0.42),inset_0_1px_rgba(255,255,255,0.04)] backdrop-blur-lg max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
+        <main className="relative w-[min(640px,72%)] rounded-[18px] border border-[rgba(223,181,59,0.18)] bg-[linear-gradient(145deg,rgba(8,9,12,0.92),rgba(4,5,10,0.82))] p-7.5 shadow-[0_30px_100px_rgba(0,0,0,0.42),inset_0_1px_rgba(255,255,255,0.04)] backdrop-blur-lg max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
           <div className="flex items-center gap-2.5 font-mono-space text-[9px] font-semibold tracking-[0.22em] text-[rgba(223,181,59,0.84)] uppercase">
             <span
               className="size-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(94,224,160,0.8)]"
@@ -38,11 +47,19 @@ export function FallbackExperience() {
             {t('fallback_2d.eyebrow')}
           </div>
 
-          <h1 className="mt-4.5 max-w-[13ch] font-display text-[clamp(28px,3.2vw,48px)] leading-[1.04] font-bold tracking-[-0.045em] text-slate-50 max-md:text-[clamp(25px,8vw,38px)]">
-            {t('fallback_2d.title')}
-          </h1>
-          <p className="mt-4 max-w-[58ch] text-[13px] leading-7 text-slate-300/70 [@media(max-height:690px)]:hidden">
-            {t('fallback_2d.description')}
+          <div className="mt-4 flex items-start justify-between gap-4 max-md:flex-col">
+            <h1 className="mt-2 max-w-[14ch] font-display text-[clamp(28px,3.2vw,46px)] leading-[1.02] font-bold tracking-[-0.045em] text-slate-50 max-md:text-[clamp(25px,8vw,38px)]">
+              {t('fallback_2d.title')}
+            </h1>
+
+            <div className="flex items-center gap-2 rounded-full border border-[rgba(223,181,59,0.18)] bg-[rgba(223,181,59,0.05)] px-2.5 py-1.5 font-mono-space text-[8px] font-semibold tracking-[0.18em] text-[rgba(255,241,208,0.86)] uppercase">
+              <MapPin size={12} className="text-[rgba(223,181,59,0.86)]" />
+              {DEVELOPER.location}
+            </div>
+          </div>
+
+          <p className="mt-4 max-w-[58ch] text-[13px] leading-7 text-slate-300/75 [@media(max-height:690px)]:hidden">
+            {DEVELOPER.bio}
           </p>
 
           <div
@@ -59,6 +76,19 @@ export function FallbackExperience() {
                   {t(`fallback_2d.flow.${step}`)}
                 </strong>
               </div>
+            ))}
+          </div>
+
+          <div className="mt-6 grid gap-2 rounded-[14px] border border-[rgba(223,181,59,0.16)] bg-[rgba(223,181,59,0.04)] p-3 sm:grid-cols-3">
+            {QUICK_LINKS.map((item) => (
+              <a
+                key={item.href}
+                className="inline-flex items-center justify-between gap-2 rounded-[10px] border border-[rgba(223,181,59,0.16)] bg-[rgba(8,9,12,0.62)] px-3 py-2 font-mono-space text-[9px] font-semibold uppercase tracking-[0.16em] text-slate-200 transition-colors hover:border-[rgba(223,181,59,0.36)] hover:text-[rgba(255,245,213,0.98)]"
+                href={item.href}
+              >
+                {item.label}
+                <ArrowUpRight size={12} />
+              </a>
             ))}
           </div>
 
@@ -89,19 +119,22 @@ export function FallbackExperience() {
           </div>
         </main>
 
-        <Metric className="top-[12%] left-[1%]" value="4+">
-          {t('fallback_2d.metrics.years')}
+        <Metric className="top-[12%] left-[1%]" value={DEVELOPER.stats[0]?.value ?? '4+'}>
+          {DEVELOPER.stats[0]?.label ?? t('fallback_2d.metrics.years')}
         </Metric>
-        <Metric className="top-[20%] right-0" value="10+">
-          {t('fallback_2d.metrics.projects')}
+        <Metric className="top-[20%] right-0" value={DEVELOPER.stats[1]?.value ?? '10+'}>
+          {DEVELOPER.stats[1]?.label ?? t('fallback_2d.metrics.projects')}
         </Metric>
-        <Metric className="right-[7%] bottom-[9%]" value="15+">
-          {t('fallback_2d.metrics.technologies')}
+        <Metric className="right-[7%] bottom-[9%]" value={DEVELOPER.stats[2]?.value ?? '15+'}>
+          {DEVELOPER.stats[2]?.label ?? t('fallback_2d.metrics.technologies')}
         </Metric>
       </div>
 
       <div className="absolute right-55 bottom-6.5 z-2 flex gap-4.5 font-mono-space text-[8px] font-medium tracking-[0.15em] text-slate-600 max-md:hidden">
-        <span className="text-emerald-300">{t('fallback_2d.status')}</span>
+        <span className="inline-flex items-center gap-2 text-emerald-300">
+          <Sparkles size={10} />
+          {t('fallback_2d.status')}
+        </span>
         <span>REC · BR</span>
         <span>UTC−03:00</span>
       </div>
