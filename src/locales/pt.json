@@ -21,18 +21,19 @@
     "loading_short": "Carregando..."
   },
   "nav": {
-    "planets_aria": "Navegação por seções do portfólio"
+    "planets_aria": "Navegação por seções do portfólio",
+    "sections": "SEÇÕES"
   },
   "developer": {
     "title": "Desenvolvedor Full Stack",
     "location": "Recife, Brasil",
-    "tagline": "Desenvolvendo soluções tecnológicas para mudar o mundo de forma positiva.",
+    "tagline": "Engenheiro de software full stack com experiência em produtos web, arquitetura de aplicações e plataformas escaláveis.",
     "bio": "Desenvolvedor Full Stack com foco em interfaces bem construídas, backends escaláveis e experiências digitais que unem clareza, performance e valor real.",
     "availability": "Aberto para oportunidades, colaborações e conversas sobre tecnologia.",
     "stats": {
       "years": "Anos de experiência",
       "projects": "Projetos em destaque",
-      "stacks": "Stacks dominadas"
+      "stacks": "Tecnologias no ecossistema"
     },
     "summary": [
       "Desde cedo, a curiosidade sobre como sites, sistemas e jogos funcionam foi o que me aproximou da programação. A partir de modificações em jogos e da vontade de entender o que acontecia por trás da interface, nasceu uma relação genuína com tecnologia.",
@@ -352,7 +353,7 @@
     "music_description": "Uma trilha sonora atmosférica e imersiva, com pads etéreos e profundidade orbital para acompanhar sua jornada pelo cosmos.",
     "music_credits": "Música por",
     "state_status": "Estado atual",
-    "state_description": "Default máximo: todas as opções ligadas, densidade total e DPR em 1.8."
+    "state_description": "A qualidade inicial é adaptada ao dispositivo e suas preferências ficam salvas neste navegador."
   },
   "loading": {
     "label": "CARREGANDO",
@@ -551,7 +552,7 @@
       "title": "WebGL indisponível",
       "description": "Este portfólio precisa de WebGL para renderizar a experiência 3D. No momento, o navegador ou o hardware não conseguiu disponibilizar esse recurso.",
       "whats_happening_title": "O que está acontecendo",
-      "whats_happening_description": "Quando isso acontece, o universo 3D não consegue ser carregado com segurança. Nesta tela o cursor padrão do sistema volta automaticamente, já que o cursor estilizado depende da interface principal ter sido iniciada.",
+      "whats_happening_description": "O navegador bloqueou ou não conseguiu inicializar o contexto gráfico. No Brave, verifique brave://settings/system, ative a aceleração de hardware e confirme que os Shields não estão bloqueando recursos da página.",
       "tips": {
         "browser": {
           "title": "Atualize o navegador",
@@ -568,6 +569,7 @@
       }
     },
     "actions": {
+      "continue_without_3d": "Continuar sem 3D",
       "try_again": "Tentar novamente",
       "open_portfolio_v1": "Abrir Portfolio V1"
     }

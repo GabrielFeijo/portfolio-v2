@@ -85,6 +85,8 @@ export function PanelImageFrame({
       <img
         src={src}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         className="w-full h-auto max-h-[320px] object-contain transition-transform duration-500 hover:scale-[1.03]"
       />
     </div>

@@ -95,6 +95,7 @@ describe('HUD', () => {
   it('renders screen reader planet navigation when no panel is open', () => {
     render(<HUD />);
     expect(screen.getByRole('navigation', { name: 'nav.planets_aria' })).toBeInTheDocument();
+    expect(screen.getByText('nav.sections')).toBeInTheDocument();
     const buttons = screen.getAllByRole('button', { name: /planets\./ });
     expect(buttons.length).toBeGreaterThan(0);
 

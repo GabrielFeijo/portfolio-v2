@@ -1,30 +1,29 @@
-
-@import "tailwindcss";
-@import "./animations.css";
-@import "./panels.css";
-@import "./hud.css";
+@import 'tailwindcss';
+@import './animations.css';
+@import './panels.css';
+@import './hud.css';
 
 @layer base {
   :root {
-    --void: #060814;
-    --deep-space: #0b1020;
+    --void: #030712;
+    --deep-space: #08101e;
     --surface: rgba(8, 13, 28, 0.86);
     --surface-light: rgba(17, 25, 45, 0.94);
     --surface-elevated: rgba(14, 22, 42, 0.96);
     --border: rgba(111, 139, 194, 0.24);
     --border-strong: rgba(123, 164, 255, 0.38);
-    --text-primary: #edf3ff;
-    --text-secondary: #b6c2db;
-    --text-muted: #7f8aa3;
-    --accent-blue: #2b6fff;
-    --accent-blue-bright: #7dd3fc;
+    --text-primary: #f1f5f9;
+    --text-secondary: #b5c0d2;
+    --text-muted: #748198;
+    --accent-blue: #388fbe;
+    --accent-blue-bright: #8bd5f5;
     --accent-blue-dark: #1f4fd1;
     --accent-gold: #f7b955;
 
-    --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-display: 'Manrope', 'Segoe UI', sans-serif;
     --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
     --font-body: 'Manrope', 'Segoe UI', sans-serif;
-    --font-space-label: 'Orbitron', 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-space-label: 'Manrope', 'Segoe UI', sans-serif;
 
     --panel-accent: #7dd3fc;
     --panel-glow: #2b6fff;
@@ -63,7 +62,13 @@
     position: relative;
   }
 
-  body:not(.cursor-fallback-mode) * {
+  body:not(.custom-cursor-active),
+  body:not(.custom-cursor-active) * {
+    cursor: auto !important;
+  }
+
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
     cursor: none !important;
   }
 
@@ -84,8 +89,15 @@
   }
 
   body.cursor-fallback-mode,
-  body.cursor-fallback-mode * {
+  body.cursor-fallback-mode *,
+  body.graphics-2d-mode,
+  body.graphics-2d-mode * {
     cursor: auto !important;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-blue-bright);
+    outline-offset: 3px;
   }
 
   ::-webkit-scrollbar {
@@ -166,6 +178,13 @@
     border: 1px solid var(--border-strong);
     border-radius: 18px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .scene-fallback {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 62% 42%, rgba(56, 143, 190, 0.12), transparent 24%), var(--void);
   }
 
   .sr-only {

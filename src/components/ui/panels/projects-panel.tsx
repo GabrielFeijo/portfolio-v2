@@ -24,13 +24,13 @@ export function ProjectsPanel() {
     ],
     []
   );
-  const filtered = useMemo(
-    () =>
+  const filtered = useMemo(() => {
+    const matching =
       filter === ALL_PROJECTS_FILTER
         ? PROJECTS
-        : PROJECTS.filter((project) => project.category === filter),
-    [filter]
-  );
+        : PROJECTS.filter((project) => project.category === filter);
+    return [...matching].sort((a, b) => Number(b.featured) - Number(a.featured) || b.year - a.year);
+  }, [filter]);
   const getFilterLabel = (value: ProjectFilter) => {
     if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all');
     return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value);

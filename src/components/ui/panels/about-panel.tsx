@@ -8,12 +8,6 @@ import { AboutInfoPill } from './about/about-info-pill';
 import { PanelNotice } from './panel-content-primitives';
 import { PanelBadge, PanelSection, panelFadeUp, panelStagger } from './panel-primitives';
 
-const STAT_TONES = [
-  'var(--panel-accent-soft)',
-  'color-mix(in srgb, var(--panel-glow) 18%, transparent)',
-  'color-mix(in srgb, var(--panel-accent) 12%, transparent)',
-];
-
 export function AboutPanel() {
   const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
   const { t } = useTranslation();
@@ -45,12 +39,6 @@ export function AboutPanel() {
 
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-3 rounded-full border"
-              style={{ borderColor: 'var(--panel-border)', borderStyle: 'dashed' }}
-            />
             <img
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
@@ -88,14 +76,8 @@ export function AboutPanel() {
       </motion.section>
 
       <motion.div variants={panelFadeUp} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {stats.map((stat, index) => (
-          <div
-            key={stat.label}
-            className="panel-card relative overflow-hidden p-4 sm:p-5"
-            style={{
-              background: `linear-gradient(180deg, rgba(18,28,52,0.86), rgba(8,13,25,0.72)), radial-gradient(circle at top right, ${STAT_TONES[index]}, transparent 45%)`,
-            }}
-          >
+        {stats.map((stat) => (
+          <div key={stat.label} className="panel-card relative overflow-hidden p-4 sm:p-5">
             <div className="text-2xl sm:text-3xl font-bold text-(--text-primary)">{stat.value}</div>
             <div className="mt-2 text-xs uppercase tracking-[0.16em] text-(--text-muted)">
               {stat.label}

@@ -21,18 +21,19 @@
     "loading_short": "Loading..."
   },
   "nav": {
-    "planets_aria": "Portfolio section navigation"
+    "planets_aria": "Portfolio section navigation",
+    "sections": "SECTIONS"
   },
   "developer": {
     "title": "Full Stack Developer",
     "location": "Recife, Brazil",
-    "tagline": "Developing technological solutions to change the world positively.",
+    "tagline": "Full stack software engineer experienced in web products, application architecture, and scalable platforms.",
     "bio": "Full Stack Developer focused on well-built interfaces, scalable backends, and digital experiences that combine clarity, performance, and real value.",
     "availability": "Open to opportunities, collaborations, and conversations about technology.",
     "stats": {
       "years": "Years of experience",
       "projects": "Featured projects",
-      "stacks": "Mastered stacks"
+      "stacks": "Technologies in the ecosystem"
     },
     "summary": [
       "From an early age, curiosity about how websites, systems, and games work brought me closer to programming. Starting from game modifications and the desire to understand what happened behind the interface, a genuine relationship with technology was born.",
@@ -352,7 +353,7 @@
     "music_description": "An atmospheric and immersive soundtrack, with ethereal pads and orbital depth to accompany your journey through the cosmos.",
     "music_credits": "Music by",
     "state_status": "Current state",
-    "state_description": "Maximum default: all options on, full density, and DPR at 1.8."
+    "state_description": "Initial quality adapts to the device, and your preferences are saved in this browser."
   },
   "loading": {
     "label": "LOADING",
@@ -551,7 +552,7 @@
       "title": "WebGL unavailable",
       "description": "This portfolio needs WebGL to render the 3D experience. Right now, the browser or hardware could not provide this feature.",
       "whats_happening_title": "What is happening",
-      "whats_happening_description": "When this happens, the 3D universe cannot be loaded safely. On this screen, the default system cursor returns automatically since the styled cursor depends on the main interface being initialized.",
+      "whats_happening_description": "The browser blocked or could not initialize the graphics context. In Brave, check brave://settings/system, enable hardware acceleration, and confirm that Shields are not blocking page resources.",
       "tips": {
         "browser": {
           "title": "Update your browser",
@@ -568,6 +569,7 @@
       }
     },
     "actions": {
+      "continue_without_3d": "Continue without 3D",
       "try_again": "Try again",
       "open_portfolio_v1": "Open Portfolio V1"
     }
