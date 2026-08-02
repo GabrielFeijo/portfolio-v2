@@ -6,13 +6,13 @@ export const CURSOR_VARIANTS: Record<
 > = {
   default: { width: 16, height: 16, borderWidth: 1.5, opacity: 0.9 },
   planet: { width: 32, height: 32, borderWidth: 2, opacity: 1 },
-  link: { width: 24, height: 24, borderWidth: 1.5, opacity: 0.8 },
-  drag: { width: 40, height: 40, borderWidth: 1, opacity: 0.7 },
+  link: { width: 24, height: 24, borderWidth: 1.5, opacity: 0.85 },
+  drag: { width: 40, height: 40, borderWidth: 1.5, opacity: 0.75 },
 };
 
 export const CURSOR_COLORS: Record<CursorVariant, string> = {
-  default: '#00D4FF',
-  planet: '#FFB800',
-  link: '#00FF88',
-  drag: '#FF1493',
+  default: 'var(--accent-blue)',
+  planet: 'var(--accent-blue-bright)',
+  link: 'var(--accent-gold)',
+  drag: 'var(--text-secondary)',
 };
