@@ -352,6 +352,7 @@ export const PROJECTS: Project[] = [
     featured: true,
     year: 2023,
     category: 'Full Stack',
+    image: 'https://i.imgur.com/o0VuVZP.png',
   },
   {
     id: 'vscode_portfolio',
@@ -371,6 +372,7 @@ export const PROJECTS: Project[] = [
     featured: true,
     year: 2024,
     category: 'Portfolio',
+    image: 'https://i.imgur.com/BwtTCxP.png',
   },
   {
     id: 'arsenal_innovation_lp',
@@ -379,6 +381,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2024,
     category: 'Frontend',
+    image: 'https://i.imgur.com/DILF5PA.png',
   },
   {
     id: 'scoordena',
@@ -398,6 +401,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2023,
     category: 'Full Stack',
+    image: 'https://i.imgur.com/U9CwDca.png',
   },
   {
     id: 'recife_radars',
@@ -408,6 +412,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2024,
     category: 'Frontend',
+    image: 'https://i.imgur.com/mut6eMm.png',
   },
   {
     id: 'fsw_foods',
@@ -426,6 +431,7 @@ export const PROJECTS: Project[] = [
     featured: true,
     year: 2024,
     category: 'Full Stack',
+    image: 'https://i.imgur.com/fryZaL7.png',
   },
   {
     id: 'react_native_99pets',
@@ -435,6 +441,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2022,
     category: 'Mobile',
+    image: 'https://i.imgur.com/q1FlJWc.png',
   },
   {
     id: 'arsenal_project_v1',
@@ -444,6 +451,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2022,
     category: 'Backend',
+    image: 'https://i.imgur.com/X9fbQ7Y.png',
   },
   {
     id: 'react_todo',
@@ -454,6 +462,7 @@ export const PROJECTS: Project[] = [
     featured: false,
     year: 2022,
     category: 'Full Stack',
+    image: 'https://i.imgur.com/a8mNqoC.png',
   },
 ];
 
@@ -673,6 +682,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Faculdade Senac',
     year: 2023,
     color: '#2563EB',
+    image: 'https://i.imgur.com/7Pecs4g.png',
     description:
       'Graduação com base ampla em desenvolvimento de software, arquitetura de sistemas e gestão de projetos.',
   },
@@ -682,6 +692,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Faculdade Senac',
     year: 2023,
     color: '#E0234E',
+    image: 'https://i.imgur.com/2fgLfpg.png',
     description:
       'Curso voltado para práticas server-side e construção de aplicações robustas e escaláveis.',
   },
@@ -691,6 +702,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Oracle + Alura',
     year: 2022,
     color: '#FF0000',
+    image: 'https://i.imgur.com/MnrT6YX.png',
     description: 'Formação inicial com fundamentos de programação e raciocínio lógico.',
   },
   {
@@ -699,6 +711,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Avanade + DIO',
     year: 2022,
     color: '#0078D4',
+    image: 'https://i.imgur.com/QnTGDGP.png',
     description: 'Bootcamp com foco em desenvolvimento de software e práticas do mercado.',
   },
   {
@@ -707,6 +720,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Fundacao Bradesco',
     year: 2021,
     color: '#CC092F',
+    image: 'https://i.imgur.com/3pSKax4.png',
     description: 'Base conceitual para estruturas de decisão, repetição e resolução de problemas.',
   },
   {
@@ -715,6 +729,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Fundacao Bradesco',
     year: 2021,
     color: '#E34F26',
+    image: 'https://i.imgur.com/iItgqqo.png',
     description: 'Fundamentos de desenvolvimento web com estrutura e estilização de interfaces.',
   },
   {
@@ -723,6 +738,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Fundacao Bradesco',
     year: 2021,
     color: '#F7DF1E',
+    image: 'https://i.imgur.com/3EAw1ZV.png',
     description: 'Primeiros passos com JavaScript para páginas mais dinâmicas e interativas.',
   },
   {
@@ -731,6 +747,7 @@ export const CERTIFICATES: Certificate[] = [
     issuer: 'Fundacao Bradesco',
     year: 2021,
     color: '#EA580C',
+    image: 'https://i.imgur.com/DZCtRXf.png',
     description: 'Fundamentos da linguagem Java como base para aplicações e sistemas.',
   },
 ];
