@@ -84,6 +84,9 @@ test('falls back to complete 2D navigation when WebGL is blocked', async ({ page
 
   await page.getByRole('button', { name: /continue without 3d|continuar sem 3d/i }).click();
   await expect(page.getByRole('navigation')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: /digital products|produtos digitais/i })
+  ).toBeVisible();
   await expect(page.getByRole('navigation').getByRole('button')).toHaveCount(6);
   await expect(page.locator('canvas')).toHaveCount(0);
   await expect(page.locator('body')).not.toHaveClass(/custom-cursor-active/);
