@@ -114,13 +114,7 @@ interface PanelSectionProps extends PanelHeaderProps {
   glowClassName?: string;
 }
 
-export function PanelSection({
-  icon,
-  eyebrow,
-  title,
-  children,
-  className,
-}: PanelSectionProps) {
+export function PanelSection({ icon, eyebrow, title, children, className }: PanelSectionProps) {
   return (
     <motion.section variants={panelFadeUp} className={cn('panel-shell p-6 sm:p-7', className)}>
       <div className="mb-5">
@@ -160,9 +154,7 @@ export function PanelMetaChip({
   className?: string;
 }) {
   return (
-    <div
-      className={cn('inline-flex items-center gap-1.5 panel-meta-chip px-3 py-1.5', className)}
-    >
+    <div className={cn('inline-flex items-center gap-1.5 panel-meta-chip px-3 py-1.5', className)}>
       {Icon && <Icon size={13} />}
       <span>{children}</span>
     </div>
@@ -171,9 +163,7 @@ export function PanelMetaChip({
 
 export function PanelBadge({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={cn('inline-flex items-center gap-2 panel-planet-badge px-3 py-1.5', className)}
-    >
+    <div className={cn('inline-flex items-center gap-2 panel-planet-badge px-3 py-1.5', className)}>
       {children}
     </div>
   );
