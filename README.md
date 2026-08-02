@@ -20,7 +20,9 @@ A aplicação combina cena 3D em tempo real, shaders GLSL, overlays de acessibil
 - **Experiência 3D Interativa**: cena orbital com planetas clicáveis, sol central e câmera inteligente
 - **Shaders Customizados**: materiais próprios para planetas e atmosfera com ruído procedural (GLSL)
 - **Navegação Cinematográfica**: transições de câmera com efeito warp e foco por seção
-- **Sistema de Presets**: modos `cinematic`, `balanced`, `performance` e `minimal`
+- **Qualidade Adaptativa**: seleção inicial por capacidade do dispositivo, ajuste automático em baixa taxa de quadros e preferências persistidas
+- **Sistema de Presets**: modos `cinematic`, `balanced`, `performance` e `minimal`, com `balanced` como padrão em desktops capazes
+- **Navegação Compartilhável**: seções acessíveis por menu visível e hashes como `#projects` e `#experience`
 - **HUD + Overlays**: ajuda, configurações globais e fallback robusto para WebGL indisponível
 - **Painéis Dinâmicos**: lazy loading por seção com navegação anterior/próximo
 - **Formulário de Contato Real**: validação com Zod + React Hook Form + envio via Axios
@@ -32,9 +34,9 @@ A aplicação combina cena 3D em tempo real, shaders GLSL, overlays de acessibil
 
 ### Aplicações em Produção
 
-| Serviço       | URL                                                      | Descrição                           |
-| ------------- | -------------------------------------------------------- | ----------------------------------- |
-| **Portfólio** | [v2.gabrielfeijo.com.br](https://v2.gabrielfeijo.com.br)       | Experiência completa do portfólio   |
+| Serviço       | URL                                                      | Descrição                         |
+| ------------- | -------------------------------------------------------- | --------------------------------- |
+| **Portfólio** | [v2.gabrielfeijo.com.br](https://v2.gabrielfeijo.com.br) | Experiência completa do portfólio |
 
 ### 🪐 Seções Navegáveis (Planetas)
 
@@ -55,7 +57,7 @@ portfolio-v2/
 │   ├── audio/
 │   │   └── space-music.mp3               # Trilha ambiente
 │   ├── favicon.svg
-│   └── gabrielfeijo.png                  # Avatar principal
+│   └── gabrielfeijo.webp                 # Avatar otimizado
 │
 ├── src/
 │   ├── app.tsx                           # Shell da aplicação + Canvas + overlays
@@ -118,4 +120,6 @@ bun run typecheck
 bun run build
 bun run test
 bun run check
+bun run test:e2e
+bun run test:budget
 ```
