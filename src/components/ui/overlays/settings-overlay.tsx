@@ -106,7 +106,7 @@ export function SettingsOverlay() {
       className="fixed inset-0 z-260 flex items-center justify-center p-4 sm:p-8"
     >
       <div
-        className="absolute inset-0 bg-[rgba(2,4,12,0.72)] backdrop-blur-md pointer-events-auto cursor-none"
+        className="absolute inset-0 bg-[rgba(2,4,12,0.78)] pointer-events-auto cursor-none"
         onClick={closeSettings}
         onMouseEnter={() => setCursorVariant('default')}
         aria-hidden="true"
@@ -165,7 +165,6 @@ export function SettingsOverlay() {
                 <motion.button
                   key={preset.id}
                   type="button"
-                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => applyExperiencePreset(preset.id)}
                   {...linkCursor}

@@ -134,8 +134,7 @@ export function PlanetPanel() {
         <div className="panel-drawer">
           <div className="panel-drawer-header relative shrink-0 px-5 py-5 sm:px-6 sm:py-5">
             <motion.button
-              whileHover={{ scale: 1.15, rotate: 90 }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={transitionAnimations ? { scale: 0.96 } : undefined}
               onClick={closePanel}
               {...linkCursor}
               aria-label={t('planet_panel.close_aria')}
@@ -168,7 +167,7 @@ export function PlanetPanel() {
           <div className="panel-drawer-footer relative z-10 flex shrink-0 justify-between px-5 py-4 sm:px-6 sm:py-5">
             {prev ? (
               <motion.button
-                whileHover={{ x: -6 }}
+                whileTap={transitionAnimations ? { scale: 0.98 } : undefined}
                 onClick={() => handleNav(prev.id)}
                 {...linkCursor}
                 aria-label={t('planet_panel.previous_aria', { name: t(`planets.${prev.id}.name`) })}
@@ -184,7 +183,7 @@ export function PlanetPanel() {
 
             {next ? (
               <motion.button
-                whileHover={{ x: 6 }}
+                whileTap={transitionAnimations ? { scale: 0.98 } : undefined}
                 onClick={() => handleNav(next.id)}
                 {...linkCursor}
                 aria-label={t('planet_panel.next_aria', { name: t(`planets.${next.id}.name`) })}

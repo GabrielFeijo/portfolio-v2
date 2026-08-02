@@ -40,41 +40,58 @@ export function HUD() {
 
   return (
     <>
-      <header className="portfolio-header pointer-events-auto">
+      <header className="pointer-events-auto absolute z-100 inset-[20px_24px_auto] min-h-16 flex items-center justify-between gap-6 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.76)] px-3 py-2.5 pl-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-[20px] max-md:inset-x-2.5 max-md:top-2.5 max-md:min-h-15">
         <button
           type="button"
-          className="portfolio-identity cursor-none"
+          className="group cursor-none flex items-center gap-3 text-left transition-transform duration-200 hover:-translate-y-px"
           onClick={() => navigateToPanel('about')}
           {...linkCursor}
           aria-label={t('planets.about.name')}
         >
-          <span className="identity-mark" aria-hidden="true">
+          <span
+            className="grid h-10.5 w-10.5 place-items-center rounded-xl border border-[rgba(223,181,59,0.22)] bg-[rgba(223,181,59,0.05)] font-mono text-[11px] leading-none font-bold tracking-[0.08em] text-(--accent-blue) transition-all duration-200 group-hover:border-[rgba(223,181,59,0.45)] group-hover:bg-[rgba(223,181,59,0.1)] group-hover:shadow-[0_0_12px_rgba(223,181,59,0.15)]"
+            aria-hidden="true"
+          >
             GF
           </span>
           <span>
-            <strong>{DEVELOPER.name}</strong>
-            <small>{t('developer.title')}</small>
+            <strong className="block font-display text-sm leading-[1.2] font-semibold tracking-[0.04em] text-(--text-primary)">
+              {DEVELOPER.name}
+            </strong>
+            <small className="mt-0.5 block text-[11px] tracking-[0.02em] text-(--text-muted)">
+              {t('developer.title')}
+            </small>
           </span>
         </button>
 
-        <div className="portfolio-header-actions">
-          <span className="availability-dot" aria-hidden="true" />
-          <span className="availability-label">{t('developer.location')}</span>
+        <div className="flex items-center gap-3">
+          <span
+            className="h-[7px] w-[7px] rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.45)] max-md:hidden"
+            aria-hidden="true"
+          />
+          <span className="font-mono text-[11px] tracking-[0.02em] text-(--text-muted) max-md:hidden">
+            {t('developer.location')}
+          </span>
           <button
             type="button"
             onClick={() => navigateToPanel('contact')}
             {...linkCursor}
-            className="header-contact cursor-none"
+            className="cursor-none inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] border border-[rgba(223,181,59,0.2)] bg-[rgba(223,181,59,0.06)] px-[15px] font-mono text-[10px] leading-none font-semibold tracking-[0.12em] text-(--text-primary) uppercase transition-all duration-180 hover:-translate-y-px hover:border-[rgba(223,181,59,0.45)] hover:bg-[rgba(223,181,59,0.12)] hover:shadow-[0_4px_12px_rgba(223,181,59,0.08)] active:translate-y-0 max-md:w-10 max-md:px-0"
           >
             <Mail size={15} />
-            <span>{t('planets.contact.name')}</span>
+            <span className="max-md:hidden">{t('planets.contact.name')}</span>
           </button>
         </div>
       </header>
 
-      <nav className="portfolio-nav pointer-events-auto" aria-label={t('nav.planets_aria')}>
-        <div className="portfolio-nav-label">{t('nav.sections')}</div>
-        <ul>
+      <nav
+        className="pointer-events-auto absolute top-1/2 left-6 z-210 hidden w-[188px] -translate-y-1/2 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.74)] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-[20px] md:block"
+        aria-label={t('nav.planets_aria')}
+      >
+        <div className="mx-2 mb-2.5 font-mono text-[9px] leading-none font-semibold tracking-[0.24em] text-(--text-muted) uppercase opacity-80">
+          {t('nav.sections')}
+        </div>
+        <ul className="grid gap-1">
           {PLANETS.map((planet, index) => (
             <li key={planet.id}>
               <button
@@ -83,11 +100,14 @@ export function HUD() {
                 {...linkCursor}
                 aria-current={activePanel === planet.id ? 'page' : undefined}
                 className={cn(
-                  'portfolio-nav-item cursor-none',
-                  activePanel === planet.id && 'is-active'
+                  'group cursor-none flex min-h-[38px] w-full items-center gap-2.5 rounded-lg border border-transparent px-2.5 text-left font-display text-[11px] leading-none font-medium tracking-[0.05em] text-(--text-secondary) transition-all duration-180 hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary) focus-visible:border-[rgba(223,181,59,0.3)] focus-visible:bg-[rgba(223,181,59,0.1)] focus-visible:text-(--text-primary) focus-visible:outline-none',
+                  activePanel === planet.id &&
+                    'is-active border-[rgba(223,181,59,0.24)] bg-[rgba(223,181,59,0.08)] text-(--text-primary) shadow-[inset_1px_0_0_rgba(223,181,59,0.3)]'
                 )}
               >
-                <span className="nav-index">{String(index + 1).padStart(2, '0')}</span>
+                <span className="font-mono text-[9px] leading-none font-medium text-(--text-muted) opacity-70 transition-colors duration-180 group-hover:text-(--accent-blue) group-hover:opacity-100">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
                 <span>{t(`planets.${planet.id}.name`)}</span>
               </button>
             </li>
@@ -95,8 +115,11 @@ export function HUD() {
         </ul>
       </nav>
 
-      <div className="portfolio-tools pointer-events-auto">
-        <div className="language-switch" aria-label="Language">
+      <div className="pointer-events-auto absolute right-6 bottom-5 z-100 flex items-center gap-2 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.76)] p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.3)] backdrop-blur-[20px] max-md:right-2.5 max-md:bottom-2.5">
+        <div
+          className="flex gap-0.5 border-r border-r-[rgba(226,219,205,0.08)] pr-1.5"
+          aria-label="Language"
+        >
           {(['pt', 'en'] as const).map((lang) => (
             <button
               key={lang}
@@ -104,7 +127,11 @@ export function HUD() {
               onClick={() => changeLanguage(lang)}
               {...linkCursor}
               aria-pressed={currentLang === lang}
-              className={cn('cursor-none', currentLang === lang && 'is-active')}
+              className={cn(
+                'cursor-none h-8 w-8 rounded-md font-mono text-[9px] leading-none font-semibold uppercase text-(--text-muted) transition-all duration-180 hover:bg-[rgba(255,255,255,0.04)] hover:text-(--text-primary)',
+                currentLang === lang &&
+                  'is-active border border-[rgba(223,181,59,0.15)] bg-[rgba(223,181,59,0.08)] text-(--text-primary)'
+              )}
             >
               {lang}
             </button>
@@ -115,7 +142,7 @@ export function HUD() {
           onClick={openSettings}
           {...linkCursor}
           aria-label={t('settings.title')}
-          className="tool-button cursor-none"
+          className="cursor-none inline-flex h-[34px] min-w-[34px] items-center justify-center gap-0.5 rounded-lg text-(--text-muted) transition-all duration-180 hover:border hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary)"
         >
           <Settings2 size={16} />
         </button>
@@ -124,7 +151,7 @@ export function HUD() {
           target="_blank"
           rel="noopener noreferrer"
           {...linkCursor}
-          className="tool-button cursor-none"
+          className="cursor-none inline-flex h-[34px] min-w-[34px] items-center justify-center gap-0.5 rounded-lg text-(--text-muted) transition-all duration-180 hover:border hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary)"
           aria-label="GitHub"
         >
           <Code2 size={16} />
