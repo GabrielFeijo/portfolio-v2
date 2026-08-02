@@ -22,6 +22,14 @@ describe('WebGLError', () => {
     expect(screen.getByText('webgl.context_lost.required_action')).toBeInTheDocument();
   });
 
+  it('offers a usable 2D continuation when provided', () => {
+    const onContinue = vi.fn();
+    render(<WebGLError onContinue={onContinue} />);
+
+    screen.getByText('webgl.actions.continue_without_3d').click();
+    expect(onContinue).toHaveBeenCalledOnce();
+  });
+
   it('handles try again button click', () => {
     const reloadMock = vi.fn();
     Object.defineProperty(window, 'location', {
