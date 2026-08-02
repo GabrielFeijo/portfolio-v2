@@ -577,9 +577,9 @@
   "fallback_2d": {
     "aria": "Professional experience in 2D compatibility mode",
     "eyebrow": "2D mode • Alternative navigation",
-    "kicker": "An alternative portfolio mode for when WebGL stays offline",
-    "title": "A direct portfolio to explore product, interface, and delivery",
-    "description": "This 2D mode keeps the portfolio's identity intact and guides navigation toward what matters most: trajectory, technical range, projects, and real execution strength.",
+    "kicker": "An alternative experience, the same portfolio.",
+    "title": "Building experiences through software",
+    "description": "This portfolio brings together projects, professional experience, and continuous learning that reflect my approach to building modern, scalable, and thoughtfully engineered applications.",
     "primary_cta": "Open projects",
     "secondary_cta": "Explore profile",
     "core_label": "Navigation map",
