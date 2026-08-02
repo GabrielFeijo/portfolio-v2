@@ -2,6 +2,7 @@ import { WarpEffect } from '@/components/ui/hud/warp-effect';
 import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+let mockGraphicsMode: 'webgl' | '2d' = 'webgl';
 let mockWarpActive = true;
 let mockWarpSetting = true;
 let mockRefNull = false;
@@ -9,6 +10,7 @@ let mockRefNull = false;
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: any) =>
     selector({
+      graphicsMode: mockGraphicsMode,
       warpActive: mockWarpActive,
       experienceSettings: { warpEffects: mockWarpSetting },
     }),
@@ -34,12 +36,13 @@ vi.mock('react', async () => {
 
 describe('WarpEffect', () => {
   beforeEach(() => {
+    mockGraphicsMode = 'webgl';
     mockWarpActive = true;
     mockWarpSetting = true;
     mockRefNull = false;
   });
 
-  it('renders canvas when active and setting enabled', () => {
+  it('renders canvas when active and setting enabled in webgl mode', () => {
     const { container } = render(<WarpEffect />);
     const canvas = container.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
@@ -59,6 +62,12 @@ describe('WarpEffect', () => {
     expect(canvas).not.toBeInTheDocument();
   });
 
+  it('does not render in 2d mode', () => {
+    mockGraphicsMode = '2d';
+    const { container } = render(<WarpEffect />);
+    expect(container.querySelector('canvas')).not.toBeInTheDocument();
+  });
+
   it('handles canvas getContext returning null', () => {
     const getContextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
     const { container } = render(<WarpEffect />);
@@ -70,7 +79,6 @@ describe('WarpEffect', () => {
   it('handles null canvas ref', () => {
     mockRefNull = true;
     const { container } = render(<WarpEffect />);
-    const canvas = container.querySelector('canvas');
-    expect(canvas).toBeInTheDocument();
+    expect(container.querySelector('canvas')).toBeInTheDocument();
   });
 });

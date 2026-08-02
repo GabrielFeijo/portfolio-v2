@@ -28,9 +28,10 @@ const SpaceExperience = lazy(() =>
 );
 
 export default function App() {
-  const { activePanel, helpOpen, isLoaded, settingsOpen } = useSpaceStore(
+  const { activePanel, graphicsMode, helpOpen, isLoaded, settingsOpen } = useSpaceStore(
     useShallow((state) => ({
       activePanel: state.activePanel,
+      graphicsMode: state.graphicsMode,
       helpOpen: state.helpOpen,
       isLoaded: state.isLoaded,
       settingsOpen: state.settingsOpen,
@@ -57,7 +58,7 @@ export default function App() {
       </ExperienceBoundary>
 
       <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && <HUD />}</AnimatePresence>
+      <AnimatePresence>{isLoaded && graphicsMode !== '2d' && <HUD />}</AnimatePresence>
       <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
       <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
       <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>

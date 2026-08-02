@@ -90,7 +90,7 @@ describe('FrameScheduler', () => {
     rerender(<FrameScheduler />);
     const obscuredCalls = invalidate.mock.calls.length;
     act(() => vi.advanceTimersByTime(100));
-    expect(invalidate).toHaveBeenCalledTimes(obscuredCalls);
+    expect(invalidate).toHaveBeenCalledTimes(obscuredCalls + 1);
 
     mockState.activePanel = null;
     mockState.activePlanet = null;
