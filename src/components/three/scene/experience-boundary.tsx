@@ -1,6 +1,7 @@
 import { useSpaceStore } from '@/store/space-store';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { WebGLError } from '../../ui/overlays/webgl-error';
+import { FallbackExperience } from './fallback-experience';
 
 interface ExperienceBoundaryProps {
   children: ReactNode;
@@ -41,7 +42,7 @@ export class ExperienceBoundary extends Component<
 
   render() {
     if (this.state.disabled) {
-      return <div className="scene-fallback" data-testid="scene-2d-fallback" aria-hidden="true" />;
+      return <FallbackExperience />;
     }
 
     if (this.state.failed) {

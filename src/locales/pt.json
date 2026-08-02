@@ -574,6 +574,28 @@
       "open_portfolio_v1": "Abrir Portfolio V1"
     }
   },
+  "fallback_2d": {
+    "aria": "Experiência profissional em modo de compatibilidade 2D",
+    "eyebrow": "Modo 2D • Perfil de engenharia",
+    "title": "Produtos digitais, do conceito à escala.",
+    "description": "Engenharia full stack orientada a produto, combinando interfaces claras, APIs confiáveis, arquitetura sustentável e excelência operacional.",
+    "flow_aria": "Fluxo de entrega de engenharia",
+    "flow": {
+      "product": "Produto",
+      "interface": "Interface",
+      "api": "APIs",
+      "cloud": "Cloud"
+    },
+    "stack": "CORE STACK",
+    "projects": "Explorar projetos",
+    "contact": "Vamos conversar",
+    "status": "Disponível para novos desafios",
+    "metrics": {
+      "years": "Anos de experiência",
+      "projects": "Projetos em destaque",
+      "technologies": "Tecnologias no ecossistema"
+    }
+  },
   "accomplishments": {
     "section": {
       "eyebrow": "Formação complementar",

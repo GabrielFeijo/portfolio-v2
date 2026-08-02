@@ -50,7 +50,7 @@ export default function App() {
       <CustomCursor />
 
       <ExperienceBoundary>
-        <Suspense fallback={<div className="scene-fallback" aria-hidden="true" />}>
+        <Suspense fallback={<div className="fallback-experience" aria-hidden="true" />}>
           <SpaceExperience />
         </Suspense>
       </ExperienceBoundary>

@@ -180,13 +180,6 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
-  .scene-fallback {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 62% 42%, rgba(56, 143, 190, 0.12), transparent 24%), var(--void);
-  }
-
   .sr-only {
     position: absolute;
     width: 1px;

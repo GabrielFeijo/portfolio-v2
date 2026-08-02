@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import { WebGLError } from '../../ui/overlays/webgl-error';
 import '../register-materials';
+import { FallbackExperience } from './fallback-experience';
 import { SpaceScene } from './space-scene';
 
 export default function SpaceExperience() {
@@ -55,7 +56,7 @@ export default function SpaceExperience() {
   }, [isLoaded, setIsLoaded, webGLStatus]);
 
   if (webGLStatus === 'disabled') {
-    return <div className="scene-fallback" data-testid="scene-2d-fallback" aria-hidden="true" />;
+    return <FallbackExperience />;
   }
 
   if (webGLStatus !== 'available') {
