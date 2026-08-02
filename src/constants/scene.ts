@@ -5,7 +5,7 @@ export const SCENE_SETTINGS = {
   primaryStars: {
     radius: 900,
     depth: 260,
-    count: 7200,
+    count: 3600,
     factor: 4.2,
     saturation: 0.02,
     speed: 0.12,
@@ -13,7 +13,7 @@ export const SCENE_SETTINGS = {
   secondaryStars: {
     radius: 520,
     depth: 140,
-    count: 2000,
+    count: 900,
     factor: 2.4,
     saturation: 0.18,
     speed: 0.04,

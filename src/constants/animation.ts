@@ -1,7 +1,7 @@
 export const ANIMATION_SETTINGS = {
-  loadingDelayMs: 2500,
-  panelOpenDelayMs: 800,
-  warpDurationMs: 800,
+  loadingDelayMs: 450,
+  panelOpenDelayMs: 420,
+  warpDurationMs: 420,
   panelSpring: {
     type: 'spring',
     stiffness: 250,

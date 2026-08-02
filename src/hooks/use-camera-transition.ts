@@ -1,5 +1,11 @@
 import { getPlanetPosition } from '@/utils/orbit-utils';
-import { IDLE_CAMERA_POSITION, IDLE_LOOK_AT } from '@/constants/camera';
+import {
+  CAMERA_SETTINGS,
+  IDLE_CAMERA_POSITION,
+  IDLE_LOOK_AT,
+  MOBILE_IDLE_CAMERA_POSITION,
+  MOBILE_IDLE_LOOK_AT,
+} from '@/constants/camera';
 import { PLANETS } from '@/data/portfolio';
 import type { PanelId } from '@/types/portfolio';
 import type { PlanetAnglesRef } from '@/types/three';
@@ -62,13 +68,17 @@ export function useCameraTransition({
       return;
     }
 
+    const mobile = viewportWidth < CAMERA_SETTINGS.panelBreakpoint;
+    const idlePosition = mobile ? MOBILE_IDLE_CAMERA_POSITION : IDLE_CAMERA_POSITION;
+    const idleTarget = mobile ? MOBILE_IDLE_LOOK_AT : IDLE_LOOK_AT;
+
     controls.setLookAt(
-      IDLE_CAMERA_POSITION.x,
-      IDLE_CAMERA_POSITION.y,
-      IDLE_CAMERA_POSITION.z,
-      IDLE_LOOK_AT.x,
-      IDLE_LOOK_AT.y,
-      IDLE_LOOK_AT.z,
+      idlePosition.x,
+      idlePosition.y,
+      idlePosition.z,
+      idleTarget.x,
+      idleTarget.y,
+      idleTarget.z,
       smooth
     );
   }, [activePanel, activePlanet, camera, controlsRef, planetAngles, smooth, viewportWidth]);

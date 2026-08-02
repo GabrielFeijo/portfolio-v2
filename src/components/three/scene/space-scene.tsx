@@ -11,6 +11,7 @@ import { Nebula } from '../objects/nebula';
 import { Planet3D } from '../objects/planet-3d';
 import { ShootingStar, Sun3D } from '../objects/sun-3d';
 import { CameraController } from './camera-controller';
+import { FrameScheduler } from './frame-scheduler';
 
 export function SpaceScene() {
   const { asteroidDensity, nebula, setIsLoaded, shootingStars, starDensity } = useSpaceStore(
@@ -44,14 +45,15 @@ export function SpaceScene() {
     Math.round(SCENE_SETTINGS.secondaryStars.count * starDensity)
   );
   const shootingStarCount = shootingStars ? Math.max(1, Math.round(4 * starDensity)) : 0;
-  const innerAsteroidCount = Math.round(220 * asteroidDensity);
-  const outerAsteroidCount = Math.round(90 * asteroidDensity);
+  const innerAsteroidCount = Math.round(120 * asteroidDensity);
+  const outerAsteroidCount = Math.round(48 * asteroidDensity);
 
   const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), []);
 
   return (
     <>
       <color attach="background" args={[backgroundColor]} />
+      <FrameScheduler />
 
       <ambientLight intensity={0.14} color="#09111f" />
       <hemisphereLight intensity={0.22} color="#8ad8ff" groundColor="#03050d" />
@@ -69,28 +71,6 @@ export function SpaceScene() {
         color="#6d6fff"
         distance={320}
         decay={1.9}
-      />
-      <pointLight
-        position={[35, -110, 50]}
-        intensity={0.2}
-        color="#ff9f6b"
-        distance={240}
-        decay={2.1}
-      />
-      <pointLight
-        position={[-70, 95, 150]}
-        intensity={0.2}
-        color="#67e8f9"
-        distance={280}
-        decay={2.2}
-      />
-      <spotLight
-        position={[0, 90, 120]}
-        angle={0.45}
-        penumbra={0.8}
-        intensity={0.4}
-        distance={360}
-        color="#dbeafe"
       />
 
       <Stars {...SCENE_SETTINGS.primaryStars} count={primaryStarCount} fade />

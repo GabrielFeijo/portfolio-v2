@@ -16,3 +16,5 @@ export const CAMERA_SETTINGS = {
 
 export const IDLE_CAMERA_POSITION = new THREE.Vector3(-14, 24, 68);
 export const IDLE_LOOK_AT = new THREE.Vector3(5, -1, -8);
+export const MOBILE_IDLE_CAMERA_POSITION = new THREE.Vector3(0, 24, 104);
+export const MOBILE_IDLE_LOOK_AT = new THREE.Vector3(0, 1, 0);
