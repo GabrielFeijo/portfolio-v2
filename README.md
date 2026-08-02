@@ -15,19 +15,6 @@ O **Space Portfolio V2** é um portfólio imersivo construído com React + Three
 
 A aplicação combina cena 3D em tempo real, shaders GLSL, overlays de acessibilidade, estado global com presets de performance e componentes de UI com design system próprio.
 
-### 🎯 Destaques Técnicos
-
-- **Experiência 3D Interativa**: cena orbital com planetas clicáveis, sol central e câmera inteligente
-- **Shaders Customizados**: materiais próprios para planetas e atmosfera com ruído procedural (GLSL)
-- **Navegação Cinematográfica**: transições de câmera com efeito warp e foco por seção
-- **Qualidade Adaptativa**: seleção inicial por capacidade do dispositivo, ajuste automático em baixa taxa de quadros e preferências persistidas
-- **Sistema de Presets**: modos `cinematic`, `balanced`, `performance` e `minimal`, com `balanced` como padrão em desktops capazes
-- **Navegação Compartilhável**: seções acessíveis por menu visível e hashes como `#projects` e `#experience`
-- **HUD + Overlays**: ajuda, configurações globais e fallback robusto para WebGL indisponível
-- **Painéis Dinâmicos**: lazy loading por seção com navegação anterior/próximo
-- **Formulário de Contato Real**: validação com Zod + React Hook Form + envio via Axios
-- **Performance Frontend**: code splitting manual no Vite para vendors críticos (3D, motion, forms, state)
-
 ---
 
 ## 🌐 Demonstração Online
@@ -57,7 +44,7 @@ portfolio-v2/
 │   ├── audio/
 │   │   └── space-music.mp3               # Trilha ambiente
 │   ├── favicon.svg
-│   └── gabrielfeijo.webp                 # Avatar otimizado
+│   └── gabrielfeijo.webp                 # Avatar
 │
 ├── src/
 │   ├── app.tsx                           # Shell da aplicação + Canvas + overlays
