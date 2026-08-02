@@ -144,7 +144,7 @@ describe('CameraController', () => {
     expect(mockSetWarpActive).not.toHaveBeenCalled();
   });
 
-  it('does not auto-rotate while returning from a focused planet after closing the panel', () => {
+  it('keeps idle auto-rotate when no panel is active, even if a planet remains focused', () => {
     mockState.activePlanet = 'about';
     render(<CameraController planetAngles={{ current: {} } as any} />);
 
@@ -152,7 +152,7 @@ describe('CameraController', () => {
       mockFrameCallbacks.forEach((cb) => cb({}, 1));
     });
 
-    expect(controlsInstance.azimuthAngle).toBe(0);
+    expect(controlsInstance.azimuthAngle).toBe(-0.022);
   });
 
   it('keeps idle auto-rotate when no panel or focused planet is active', () => {

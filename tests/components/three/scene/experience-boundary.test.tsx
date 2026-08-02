@@ -7,11 +7,18 @@ const setGraphicsMode = vi.fn();
 const setCursorVariant = vi.fn();
 const setExperienceSetting = vi.fn();
 
-vi.mock('@/store/space-store', () => ({
-  useSpaceStore: {
-    getState: () => ({ setCursorVariant, setExperienceSetting, setGraphicsMode, setIsLoaded }),
-  },
-}));
+vi.mock('zustand/react/shallow', () => ({ useShallow: (selector: unknown) => selector }));
+vi.mock('@/store/space-store', () => {
+  const useSpaceStore = Object.assign(
+    (selector: (state: { navigateToPanel: (panel: string) => void }) => unknown) =>
+      selector({ navigateToPanel: vi.fn() }),
+    {
+      getState: () => ({ setCursorVariant, setExperienceSetting, setGraphicsMode, setIsLoaded }),
+    }
+  );
+
+  return { useSpaceStore };
+});
 vi.mock('@/components/ui/overlays/webgl-error', () => ({
   WebGLError: ({ onContinue }: { onContinue: () => void }) => (
     <button type="button" onClick={onContinue}>
