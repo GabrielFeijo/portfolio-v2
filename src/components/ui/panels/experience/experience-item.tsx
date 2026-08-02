@@ -35,7 +35,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
       <motion.article
         onClick={onToggle}
         whileHover={{ x: 3 }}
-        className={`cursor-none rounded-3xl px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
+        className={`cursor-none px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
         style={{
           boxShadow: isOpen
             ? '0 18px 40px rgba(0,0,0,0.24), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)'
@@ -50,7 +50,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
             <h3 className="text-base font-semibold text-(--text-primary) sm:text-lg">
               {t(`experience_items.${experience.id}.role`, experience.role)}
             </h3>
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
+            <div className="mt-2 flex flex-wrap items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5 text-(--text-secondary)">
                 <Building2 size={14} />
                 {experience.company}
@@ -79,7 +79,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
               transition={{ duration: 0.28 }}
               className="overflow-hidden"
             >
-              <p className="mb-5 mt-5 text-sm leading-7 text-(--text-secondary)">
+              <p className="mb-4 mt-4 text-sm leading-7 text-(--text-secondary)">
                 {t(`experience_items.${experience.id}.description`, experience.description)}
               </p>
 

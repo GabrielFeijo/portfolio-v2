@@ -1,11 +1,9 @@
 import { DEVELOPER, PLANETS } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
-import { motion } from 'framer-motion';
-import { Cpu, ExternalLink, Orbit, SlidersHorizontal } from 'lucide-react';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ArrowUpRight, Code2, Mail, Settings2 } from 'lucide-react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
-import { UIBadge, UIIconTile } from '../design-system';
 import { cn, createCursorHandlers } from '../panels/panel-primitives';
 
 export function HUD() {
@@ -21,143 +19,145 @@ export function HUD() {
     );
   const { t, i18n } = useTranslation();
   const linkCursor = useMemo(() => createCursorHandlers(setCursorVariant), [setCursorVariant]);
-
   const currentLang = i18n.resolvedLanguage?.startsWith('en') ? 'en' : 'pt';
 
   useEffect(() => {
     setLanguage(currentLang);
+    document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
+    document.title =
+      currentLang === 'pt'
+        ? 'Gabriel Feijó — Desenvolvedor Full Stack'
+        : 'Gabriel Feijó — Full Stack Developer';
   }, [currentLang, setLanguage]);
 
   const changeLanguage = useCallback(
     (lang: 'pt' | 'en') => {
-      i18n.changeLanguage(lang);
+      void i18n.changeLanguage(lang);
       setLanguage(lang);
     },
     [i18n, setLanguage]
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed inset-0 pointer-events-none z-100"
-    >
-      {!activePanel && (
-        <nav aria-label={t('nav.planets_aria')} className="sr-only pointer-events-auto">
-          <ul>
-            {PLANETS.map((planet) => (
-              <li key={planet.id}>
-                <button type="button" onClick={() => navigateToPanel(planet.id)}>
-                  {t(`planets.${planet.id}.name`)} — {t(`planets.${planet.id}.subtitle`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
-
-      <div className="ds-topbar absolute top-3 left-3 right-3 min-h-20 rounded-[26px] flex items-start sm:items-center justify-between px-4 sm:px-6 py-4 z-100 pointer-events-auto">
-        <div className="flex items-center gap-4">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+    <>
+      <header className="pointer-events-auto absolute z-100 inset-[20px_24px_auto] min-h-16 flex items-center justify-between gap-6 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.76)] px-3 py-2.5 pl-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-[20px] max-md:inset-x-2.5 max-md:top-2.5 max-md:min-h-15">
+        <button
+          type="button"
+          className="group cursor-none flex items-center gap-3 text-left transition-transform duration-200 hover:-translate-y-px"
+          onClick={() => navigateToPanel('about')}
+          {...linkCursor}
+          aria-label={t('planets.about.name')}
+        >
+          <span
+            className="grid h-10.5 w-10.5 place-items-center rounded-xl border border-[rgba(223,181,59,0.22)] bg-[rgba(223,181,59,0.05)] font-mono text-[11px] leading-none font-bold tracking-[0.08em] text-(--accent-blue) transition-all duration-200 group-hover:border-[rgba(223,181,59,0.45)] group-hover:bg-[rgba(223,181,59,0.1)] group-hover:shadow-[0_0_12px_rgba(223,181,59,0.15)]"
+            aria-hidden="true"
           >
-            <UIIconTile icon={Orbit} className="h-11 w-11" />
-          </motion.div>
-          <div>
-            <div className="font-display text-sm sm:text-base font-semibold tracking-[0.08em] text-(--text-primary)">
+            GF
+          </span>
+          <span>
+            <strong className="block font-display text-sm leading-[1.2] font-semibold tracking-[0.04em] text-(--text-primary)">
               {DEVELOPER.name}
-            </div>
-            <div className="text-xs text-(--text-muted)">{t('developer.title')}</div>
-          </div>
-        </div>
+            </strong>
+            <small className="mt-0.5 block text-[11px] tracking-[0.02em] text-(--text-muted)">
+              {t('developer.title')}
+            </small>
+          </span>
+        </button>
 
-        <div className="flex flex-col items-end gap-2 text-right">
-          <div className="font-mono-space text-[11px] sm:text-xs text-(--text-secondary) uppercase tracking-[0.18em]">
-            <HudClock currentLang={currentLang} />
-          </div>
-          <div className="text-[11px] sm:text-xs text-(--text-muted)">
+        <div className="flex items-center gap-3">
+          <span
+            className="h-[7px] w-[7px] rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.45)] max-md:hidden"
+            aria-hidden="true"
+          />
+          <span className="font-mono text-[11px] tracking-[0.02em] text-(--text-muted) max-md:hidden">
             {t('developer.location')}
-          </div>
+          </span>
+          <button
+            type="button"
+            onClick={() => navigateToPanel('contact')}
+            {...linkCursor}
+            className="cursor-none inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] border border-[rgba(223,181,59,0.2)] bg-[rgba(223,181,59,0.06)] px-[15px] font-mono text-[10px] leading-none font-semibold tracking-[0.12em] text-(--text-primary) uppercase transition-all duration-180 hover:-translate-y-px hover:border-[rgba(223,181,59,0.45)] hover:bg-[rgba(223,181,59,0.12)] hover:shadow-[0_4px_12px_rgba(223,181,59,0.08)] active:translate-y-0 max-md:w-10 max-md:px-0"
+          >
+            <Mail size={15} />
+            <span className="max-md:hidden">{t('planets.contact.name')}</span>
+          </button>
         </div>
-      </div>
+      </header>
 
-      <div className="ds-topbar absolute bottom-3 left-3 right-3 min-h-16 rounded-3xl flex items-center justify-between gap-4 px-4 sm:px-6 py-4 z-100 pointer-events-auto">
-        <div className="hidden sm:flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-(--text-muted)">
-          <UIBadge className="font-mono-space text-[11px] tracking-[0.18em] uppercase">
-            <Cpu size={14} />
-            {t('common.orbital_portfolio')}
-          </UIBadge>
-          <UIBadge className="font-mono-space text-[11px] tracking-[0.18em] uppercase">
-            <Orbit size={14} />
-            {t('common.click_planet')}
-          </UIBadge>
+      <nav
+        className="pointer-events-auto absolute top-1/2 left-6 z-210 hidden w-[188px] -translate-y-1/2 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.74)] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-[20px] md:block"
+        aria-label={t('nav.planets_aria')}
+      >
+        <div className="mx-2 mb-2.5 font-mono text-[9px] leading-none font-semibold tracking-[0.24em] text-(--text-muted) uppercase opacity-80">
+          {t('nav.sections')}
         </div>
-
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <div className="flex items-center gap-1.5 ds-inset p-1 rounded-xl mr-1">
-            {(['pt', 'en'] as const).map((lang) => (
+        <ul className="grid gap-1">
+          {PLANETS.map((planet, index) => (
+            <li key={planet.id}>
               <button
-                key={lang}
-                onClick={() => changeLanguage(lang)}
+                type="button"
+                onClick={() => navigateToPanel(planet.id)}
                 {...linkCursor}
+                aria-current={activePanel === planet.id ? 'page' : undefined}
                 className={cn(
-                  'px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-none',
-                  currentLang === lang
-                    ? 'bg-white/10 text-white shadow-[0_0_12px_rgba(255,255,255,0.1)]'
-                    : 'text-white/40 hover:text-white/70'
+                  'group cursor-none flex min-h-[38px] w-full items-center gap-2.5 rounded-lg border border-transparent px-2.5 text-left font-display text-[11px] leading-none font-medium tracking-[0.05em] text-(--text-secondary) transition-all duration-180 hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary) focus-visible:border-[rgba(223,181,59,0.3)] focus-visible:bg-[rgba(223,181,59,0.1)] focus-visible:text-(--text-primary) focus-visible:outline-none',
+                  activePanel === planet.id &&
+                    'is-active border-[rgba(223,181,59,0.24)] bg-[rgba(223,181,59,0.08)] text-(--text-primary) shadow-[inset_1px_0_0_rgba(223,181,59,0.3)]'
                 )}
               >
-                {lang}
+                <span className="font-mono text-[9px] leading-none font-medium text-(--text-muted) opacity-70 transition-colors duration-180 group-hover:text-(--accent-blue) group-hover:opacity-100">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span>{t(`planets.${planet.id}.name`)}</span>
               </button>
-            ))}
-          </div>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-          <div className="grid grid-cols-2 gap-3 flex-1 sm:flex-initial sm:flex">
-            <motion.button
+      <div className="pointer-events-auto absolute right-6 bottom-5 z-100 flex items-center gap-2 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.76)] p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.3)] backdrop-blur-[20px] max-md:right-2.5 max-md:bottom-2.5">
+        <div
+          className="flex gap-0.5 border-r border-r-[rgba(226,219,205,0.08)] pr-1.5"
+          aria-label="Language"
+        >
+          {(['pt', 'en'] as const).map((lang) => (
+            <button
+              key={lang}
               type="button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={openSettings}
+              onClick={() => changeLanguage(lang)}
               {...linkCursor}
-              aria-label={t('settings.title')}
-              className="ds-button-secondary cursor-none w-full"
+              aria-pressed={currentLang === lang}
+              className={cn(
+                'cursor-none h-8 w-8 rounded-md font-mono text-[9px] leading-none font-semibold uppercase text-(--text-muted) transition-all duration-180 hover:bg-[rgba(255,255,255,0.04)] hover:text-(--text-primary)',
+                currentLang === lang &&
+                  'is-active border border-[rgba(223,181,59,0.15)] bg-[rgba(223,181,59,0.08)] text-(--text-primary)'
+              )}
             >
-              <SlidersHorizontal size={12} />
-              {t('common.config')}
-            </motion.button>
-
-            <motion.div whileHover={{ scale: 1.05 }} {...linkCursor} className="w-full">
-              <a
-                href={DEVELOPER.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ds-button-secondary cursor-none w-full"
-              >
-                <ExternalLink size={12} />
-                {t('common.code')}
-              </a>
-            </motion.div>
-          </div>
+              {lang}
+            </button>
+          ))}
         </div>
+        <button
+          type="button"
+          onClick={openSettings}
+          {...linkCursor}
+          aria-label={t('settings.title')}
+          className="cursor-none inline-flex h-[34px] min-w-[34px] items-center justify-center gap-0.5 rounded-lg text-(--text-muted) transition-all duration-180 hover:border hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary)"
+        >
+          <Settings2 size={16} />
+        </button>
+        <a
+          href={DEVELOPER.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          {...linkCursor}
+          className="cursor-none inline-flex h-[34px] min-w-[34px] items-center justify-center gap-0.5 rounded-lg text-(--text-muted) transition-all duration-180 hover:border hover:border-[rgba(223,181,59,0.12)] hover:bg-[rgba(223,181,59,0.06)] hover:text-(--text-primary)"
+          aria-label="GitHub"
+        >
+          <Code2 size={16} />
+          <ArrowUpRight size={12} />
+        </a>
       </div>
-    </motion.div>
+    </>
   );
 }
-
-const HudClock = memo(function HudClock({ currentLang }: { currentLang: 'pt' | 'en' }) {
-  const [time, setTime] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return time.toLocaleTimeString(currentLang === 'pt' ? 'pt-BR' : 'en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-});

@@ -8,7 +8,6 @@ import {
   PanelImageFrame,
   PanelInsetCard,
   PanelTagList,
-  PanelTopGlow,
 } from '../panel-content-primitives';
 import { createCursorHandlers } from '../panel-primitives';
 import { ProjectLink } from './project-link';
@@ -42,17 +41,10 @@ export function ProjectCard({
       whileHover={{ y: -4 }}
       onClick={onToggle}
       {...createCursorHandlers(setCursorVariant)}
-      className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
-      style={{
-        boxShadow: isSelected
-          ? `0 24px 60px rgba(0,0,0,0.28), 0 0 0 1px ${project.color}22 inset, 0 0 40px ${project.color}12`
-          : undefined,
-      }}
+      className={`relative overflow-hidden p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
     >
-      <PanelTopGlow color={project.color} className="h-24" />
-
       {project.featured && (
-        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
+        <div className="absolute top-4 right-4 panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
           {t('common.featured')}
         </div>
       )}

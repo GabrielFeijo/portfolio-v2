@@ -23,6 +23,7 @@ import { createCursorHandlers } from '../panels/panel-primitives';
 
 interface ToggleControlProps {
   checked: boolean;
+  disabled?: boolean;
   label: string;
   onChange: (checked: boolean) => void;
 }
@@ -40,16 +41,23 @@ interface RangeControlProps {
 export function SettingsOverlay() {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
-  const { applyExperiencePreset, closeSettings, setCursorVariant, setExperienceSetting, settings } =
-    useSpaceStore(
-      useShallow((state) => ({
-        applyExperiencePreset: state.applyExperiencePreset,
-        closeSettings: state.closeSettings,
-        setCursorVariant: state.setCursorVariant,
-        setExperienceSetting: state.setExperienceSetting,
-        settings: state.experienceSettings,
-      }))
-    );
+  const {
+    applyExperiencePreset,
+    closeSettings,
+    graphicsMode,
+    setCursorVariant,
+    setExperienceSetting,
+    settings,
+  } = useSpaceStore(
+    useShallow((state) => ({
+      applyExperiencePreset: state.applyExperiencePreset,
+      closeSettings: state.closeSettings,
+      graphicsMode: state.graphicsMode,
+      setCursorVariant: state.setCursorVariant,
+      setExperienceSetting: state.setExperienceSetting,
+      settings: state.experienceSettings,
+    }))
+  );
 
   const presets = useMemo<Array<{ id: ExperiencePreset; label: string; description: string }>>(
     () => [
@@ -98,7 +106,7 @@ export function SettingsOverlay() {
       className="fixed inset-0 z-260 flex items-center justify-center p-4 sm:p-8"
     >
       <div
-        className="absolute inset-0 bg-[rgba(2,4,12,0.72)] backdrop-blur-md pointer-events-auto cursor-none"
+        className="absolute inset-0 bg-[rgba(2,4,12,0.78)] pointer-events-auto cursor-none"
         onClick={closeSettings}
         onMouseEnter={() => setCursorVariant('default')}
         aria-hidden="true"
@@ -118,7 +126,7 @@ export function SettingsOverlay() {
             className="absolute inset-0 opacity-[0.07] pointer-events-none"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(125,211,252,0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.35) 1px, transparent 1px)',
+                'linear-gradient(rgba(223,181,59,0.48) 1px, transparent 1px), linear-gradient(90deg, rgba(223,181,59,0.32) 1px, transparent 1px)',
               backgroundSize: '28px 28px',
             }}
           />
@@ -157,7 +165,6 @@ export function SettingsOverlay() {
                 <motion.button
                   key={preset.id}
                   type="button"
-                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => applyExperiencePreset(preset.id)}
                   {...linkCursor}
@@ -196,7 +203,8 @@ export function SettingsOverlay() {
                   onChange={(checked) => update('planetRotation', checked)}
                 />
                 <ToggleControl
-                  checked={settings.customCursor}
+                  checked={graphicsMode === 'webgl' && settings.customCursor}
+                  disabled={graphicsMode === '2d'}
                   label={t('settings.controls.custom_cursor')}
                   onChange={(checked) => update('customCursor', checked)}
                 />
@@ -241,7 +249,7 @@ export function SettingsOverlay() {
                   onChange={(value) => update('musicVolume', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
                     <Volume2 size={14} />
                     {t('settings.ambient_orbital')}
                   </div>
@@ -254,7 +262,7 @@ export function SettingsOverlay() {
                       href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline"
+                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Nikita Kondrashev
@@ -264,7 +272,7 @@ export function SettingsOverlay() {
                       href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline"
+                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Pixabay
@@ -303,13 +311,13 @@ export function SettingsOverlay() {
                 <RangeControl
                   label={t('settings.controls.dpr')}
                   min={1}
-                  max={1.8}
+                  max={1.6}
                   step={0.05}
                   value={settings.dpr}
                   onChange={(value) => update('dpr', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
                     <Gauge size={14} />
                     {t('settings.state_status')}
                   </div>
@@ -348,10 +356,12 @@ function SettingsGroup({
   );
 }
 
-function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
+function ToggleControl({ checked, disabled = false, label, onChange }: ToggleControlProps) {
   const id = useId();
   return (
-    <div className="flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+    <div
+      className={`flex min-h-12 cursor-none items-center justify-between gap-4 ds-inset px-4 py-3 ${disabled ? 'opacity-50' : ''}`}
+    >
       <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
         {label}
       </label>
@@ -359,8 +369,9 @@ function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
         id={id}
         type="checkbox"
         checked={checked}
+        disabled={disabled}
         onChange={(event) => onChange(event.target.checked)}
-        className="h-5 w-5 accent-[#7dd3fc]"
+        className="h-5 w-5 accent-[#dfb53b]"
       />
     </div>
   );
@@ -371,12 +382,12 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
   const displayValue = suffix === '%' ? Math.round(value * 100) : value.toFixed(2);
 
   return (
-    <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+    <div className="ds-inset px-4 py-3">
       <div className="mb-3 flex items-center justify-between gap-4">
         <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
           {label}
         </label>
-        <span className="font-mono-space text-xs text-[rgba(125,211,252,0.8)]">
+        <span className="font-mono-space text-xs text-[rgba(223,181,59,0.86)]">
           {displayValue}
           {suffix ?? ''}
         </span>
@@ -389,7 +400,7 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="w-full accent-[#7dd3fc]"
+        className="w-full accent-[#dfb53b]"
       />
     </div>
   );

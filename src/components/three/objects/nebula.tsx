@@ -186,7 +186,7 @@ export function Nebula({ density }: NebulaProps) {
   return (
     <group>
       <StarShell
-        count={Math.max(144, Math.round(1350 * density))}
+        count={Math.max(96, Math.round(700 * density))}
         radius={520}
         spread={180}
         size={1.5}
@@ -194,7 +194,7 @@ export function Nebula({ density }: NebulaProps) {
         seed={101}
       />
       <StarShell
-        count={Math.max(72, Math.round(675 * density))}
+        count={Math.max(48, Math.round(320 * density))}
         radius={340}
         spread={120}
         size={1.1}

@@ -2,14 +2,15 @@ import { CURSOR_COLORS, CURSOR_VARIANTS } from '@/constants/cursor';
 import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion';
 import { useSpaceStore } from '@/store/space-store';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 export function CustomCursor() {
-  const { cursorVariant, customCursorEnabled } = useSpaceStore(
+  const { cursorVariant, customCursorEnabled, graphicsMode } = useSpaceStore(
     useShallow((state) => ({
       cursorVariant: state.cursorVariant,
       customCursorEnabled: state.experienceSettings.customCursor,
+      graphicsMode: state.graphicsMode,
     }))
   );
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -24,7 +25,8 @@ export function CustomCursor() {
   const trailSpringX = useSpring(trailX, { damping: 35, stiffness: 200, mass: 1 });
   const trailSpringY = useSpring(trailY, { damping: 35, stiffness: 200, mass: 1 });
 
-  const shouldUseCustomCursor = isCursorCapable && customCursorEnabled && !prefersReducedMotion;
+  const shouldUseCustomCursor =
+    graphicsMode === 'webgl' && isCursorCapable && customCursorEnabled && !prefersReducedMotion;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -41,10 +43,14 @@ export function CustomCursor() {
     };
   }, []);
 
-  useEffect(() => {
-    document.body.classList.toggle('cursor-fallback-mode', !shouldUseCustomCursor);
-    return () => document.body.classList.remove('cursor-fallback-mode');
-  }, [shouldUseCustomCursor]);
+  useLayoutEffect(() => {
+    document.body.classList.toggle('custom-cursor-active', shouldUseCustomCursor);
+    document.body.classList.toggle('graphics-2d-mode', graphicsMode === '2d');
+    return () => {
+      document.body.classList.remove('custom-cursor-active');
+      document.body.classList.remove('graphics-2d-mode');
+    };
+  }, [graphicsMode, shouldUseCustomCursor]);
 
   useEffect(() => {
     if (!shouldUseCustomCursor) return;

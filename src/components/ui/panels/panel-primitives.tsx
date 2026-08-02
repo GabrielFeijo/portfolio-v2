@@ -78,7 +78,7 @@ export function PanelHeader({ icon: Icon, eyebrow, title, description }: PanelHe
       </div>
 
       {description && (
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-(--text-secondary)">{description}</p>
+        <p className="mt-2 max-w-2xl text-sm leading-7 text-(--text-secondary)">{description}</p>
       )}
     </>
   );
@@ -98,15 +98,9 @@ export function PanelIntroCard({
   description,
   children,
   className,
-  ringClassName,
-  glowClassName,
 }: PanelIntroCardProps) {
   return (
     <section className={cn('panel-card-strong p-6 sm:p-7', className)}>
-      <div className="panel-orbit-grid" />
-      <div className="panel-surface-dust" />
-      {ringClassName && <div className={cn('panel-orbit-ring', ringClassName)} />}
-      {glowClassName && <div className={cn('panel-core-glow', glowClassName)} />}
       <PanelHeader icon={icon} eyebrow={eyebrow} title={title} description={description} />
       {children}
     </section>
@@ -120,19 +114,9 @@ interface PanelSectionProps extends PanelHeaderProps {
   glowClassName?: string;
 }
 
-export function PanelSection({
-  icon,
-  eyebrow,
-  title,
-  children,
-  className,
-  ringClassName,
-  glowClassName,
-}: PanelSectionProps) {
+export function PanelSection({ icon, eyebrow, title, children, className }: PanelSectionProps) {
   return (
     <motion.section variants={panelFadeUp} className={cn('panel-shell p-6 sm:p-7', className)}>
-      {ringClassName && <div className={cn('panel-orbit-ring', ringClassName)} />}
-      {glowClassName && <div className={cn('panel-core-glow', glowClassName)} />}
       <div className="mb-5">
         <PanelHeader icon={icon} eyebrow={eyebrow} title={title} />
       </div>
@@ -152,10 +136,7 @@ export function PanelIconBadge({
 }) {
   return (
     <div
-      className={cn(
-        'flex h-10 w-10 items-center justify-center rounded-2xl panel-icon-chip',
-        className
-      )}
+      className={cn('flex h-10 w-10 items-center justify-center panel-icon-chip', className)}
       style={style}
     >
       <Icon size={18} />
@@ -173,12 +154,7 @@ export function PanelMetaChip({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full panel-meta-chip px-3 py-1.5',
-        className
-      )}
-    >
+    <div className={cn('inline-flex items-center gap-1.5 panel-meta-chip px-3 py-1.5', className)}>
       {Icon && <Icon size={13} />}
       <span>{children}</span>
     </div>
@@ -187,12 +163,7 @@ export function PanelMetaChip({
 
 export function PanelBadge({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-2 rounded-full panel-planet-badge px-3 py-1.5',
-        className
-      )}
-    >
+    <div className={cn('inline-flex items-center gap-2 panel-planet-badge px-3 py-1.5', className)}>
       {children}
     </div>
   );

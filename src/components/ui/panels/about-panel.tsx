@@ -1,18 +1,12 @@
 import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
 import { motion } from 'framer-motion';
-import { Briefcase, Code, GraduationCap, Mail, MapPin, Radar, Sparkles } from 'lucide-react';
+import { Briefcase, Code, GraduationCap, Laptop2, Mail, MapPin, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AboutContactButton } from './about/about-contact-button';
 import { AboutInfoPill } from './about/about-info-pill';
 import { PanelNotice } from './panel-content-primitives';
 import { PanelBadge, PanelSection, panelFadeUp, panelStagger } from './panel-primitives';
-
-const STAT_TONES = [
-  'var(--panel-accent-soft)',
-  'color-mix(in srgb, var(--panel-glow) 18%, transparent)',
-  'color-mix(in srgb, var(--panel-accent) 12%, transparent)',
-];
 
 export function AboutPanel() {
   const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
@@ -38,49 +32,41 @@ export function AboutPanel() {
       className="flex flex-col gap-8 sm:gap-10"
     >
       <motion.section variants={panelFadeUp} className="panel-card-strong p-6 sm:p-7">
-        <div className="panel-orbit-grid" />
-        <div className="panel-surface-dust" />
-        <div className="panel-orbit-ring -right-14 -top-16 h-44 w-44" />
-        <div className="panel-core-glow right-8 top-8 h-24 w-24" />
-
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-3 rounded-full border"
-              style={{ borderColor: 'var(--panel-border)', borderStyle: 'dashed' }}
-            />
             <img
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
-              className="w-32 h-32 sm:w-36 sm:h-36 rounded-[28px] object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-              style={{ borderColor: 'var(--panel-border-strong)' }}
+              className="w-32 h-32 sm:w-36 sm:h-36 object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              style={{
+                borderColor: 'var(--panel-border-strong)',
+                borderRadius: 'var(--panel-radius)',
+              }}
             />
           </div>
 
           <div className="flex-1 min-w-0">
             <PanelBadge className="text-[11px] tracking-[0.2em] uppercase font-mono-space">
-              <Radar size={12} />
+              <UserRound size={12} />
               {t('planets.about.subtitle')}
             </PanelBadge>
 
             <motion.h1
               variants={panelFadeUp}
-              className="mt-4 text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-(--text-primary)"
+              className="mt-3 text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-(--text-primary)"
             >
               {DEVELOPER.name}
             </motion.h1>
 
-            <div className="mt-3 flex flex-wrap gap-2 text-xs">
-              <AboutInfoPill icon={Sparkles} label={t('developer.title')} />
+            <div className="mt-2 flex flex-wrap gap-2 text-xs">
+              <AboutInfoPill icon={Laptop2} label={t('developer.title')} />
               <AboutInfoPill
                 icon={MapPin}
                 label={`${t('developer.location')} • ${DEVELOPER.age} ${t('developer.age_suffix')}`}
               />
             </div>
 
-            <p className="mt-5 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
+            <p className="mt-4 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
               {t('developer.tagline')}
             </p>
           </div>
@@ -88,14 +74,8 @@ export function AboutPanel() {
       </motion.section>
 
       <motion.div variants={panelFadeUp} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {stats.map((stat, index) => (
-          <div
-            key={stat.label}
-            className="panel-card relative overflow-hidden p-4 sm:p-5"
-            style={{
-              background: `linear-gradient(180deg, rgba(18,28,52,0.86), rgba(8,13,25,0.72)), radial-gradient(circle at top right, ${STAT_TONES[index]}, transparent 45%)`,
-            }}
-          >
+        {stats.map((stat) => (
+          <div key={stat.label} className="panel-card relative overflow-hidden p-4 sm:p-5">
             <div className="text-2xl sm:text-3xl font-bold text-(--text-primary)">{stat.value}</div>
             <div className="mt-2 text-xs uppercase tracking-[0.16em] text-(--text-muted)">
               {stat.label}
@@ -126,7 +106,7 @@ export function AboutPanel() {
       </motion.div>
 
       <PanelSection
-        icon={Sparkles}
+        icon={Laptop2}
         eyebrow={t('about.sections.identity.eyebrow')}
         title={t('planets.about.name')}
       >
@@ -143,7 +123,7 @@ export function AboutPanel() {
         title={t('about.sections.education.title')}
       >
         {education.map((entry, index) => (
-          <div key={index} className="panel-card rounded-[20px] p-5">
+          <div key={index} className="panel-card p-5">
             <div className="text-base font-semibold text-(--text-primary)">{entry.title}</div>
             <div className="mt-1 text-xs uppercase tracking-[0.16em] panel-eyebrow">
               {entry.institution} • {entry.period}

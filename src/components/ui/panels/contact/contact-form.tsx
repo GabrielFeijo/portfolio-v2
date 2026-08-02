@@ -102,10 +102,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
             aria-invalid={Boolean(errors.message)}
             aria-describedby="contact-message-error"
             {...register('message')}
-            className={getContactFieldClassName(
-              Boolean(errors.message),
-              'min-h-38 resize-none rounded-[22px]'
-            )}
+            className={getContactFieldClassName(Boolean(errors.message), 'min-h-38 resize-none')}
           />
         }
       />
@@ -116,7 +113,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         whileTap={{ scale: 0.98 }}
         {...linkCursor}
         disabled={isSubmitting}
-        className={`px-4 py-3 rounded-2xl panel-cta font-medium text-sm cursor-none transition-colors ${isSubmitting ? 'opacity-70' : ''}`}
+        className={`panel-cta cursor-none transition-colors ${isSubmitting ? 'opacity-70' : ''}`}
       >
         {sent
           ? t('contact.form.sent')

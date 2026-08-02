@@ -57,7 +57,7 @@ export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: Smal
           />
         </mesh>
         <mesh>
-          <sphereGeometry args={[size * 0.18, 48, 48]} />
+          <sphereGeometry args={[size * 0.18, 24, 24]} />
           <aaaPlanetMaterial ref={materialRef} uColor={baseColor} uType={0} uLightDir={lightDir} />
         </mesh>
       </group>

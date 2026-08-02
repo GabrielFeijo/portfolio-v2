@@ -16,7 +16,6 @@ export function AccomplishmentsPanel() {
         eyebrow={t('planets.accomplishments.subtitle')}
         title={t('planets.accomplishments.name')}
         description={t('planets.accomplishments.description')}
-        ringClassName="-right-16 -top-12 h-44 w-44"
       />
 
       <div
@@ -37,7 +36,6 @@ export function AccomplishmentsPanel() {
           icon={GraduationCap}
           eyebrow={t('accomplishments.section.eyebrow')}
           title={t('accomplishments.section.title')}
-          glowClassName="right-6 top-4 h-20 w-20"
         >
           <div className="space-y-4">
             {CERTIFICATES.map((cert, i) => (

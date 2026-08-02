@@ -69,7 +69,7 @@ export const DEVELOPER: DeveloperProfile = {
   github: 'https://github.com/GabrielFeijo',
   linkedin: 'https://www.linkedin.com/in/gabriel-feijo/',
   website: 'https://gabrielfeijo.com.br',
-  profileImage: '/gabrielfeijo.png',
+  profileImage: '/gabrielfeijo.webp',
   tagline: 'Desenvolvendo soluções tecnológicas para mudar o mundo de forma positiva.',
   bio: 'Desenvolvedor Full Stack com foco em interfaces bem construídas, backends escaláveis e experiências digitais que unem clareza, performance e valor real.',
   availability: 'Aberto para oportunidades, colaborações e conversas sobre tecnologia.',

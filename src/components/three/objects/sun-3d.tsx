@@ -76,7 +76,7 @@ export const Sun3D = memo(function Sun3D() {
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       >
-        <sphereGeometry args={[4.5, 96, 96]} />
+        <sphereGeometry args={[4.5, 56, 56]} />
         <sunMaterial
           ref={sunMatRef}
           uColorPrimary={colPrimary}
@@ -87,8 +87,8 @@ export const Sun3D = memo(function Sun3D() {
 
       {useMemo(
         () =>
-          Array.from({ length: 12 }).map((_, i) => {
-            const angle = (i / 12) * Math.PI * 2;
+          Array.from({ length: 6 }).map((_, i) => {
+            const angle = (i / 6) * Math.PI * 2;
             const r = 4.8 + (i % 3) * 0.4;
             return (
               <SolarFlare
@@ -107,7 +107,7 @@ export const Sun3D = memo(function Sun3D() {
       )}
 
       <Sparkles
-        count={240}
+        count={100}
         scale={[14, 14, 14]}
         size={3.8}
         speed={0.9}
@@ -115,7 +115,7 @@ export const Sun3D = memo(function Sun3D() {
         opacity={0.65}
       />
       <Sparkles
-        count={135}
+        count={48}
         scale={[9, 9, 9]}
         size={5.4}
         speed={0.55}
@@ -139,7 +139,6 @@ export const Sun3D = memo(function Sun3D() {
           <div className="planet-label-kicker">{t('sun.help.kicker')}</div>
           <div className="planet-label-name">{t('sun.help.name')}</div>
           <div className="planet-label-subtitle">{t('sun.help.subtitle')}</div>
-          <div className="planet-label-description">{t('sun.help.description')}</div>
         </div>
       </Html>
 

@@ -6,12 +6,14 @@ const applyExperiencePreset = vi.fn();
 const closeSettings = vi.fn();
 const setExperienceSetting = vi.fn();
 const setCursorVariant = vi.fn();
+let graphicsMode: 'webgl' | '2d' = 'webgl';
 
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: any) =>
     selector({
       applyExperiencePreset,
       closeSettings,
+      graphicsMode,
       resetExperienceSettings: vi.fn(),
       setCursorVariant,
       setExperienceSetting,
@@ -52,6 +54,16 @@ vi.mock('@/hooks/use-focus-trap', () => ({
 describe('SettingsOverlay', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    graphicsMode = 'webgl';
+  });
+
+  it('disables the custom cursor control in 2D mode', () => {
+    graphicsMode = '2d';
+    render(<SettingsOverlay />);
+
+    const customCursor = screen.getByLabelText('settings.controls.custom_cursor');
+    expect(customCursor).toBeDisabled();
+    expect(customCursor).not.toBeChecked();
   });
 
   it('calls applyExperiencePreset when a preset is clicked', () => {

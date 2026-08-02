@@ -42,6 +42,7 @@ vi.mock('@/components/three/objects/sun-3d', () => ({
   ShootingStar: () => <div />,
 }));
 vi.mock('@/components/three/scene/camera-controller', () => ({ CameraController: () => <div /> }));
+vi.mock('@/components/three/scene/frame-scheduler', () => ({ FrameScheduler: () => null }));
 
 import { CameraController } from '@/components/three/scene/camera-controller';
 import { SpaceScene } from '@/components/three/scene/space-scene';

@@ -5,10 +5,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 let mockVariant = 'default';
 let mockCustomCursor = true;
+let mockGraphicsMode: 'webgl' | '2d' = 'webgl';
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: any) =>
     selector({
       cursorVariant: mockVariant,
+      graphicsMode: mockGraphicsMode,
       experienceSettings: {
         customCursor: mockCustomCursor,
       },
@@ -21,6 +23,7 @@ describe('CustomCursor', () => {
 
   beforeEach(() => {
     mockVariant = 'default';
+    mockGraphicsMode = 'webgl';
     listeners = [];
     matches = true;
     Object.defineProperty(window, 'matchMedia', {
@@ -53,7 +56,7 @@ describe('CustomCursor', () => {
     act(() => {
       window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 80 }));
     });
-    expect(document.body.classList.contains('cursor-fallback-mode')).toBe(false);
+    expect(document.body.classList.contains('custom-cursor-active')).toBe(true);
   });
 
   it('renders planet variant specific elements', () => {
@@ -68,13 +71,22 @@ describe('CustomCursor', () => {
       matches = false;
       listeners.forEach((l) => l({ matches: false }));
     });
-    expect(document.body.classList.contains('cursor-fallback-mode')).toBe(true);
+    expect(document.body.classList.contains('custom-cursor-active')).toBe(false);
   });
 
   it('returns null when cursor is not capable', () => {
     matches = false;
     const { container } = render(<CustomCursor />);
     expect(container.firstChild).toBeNull();
+  });
+
+  it('forces the native cursor in 2D compatibility mode', () => {
+    mockGraphicsMode = '2d';
+    const { container } = render(<CustomCursor />);
+
+    expect(container.firstChild).toBeNull();
+    expect(document.body.classList.contains('custom-cursor-active')).toBe(false);
+    expect(document.body.classList.contains('graphics-2d-mode')).toBe(true);
   });
 
   it('returns null during server rendering without window', () => {

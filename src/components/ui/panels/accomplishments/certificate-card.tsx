@@ -16,7 +16,7 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
       animate={{ opacity: 1, x: 0 }}
       transition={transition}
       whileHover={{ x: 4 }}
-      className="flex items-start gap-4 rounded-[22px] p-4 transition-all panel-card cursor-none"
+      className="flex items-start gap-4 p-4 transition-all panel-card cursor-none"
     >
       {certificate.image ? (
         <div className="h-18 w-18 shrink-0 overflow-hidden flex items-center justify-center sm:h-20 sm:w-20 ">

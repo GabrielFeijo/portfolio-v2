@@ -34,6 +34,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
     activePanel,
     activePlanet,
     handlePlanetClick,
+    dpr,
     orbitalParticles,
     planetRotation,
     setCursorVariant,
@@ -43,6 +44,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
       activePanel: state.activePanel,
       activePlanet: state.activePlanet,
       handlePlanetClick: state.handlePlanetClick,
+      dpr: state.experienceSettings.dpr,
       orbitalParticles: state.experienceSettings.orbitalParticles,
       planetRotation: state.experienceSettings.planetRotation,
       setCursorVariant: state.setCursorVariant,
@@ -103,7 +105,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
   return (
     <>
       <mesh rotation={orbitRotation} position={[0, orbitCenterY, 0]}>
-        <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 128]} />
+        <ringGeometry args={[planet.orbitRadius - 0.04, planet.orbitRadius + 0.04, 64]} />
         <meshBasicMaterial
           color={planet.color}
           transparent
@@ -124,7 +126,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
           ref={atmosphereRef}
           scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}
         >
-          <sphereGeometry args={[1, 48, 48]} />
+          <sphereGeometry args={[1, 32, 32]} />
           <advancedAtmosphereMaterial
             ref={atmosphereMaterialRef}
             uColor={atmosphereColor}
@@ -142,7 +144,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
           onPointerEnter={interaction.handlePointerEnter}
           onPointerLeave={interaction.handlePointerLeave}
         >
-          <sphereGeometry args={[planet.size, 96, 96]} />
+          <sphereGeometry args={[planet.size, dpr > 1.35 ? 64 : 48, dpr > 1.35 ? 64 : 48]} />
           <aaaPlanetMaterial
             ref={planetMaterialRef}
             uColor={baseColor}
@@ -154,7 +156,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
         {planet.hasRings && ringTexture && (
           <group rotation={[Math.PI / 6, 0, 0.15]}>
             <mesh>
-              <ringGeometry args={[planet.size * 1.45, planet.size * 2.3, 96]} />
+              <ringGeometry args={[planet.size * 1.45, planet.size * 2.3, 64]} />
               <meshBasicMaterial
                 map={ringTexture}
                 transparent
@@ -164,7 +166,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
               />
             </mesh>
             <mesh>
-              <ringGeometry args={[planet.size * 1.3, planet.size * 1.35, 96]} />
+              <ringGeometry args={[planet.size * 1.3, planet.size * 1.35, 64]} />
               <meshBasicMaterial
                 color={planet.glowColor}
                 transparent
@@ -197,9 +199,6 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
               <div className="planet-label-kicker">{t('common.orbital_dossier')}</div>
               <div className="planet-label-name">{t(`planets.${planet.id}.name`)}</div>
               <div className="planet-label-subtitle">{t(`planets.${planet.id}.subtitle`)}</div>
-              <div className="planet-label-description">
-                {t(`planets.${planet.id}.description`)}
-              </div>
             </div>
           </Html>
         )}

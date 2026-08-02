@@ -25,7 +25,7 @@ export function ProjectLink({
       rel="noopener noreferrer"
       whileHover={{ scale: 1.03 }}
       {...createCursorHandlers(setCursorVariant)}
-      className={`flex flex-1 items-center justify-center gap-2 rounded-2xl px-3.5 py-3 text-xs font-medium transition-colors cursor-none ${
+      className={`flex flex-1 items-center justify-center gap-2 px-3.5 py-3 text-xs font-medium transition-colors cursor-none ${
         primary ? 'panel-cta' : 'panel-cta-secondary hover:bg-[rgba(255,255,255,0.04)]'
       }`}
     >

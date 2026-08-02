@@ -24,13 +24,13 @@ export function ProjectsPanel() {
     ],
     []
   );
-  const filtered = useMemo(
-    () =>
+  const filtered = useMemo(() => {
+    const matching =
       filter === ALL_PROJECTS_FILTER
         ? PROJECTS
-        : PROJECTS.filter((project) => project.category === filter),
-    [filter]
-  );
+        : PROJECTS.filter((project) => project.category === filter);
+    return [...matching].sort((a, b) => Number(b.featured) - Number(a.featured) || b.year - a.year);
+  }, [filter]);
   const getFilterLabel = (value: ProjectFilter) => {
     if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all');
     return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value);
@@ -43,8 +43,6 @@ export function ProjectsPanel() {
         eyebrow={t('planets.projects.subtitle')}
         title={t('planets.projects.name')}
         description={t('planets.projects.description')}
-        ringClassName="-right-14 -top-14 h-40 w-40"
-        glowClassName="left-10 top-8 h-24 w-24"
       >
         <div className="mt-5 flex gap-2 flex-wrap">
           {categories.map((cat) => (
@@ -54,7 +52,7 @@ export function ProjectsPanel() {
               whileTap={{ scale: 0.98 }}
               onClick={() => setFilter(cat)}
               {...linkCursor}
-              className="px-3.5 py-1.5 rounded-full text-xs font-medium cursor-none transition-all duration-200 border"
+              className="px-3.5 py-1.5 text-xs font-medium cursor-none transition-all duration-200 border"
               style={{
                 background:
                   filter === cat

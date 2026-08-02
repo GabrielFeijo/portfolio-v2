@@ -49,6 +49,7 @@ vi.mock('zustand/react/shallow', () => ({
 vi.mock('@/components/three/scene/space-scene', () => ({
   SpaceScene: () => <div data-testid="scene" />,
 }));
+vi.mock('@/components/three/register-materials', () => ({}));
 vi.mock('@/components/ui/hud/custom-cursor', () => ({
   CustomCursor: () => <div data-testid="cursor" />,
 }));
@@ -79,10 +80,19 @@ const state = {
   isLoaded: false,
   experienceSettings: { dpr: 1, antialias: true, shadows: true },
   settingsOpen: false,
+  setCursorVariant: vi.fn(),
+  setExperienceSetting: vi.fn(),
+  setGraphicsMode: vi.fn(),
+  setIsLoaded: vi.fn(),
 };
 
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: (selector: (s: typeof state) => unknown) => selector(state),
+  useSpaceStore: Object.assign((selector: (s: typeof state) => unknown) => selector(state), {
+    getState: () => ({
+      ...state,
+      setPanelFromLocation: vi.fn(),
+    }),
+  }),
 }));
 
 const isWebGLAvailableMock = vi.fn(() => true);
@@ -96,6 +106,10 @@ describe('App', () => {
     state.helpOpen = false;
     state.isLoaded = false;
     state.settingsOpen = false;
+    state.setIsLoaded.mockClear();
+    state.setCursorVariant.mockClear();
+    state.setExperienceSetting.mockClear();
+    state.setGraphicsMode.mockClear();
     isWebGLAvailableMock.mockReturnValue(true);
     delete (window as any).__triggerContextLost;
   });
@@ -105,14 +119,14 @@ describe('App', () => {
     const { default: App } = await import('@/app');
     render(<App />);
 
-    expect(screen.getByTestId('webgl')).toHaveTextContent('unavailable');
+    expect(await screen.findByTestId('webgl')).toHaveTextContent('unavailable');
   });
 
   it('renders scene and loading ui when available', async () => {
     const { default: App } = await import('@/app');
     render(<App />);
 
-    expect(screen.getByTestId('canvas')).toBeInTheDocument();
+    expect(await screen.findByTestId('canvas')).toBeInTheDocument();
     expect(screen.getByTestId('loading')).toBeInTheDocument();
   });
 
@@ -125,6 +139,8 @@ describe('App', () => {
     const { default: App } = await import('@/app');
     render(<App />);
 
+    await screen.findByTestId('canvas');
+
     expect(screen.getByTestId('hud')).toBeInTheDocument();
     expect(screen.getByTestId('panel')).toBeInTheDocument();
     expect(screen.getByTestId('help')).toBeInTheDocument();
@@ -134,6 +150,7 @@ describe('App', () => {
   it('handles webgl context lost', async () => {
     const { default: App } = await import('@/app');
     render(<App />);
+    await screen.findByTestId('canvas');
 
     const event = { preventDefault: vi.fn() };
 

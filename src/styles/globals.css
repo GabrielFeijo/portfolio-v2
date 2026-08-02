@@ -1,39 +1,41 @@
-
-@import "tailwindcss";
-@import "./animations.css";
-@import "./panels.css";
-@import "./hud.css";
+@import 'tailwindcss';
+@import './animations.css';
+@import './panels.css';
+@import './hud.css';
 
 @layer base {
   :root {
-    --void: #060814;
-    --deep-space: #0b1020;
-    --surface: rgba(8, 13, 28, 0.86);
-    --surface-light: rgba(17, 25, 45, 0.94);
-    --surface-elevated: rgba(14, 22, 42, 0.96);
-    --border: rgba(111, 139, 194, 0.24);
-    --border-strong: rgba(123, 164, 255, 0.38);
-    --text-primary: #edf3ff;
-    --text-secondary: #b6c2db;
-    --text-muted: #7f8aa3;
-    --accent-blue: #2b6fff;
-    --accent-blue-bright: #7dd3fc;
-    --accent-blue-dark: #1f4fd1;
-    --accent-gold: #f7b955;
+    --void: #08090b;
+    --deep-space: #0d0e12;
+    --surface: rgba(15, 16, 20, 0.82);
+    --surface-light: rgba(22, 23, 29, 0.92);
+    --surface-elevated: rgba(26, 27, 34, 0.94);
+    --border: rgba(226, 219, 205, 0.08);
+    --border-strong: rgba(226, 219, 205, 0.15);
+    --text-primary: #fafaf9;
+    --text-secondary: #d6d3d1;
+    --text-muted: #8a8a93;
+    --accent-blue: #dfb53b;
+    --accent-blue-bright: #fde047;
+    --accent-blue-dark: #b45309;
+    --accent-gold: #f59e0b;
 
-    --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-display: 'Manrope', 'Segoe UI', sans-serif;
     --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
     --font-body: 'Manrope', 'Segoe UI', sans-serif;
-    --font-space-label: 'Orbitron', 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-space-label: 'Manrope', 'Segoe UI', sans-serif;
 
-    --panel-accent: #7dd3fc;
-    --panel-glow: #2b6fff;
-    --panel-accent-soft: rgba(125, 211, 252, 0.12);
-    --panel-accent-faint: rgba(125, 211, 252, 0.08);
-    --panel-surface: rgba(10, 16, 30, 0.74);
-    --panel-surface-strong: rgba(12, 20, 38, 0.9);
-    --panel-border: rgba(125, 211, 252, 0.18);
-    --panel-border-strong: rgba(125, 211, 252, 0.34);
+    --panel-accent: #dfb53b;
+    --panel-glow: #f59e0b;
+    --panel-accent-soft: rgba(223, 181, 59, 0.08);
+    --panel-accent-faint: rgba(223, 181, 59, 0.04);
+    --panel-surface: rgba(13, 14, 18, 0.74);
+    --panel-surface-strong: rgba(16, 17, 22, 0.9);
+    --panel-border: rgba(223, 181, 59, 0.14);
+    --panel-border-strong: rgba(223, 181, 59, 0.28);
+    --panel-radius: 10px;
+    --panel-radius-sm: 8px;
+    --panel-radius-xs: 6px;
   }
 
   *,
@@ -63,11 +65,18 @@
     position: relative;
   }
 
-  body:not(.cursor-fallback-mode) * {
+  body:not(.custom-cursor-active),
+  body:not(.custom-cursor-active) * {
+    cursor: auto !important;
+  }
+
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
     cursor: none !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -77,15 +86,24 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  @media (prefers-reduced-motion: reduce),
+  (hover: none),
+  (pointer: coarse) {
     * {
       cursor: auto !important;
     }
   }
 
   body.cursor-fallback-mode,
-  body.cursor-fallback-mode * {
+  body.cursor-fallback-mode *,
+  body.graphics-2d-mode,
+  body.graphics-2d-mode * {
     cursor: auto !important;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-blue-bright);
+    outline-offset: 3px;
   }
 
   ::-webkit-scrollbar {
@@ -143,28 +161,28 @@
   }
 
   .glow-text {
-    text-shadow: 0 0 4px rgba(31, 111, 235, 0.1);
+    text-shadow: 0 0 8px rgba(223, 181, 59, 0.2);
   }
 
   .glow-subtle {
-    box-shadow: 0 0 8px rgba(31, 111, 235, 0.08);
+    box-shadow: 0 0 10px rgba(223, 181, 59, 0.1);
   }
 
   .glass {
-    background: linear-gradient(180deg, rgba(13, 19, 37, 0.78), rgba(7, 12, 25, 0.72));
+    background: linear-gradient(180deg, rgba(15, 16, 21, 0.82), rgba(9, 10, 13, 0.76));
     backdrop-filter: blur(16px) saturate(115%);
     -webkit-backdrop-filter: blur(16px) saturate(115%);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 10px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
   .glass-strong {
-    background: linear-gradient(180deg, rgba(17, 25, 46, 0.9), rgba(9, 14, 29, 0.86));
-    backdrop-filter: blur(20px) saturate(125%);
-    -webkit-backdrop-filter: blur(20px) saturate(125%);
+    background: linear-gradient(180deg, rgba(18, 20, 27, 0.92), rgba(10, 11, 15, 0.88));
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
     border: 1px solid var(--border-strong);
-    border-radius: 18px;
+    border-radius: 10px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 

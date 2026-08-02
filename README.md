@@ -15,26 +15,15 @@ O **Space Portfolio V2** é um portfólio imersivo construído com React + Three
 
 A aplicação combina cena 3D em tempo real, shaders GLSL, overlays de acessibilidade, estado global com presets de performance e componentes de UI com design system próprio.
 
-### 🎯 Destaques Técnicos
-
-- **Experiência 3D Interativa**: cena orbital com planetas clicáveis, sol central e câmera inteligente
-- **Shaders Customizados**: materiais próprios para planetas e atmosfera com ruído procedural (GLSL)
-- **Navegação Cinematográfica**: transições de câmera com efeito warp e foco por seção
-- **Sistema de Presets**: modos `cinematic`, `balanced`, `performance` e `minimal`
-- **HUD + Overlays**: ajuda, configurações globais e fallback robusto para WebGL indisponível
-- **Painéis Dinâmicos**: lazy loading por seção com navegação anterior/próximo
-- **Formulário de Contato Real**: validação com Zod + React Hook Form + envio via Axios
-- **Performance Frontend**: code splitting manual no Vite para vendors críticos (3D, motion, forms, state)
-
 ---
 
 ## 🌐 Demonstração Online
 
 ### Aplicações em Produção
 
-| Serviço       | URL                                                      | Descrição                           |
-| ------------- | -------------------------------------------------------- | ----------------------------------- |
-| **Portfólio** | [v2.gabrielfeijo.com.br](https://v2.gabrielfeijo.com.br)       | Experiência completa do portfólio   |
+| Serviço       | URL                                                      | Descrição                         |
+| ------------- | -------------------------------------------------------- | --------------------------------- |
+| **Portfólio** | [v2.gabrielfeijo.com.br](https://v2.gabrielfeijo.com.br) | Experiência completa do portfólio |
 
 ### 🪐 Seções Navegáveis (Planetas)
 
@@ -55,7 +44,7 @@ portfolio-v2/
 │   ├── audio/
 │   │   └── space-music.mp3               # Trilha ambiente
 │   ├── favicon.svg
-│   └── gabrielfeijo.png                  # Avatar principal
+│   └── gabrielfeijo.webp                 # Avatar
 │
 ├── src/
 │   ├── app.tsx                           # Shell da aplicação + Canvas + overlays
@@ -118,4 +107,6 @@ bun run typecheck
 bun run build
 bun run test
 bun run check
+bun run test:e2e
+bun run test:budget
 ```
