@@ -2,6 +2,7 @@ import type { PanelId } from '@/types/portfolio';
 
 export type CursorVariant = 'default' | 'planet' | 'link' | 'drag';
 export type ExperiencePreset = 'cinematic' | 'balanced' | 'performance' | 'minimal';
+export type GraphicsMode = 'webgl' | '2d';
 
 export interface ExperienceSettings {
   antialias: boolean;
@@ -29,6 +30,7 @@ export interface NavigationSlice {
   handlePlanetClick: (planetId: PanelId) => void;
   closePanel: () => void;
   navigateToPanel: (id: PanelId) => void;
+  setPanelFromLocation: (id: PanelId | null) => void;
   helpOpen: boolean;
   openHelp: () => void;
   closeHelp: () => void;
@@ -38,6 +40,8 @@ export interface NavigationSlice {
 }
 
 export interface UiSlice {
+  graphicsMode: GraphicsMode;
+  setGraphicsMode: (mode: GraphicsMode) => void;
   cursorVariant: CursorVariant;
   setCursorVariant: (variant: CursorVariant) => void;
   isLoaded: boolean;

@@ -23,6 +23,7 @@ import { createCursorHandlers } from '../panels/panel-primitives';
 
 interface ToggleControlProps {
   checked: boolean;
+  disabled?: boolean;
   label: string;
   onChange: (checked: boolean) => void;
 }
@@ -40,16 +41,23 @@ interface RangeControlProps {
 export function SettingsOverlay() {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
-  const { applyExperiencePreset, closeSettings, setCursorVariant, setExperienceSetting, settings } =
-    useSpaceStore(
-      useShallow((state) => ({
-        applyExperiencePreset: state.applyExperiencePreset,
-        closeSettings: state.closeSettings,
-        setCursorVariant: state.setCursorVariant,
-        setExperienceSetting: state.setExperienceSetting,
-        settings: state.experienceSettings,
-      }))
-    );
+  const {
+    applyExperiencePreset,
+    closeSettings,
+    graphicsMode,
+    setCursorVariant,
+    setExperienceSetting,
+    settings,
+  } = useSpaceStore(
+    useShallow((state) => ({
+      applyExperiencePreset: state.applyExperiencePreset,
+      closeSettings: state.closeSettings,
+      graphicsMode: state.graphicsMode,
+      setCursorVariant: state.setCursorVariant,
+      setExperienceSetting: state.setExperienceSetting,
+      settings: state.experienceSettings,
+    }))
+  );
 
   const presets = useMemo<Array<{ id: ExperiencePreset; label: string; description: string }>>(
     () => [
@@ -196,7 +204,8 @@ export function SettingsOverlay() {
                   onChange={(checked) => update('planetRotation', checked)}
                 />
                 <ToggleControl
-                  checked={settings.customCursor}
+                  checked={graphicsMode === 'webgl' && settings.customCursor}
+                  disabled={graphicsMode === '2d'}
                   label={t('settings.controls.custom_cursor')}
                   onChange={(checked) => update('customCursor', checked)}
                 />
@@ -303,7 +312,7 @@ export function SettingsOverlay() {
                 <RangeControl
                   label={t('settings.controls.dpr')}
                   min={1}
-                  max={1.8}
+                  max={1.6}
                   step={0.05}
                   value={settings.dpr}
                   onChange={(value) => update('dpr', value)}
@@ -348,10 +357,12 @@ function SettingsGroup({
   );
 }
 
-function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
+function ToggleControl({ checked, disabled = false, label, onChange }: ToggleControlProps) {
   const id = useId();
   return (
-    <div className="flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+    <div
+      className={`flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3 ${disabled ? 'opacity-50' : ''}`}
+    >
       <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
         {label}
       </label>
@@ -359,6 +370,7 @@ function ToggleControl({ checked, label, onChange }: ToggleControlProps) {
         id={id}
         type="checkbox"
         checked={checked}
+        disabled={disabled}
         onChange={(event) => onChange(event.target.checked)}
         className="h-5 w-5 accent-[#7dd3fc]"
       />

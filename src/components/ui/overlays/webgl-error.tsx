@@ -6,8 +6,10 @@ import { UIBadge, UIIconTile, UIInset, UISurface } from '../design-system';
 
 export function WebGLError({
   variant = 'unavailable',
+  onContinue,
 }: {
   variant?: 'unavailable' | 'context_lost';
+  onContinue?: () => void;
 }) {
   const { t } = useTranslation();
   useEffect(() => {
@@ -21,7 +23,7 @@ export function WebGLError({
   const isContextLost = variant === 'context_lost';
 
   return (
-    <div className="relative flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
+    <div className="fixed inset-0 z-2000 flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
@@ -133,8 +135,19 @@ export function WebGLError({
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              {onContinue && (
+                <motion.button
+                  className="ds-button-primary"
+                  type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={onContinue}
+                >
+                  {t('webgl.actions.continue_without_3d')}
+                </motion.button>
+              )}
               <motion.button
-                className="ds-button-primary"
+                className={onContinue ? 'ds-button-secondary' : 'ds-button-primary'}
                 type="button"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

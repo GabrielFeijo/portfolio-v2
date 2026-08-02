@@ -1,10 +1,14 @@
 export function isWebGLAvailable(): boolean {
   try {
     const canvas = document.createElement('canvas');
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    );
+    if (!window.WebGLRenderingContext) return false;
+
+    const context =
+      canvas.getContext('webgl', { failIfMajorPerformanceCaveat: false }) ||
+      canvas.getContext('experimental-webgl');
+    if (!context) return false;
+
+    return !('isContextLost' in context && context.isContextLost());
   } catch {
     return false;
   }
