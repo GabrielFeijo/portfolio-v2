@@ -26,7 +26,7 @@ export function ContactLinkCard({
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       {...createCursorHandlers(setCursorVariant)}
-      className="flex items-start gap-4 rounded-[22px] p-5 no-underline transition-all panel-card cursor-none hover:-translate-y-0.5"
+      className="flex items-start gap-4 p-5 no-underline transition-all panel-card cursor-none hover:-translate-y-0.5"
     >
       <PanelIconBadge icon={icon} className="h-11 w-11 shrink-0" />
 

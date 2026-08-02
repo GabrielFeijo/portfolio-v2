@@ -10,12 +10,12 @@ export function LoadingScreen() {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-1000 flex items-center justify-center bg-[#030712] px-6"
+      className="fixed inset-0 z-1000 flex items-center justify-center bg-[#08090b] px-6"
       role="status"
       aria-live="polite"
     >
       <div className="w-full max-w-sm text-center">
-        <div className="mx-auto mb-6 grid h-12 w-12 place-items-center rounded-xl border border-[rgba(125,211,252,.24)] bg-[rgba(125,211,252,.07)] font-mono-space text-[11px] font-semibold tracking-[.08em] text-[#b9e7ff]">
+        <div className="mx-auto mb-6 grid h-12 w-12 place-items-center rounded-xl border border-[rgba(223,181,59,.22)] bg-[rgba(223,181,59,.07)] font-mono-space text-[11px] font-semibold tracking-[.08em] text-[#dfb53b]">
           GF
         </div>
         <div className="font-display text-lg font-semibold tracking-[.04em] text-white">
@@ -27,7 +27,7 @@ export function LoadingScreen() {
             initial={{ x: '-100%' }}
             animate={{ x: '100%' }}
             transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="h-full w-1/2 bg-[#7dd3fc]"
+            className="h-full w-1/2 bg-[#dfb53b]"
           />
         </div>
       </div>

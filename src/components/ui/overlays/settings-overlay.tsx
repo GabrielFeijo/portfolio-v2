@@ -126,7 +126,7 @@ export function SettingsOverlay() {
             className="absolute inset-0 opacity-[0.07] pointer-events-none"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(125,211,252,0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.35) 1px, transparent 1px)',
+                'linear-gradient(rgba(223,181,59,0.48) 1px, transparent 1px), linear-gradient(90deg, rgba(223,181,59,0.32) 1px, transparent 1px)',
               backgroundSize: '28px 28px',
             }}
           />
@@ -250,7 +250,7 @@ export function SettingsOverlay() {
                   onChange={(value) => update('musicVolume', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
                     <Volume2 size={14} />
                     {t('settings.ambient_orbital')}
                   </div>
@@ -263,7 +263,7 @@ export function SettingsOverlay() {
                       href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline"
+                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Nikita Kondrashev
@@ -273,7 +273,7 @@ export function SettingsOverlay() {
                       href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(125,211,252,0.6)] underline-offset-4 hover:underline"
+                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Pixabay
@@ -318,7 +318,7 @@ export function SettingsOverlay() {
                   onChange={(value) => update('dpr', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(125,211,252,0.78)]">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
                     <Gauge size={14} />
                     {t('settings.state_status')}
                   </div>
@@ -361,7 +361,7 @@ function ToggleControl({ checked, disabled = false, label, onChange }: ToggleCon
   const id = useId();
   return (
     <div
-      className={`flex min-h-12 cursor-none items-center justify-between gap-4 rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3 ${disabled ? 'opacity-50' : ''}`}
+      className={`flex min-h-12 cursor-none items-center justify-between gap-4 ds-inset px-4 py-3 ${disabled ? 'opacity-50' : ''}`}
     >
       <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
         {label}
@@ -372,7 +372,7 @@ function ToggleControl({ checked, disabled = false, label, onChange }: ToggleCon
         checked={checked}
         disabled={disabled}
         onChange={(event) => onChange(event.target.checked)}
-        className="h-5 w-5 accent-[#7dd3fc]"
+        className="h-5 w-5 accent-[#dfb53b]"
       />
     </div>
   );
@@ -383,12 +383,12 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
   const displayValue = suffix === '%' ? Math.round(value * 100) : value.toFixed(2);
 
   return (
-    <div className="rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.025)] px-4 py-3">
+    <div className="ds-inset px-4 py-3">
       <div className="mb-3 flex items-center justify-between gap-4">
         <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
           {label}
         </label>
-        <span className="font-mono-space text-xs text-[rgba(125,211,252,0.8)]">
+        <span className="font-mono-space text-xs text-[rgba(223,181,59,0.86)]">
           {displayValue}
           {suffix ?? ''}
         </span>
@@ -401,7 +401,7 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="w-full accent-[#7dd3fc]"
+        className="w-full accent-[#dfb53b]"
       />
     </div>
   );

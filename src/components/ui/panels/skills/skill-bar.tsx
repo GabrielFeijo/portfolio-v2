@@ -24,7 +24,7 @@ export function SkillBar({ delay, skill }: SkillBarProps) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
-      className="relative overflow-hidden rounded-[20px] px-4 py-4 panel-card"
+      className="relative overflow-hidden px-4 py-4 panel-card"
     >
       <div className="relative z-10">
         <div className="flex items-center justify-between gap-3">

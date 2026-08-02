@@ -23,7 +23,7 @@ export function AboutContactButton({
       rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
       whileHover={{ y: -2, scale: 1.02 }}
       {...createCursorHandlers(setCursorVariant)}
-      className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium text-(--text-primary) panel-card hover:opacity-95 transition-colors cursor-none"
+      className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-(--text-primary) panel-card hover:opacity-95 transition-colors cursor-none"
     >
       <Icon size={16} />
       {label}

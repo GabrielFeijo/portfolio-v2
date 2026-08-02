@@ -39,7 +39,6 @@ export function SkillsPanel() {
         eyebrow={t('planets.skills.subtitle')}
         title={t('planets.skills.name')}
         description={t('planets.skills.description')}
-        ringClassName="-left-10 -top-12 h-36 w-36"
       />
 
       {CATEGORIES.map((cat, ci) => (
@@ -50,7 +49,6 @@ export function SkillsPanel() {
           transition={{ delay: ci * 0.12 }}
           className="panel-shell p-6 sm:p-7"
         >
-          <div className="panel-core-glow right-6 top-4 h-20 w-20" />
           <div className="flex items-center gap-3 mb-5">
             <PanelIconBadge
               icon={cat.icon}
@@ -82,7 +80,6 @@ export function SkillsPanel() {
         transition={{ delay: 0.4 }}
         className="panel-shell p-6 sm:p-7"
       >
-        <div className="panel-orbit-ring -right-10 bottom-4 h-28 w-28" />
         <div className="flex items-center gap-3 mb-5">
           <PanelIconBadge icon={Sparkles} />
           <div>
@@ -111,7 +108,7 @@ export function SkillsPanel() {
                     <motion.span
                       key={skill}
                       whileHover={{ scale: 1.04 }}
-                      className="text-xs px-3 py-1.5 cursor-none panel-meta-chip rounded-full transition-colors"
+                      className="text-xs px-3 py-1.5 cursor-none panel-meta-chip transition-colors"
                     >
                       {skill}
                     </motion.span>

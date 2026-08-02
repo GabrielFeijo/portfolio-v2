@@ -27,7 +27,7 @@ export function WebGLError({
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,122,26,0.16),transparent_28%),radial-gradient(circle_at_bottom,rgba(0,212,255,0.12),transparent_32%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.18),transparent_28%),radial-gradient(circle_at_bottom,rgba(223,181,59,0.12),transparent_32%)]" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -38,8 +38,8 @@ export function WebGLError({
           strong
           className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-160 flex-col overflow-hidden"
         >
-          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(255,122,26,0.2)]" />
-          <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(0,212,255,0.18)]" />
+          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(245,158,11,0.2)]" />
+          <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(223,181,59,0.16)]" />
 
           <div className="relative overflow-y-auto px-6 py-7 sm:px-8 sm:py-8">
             <UIBadge
@@ -54,7 +54,7 @@ export function WebGLError({
               <UIIconTile
                 icon={AlertTriangle}
                 tone="warm"
-                className="h-15 w-15 shrink-0 rounded-[22px]"
+                className="h-15 w-15 shrink-0 rounded-xl"
               />
 
               <div>
@@ -83,7 +83,7 @@ export function WebGLError({
               </UIInset>
             ) : (
               <UIInset className="mt-6 mb-6 p-4 sm:p-5">
-                <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.24em] text-[rgba(125,211,252,0.82)]">
+                <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.24em] text-[rgba(223,181,59,0.84)]">
                   {t('webgl.unavailable.whats_happening_title')}
                 </div>
                 <p className="text-sm leading-7 text-[rgba(240,244,255,0.66)]">

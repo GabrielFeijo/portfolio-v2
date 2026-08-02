@@ -17,7 +17,7 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
       animate={{ opacity: 1, y: 0 }}
       transition={transition}
       whileHover={{ y: -4 }}
-      className="relative overflow-hidden rounded-3xl p-5 transition-all panel-card cursor-none sm:p-6"
+      className="relative overflow-hidden p-5 transition-all panel-card cursor-none sm:p-6"
     >
       <div className="relative">
         <div className="mb-4 flex justify-start">

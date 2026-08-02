@@ -10,12 +10,12 @@ export function FallbackExperience() {
 
   return (
     <section
-      className="absolute inset-0 isolate overflow-hidden bg-[radial-gradient(circle_at_58%_45%,rgba(22,79,126,0.2),transparent_25%),radial-gradient(circle_at_78%_20%,rgba(16,185,129,0.07),transparent_20%),linear-gradient(145deg,#02050d_0%,#050b17_54%,#02050b_100%)]"
+      className="absolute inset-0 isolate overflow-hidden bg-[radial-gradient(circle_at_58%_45%,rgba(223,181,59,0.14),transparent_25%),radial-gradient(circle_at_78%_20%,rgba(245,158,11,0.08),transparent_20%),linear-gradient(145deg,#02050d_0%,#05070c_54%,#02050b_100%)]"
       data-testid="scene-2d-fallback"
       aria-label={t('fallback_2d.aria')}
     >
       <div
-        className="absolute inset-0 bg-[linear-gradient(rgba(125,211,252,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.08)_1px,transparent_1px)] bg-size-[48px_48px] opacity-20 mask-[radial-gradient(circle_at_60%_46%,black,transparent_72%)]"
+        className="absolute inset-0 bg-[linear-gradient(rgba(223,181,59,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(223,181,59,0.08)_1px,transparent_1px)] bg-size-[48px_48px] opacity-20 mask-[radial-gradient(circle_at_60%_46%,black,transparent_72%)]"
         aria-hidden="true"
       />
 
@@ -29,8 +29,8 @@ export function FallbackExperience() {
       />
 
       <div className="absolute top-31 right-18 bottom-23.5 left-[clamp(248px,23vw,340px)] z-2 grid place-items-center max-[900px]:top-28 max-[900px]:right-6.5 max-[900px]:bottom-38.5 max-[900px]:left-55 max-md:inset-x-3 max-md:top-20.5 max-md:bottom-37.5">
-        <main className="relative w-[min(610px,72%)] rounded-3xl border border-sky-300/20 bg-[linear-gradient(145deg,rgba(8,17,32,0.9),rgba(4,9,19,0.76))] p-7.5 shadow-[0_30px_100px_rgba(0,0,0,0.4),inset_0_1px_rgba(255,255,255,0.04)] backdrop-blur-lg max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
-          <div className="flex items-center gap-2.5 font-mono-space text-[9px] font-semibold tracking-[0.22em] text-sky-300 uppercase">
+        <main className="relative w-[min(610px,72%)] rounded-xl border border-[rgba(223,181,59,0.18)] bg-[linear-gradient(145deg,rgba(8,9,12,0.92),rgba(4,5,10,0.82))] p-7.5 shadow-[0_30px_100px_rgba(0,0,0,0.42),inset_0_1px_rgba(255,255,255,0.04)] backdrop-blur-lg max-[900px]:w-[90%] max-md:w-[min(100%,500px)] max-md:p-5.5 [@media(max-height:690px)]:p-4.5">
+          <div className="flex items-center gap-2.5 font-mono-space text-[9px] font-semibold tracking-[0.22em] text-[rgba(223,181,59,0.84)] uppercase">
             <span
               className="size-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(94,224,160,0.8)]"
               aria-hidden="true"
@@ -49,10 +49,10 @@ export function FallbackExperience() {
             className="relative mt-6 grid grid-cols-4 gap-2 [@media(max-height:690px)]:mt-4.5"
             aria-label={t('fallback_2d.flow_aria')}
           >
-            <div className="absolute top-3.25 right-[10%] left-[10%] h-px bg-linear-to-r from-sky-600 via-sky-300/20 to-emerald-300" />
+            <div className="absolute top-3.25 right-[10%] left-[10%] h-px bg-linear-to-r from-[rgba(223,181,59,0.6)] via-[rgba(223,181,59,0.18)] to-[rgba(245,158,11,0.3)]" />
             {FLOW_STEPS.map((step, index) => (
               <div className="relative grid justify-items-center gap-2.5 text-center" key={step}>
-                <span className="z-1 grid size-7 place-items-center rounded-full border border-sky-300/30 bg-[#07111f] font-mono-space text-[8px] font-medium text-sky-200">
+                <span className="z-1 grid size-7 place-items-center rounded-full border border-[rgba(223,181,59,0.28)] bg-[#0b0c10] font-mono-space text-[8px] font-medium text-[rgba(255,234,179,0.92)]">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <strong className="font-mono-space text-[9px] leading-4 font-semibold tracking-[0.08em] text-slate-300 uppercase max-md:text-[7px]">
@@ -69,7 +69,7 @@ export function FallbackExperience() {
             <div className="flex flex-wrap gap-1.5">
               {STACK.map((technology) => (
                 <strong
-                  className="rounded-md bg-sky-300/6 px-2 py-1.25 font-mono-space text-[8px] font-medium text-slate-400"
+                  className="rounded-md bg-[rgba(223,181,59,0.08)] px-2 py-1.25 font-mono-space text-[8px] font-medium text-[rgba(240,244,255,0.72)]"
                   key={technology}
                 >
                   {technology}
@@ -115,10 +115,10 @@ function Orbit({ className, reverse }: { className: string; reverse: boolean }) 
       className="absolute top-[47%] left-[60%] -translate-x-1/2 -translate-y-1/2 max-md:top-[43%] max-md:left-1/2"
       aria-hidden="true"
     >
-      <div className={`relative rounded-full border border-sky-300/10 ${className}`}>
-        <span className="absolute top-[12%] left-[14%] size-1.5 animate-pulse rounded-full bg-sky-300 shadow-[0_0_18px_rgba(125,211,252,0.8)]" />
+      <div className={`relative rounded-full border border-[rgba(223,181,59,0.16)] ${className}`}>
+        <span className="absolute top-[12%] left-[14%] size-1.5 animate-pulse rounded-full bg-[rgba(223,181,59,0.9)] shadow-[0_0_18px_rgba(223,181,59,0.7)]" />
         <span
-          className={`absolute right-[10%] bottom-[16%] size-1.5 animate-pulse rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(94,224,160,0.7)] ${reverse ? 'delay-500' : ''}`}
+          className={`absolute right-[10%] bottom-[16%] size-1.5 animate-pulse rounded-full bg-[rgba(245,158,11,0.9)] shadow-[0_0_18px_rgba(245,158,11,0.7)] ${reverse ? 'delay-500' : ''}`}
         />
       </div>
     </div>
@@ -136,7 +136,7 @@ function Metric({
 }) {
   return (
     <div
-      className={`absolute grid min-w-29.5 gap-1 border-l border-sky-300/30 bg-linear-to-r from-[#08111f]/80 to-transparent px-3.5 py-3 max-[900px]:hidden ${className}`}
+      className={`absolute grid min-w-29.5 gap-1 border-l border-[rgba(223,181,59,0.26)] bg-linear-to-r from-[rgba(8,9,12,0.86)] to-transparent px-3.5 py-3 max-[900px]:hidden ${className}`}
     >
       <strong className="font-display text-xl leading-none font-bold text-slate-100">
         {value}
@@ -159,7 +159,7 @@ function FallbackLink({
 }) {
   return (
     <a
-      className={`inline-flex min-h-9 items-center gap-2 rounded-xl border border-sky-300/20 px-3.5 font-mono-space text-[9px] font-semibold tracking-[0.08em] uppercase transition-colors hover:border-sky-200/40 hover:text-sky-100 ${secondary ? 'bg-transparent text-slate-400' : 'bg-sky-300/8 text-sky-100'}`}
+      className={`inline-flex min-h-9 items-center gap-2 rounded-xl border border-[rgba(223,181,59,0.22)] px-3.5 font-mono-space text-[9px] font-semibold tracking-[0.08em] uppercase transition-colors hover:border-[rgba(223,181,59,0.36)] hover:text-[rgba(255,245,213,0.98)] ${secondary ? 'bg-transparent text-[rgba(240,244,255,0.62)]' : 'bg-[rgba(223,181,59,0.08)] text-[rgba(255,241,208,0.96)]'}`}
       href={href}
     >
       {children}

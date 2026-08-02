@@ -74,12 +74,12 @@ export function PlanetPanel() {
 
   const fallbackTheme = useMemo<PanelTheme>(
     () => ({
-      '--panel-accent': '#7dd3fc',
-      '--panel-glow': '#2b6fff',
-      '--panel-accent-soft': '#7dd3fc20',
-      '--panel-accent-faint': '#2b6fff12',
-      '--panel-border': '#2b6fff22',
-      '--panel-border-strong': '#2b6fff48',
+      '--panel-accent': '#dfb53b',
+      '--panel-glow': '#f59e0b',
+      '--panel-accent-soft': '#dfb53b20',
+      '--panel-accent-faint': '#f59e0b12',
+      '--panel-border': '#f59e0b22',
+      '--panel-border-strong': '#f59e0b48',
     }),
     []
   );
@@ -112,7 +112,7 @@ export function PlanetPanel() {
       <div
         className="absolute top-0 left-0 right-0 h-0.5 pointer-events-none"
         style={{
-          background: 'linear-gradient(90deg,transparent,rgba(125,211,252,.6),transparent)',
+          background: 'linear-gradient(90deg,transparent,rgba(223,181,59,0.72),transparent)',
         }}
       />
 

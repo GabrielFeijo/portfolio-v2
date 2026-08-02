@@ -45,8 +45,6 @@ export function ContactPanel() {
         eyebrow={t('planets.contact.subtitle')}
         title={t('planets.contact.name')}
         description={t('planets.contact.description')}
-        ringClassName="-right-12 -top-12 h-36 w-36"
-        glowClassName="left-8 top-8 h-20 w-20"
       >
         <PanelMetaChip icon={MapPin} className="mt-4 text-sm">
           {t('developer.location')}
@@ -70,7 +68,6 @@ export function ContactPanel() {
         icon={Send}
         eyebrow={t('contact.quick_message')}
         title={t('contact.send_message')}
-        ringClassName="-left-8 bottom-5 h-24 w-24"
       >
         <p className="text-sm text-(--text-secondary) leading-7 mb-5">{t('contact.form_notice')}</p>
 

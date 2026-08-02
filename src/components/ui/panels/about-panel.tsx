@@ -32,18 +32,13 @@ export function AboutPanel() {
       className="flex flex-col gap-8 sm:gap-10"
     >
       <motion.section variants={panelFadeUp} className="panel-card-strong p-6 sm:p-7">
-        <div className="panel-orbit-grid" />
-        <div className="panel-surface-dust" />
-        <div className="panel-orbit-ring -right-14 -top-16 h-44 w-44" />
-        <div className="panel-core-glow right-8 top-8 h-24 w-24" />
-
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
             <img
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
-              className="w-32 h-32 sm:w-36 sm:h-36 rounded-[28px] object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-              style={{ borderColor: 'var(--panel-border-strong)' }}
+              className="w-32 h-32 sm:w-36 sm:h-36 object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              style={{ borderColor: 'var(--panel-border-strong)', borderRadius: 'var(--panel-radius)' }}
             />
           </div>
 
@@ -55,12 +50,12 @@ export function AboutPanel() {
 
             <motion.h1
               variants={panelFadeUp}
-              className="mt-4 text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-(--text-primary)"
+              className="mt-3 text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-(--text-primary)"
             >
               {DEVELOPER.name}
             </motion.h1>
 
-            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            <div className="mt-2 flex flex-wrap gap-2 text-xs">
               <AboutInfoPill icon={Sparkles} label={t('developer.title')} />
               <AboutInfoPill
                 icon={MapPin}
@@ -68,7 +63,7 @@ export function AboutPanel() {
               />
             </div>
 
-            <p className="mt-5 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
+            <p className="mt-4 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
               {t('developer.tagline')}
             </p>
           </div>
@@ -125,7 +120,7 @@ export function AboutPanel() {
         title={t('about.sections.education.title')}
       >
         {education.map((entry, index) => (
-          <div key={index} className="panel-card rounded-[20px] p-5">
+          <div key={index} className="panel-card p-5">
             <div className="text-base font-semibold text-(--text-primary)">{entry.title}</div>
             <div className="mt-1 text-xs uppercase tracking-[0.16em] panel-eyebrow">
               {entry.institution} • {entry.period}

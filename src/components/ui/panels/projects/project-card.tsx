@@ -41,10 +41,10 @@ export function ProjectCard({
       whileHover={{ y: -4 }}
       onClick={onToggle}
       {...createCursorHandlers(setCursorVariant)}
-      className={`relative overflow-hidden rounded-3xl p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
+      className={`relative overflow-hidden p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
     >
       {project.featured && (
-        <div className="absolute top-4 right-4 rounded-full panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
+        <div className="absolute top-4 right-4 panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
           {t('common.featured')}
         </div>
       )}

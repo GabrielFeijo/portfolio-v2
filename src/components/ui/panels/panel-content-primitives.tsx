@@ -3,11 +3,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { cn } from './panel-primitives';
 
 export function PanelTag({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <span className={cn('rounded-full panel-meta-chip px-3 py-1.5 text-xs', className)}>
-      {children}
-    </span>
-  );
+  return <span className={cn('panel-meta-chip px-3 py-1.5 text-xs', className)}>{children}</span>;
 }
 
 export function PanelTagList({
@@ -54,7 +50,7 @@ export function PanelInsetCard({
   children: ReactNode;
   className?: string;
 }) {
-  return <div className={cn('panel-card rounded-[20px] p-4', className)}>{children}</div>;
+  return <div className={cn('panel-card p-4', className)}>{children}</div>;
 }
 
 export function PanelTopGlow({ color, className }: { color: string; className?: string }) {
@@ -79,7 +75,7 @@ export function PanelImageFrame({
 }) {
   return (
     <div
-      className={cn('overflow-hidden rounded-[18px] flex items-center justify-center', className)}
+      className={cn('overflow-hidden flex items-center justify-center', className)}
       style={style}
     >
       <img
@@ -87,7 +83,7 @@ export function PanelImageFrame({
         alt={alt}
         loading="lazy"
         decoding="async"
-        className="w-full h-auto max-h-[320px] object-contain transition-transform duration-500 hover:scale-[1.03]"
+        className="w-full h-auto max-h-80 object-contain transition-transform duration-500 hover:scale-[1.03]"
       />
     </div>
   );
@@ -95,12 +91,7 @@ export function PanelImageFrame({
 
 export function PanelNotice({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={cn(
-        'rounded-[18px] panel-planet-badge px-4 py-3 text-sm text-(--text-primary)',
-        className
-      )}
-    >
+    <div className={cn('panel-planet-badge px-4 py-3 text-sm text-(--text-primary)', className)}>
       {children}
     </div>
   );

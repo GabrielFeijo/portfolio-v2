@@ -17,7 +17,6 @@ export function ExperiencePanel() {
         eyebrow={t('planets.experience.subtitle')}
         title={t('planets.experience.name')}
         description={t('planets.experience.description')}
-        ringClassName="-left-12 -top-10 h-32 w-32"
       />
 
       <div className="relative">
