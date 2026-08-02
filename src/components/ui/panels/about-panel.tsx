@@ -1,7 +1,7 @@
 import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
 import { motion } from 'framer-motion';
-import { Briefcase, Code, GraduationCap, Mail, MapPin, Radar, Sparkles } from 'lucide-react';
+import { Briefcase, Code, GraduationCap, Laptop2, Mail, MapPin, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AboutContactButton } from './about/about-contact-button';
 import { AboutInfoPill } from './about/about-info-pill';
@@ -38,13 +38,16 @@ export function AboutPanel() {
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
               className="w-32 h-32 sm:w-36 sm:h-36 object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-              style={{ borderColor: 'var(--panel-border-strong)', borderRadius: 'var(--panel-radius)' }}
+              style={{
+                borderColor: 'var(--panel-border-strong)',
+                borderRadius: 'var(--panel-radius)',
+              }}
             />
           </div>
 
           <div className="flex-1 min-w-0">
             <PanelBadge className="text-[11px] tracking-[0.2em] uppercase font-mono-space">
-              <Radar size={12} />
+              <UserRound size={12} />
               {t('planets.about.subtitle')}
             </PanelBadge>
 
@@ -56,7 +59,7 @@ export function AboutPanel() {
             </motion.h1>
 
             <div className="mt-2 flex flex-wrap gap-2 text-xs">
-              <AboutInfoPill icon={Sparkles} label={t('developer.title')} />
+              <AboutInfoPill icon={Laptop2} label={t('developer.title')} />
               <AboutInfoPill
                 icon={MapPin}
                 label={`${t('developer.location')} • ${DEVELOPER.age} ${t('developer.age_suffix')}`}
@@ -103,7 +106,7 @@ export function AboutPanel() {
       </motion.div>
 
       <PanelSection
-        icon={Sparkles}
+        icon={Laptop2}
         eyebrow={t('about.sections.identity.eyebrow')}
         title={t('planets.about.name')}
       >

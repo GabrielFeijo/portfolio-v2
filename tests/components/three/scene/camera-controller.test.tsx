@@ -1,7 +1,8 @@
-import { CameraController } from '@/components/three/scene/camera-controller';
 import { act, render } from '@testing-library/react';
 import * as THREE from 'three';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { CameraController } from '@/components/three/scene/camera-controller';
 
 const mockSetWarpActive = vi.fn();
 let mockState: any = {
@@ -21,6 +22,7 @@ vi.mock('@/store/space-store', () => ({
 const mockFrameCallbacks: any[] = [];
 let mockCamera: THREE.Camera = new THREE.PerspectiveCamera();
 let attachControlsRef = true;
+let controlsInstance: any = null;
 
 vi.mock('@react-three/fiber', () => ({
   useFrame: (cb: any) => {
@@ -48,9 +50,8 @@ vi.mock('@react-three/drei', async () => {
         maxDistance: 0,
         azimuthAngle: 0,
       };
-      if (attachControlsRef) {
-        React.useImperativeHandle(ref, () => controls);
-      }
+      controlsInstance = controls;
+      React.useImperativeHandle(ref, () => (attachControlsRef ? controls : null), [controls]);
       return React.createElement(
         'div',
         { 'data-testid': 'camera-controls', ...props },
@@ -67,6 +68,7 @@ describe('CameraController', () => {
     mockFrameCallbacks.length = 0;
     mockCamera = new THREE.PerspectiveCamera();
     attachControlsRef = true;
+    controlsInstance = null;
     mockState = {
       activePanel: null,
       activePlanet: null,
@@ -140,5 +142,26 @@ describe('CameraController', () => {
     });
 
     expect(mockSetWarpActive).not.toHaveBeenCalled();
+  });
+
+  it('does not auto-rotate while returning from a focused planet after closing the panel', () => {
+    mockState.activePlanet = 'about';
+    render(<CameraController planetAngles={{ current: {} } as any} />);
+
+    act(() => {
+      mockFrameCallbacks.forEach((cb) => cb({}, 1));
+    });
+
+    expect(controlsInstance.azimuthAngle).toBe(0);
+  });
+
+  it('keeps idle auto-rotate when no panel or focused planet is active', () => {
+    render(<CameraController planetAngles={{ current: {} } as any} />);
+
+    act(() => {
+      mockFrameCallbacks.forEach((cb) => cb({}, 1));
+    });
+
+    expect(controlsInstance.azimuthAngle).toBe(-0.022);
   });
 });
