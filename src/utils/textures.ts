@@ -11,13 +11,25 @@ export function createRandom(seed: number) {
 }
 
 export function hexToRgb(hex: string) {
-  const value = Number.parseInt(hex.replace('#', ''), 16);
+  const value = Number.parseInt(hex.replace('#', '').slice(0, 6), 16);
 
   return {
     r: (value >> 16) & 255,
     g: (value >> 8) & 255,
     b: value & 255,
   };
+}
+
+export function toHexColor(red: number, green: number, blue: number, alpha = 1) {
+  const channel = (value: number) =>
+    Math.max(0, Math.min(255, Math.round(value)))
+      .toString(16)
+      .padStart(2, '0');
+  const color = `#${channel(red)}${channel(green)}${channel(blue)}`;
+
+  if (alpha >= 1) return color;
+
+  return `${color}${channel(alpha * 255)}`;
 }
 
 export function makeRingTexture(color: string): THREE.CanvasTexture {
@@ -39,7 +51,7 @@ export function makeRingTexture(color: string): THREE.CanvasTexture {
     const band2 = Math.sin(t * Math.PI * 7 + 1.2) * 0.5 + 0.5;
     const alpha = (band1 * 0.6 + band2 * 0.3) * (1 - Math.abs(t - 0.5) * 1.5);
 
-    context.fillStyle = `rgba(${r + 30},${g + 30},${b + 30},${Math.max(0, alpha)})`;
+    context.fillStyle = toHexColor(r + 30, g + 30, b + 30, Math.max(0, alpha));
     context.fillRect(x, 0, 1, 64);
   }
 
@@ -65,7 +77,7 @@ export function makeRockTexture(color: string): THREE.CanvasTexture {
     const x = Math.random() * size;
     const y = Math.random() * size;
     const delta = Math.floor((Math.random() - 0.5) * 40);
-    context.fillStyle = `rgb(${Math.max(0, Math.min(255, r + delta))},${Math.max(0, Math.min(255, g + delta))},${Math.max(0, Math.min(255, b + delta))})`;
+    context.fillStyle = toHexColor(r + delta, g + delta, b + delta);
     context.beginPath();
     context.arc(x, y, 2 + Math.random() * 8, 0, Math.PI * 2);
     context.fill();
@@ -73,7 +85,7 @@ export function makeRockTexture(color: string): THREE.CanvasTexture {
 
   for (let i = 0; i < 15; i += 1) {
     context.beginPath();
-    context.strokeStyle = `rgba(0,0,0,${0.2 + Math.random() * 0.4})`;
+    context.strokeStyle = toHexColor(0, 0, 0, 0.2 + Math.random() * 0.4);
     context.lineWidth = 0.5 + Math.random();
     context.moveTo(Math.random() * size, Math.random() * size);
     context.lineTo(Math.random() * size, Math.random() * size);
@@ -114,9 +126,9 @@ export function createCloudTexture(seed: number, color: string) {
     context.scale(stretchX, stretchY);
 
     const gradient = context.createRadialGradient(0, 0, 0, 0, 0, radius);
-    gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha})`);
-    gradient.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, ${alpha * 0.55})`);
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    gradient.addColorStop(0, toHexColor(r, g, b, alpha));
+    gradient.addColorStop(0.45, toHexColor(r, g, b, alpha * 0.55));
+    gradient.addColorStop(1, '#00000000');
 
     context.fillStyle = gradient;
     context.beginPath();
@@ -129,7 +141,7 @@ export function createCloudTexture(seed: number, color: string) {
     const x = rand() * size;
     const y = rand() * size;
     const radius = 0.4 + rand() * 1.8;
-    context.fillStyle = `rgba(255, 255, 255, ${0.015 + rand() * 0.03})`;
+    context.fillStyle = toHexColor(255, 255, 255, 0.015 + rand() * 0.03);
     context.beginPath();
     context.arc(x, y, radius, 0, Math.PI * 2);
     context.fill();
@@ -162,10 +174,10 @@ export function createGlowTexture(seed: number, color: string) {
   context.clearRect(0, 0, size, size);
 
   const gradient = context.createRadialGradient(center, center, 0, center, center, center);
-  gradient.addColorStop(0, `rgba(255, 255, 255, ${0.8 + rand() * 0.1})`);
-  gradient.addColorStop(0.18, `rgba(${r}, ${g}, ${b}, 0.6)`);
-  gradient.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, 0.16)`);
-  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  gradient.addColorStop(0, toHexColor(255, 255, 255, 0.8 + rand() * 0.1));
+  gradient.addColorStop(0.18, toHexColor(r, g, b, 0.6));
+  gradient.addColorStop(0.5, toHexColor(r, g, b, 0.16));
+  gradient.addColorStop(1, '#00000000');
 
   context.fillStyle = gradient;
   context.fillRect(0, 0, size, size);

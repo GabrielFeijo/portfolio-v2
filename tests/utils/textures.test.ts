@@ -5,6 +5,7 @@ import {
   hexToRgb,
   makeRingTexture,
   makeRockTexture,
+  toHexColor,
 } from '@/utils/textures';
 import * as THREE from 'three';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -26,6 +27,13 @@ describe('textures utilities', () => {
 
   it('converts hex to rgb', () => {
     expect(hexToRgb('#ff8800')).toEqual({ r: 255, g: 136, b: 0 });
+    expect(hexToRgb('#ff880080')).toEqual({ r: 255, g: 136, b: 0 });
+  });
+
+  it('serializes canvas colors as normalized hexadecimal', () => {
+    expect(toHexColor(255, 136, 0)).toBe('#ff8800');
+    expect(toHexColor(255, 136, 0, 0.5)).toBe('#ff880080');
+    expect(toHexColor(300, -20, 0, 0)).toBe('#ff000000');
   });
 
   it('creates textures even when no 2d context exists', () => {

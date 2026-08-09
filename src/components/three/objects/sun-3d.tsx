@@ -1,3 +1,4 @@
+import { SCENE_COLORS } from '@/constants/scene';
 import { useSpaceStore } from '@/store/space-store';
 import { Html, Sparkles, Sphere } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
@@ -23,9 +24,12 @@ export const Sun3D = memo(function Sun3D() {
   const sunRef = useRef<THREE.Mesh | null>(null);
   const sunMatRef = useRef<THREE.ShaderMaterial | null>(null);
   const [hovered, setHovered] = useState(false);
-  const colPrimary = useMemo(() => new THREE.Color('#FFF5D0'), []);
-  const colSecondary = useMemo(() => new THREE.Color('#FF4500'), []);
-  const labelStyle = useMemo<HelpLabelStyle>(() => ({ '--planet-accent': '#FFD67A' }), []);
+  const colPrimary = useMemo(() => new THREE.Color(SCENE_COLORS.sun.primary), []);
+  const colSecondary = useMemo(() => new THREE.Color(SCENE_COLORS.sun.secondary), []);
+  const labelStyle = useMemo<HelpLabelStyle>(
+    () => ({ '--planet-accent': SCENE_COLORS.sun.label }),
+    []
+  );
   const handleClick = useCallback(
     (event: ThreeEvent<MouseEvent>) => {
       event.stopPropagation();
@@ -61,7 +65,7 @@ export const Sun3D = memo(function Sun3D() {
     <group>
       <Sphere args={[6.5, 32, 32]}>
         <meshBasicMaterial
-          color="#ff7a1a"
+          color={SCENE_COLORS.sun.halo}
           transparent
           opacity={0.16}
           side={THREE.BackSide}
@@ -111,7 +115,7 @@ export const Sun3D = memo(function Sun3D() {
         scale={[14, 14, 14]}
         size={3.8}
         speed={0.9}
-        color="#FFF4D6"
+        color={SCENE_COLORS.sun.sparkleWarm}
         opacity={0.65}
       />
       <Sparkles
@@ -119,7 +123,7 @@ export const Sun3D = memo(function Sun3D() {
         scale={[9, 9, 9]}
         size={5.4}
         speed={0.55}
-        color="#FF7A1A"
+        color={SCENE_COLORS.sun.halo}
         opacity={0.85}
       />
 
@@ -142,8 +146,20 @@ export const Sun3D = memo(function Sun3D() {
         </div>
       </Html>
 
-      <pointLight position={[0, 0, 0]} intensity={22} color="#FFF1D8" distance={520} decay={1.45} />
-      <pointLight position={[0, 0, 0]} intensity={8} color="#FF5A1F" distance={110} decay={2.4} />
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={22}
+        color={SCENE_COLORS.sun.lightWarm}
+        distance={520}
+        decay={1.45}
+      />
+      <pointLight
+        position={[0, 0, 0]}
+        intensity={8}
+        color={SCENE_COLORS.sun.lightHot}
+        distance={110}
+        decay={2.4}
+      />
     </group>
   );
 });
@@ -175,7 +191,7 @@ function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
     <mesh ref={ref} position={basePos}>
       <sphereGeometry args={[size, 16, 16]} />
       <meshBasicMaterial
-        color="#FFB800"
+        color={SCENE_COLORS.sun.flare}
         transparent
         opacity={0.9}
         blending={THREE.AdditiveBlending}
@@ -228,7 +244,7 @@ export function ShootingStar() {
       <mesh>
         <sphereGeometry args={[0.2, 8, 8]} />
         <meshBasicMaterial
-          color="#FFFFFF"
+          color={SCENE_COLORS.shootingStar.core}
           transparent
           opacity={1.0}
           blending={THREE.AdditiveBlending}
@@ -237,7 +253,7 @@ export function ShootingStar() {
       <mesh ref={trailRef} position={[0, 0, 1.0]}>
         <cylinderGeometry args={[0.08, 0.0, 2, 8]} />
         <meshBasicMaterial
-          color="#00D4FF"
+          color={SCENE_COLORS.shootingStar.trail}
           transparent
           opacity={0.6}
           blending={THREE.AdditiveBlending}

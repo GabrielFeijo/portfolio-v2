@@ -1,3 +1,4 @@
+import { SCENE_COLORS } from '@/constants/scene';
 import type { Vec3Tuple } from '@/types/three';
 import { createStarColors, createStarPositions } from '@/utils/geometry';
 import { createCloudTexture, createGlowTexture, createRandom } from '@/utils/textures';
@@ -28,7 +29,7 @@ function StarShell({
     [count, radius, seed, spread]
   );
   const colors = useMemo(
-    () => createStarColors(count, ['#c1dbff', '#f9fbff', '#8fdcff', '#ffe6b8'], seed + 7),
+    () => createStarColors(count, [...SCENE_COLORS.nebula.stars], seed + 7),
     [count, seed]
   );
 
@@ -166,13 +167,13 @@ interface NebulaProps {
 export function Nebula({ density }: NebulaProps) {
   const textures = useMemo(
     () => ({
-      cyanCloud: createCloudTexture(11, '#4fdfff'),
-      blueCloud: createCloudTexture(17, '#3f67ff'),
-      amberCloud: createCloudTexture(23, '#ffb96b'),
-      violetCloud: createCloudTexture(29, '#7b6dff'),
-      cyanGlow: createGlowTexture(37, '#7ce7ff'),
-      blueGlow: createGlowTexture(41, '#7195ff'),
-      amberGlow: createGlowTexture(43, '#ffbf7a'),
+      cyanCloud: createCloudTexture(11, SCENE_COLORS.nebula.cyanCloud),
+      blueCloud: createCloudTexture(17, SCENE_COLORS.nebula.blueCloud),
+      amberCloud: createCloudTexture(23, SCENE_COLORS.nebula.amberCloud),
+      violetCloud: createCloudTexture(29, SCENE_COLORS.nebula.violetCloud),
+      cyanGlow: createGlowTexture(37, SCENE_COLORS.nebula.cyanGlow),
+      blueGlow: createGlowTexture(41, SCENE_COLORS.nebula.blueGlow),
+      amberGlow: createGlowTexture(43, SCENE_COLORS.nebula.amberGlow),
     }),
     []
   );
@@ -208,7 +209,7 @@ export function Nebula({ density }: NebulaProps) {
         scale={[260, 170, 90]}
         texture={textures.cyanCloud}
         glowTexture={textures.cyanGlow}
-        glowColor="#67dfff"
+        glowColor={SCENE_COLORS.nebula.cyanCluster}
         seed={61}
         rotationSpeed={0.035}
       />
@@ -218,7 +219,7 @@ export function Nebula({ density }: NebulaProps) {
         scale={[320, 210, 110]}
         texture={textures.blueCloud}
         glowTexture={textures.blueGlow}
-        glowColor="#87a8ff"
+        glowColor={SCENE_COLORS.nebula.blueCluster}
         seed={73}
         rotationSpeed={0.028}
       />
@@ -228,7 +229,7 @@ export function Nebula({ density }: NebulaProps) {
         scale={[410, 240, 140]}
         texture={textures.violetCloud}
         glowTexture={textures.blueGlow}
-        glowColor="#9fa8ff"
+        glowColor={SCENE_COLORS.nebula.violetCluster}
         seed={87}
         rotationSpeed={0.018}
       />
@@ -238,7 +239,7 @@ export function Nebula({ density }: NebulaProps) {
         scale={[220, 140, 80]}
         texture={textures.amberCloud}
         glowTexture={textures.amberGlow}
-        glowColor="#ffbc73"
+        glowColor={SCENE_COLORS.nebula.amberCluster}
         seed={97}
         rotationSpeed={0.041}
       />

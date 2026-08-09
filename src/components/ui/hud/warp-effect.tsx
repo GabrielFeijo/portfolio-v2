@@ -1,3 +1,4 @@
+import { SCENE_COLORS } from '@/constants/scene';
 import { useSpaceStore } from '@/store/space-store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
@@ -29,7 +30,7 @@ export function WarpEffect() {
     const cy = canvas.height / 2;
 
     const stars: { x: number; y: number; z: number; pz: number; color: string }[] = [];
-    const starColors = ['#FFFFFF', '#BAE6FD', '#0EA5E9', '#F0F9FF'];
+    const starColors = SCENE_COLORS.warp.stars;
 
     for (let i = 0; i < 650; i++) {
       stars.push({
@@ -42,7 +43,7 @@ export function WarpEffect() {
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 8, 0.18)';
+      ctx.fillStyle = SCENE_COLORS.warp.fade;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       stars.forEach((star) => {

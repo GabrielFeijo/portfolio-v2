@@ -109,9 +109,9 @@ describe('scene smoke', () => {
       PLANETS: [
         {
           id: 'about',
-          color: '#fff',
-          glowColor: '#fff',
-          atmosphereColor: '#fff',
+          color: '#ffffff',
+          glowColor: '#ffffff',
+          atmosphereColor: '#ffffff',
           size: 1,
           orbitRadius: 1,
           orbitSpeed: 1,

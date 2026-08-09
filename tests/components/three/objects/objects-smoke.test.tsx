@@ -79,7 +79,7 @@ import { ShootingStar, Sun3D } from '@/components/three/objects/sun-3d';
 describe('3d objects smoke', () => {
   it('renders asteroid belt', async () => {
     const renderer = await create(
-      <AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#fff" />
+      <AsteroidBelt innerRadius={10} outerRadius={20} count={5} color="#ffffff" />
     );
     expect(renderer).toBeDefined();
     await renderer.unmount();
@@ -92,7 +92,7 @@ describe('3d objects smoke', () => {
   });
 
   it('renders orbit particles', async () => {
-    const renderer = await create(<OrbitParticles color="#fff" density={0.5} size={2} />);
+    const renderer = await create(<OrbitParticles color="#ffffff" density={0.5} size={2} />);
     expect(renderer).toBeDefined();
     await renderer.unmount();
   });
@@ -105,7 +105,7 @@ describe('3d objects smoke', () => {
       />
     );
     const moonRenderer = await create(
-      <SmallMoon color="#fff" lightDir={new THREE.Vector3(1, 0, 0)} size={2} />
+      <SmallMoon color="#ffffff" lightDir={new THREE.Vector3(1, 0, 0)} size={2} />
     );
     expect(renderer).toBeDefined();
     expect(moonRenderer).toBeDefined();
