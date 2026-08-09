@@ -13,14 +13,13 @@
 }
 
 @keyframes float {
-
   0%,
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
 
   50% {
-    transform: translateY(-10px);
+    transform: translateY(calc(var(--spacing) * -2.5));
   }
 }
 
@@ -41,22 +40,22 @@
   }
 
   20% {
-    transform: translate(-2px, 1px);
+    transform: translate(calc(var(--spacing) * -0.5), calc(var(--spacing) * 0.25));
     clip-path: inset(30% 0 50% 0);
   }
 
   40% {
-    transform: translate(2px, -1px);
+    transform: translate(calc(var(--spacing) * 0.5), calc(var(--spacing) * -0.25));
     clip-path: inset(70% 0 10% 0);
   }
 
   60% {
-    transform: translate(-1px, 2px);
+    transform: translate(calc(var(--spacing) * -0.25), calc(var(--spacing) * 0.5));
     clip-path: inset(10% 0 80% 0);
   }
 
   80% {
-    transform: translate(1px, -1px);
+    transform: translate(calc(var(--spacing) * 0.25), calc(var(--spacing) * -0.25));
     clip-path: none;
   }
 
@@ -82,7 +81,7 @@
   }
 
   100% {
-    transform: translateY(100vh);
+    transform: translateY(var(--motion-warp-distance));
   }
 }
 

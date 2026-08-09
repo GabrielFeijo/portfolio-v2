@@ -2,28 +2,28 @@
   .ds-surface {
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(15, 17, 23, 0.88), rgba(9, 10, 14, 0.84));
+    border-radius: var(--radius-xl);
+    border: var(--line-hairline) solid var(--border);
+    background: linear-gradient(180deg, #0f1117e0, #090a0ed6);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 24px 60px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
+      inset 0 1px 0 #ffffff0a,
+      0 24px 60px #00000073;
+    backdrop-filter: blur(var(--blur-glass)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(120%);
   }
 
   .ds-surface-strong {
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid rgba(223, 181, 59, 0.18);
-    background: linear-gradient(180deg, rgba(18, 20, 27, 0.94), rgba(10, 11, 15, 0.92));
+    border-radius: var(--radius-xl);
+    border: var(--line-hairline) solid #dfb53b2e;
+    background: linear-gradient(180deg, #12141bf0, #0a0b0feb);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 30px 80px rgba(0, 0, 0, 0.5),
-      0 0 40px rgba(223, 181, 59, 0.03);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
+      inset 0 1px 0 #ffffff0f,
+      0 30px 80px #00000080,
+      0 0 40px #dfb53b08;
+    backdrop-filter: blur(var(--blur-glass)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(120%);
   }
 
   .ds-surface::before,
@@ -31,72 +31,72 @@
     display: none;
   }
 
-  .ds-surface>*,
-  .ds-surface-strong>* {
+  .ds-surface > *,
+  .ds-surface-strong > * {
     position: relative;
     z-index: 1;
   }
 
   .ds-inset {
-    border-radius: 10px;
-    border: 1px solid rgba(226, 219, 205, 0.05);
-    background: rgba(255, 255, 255, 0.015);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-control);
+    border: var(--line-hairline) solid #e2dbcd0d;
+    background: #ffffff04;
+    box-shadow: inset 0 1px 0 #ffffff05;
   }
 
   .ds-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    border-radius: 999px;
-    border: 1px solid rgba(226, 219, 205, 0.12);
-    background: rgba(226, 219, 205, 0.04);
+    gap: calc(var(--spacing) * 2);
+    border-radius: var(--radius-pill);
+    border: var(--line-hairline) solid #e2dbcd1f;
+    background: #e2dbcd0a;
     color: var(--text-secondary);
-    padding: 0.4rem 0.9rem;
+    padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
   }
 
   .ds-badge-warm {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    border-radius: 999px;
-    border: 1px solid rgba(223, 181, 59, 0.22);
-    background: rgba(223, 181, 59, 0.06);
+    gap: calc(var(--spacing) * 2);
+    border-radius: var(--radius-pill);
+    border: var(--line-hairline) solid #dfb53b38;
+    background: #dfb53b0f;
     color: var(--accent-blue-bright);
-    padding: 0.4rem 0.9rem;
+    padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
   }
 
   .ds-badge-danger {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    border-radius: 999px;
-    border: 1px solid rgba(239, 68, 68, 0.22);
-    background: rgba(239, 68, 68, 0.06);
+    gap: calc(var(--spacing) * 2);
+    border-radius: var(--radius-pill);
+    border: var(--line-hairline) solid #ef444438;
+    background: #ef44440f;
     color: #fca5a5;
-    padding: 0.4rem 0.9rem;
+    padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
   }
 
   .ds-icon-tile,
   .ds-icon-tile-warm {
     display: flex;
-    height: 2.5rem;
-    width: 2.5rem;
+    height: calc(var(--spacing) * 10);
+    width: calc(var(--spacing) * 10);
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: var(--radius-control);
     transition: all 180ms ease;
   }
 
   .ds-icon-tile {
-    border: 1px solid rgba(226, 219, 205, 0.14);
-    background: rgba(226, 219, 205, 0.05);
+    border: var(--line-hairline) solid #e2dbcd24;
+    background: #e2dbcd0d;
     color: #e2dbcd;
   }
 
   .ds-icon-tile-warm {
-    border: 1px solid rgba(223, 181, 59, 0.24);
-    background: rgba(223, 181, 59, 0.08);
+    border: var(--line-hairline) solid #dfb53b3d;
+    background: #dfb53b14;
     color: var(--accent-blue);
   }
 
@@ -105,28 +105,28 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    border-radius: 10px;
-    padding: 0.7rem 1.4rem;
+    gap: calc(var(--spacing) * 2);
+    border-radius: var(--radius-control);
+    padding: calc(var(--spacing) * 3) calc(var(--spacing) * 6);
     font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     transition: all 180ms ease;
   }
 
   .ds-button-primary {
-    border: 1px solid rgba(223, 181, 59, 0.28);
-    background: linear-gradient(180deg, rgba(223, 181, 59, 0.2), rgba(223, 181, 59, 0.08));
+    border: var(--line-hairline) solid #dfb53b47;
+    background: linear-gradient(180deg, #dfb53b33, #dfb53b14);
     color: var(--text-primary);
-    box-shadow: 0 8px 24px rgba(223, 181, 59, 0.05);
+    box-shadow: 0 8px 24px #dfb53b0d;
   }
 
   .ds-button-primary:hover {
-    background: rgba(223, 181, 59, 0.26);
-    border-color: rgba(223, 181, 59, 0.4);
-    transform: translateY(-1px);
-    box-shadow: 0 10px 28px rgba(223, 181, 59, 0.08);
+    background: #dfb53b42;
+    border-color: #dfb53b66;
+    transform: translateY(calc(var(--spacing) * -0.25));
+    box-shadow: 0 10px 28px #dfb53b14;
   }
 
   .ds-button-primary:active {
@@ -134,16 +134,16 @@
   }
 
   .ds-button-secondary {
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.03);
+    border: var(--line-hairline) solid #ffffff0f;
+    background: #ffffff08;
     color: var(--text-secondary);
   }
 
   .ds-button-secondary:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: #ffffff0f;
+    border-color: #ffffff1f;
     color: var(--text-primary);
-    transform: translateY(-1px);
+    transform: translateY(calc(var(--spacing) * -0.25));
   }
 
   .ds-button-secondary:active {
@@ -151,10 +151,10 @@
   }
 
   .ds-topbar {
-    border: 1px solid var(--border);
-    background: rgba(13, 14, 18, 0.84);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: var(--line-hairline) solid var(--border);
+    background: #0d0e12d6;
+    backdrop-filter: blur(var(--blur-glass));
+    box-shadow: 0 4px 20px #00000033;
   }
 
   .scanlines {
@@ -167,11 +167,8 @@
     pointer-events: none;
     z-index: 51;
     background:
-      radial-gradient(circle at 50% 42%, rgba(223, 181, 59, 0.015), transparent 32%),
-      radial-gradient(ellipse at center,
-        transparent 50%,
-        rgba(0, 0, 4, 0.4) 80%,
-        rgba(0, 0, 4, 0.75) 100%);
+      radial-gradient(circle at 50% 42%, #dfb53b04, transparent 32%),
+      radial-gradient(ellipse at center, transparent 50%, #00000466 80%, #000004bf 100%);
   }
 
   .noise {
@@ -194,34 +191,34 @@
 
   .hud-corner {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: rgba(223, 181, 59, 0.22);
+    width: calc(var(--spacing) * 3);
+    height: calc(var(--spacing) * 3);
+    border-color: #dfb53b38;
     border-style: solid;
   }
 
   .hud-corner-tl {
     top: 0;
     left: 0;
-    border-width: 1.5px 0 0 1.5px;
+    border-width: var(--line-emphasis) 0 0 var(--line-emphasis);
   }
 
   .hud-corner-tr {
     top: 0;
     right: 0;
-    border-width: 1.5px 1.5px 0 0;
+    border-width: var(--line-emphasis) var(--line-emphasis) 0 0;
   }
 
   .hud-corner-bl {
     bottom: 0;
     left: 0;
-    border-width: 0 0 1.5px 1.5px;
+    border-width: 0 0 var(--line-emphasis) var(--line-emphasis);
   }
 
   .hud-corner-br {
     bottom: 0;
     right: 0;
-    border-width: 0 1.5px 1.5px 0;
+    border-width: 0 var(--line-emphasis) var(--line-emphasis) 0;
   }
 
   .animated-border {
@@ -231,9 +228,9 @@
   .animated-border::before {
     content: '';
     position: absolute;
-    inset: -1px;
+    inset: calc(var(--line-hairline) * -1);
     border-radius: inherit;
-    background: linear-gradient(90deg, #dfb53b, rgba(223, 181, 59, 0.1), #dfb53b);
+    background: linear-gradient(90deg, #dfb53b, #dfb53b1a, #dfb53b);
     background-size: 200% 100%;
     animation: border-dance 4s linear infinite;
     z-index: -1;
