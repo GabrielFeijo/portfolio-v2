@@ -33,7 +33,7 @@ export function AboutPanel() {
             <img
               src={DEVELOPER.profileImage}
               alt={DEVELOPER.name}
-              className="w-32 h-32 sm:w-36 sm:h-36 object-cover border shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              className="w-32 h-32 sm:w-36 sm:h-36 object-cover border shadow-(--shadow-image)"
               style={{
                 borderColor: 'var(--panel-border-strong)',
                 borderRadius: 'var(--panel-radius)',
@@ -42,14 +42,14 @@ export function AboutPanel() {
           </div>
 
           <div className="flex-1 min-w-0">
-            <PanelBadge className="text-[11px] tracking-[0.2em] uppercase font-mono-space">
+            <PanelBadge className="text-label tracking-caps-xl uppercase font-mono-space">
               <UserRound size={12} />
               {t('planets.about.subtitle')}
             </PanelBadge>
 
             <motion.h1
               variants={panelFadeUp}
-              className="mt-3 text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-(--text-primary)"
+              className="mt-3 text-3xl sm:text-4xl font-bold tracking-display text-(--text-primary)"
             >
               {DEVELOPER.name}
             </motion.h1>
@@ -62,7 +62,7 @@ export function AboutPanel() {
               />
             </div>
 
-            <p className="mt-4 text-sm sm:text-[15px] text-(--text-secondary) leading-7 max-w-2xl">
+            <p className="mt-4 text-sm sm:text-body-md text-(--text-secondary) leading-7 max-w-2xl">
               {t('developer.tagline')}
             </p>
           </div>
@@ -73,7 +73,7 @@ export function AboutPanel() {
         {stats.map((stat) => (
           <div key={stat.label} className="panel-card relative overflow-hidden p-4 sm:p-5">
             <div className="text-2xl sm:text-3xl font-bold text-(--text-primary)">{stat.value}</div>
-            <div className="mt-2 text-xs uppercase tracking-[0.16em] text-(--text-muted)">
+            <div className="mt-2 text-xs uppercase tracking-caps text-(--text-muted)">
               {stat.label}
             </div>
           </div>
@@ -121,7 +121,7 @@ export function AboutPanel() {
         {education.map((entry, index) => (
           <div key={index} className="panel-card p-5">
             <div className="text-base font-semibold text-(--text-primary)">{entry.title}</div>
-            <div className="mt-1 text-xs uppercase tracking-[0.16em] panel-eyebrow">
+            <div className="mt-1 text-xs uppercase tracking-caps panel-eyebrow">
               {entry.institution} • {entry.period}
             </div>
             <p className="text-sm text-(--text-secondary) leading-7 mt-4">{entry.description}</p>

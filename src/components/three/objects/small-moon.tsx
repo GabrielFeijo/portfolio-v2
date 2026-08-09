@@ -1,3 +1,4 @@
+import { SCENE_COLORS } from '@/constants/scene';
 import { useFrame } from '@react-three/fiber';
 import { memo, useMemo, useRef } from 'react';
 import * as THREE from 'three';
@@ -26,7 +27,7 @@ export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: Smal
     const seed = hashString(`${color}:${size}`);
     return ((seed % 1000) / 1000 - 0.5) * 0.8;
   }, [color, size]);
-  const baseColor = useMemo(() => new THREE.Color('#99AAAA'), []);
+  const baseColor = useMemo(() => new THREE.Color(SCENE_COLORS.moon.base), []);
 
   useFrame((state) => {
     const group = ref.current;

@@ -7,21 +7,21 @@ export function FallbackHeader() {
   const { t } = useTranslation();
 
   return (
-    <header className="flex flex-col gap-4 rounded-xl border border-[rgba(223,181,59,0.14)] bg-[rgba(10,12,18,0.88)] px-4 py-4 shadow-[0_18px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:px-5 lg:flex-row lg:items-center lg:justify-between">
+    <header className="flex flex-col gap-4 rounded-xl border border-(--panel-border) bg-(--panel-surface-strong) px-4 py-4 shadow-(--shadow-overlay) backdrop-blur-xl sm:px-5 lg:flex-row lg:items-center lg:justify-between">
       <div className="min-w-0">
-        <div className="flex items-center gap-2 font-mono-space text-[9px] font-semibold uppercase tracking-[0.18em] text-[rgba(255,214,122,0.86)] sm:text-[10px] sm:tracking-[0.24em]">
-          <span className="h-2 w-2 rounded-full bg-[rgba(223,181,59,0.96)] shadow-[0_0_16px_rgba(223,181,59,0.75)]" />
+        <div className="flex items-center gap-2 font-mono-space text-micro font-semibold uppercase tracking-caps-lg text-(--fallback-accent-readable) sm:text-caption sm:tracking-caps-2xl">
+          <span className="h-2 w-2 rounded-full bg-(--accent-blue) shadow-(--shadow-status-strong)" />
           <span className="wrap-break-word">{t('fallback_2d.eyebrow')}</span>
         </div>
         <div className="mt-3 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(223,181,59,0.18)] bg-[rgba(223,181,59,0.08)] font-mono-space text-xs font-bold tracking-[0.12em] text-[#FFD67A] shadow-[0_0_24px_rgba(223,181,59,0.08)]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-(--accent-border) bg-(--accent-surface) font-mono-space text-xs font-bold tracking-caps-sm text-(--fallback-accent) shadow-(--shadow-fallback-icon)">
             GF
           </div>
           <div className="min-w-0">
-            <strong className="block truncate font-display text-base font-semibold text-[#FFF7E6] sm:text-lg">
+            <strong className="block truncate font-display text-base font-semibold text-(--fallback-text-strong) sm:text-lg">
               {DEVELOPER.name}
             </strong>
-            <p className="truncate text-sm text-[rgba(240,244,255,0.56)]">{t('developer.title')}</p>
+            <p className="truncate text-sm text-(--fallback-text-subtle)">{t('developer.title')}</p>
           </div>
         </div>
       </div>

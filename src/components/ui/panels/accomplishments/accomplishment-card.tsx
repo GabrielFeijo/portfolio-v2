@@ -32,7 +32,7 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
           />
         </div>
 
-        <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
+        <div className="mb-2 font-mono-space text-label uppercase tracking-caps-lg panel-eyebrow">
           {t(`accomplishments_items.${accomplishment.id}.category`)}
         </div>
         <h3 className="mb-2 text-base font-semibold text-(--text-primary)">

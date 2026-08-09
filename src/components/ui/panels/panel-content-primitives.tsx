@@ -83,7 +83,7 @@ export function PanelImageFrame({
         alt={alt}
         loading="lazy"
         decoding="async"
-        className="w-full h-auto max-h-80 object-contain transition-transform duration-500 hover:scale-[1.03]"
+        className="w-full h-auto max-h-80 object-contain transition-transform duration-500 hover:scale-103"
       />
     </div>
   );

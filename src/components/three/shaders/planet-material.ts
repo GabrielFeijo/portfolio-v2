@@ -1,3 +1,4 @@
+import { SCENE_COLORS } from '@/constants/scene';
 import { NOISE_CHUNK } from '@/utils/glsl/noise.glsl';
 import { shaderMaterial } from '@react-three/drei/core/shaderMaterial';
 import * as THREE from 'three';
@@ -226,8 +227,8 @@ export const AAA_PlanetMaterial = shaderMaterial(
 export const SunMaterial = shaderMaterial(
   {
     uTime: 0,
-    uColorPrimary: new THREE.Color('#FFB800'),
-    uColorSecondary: new THREE.Color('#FF4500'),
+    uColorPrimary: new THREE.Color(SCENE_COLORS.sun.flare),
+    uColorSecondary: new THREE.Color(SCENE_COLORS.sun.secondary),
     uIntensity: 1.5,
   },
   `

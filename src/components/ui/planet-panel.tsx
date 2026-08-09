@@ -83,12 +83,12 @@ export function PlanetPanel() {
 
   const fallbackTheme = useMemo<PanelTheme>(
     () => ({
-      '--panel-accent': '#dfb53b',
-      '--panel-glow': '#f59e0b',
-      '--panel-accent-soft': '#dfb53b20',
-      '--panel-accent-faint': '#f59e0b12',
-      '--panel-border': '#f59e0b22',
-      '--panel-border-strong': '#f59e0b48',
+      '--panel-accent': 'var(--accent-blue)',
+      '--panel-glow': 'var(--accent-gold)',
+      '--panel-accent-soft': 'var(--accent-surface-hover)',
+      '--panel-accent-faint': 'var(--accent-surface-subtle)',
+      '--panel-border': 'var(--accent-border)',
+      '--panel-border-strong': 'var(--accent-border-hover)',
     }),
     []
   );
@@ -125,7 +125,8 @@ export function PlanetPanel() {
         <div
           className="absolute top-0 left-0 right-0 h-0.5 pointer-events-none"
           style={{
-            background: 'linear-gradient(90deg,transparent,rgba(223,181,59,0.72),transparent)',
+            background:
+              'linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-blue) 72%, transparent), transparent)',
           }}
         />
 
@@ -155,14 +156,14 @@ export function PlanetPanel() {
                 onClick={closePanel}
                 {...linkCursor}
                 aria-label={t('planet_panel.close_aria')}
-                className="panel-close-button absolute right-5 top-4 z-10 h-10 w-10 cursor-none transition-colors hover:bg-[rgba(255,255,255,0.08)]"
+                className="panel-close-button absolute right-5 top-4 z-10 h-10 w-10 cursor-none transition-colors hover:bg-(--surface-interactive-strong)"
               >
                 <X size={18} />
               </motion.button>
 
               <div
                 id="planet-panel-title"
-                className="pr-16 font-display text-lg font-bold leading-10 tracking-[0.08em] uppercase"
+                className="pr-16 font-display text-lg font-bold leading-10 tracking-heading uppercase"
                 style={{ color: 'var(--text-primary)' }}
               >
                 {t(`planets.${planet.id}.name`)}
@@ -190,7 +191,7 @@ export function PlanetPanel() {
                   aria-label={t('planet_panel.previous_aria', {
                     name: t(`planets.${prev.id}.name`),
                   })}
-                  className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
+                  className="panel-nav-button cursor-none font-display text-caption font-bold tracking-caps-xl transition-colors hover:bg-(--surface-interactive-hover)"
                   style={{
                     border: '1px solid var(--panel-border)',
                     color: 'var(--text-secondary)',
@@ -209,7 +210,7 @@ export function PlanetPanel() {
                   onClick={() => handleNav(next.id)}
                   {...linkCursor}
                   aria-label={t('planet_panel.next_aria', { name: t(`planets.${next.id}.name`) })}
-                  className="panel-nav-button cursor-none font-display text-[10px] font-bold tracking-[0.2em] transition-colors hover:bg-[rgba(255,255,255,0.06)]"
+                  className="panel-nav-button cursor-none font-display text-caption font-bold tracking-caps-xl transition-colors hover:bg-(--surface-interactive-hover)"
                   style={{
                     border: '1px solid var(--panel-border)',
                     color: 'var(--text-secondary)',

@@ -36,7 +36,7 @@ export function HelpOverlay() {
       className="fixed inset-0 z-250 flex items-center justify-center p-4 sm:p-8"
     >
       <div
-        className="absolute inset-0 bg-[rgba(2,4,12,0.78)] pointer-events-auto cursor-none"
+        className="absolute inset-0 bg-(--overlay-backdrop) pointer-events-auto cursor-none"
         onClick={closeHelp}
         onMouseEnter={() => setCursorVariant('default')}
         aria-hidden="true"
@@ -47,16 +47,16 @@ export function HelpOverlay() {
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 20, opacity: 0, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-        className="relative max-h-[calc(100vh-2rem)] w-full max-w-4xl pointer-events-auto"
+        className="relative max-h-(--layout-overlay-max-height) w-full max-w-4xl pointer-events-auto"
         ref={dialogRef}
         onClick={(e) => e.stopPropagation()}
       >
-        <UISurface strong className="max-h-[calc(100vh-2rem)] overflow-hidden">
+        <UISurface strong className="max-h-(--layout-overlay-max-height) overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.08] pointer-events-none"
+            className="absolute inset-0 opacity-8 pointer-events-none"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(255,184,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,184,0,0.35) 1px, transparent 1px)',
+                'linear-gradient(color-mix(in srgb, var(--accent-gold) 50%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent-gold) 35%, transparent) 1px, transparent 1px)',
               backgroundSize: '28px 28px',
             }}
           />
@@ -71,11 +71,11 @@ export function HelpOverlay() {
             <UIIconTile icon={X} tone="warm" />
           </button>
 
-          <div className="relative grid max-h-[calc(100vh-2rem)] gap-0 overflow-y-auto lg:grid-cols-[1.15fr_0.85fr]">
-            <section className="border-b border-[rgba(255,255,255,0.08)] px-5 py-6 sm:px-8 sm:py-8 lg:border-b-0 lg:border-r lg:border-r-[rgba(255,255,255,0.08)]">
+          <div className="relative grid max-h-(--layout-overlay-max-height) gap-0 overflow-y-auto lg:grid-cols-(--layout-help-columns)">
+            <section className="border-b border-(--border) px-5 py-6 sm:px-8 sm:py-8 lg:border-b-0 lg:border-r lg:border-r-(--border)">
               <UIBadge
                 tone="warm"
-                className="mb-6 font-mono-space text-[11px] uppercase tracking-[0.28em]"
+                className="mb-6 font-mono-space text-label uppercase tracking-caps-3xl"
               >
                 <Sparkles size={14} />
                 {t('help.badge')}
@@ -83,12 +83,12 @@ export function HelpOverlay() {
 
               <h2
                 id="help-overlay-title"
-                className="max-w-2xl font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl"
+                className="max-w-2xl font-display text-3xl font-black uppercase tracking-heading text-(--text-primary) sm:text-4xl"
               >
                 {t('help.title')}
               </h2>
 
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-(--fallback-text-secondary) sm:text-body-md">
                 {t('help.description')}
               </p>
 
@@ -111,16 +111,16 @@ export function HelpOverlay() {
               </div>
 
               <UIInset className="mt-8 p-5 sm:p-6">
-                <div className="mb-4 text-[11px] font-mono-space uppercase tracking-[0.3em] text-[rgba(255,214,122,0.72)]">
+                <div className="mb-4 text-label font-mono-space uppercase tracking-caps-4xl text-(--fallback-accent-readable)">
                   {t('help.how_to_navigate')}
                 </div>
                 <div className="space-y-3">
                   {quickSteps.map((step, index) => (
                     <UIInset key={step} className="flex gap-4 p-4">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[rgba(255,184,0,0.12)] text-sm font-semibold text-[#FFD67A]">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-(--accent-surface-hover) text-sm font-semibold text-(--fallback-accent)">
                         {index + 1}
                       </div>
-                      <p className="text-sm leading-6 text-[rgba(240,244,255,0.75)]">{step}</p>
+                      <p className="text-sm leading-6 text-(--fallback-text-readable)">{step}</p>
                     </UIInset>
                   ))}
                 </div>
@@ -128,28 +128,28 @@ export function HelpOverlay() {
             </section>
 
             <aside className="px-5 py-6 sm:px-8 sm:py-8">
-              <div className="mb-4 text-[11px] font-mono-space uppercase tracking-[0.3em] text-[rgba(255,214,122,0.72)]">
+              <div className="mb-4 text-label font-mono-space uppercase tracking-caps-4xl text-(--fallback-accent-readable)">
                 {t('help.planets_overview')}
               </div>
 
               <div className="space-y-3">
                 {sections.map((section) => (
                   <UIInset key={section.title} className="px-4 py-4">
-                    <div className="font-display text-lg font-bold uppercase tracking-[0.08em] text-white">
+                    <div className="font-display text-lg font-bold uppercase tracking-heading text-(--text-primary)">
                       {section.title}
                     </div>
-                    <p className="mt-2 text-sm leading-6 text-[rgba(240,244,255,0.68)]">
+                    <p className="mt-2 text-sm leading-6 text-(--fallback-text-muted)">
                       {section.description}
                     </p>
                   </UIInset>
                 ))}
               </div>
 
-              <UIInset className="mt-6 border-[rgba(255,184,0,0.12)] bg-[rgba(255,184,0,0.06)] p-5">
-                <div className="text-[11px] font-mono-space uppercase tracking-[0.28em] text-[#FFD67A]">
+              <UIInset className="mt-6 border-(--accent-border-subtle) bg-(--accent-surface-subtle) p-5">
+                <div className="text-label font-mono-space uppercase tracking-caps-3xl text-(--fallback-accent)">
                   {t('help.project_summary_title')}
                 </div>
-                <p className="mt-3 text-sm leading-6 text-[rgba(240,244,255,0.75)]">
+                <p className="mt-3 text-sm leading-6 text-(--fallback-text-readable)">
                   {t('help.project_summary_description')}
                 </p>
               </UIInset>
@@ -173,10 +173,10 @@ function InfoCard({
   return (
     <UIInset className="p-5">
       <UIIconTile icon={Icon} tone="warm" className="mb-4" />
-      <div className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">
+      <div className="font-display text-sm font-bold uppercase tracking-heading text-(--text-primary)">
         {title}
       </div>
-      <p className="mt-2 text-sm leading-6 text-[rgba(240,244,255,0.68)]">{description}</p>
+      <p className="mt-2 text-sm leading-6 text-(--fallback-text-muted)">{description}</p>
     </UIInset>
   );
 }

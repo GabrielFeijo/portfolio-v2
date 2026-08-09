@@ -40,7 +40,7 @@ export function ProjectCard({
       className={`relative overflow-hidden p-5 cursor-none transition-all duration-200 ${isSelected ? 'panel-card-strong' : 'panel-card'}`}
     >
       {project.featured && (
-        <div className="absolute top-4 right-4 panel-planet-badge px-2.5 py-1 text-[11px] font-semibold text-(--text-primary) ">
+        <div className="absolute top-4 right-4 panel-planet-badge px-2.5 py-1 text-label font-semibold text-(--text-primary) ">
           {t('common.featured')}
         </div>
       )}
@@ -48,7 +48,7 @@ export function ProjectCard({
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-semibold text-(--text-primary)">{projectName}</h3>
-          <div className="mt-1 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
+          <div className="mt-1 font-mono-space text-label uppercase tracking-caps panel-eyebrow">
             {project.year} • {categoryLabel}
           </div>
         </div>
@@ -71,7 +71,7 @@ export function ProjectCard({
           >
             {highlights.length > 0 && (
               <PanelInsetCard className="mb-4">
-                <div className="mb-3 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
+                <div className="mb-3 font-mono-space text-label uppercase tracking-caps-lg panel-eyebrow">
                   {t('common.highlights')}
                 </div>
                 <PanelBulletList items={highlights} />

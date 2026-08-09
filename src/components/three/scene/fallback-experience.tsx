@@ -19,19 +19,19 @@ export function FallbackExperience() {
 
   return (
     <section
-      className="fallback-experience absolute inset-0 overflow-y-auto overflow-x-hidden bg-[#040611] text-[#F0F4FF]"
+      className="fallback-experience absolute inset-0 overflow-y-auto overflow-x-hidden bg-(--canvas-fallback) text-(--fallback-text)"
       data-testid="scene-2d-fallback"
       aria-label={t('fallback_2d.aria')}
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(223,181,59,0.12),transparent_18%),radial-gradient(circle_at_82%_20%,rgba(223,181,59,0.08),transparent_20%),radial-gradient(circle_at_50%_76%,rgba(223,181,59,0.06),transparent_24%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,214,122,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(255,214,122,0.018)_1px,transparent_1px)] bg-size-[54px_54px] opacity-25" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,var(--accent-surface-hover),transparent_18%),radial-gradient(circle_at_82%_20%,var(--accent-surface),transparent_20%),radial-gradient(circle_at_50%_76%,var(--accent-surface-subtle),transparent_24%)]" />
+        <div className="absolute inset-0 bg-(image:--background-fallback-grid) bg-size-(--layout-fallback-grid-size) opacity-25" />
       </div>
 
       <div className="relative mx-auto flex min-h-full w-full max-w-6xl flex-col px-4 pt-5 pb-26 sm:px-6 sm:pt-6 sm:pb-28 lg:px-8 lg:py-8">
         <FallbackHeader />
 
-        <main className="grid gap-8 pt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.96fr)] lg:items-start lg:gap-10 lg:pt-10">
+        <main className="grid gap-8 pt-8 lg:grid-cols-(--layout-fallback-columns) lg:items-start lg:gap-10 lg:pt-10">
           <FallbackHero
             onAbout={() => navigateToPanel('about')}
             onProjects={() => navigateToPanel('projects')}

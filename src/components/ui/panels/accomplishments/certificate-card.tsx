@@ -37,7 +37,7 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
 
       <div className="min-w-0 flex-1">
         <div className="text-base font-semibold text-(--text-primary)">{certificateName}</div>
-        <div className="mt-1 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
+        <div className="mt-1 font-mono-space text-label uppercase tracking-caps panel-eyebrow">
           {certificate.issuer} • {certificate.year}
         </div>
         <p className="mt-3 text-sm leading-7 text-(--text-secondary)">{certificateDescription}</p>

@@ -57,9 +57,9 @@ export function ProjectsPanel() {
                 background:
                   filter === cat
                     ? 'linear-gradient(180deg, var(--panel-accent), var(--panel-glow))'
-                    : 'rgba(255,255,255,0.03)',
+                    : 'var(--surface-interactive)',
                 borderColor: filter === cat ? 'var(--panel-border-strong)' : 'var(--panel-border)',
-                color: filter === cat ? 'white' : 'var(--text-secondary)',
+                color: filter === cat ? 'var(--color-white)' : 'var(--text-secondary)',
                 boxShadow:
                   filter === cat
                     ? '0 16px 32px color-mix(in srgb, var(--panel-glow) 26%, transparent)'

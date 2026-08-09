@@ -1,5 +1,5 @@
 import { ANIMATION_SETTINGS } from '@/constants/animation';
-import { SCENE_SETTINGS } from '@/constants/scene';
+import { SCENE_COLORS, SCENE_SETTINGS } from '@/constants/scene';
 import { PLANETS } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
 import { Stars } from '@react-three/drei';
@@ -55,20 +55,24 @@ export function SpaceScene() {
       <color attach="background" args={[backgroundColor]} />
       <FrameScheduler />
 
-      <ambientLight intensity={0.14} color="#09111f" />
-      <hemisphereLight intensity={0.22} color="#8ad8ff" groundColor="#03050d" />
+      <ambientLight intensity={0.14} color={SCENE_COLORS.lighting.ambient} />
+      <hemisphereLight
+        intensity={0.22}
+        color={SCENE_COLORS.lighting.hemisphere}
+        groundColor={SCENE_COLORS.lighting.ground}
+      />
 
       <pointLight
         position={[110, 70, 90]}
         intensity={0.7}
-        color="#6ee7ff"
+        color={SCENE_COLORS.lighting.key}
         distance={320}
         decay={1.8}
       />
       <pointLight
         position={[-120, -50, -70]}
         intensity={0.28}
-        color="#6d6fff"
+        color={SCENE_COLORS.lighting.fill}
         distance={320}
         decay={1.9}
       />
@@ -92,7 +96,7 @@ export function SpaceScene() {
           innerRadius={48}
           outerRadius={54}
           count={innerAsteroidCount}
-          color="#6b7280"
+          color={SCENE_COLORS.asteroids.inner}
         />
       )}
       {outerAsteroidCount > 0 && (
@@ -100,7 +104,7 @@ export function SpaceScene() {
           innerRadius={98}
           outerRadius={104}
           count={outerAsteroidCount}
-          color="#475569"
+          color={SCENE_COLORS.asteroids.outer}
         />
       )}
 
