@@ -113,11 +113,8 @@ export function HUD() {
         </ul>
       </nav>
 
-      <div className="pointer-events-auto absolute right-6 bottom-5 z-100 flex items-center gap-2 rounded-xl border border-(--border) bg-[rgba(13,14,18,0.76)] p-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.3)] backdrop-blur-[20px] max-md:right-2.5 max-md:bottom-2.5">
-        <div
-          className="flex gap-0.5 border-r border-r-[rgba(226,219,205,0.08)] pr-1.5"
-          aria-label="Language"
-        >
+      <footer className="pointer-events-auto absolute right-6 bottom-5 z-100 flex items-center gap-2 rounded-xl border border-(--border) bg-(--surface-glass) p-1.5 shadow-(--shadow-hud-footer) backdrop-blur-glass max-md:fixed max-md:right-(--layout-safe-area-right) max-md:bottom-(--layout-safe-area-bottom)">
+        <div className="flex gap-0.5 border-r border-r-(--border) pr-1.5" aria-label="Language">
           {(['pt', 'en'] as const).map((lang) => (
             <button
               key={lang}
@@ -155,7 +152,7 @@ export function HUD() {
           <Code2 size={16} />
           <ArrowUpRight size={12} />
         </a>
-      </div>
+      </footer>
     </>
   );
 }

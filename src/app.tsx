@@ -46,7 +46,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative h-dvh w-screen overflow-hidden">
       <div className="vignette" />
 
       <CustomCursor />
