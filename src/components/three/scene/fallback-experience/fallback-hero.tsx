@@ -14,16 +14,16 @@ export function FallbackHero({
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="inline-flex max-w-full items-center gap-2 rounded-[10px] border border-[rgba(223,181,59,0.18)] bg-[rgba(223,181,59,0.07)] px-3 py-1.5 font-mono-space text-[9px] font-semibold uppercase tracking-[0.18em] text-[rgba(255,214,122,0.9)] sm:text-[10px] sm:tracking-[0.22em]">
-        <Compass size={13} className="shrink-0 text-[#FFD67A]" />
+      <div className="inline-flex max-w-full items-center gap-2 rounded-control border border-(--accent-border) bg-(--accent-surface) px-3 py-1.5 font-mono-space text-micro font-semibold uppercase tracking-caps-lg text-(--fallback-accent-readable) sm:text-caption sm:tracking-caps-extended">
+        <Compass size={13} className="shrink-0 text-(--fallback-accent)" />
         <span className="min-w-0 wrap-break-word">{t('fallback_2d.kicker')}</span>
       </div>
 
-      <h1 className="mt-5 w-full max-w-none font-display text-[clamp(1.75rem,10.2vw,4rem)] leading-[0.96] font-black tracking-[-0.06em] text-[#FFF7E6] sm:max-w-[11ch] sm:text-[clamp(1.95rem,6vw,4rem)] sm:leading-[0.98] sm:tracking-[-0.055em]">
+      <h1 className="mt-5 w-full max-w-none font-display text-hero leading-hero font-black tracking-hero text-(--fallback-text-strong) sm:max-w-(--layout-hero-measure) sm:text-hero-wide sm:leading-hero-wide sm:tracking-hero-wide">
         {t('fallback_2d.title')}
       </h1>
 
-      <p className="mt-4 w-full max-w-none text-sm leading-7 text-[rgba(240,244,255,0.7)] sm:max-w-xl sm:text-base sm:leading-8 sm:pr-4">
+      <p className="mt-4 w-full max-w-none text-sm leading-7 text-(--fallback-text-secondary) sm:max-w-xl sm:text-base sm:leading-8 sm:pr-4">
         {t('fallback_2d.description')}
       </p>
 

@@ -2,8 +2,8 @@ import type { LucideIcon, ReactNode } from './types';
 
 export function InfoChip({ children, icon: Icon }: { children: ReactNode; icon: LucideIcon }) {
   return (
-    <span className="inline-flex min-h-10 max-w-full items-center gap-2 rounded-full border border-[rgba(223,181,59,0.12)] bg-[rgba(255,255,255,0.03)] px-3 py-1.5 text-sm leading-5 text-[rgba(240,244,255,0.78)]">
-      <Icon size={14} className="shrink-0 text-[#FFD67A]" />
+    <span className="inline-flex min-h-10 max-w-full items-center gap-2 rounded-full border border-(--accent-border-subtle) bg-(--surface-interactive) px-3 py-1.5 text-sm leading-5 text-(--fallback-text-readable)">
+      <Icon size={14} className="shrink-0 text-(--fallback-accent)" />
       <span className="min-w-0 truncate">{children}</span>
     </span>
   );
@@ -23,7 +23,7 @@ export function ActionButton({
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
-      className="cursor-pointer inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(223,181,59,0.22)] bg-[rgba(223,181,59,0.1)] px-4 text-sm font-semibold text-[#FFF1C7] transition hover:-translate-y-px hover:border-[rgba(223,181,59,0.38)] hover:bg-[rgba(223,181,59,0.16)] hover:shadow-[0_8px_24px_rgba(223,181,59,0.08)] focus-visible:-translate-y-px focus-visible:border-[rgba(223,181,59,0.42)] focus-visible:bg-[rgba(223,181,59,0.16)] focus-visible:shadow-[0_0_0_1px_rgba(223,181,59,0.18)] focus-visible:outline-none sm:w-auto"
+      className="cursor-pointer inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-(--accent-border) bg-(--accent-surface-hover) px-4 text-sm font-semibold text-(--fallback-text-bright) transition hover:-translate-y-px hover:border-(--accent-border-hover) hover:bg-(--accent-surface-strong) hover:shadow-(--shadow-action-lg) focus-visible:-translate-y-px focus-visible:border-(--accent-focus) focus-visible:bg-(--accent-surface-strong) focus-visible:shadow-(--shadow-focus-accent) focus-visible:outline-none sm:w-auto"
     >
       {children}
     </button>
@@ -41,7 +41,7 @@ export function SecondaryActionButton({
     <button
       type="button"
       onClick={onClick}
-      className="cursor-pointer inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(223,181,59,0.12)] bg-[rgba(255,255,255,0.03)] px-4 text-sm font-semibold text-[rgba(240,244,255,0.88)] transition hover:-translate-y-px hover:border-[rgba(223,181,59,0.24)] hover:bg-[rgba(223,181,59,0.05)] hover:text-[#FFF7E6] focus-visible:-translate-y-px focus-visible:border-[rgba(223,181,59,0.32)] focus-visible:bg-[rgba(223,181,59,0.05)] focus-visible:shadow-[0_0_0_1px_rgba(223,181,59,0.14)] focus-visible:outline-none sm:w-auto"
+      className="cursor-pointer inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-(--accent-border-subtle) bg-(--surface-interactive) px-4 text-sm font-semibold text-(--fallback-text-readable) transition hover:-translate-y-px hover:border-(--accent-border-strong) hover:bg-(--accent-surface-faint) hover:text-(--fallback-text-strong) focus-visible:-translate-y-px focus-visible:border-(--accent-border-hover) focus-visible:bg-(--accent-surface-faint) focus-visible:shadow-(--shadow-focus-panel) focus-visible:outline-none sm:w-auto"
     >
       {children}
     </button>
@@ -50,11 +50,11 @@ export function SecondaryActionButton({
 
 export function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[rgba(223,181,59,0.1)] bg-[rgba(255,255,255,0.03)] p-4 backdrop-blur-sm">
-      <div className="font-display text-3xl font-black tracking-[-0.05em] text-[#FFF7E6]">
+    <div className="rounded-xl border border-(--accent-border-subtle) bg-(--surface-interactive) p-4 backdrop-blur-sm">
+      <div className="font-display text-3xl font-black tracking-display-tight text-(--fallback-text-strong)">
         {value}
       </div>
-      <div className="mt-1 font-mono-space text-[10px] uppercase tracking-[0.18em] text-[rgba(255,214,122,0.48)]">
+      <div className="mt-1 font-mono-space text-caption uppercase tracking-caps-lg text-(--fallback-accent-muted)">
         {label}
       </div>
     </div>
