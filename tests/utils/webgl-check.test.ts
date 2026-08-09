@@ -32,6 +32,15 @@ describe('webgl-check', () => {
     expect(isWebGLAvailable()).toBe(false);
   });
 
+  it('returns false when WebGL exists but neither context can be created', () => {
+    vi.spyOn(document, 'createElement').mockReturnValue({
+      getContext: vi.fn(() => null),
+    } as unknown as HTMLCanvasElement);
+    vi.stubGlobal('WebGLRenderingContext', function W() {});
+
+    expect(isWebGLAvailable()).toBe(false);
+  });
+
   it('returns false when the created context is already lost', () => {
     const getContext = vi.fn(() => ({ isContextLost: () => true }));
     vi.spyOn(document, 'createElement').mockReturnValue({

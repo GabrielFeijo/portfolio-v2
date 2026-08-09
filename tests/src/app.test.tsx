@@ -176,4 +176,19 @@ describe('App', () => {
     fireEvent(document, secondEvent);
     expect(secondEvent.defaultPrevented).toBe(false);
   });
+
+  it('executes the lazy experience timeout safeguard', async () => {
+    vi.useFakeTimers();
+    vi.resetModules();
+
+    const { default: App } = await import('@/app');
+    render(<App />);
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+    await act(async () => vi.advanceTimersByTime(8_000));
+
+    vi.useRealTimers();
+  });
 });

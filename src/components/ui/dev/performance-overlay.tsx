@@ -54,8 +54,11 @@ function usePerformanceSample(enabled: boolean) {
   return sample;
 }
 
-export function PerformanceOverlay() {
-  const enabled = import.meta.env.DEV;
+interface PerformanceOverlayProps {
+  enabled?: boolean;
+}
+
+export function PerformanceOverlay({ enabled = import.meta.env.DEV }: PerformanceOverlayProps) {
   const [collapsed, setCollapsed] = useState(false);
   const {
     activePanel,

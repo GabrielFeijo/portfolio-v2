@@ -67,7 +67,10 @@ describe('FrameScheduler', () => {
     act(() => vi.advanceTimersByTime(100));
     expect(invalidate.mock.calls.length).toBeGreaterThan(1);
 
+    act(() => document.dispatchEvent(new Event('visibilitychange')));
+
     hidden = true;
+    act(() => document.dispatchEvent(new Event('visibilitychange')));
     act(() => document.dispatchEvent(new Event('visibilitychange')));
     const callsWhileHidden = invalidate.mock.calls.length;
     act(() => vi.advanceTimersByTime(100));

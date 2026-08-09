@@ -136,6 +136,92 @@ describe('space-store', () => {
     matchMedia.mockRestore();
   });
 
+  it('recommends quality presets for server, device, and media-query capabilities', () => {
+    const originalWindow = window;
+    vi.stubGlobal('window', undefined);
+    expect(getRecommendedExperiencePreset()).toBe('balanced');
+    vi.stubGlobal('window', originalWindow);
+
+    const matchMedia = vi.spyOn(window, 'matchMedia');
+    const hardwareConcurrency = vi.spyOn(navigator, 'hardwareConcurrency', 'get');
+    const originalDeviceMemory = Object.getOwnPropertyDescriptor(navigator, 'deviceMemory');
+    const setCapabilities = (coarse: boolean, cores: number, memory?: number) => {
+      matchMedia.mockImplementation(
+        (query) =>
+          ({
+            matches: query.includes('pointer: coarse') && coarse,
+            media: query,
+          }) as MediaQueryList
+      );
+      hardwareConcurrency.mockReturnValue(cores);
+      Object.defineProperty(navigator, 'deviceMemory', { configurable: true, value: memory });
+    };
+
+    setCapabilities(true, 8, 8);
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+    setCapabilities(false, 2, 8);
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+    setCapabilities(false, 8, 2);
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+    setCapabilities(false, 8, 8);
+    expect(getRecommendedExperiencePreset()).toBe('balanced');
+    setCapabilities(false, 0, undefined);
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+
+    if (originalDeviceMemory) {
+      Object.defineProperty(navigator, 'deviceMemory', originalDeviceMemory);
+    } else {
+      delete (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+    }
+  });
+
+  it('uses media-query fallbacks when matchMedia is unavailable', () => {
+    const originalMatchMedia = window.matchMedia;
+    Object.defineProperty(window, 'matchMedia', { configurable: true, value: undefined });
+
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+
+    Object.defineProperty(window, 'matchMedia', { configurable: true, value: originalMatchMedia });
+  });
+
+  it('skips URL writes when window is unavailable', () => {
+    const originalWindow = window;
+    vi.stubGlobal('window', undefined);
+
+    expect(() => useSpaceStore.getState().navigateToPanel('about')).not.toThrow();
+
+    vi.stubGlobal('window', originalWindow);
+  });
+
+  it('reads current persisted format and tolerates invalid storage', async () => {
+    window.localStorage.setItem(
+      'space-portfolio:experience:v1',
+      JSON.stringify({
+        state: { experienceSettings: { ...DEFAULT_EXPERIENCE_SETTINGS, dpr: 1.5 } },
+        version: 1,
+      })
+    );
+    await useSpaceStore.persist.rehydrate();
+    expect(useSpaceStore.getState().experienceSettings.dpr).toBe(1.5);
+
+    window.localStorage.setItem('space-portfolio:experience:v1', '{invalid');
+    await expect(useSpaceStore.persist.rehydrate()).resolves.toBeUndefined();
+  });
+
+  it('tolerates storage write and removal failures', async () => {
+    const setItem = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('quota exceeded');
+    });
+    expect(() => useSpaceStore.getState().setExperienceSetting('dpr', 1)).not.toThrow();
+    setItem.mockRestore();
+
+    const removeItem = vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new Error('storage unavailable');
+    });
+    expect(() => useSpaceStore.persist.clearStorage()).not.toThrow();
+    removeItem.mockRestore();
+  });
+
   it('syncs state from history without rewriting the URL', () => {
     window.history.replaceState(null, '', '/#experience');
     useSpaceStore.getState().setPanelFromLocation('experience');
