@@ -21,13 +21,21 @@ describe('FallbackExperience', () => {
     expect(screen.getByText('fallback_2d.title')).toBeInTheDocument();
     expect(screen.getByText('fallback_2d.core_label')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /fallback_2d.primary_cta/i })).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /planets.contact.name/i }).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('button', { name: /planets.projects.name/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('button', { name: /planets.contact.name/i }).length).toBeGreaterThan(
+      0
+    );
+    expect(
+      screen.getAllByRole('button', { name: /planets.projects.name/i }).length
+    ).toBeGreaterThan(0);
 
     await user.click(screen.getByRole('button', { name: /fallback_2d.primary_cta/i }));
+    await user.click(screen.getByRole('button', { name: /fallback_2d.secondary_cta/i }));
     await user.click(screen.getAllByRole('button', { name: /planets.contact.name/i })[0]);
+    await user.click(screen.getAllByRole('button', { name: /planets.skills.name/i })[0]);
 
     expect(navigateToPanel).toHaveBeenCalledWith('projects');
+    expect(navigateToPanel).toHaveBeenCalledWith('about');
     expect(navigateToPanel).toHaveBeenCalledWith('contact');
+    expect(navigateToPanel).toHaveBeenCalledWith('skills');
   });
 });

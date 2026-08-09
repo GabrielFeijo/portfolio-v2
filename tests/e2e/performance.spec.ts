@@ -36,7 +36,7 @@ test('keeps local paint and layout metrics inside the performance baseline', asy
   });
 
   await page.goto('/');
-  await expect(page.getByRole('navigation')).toBeVisible();
+  await expect(page.locator('canvas')).toBeVisible();
   await page.waitForTimeout(1_000);
 
   const metrics = await page.evaluate(() => {

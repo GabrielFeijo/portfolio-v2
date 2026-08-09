@@ -7,6 +7,7 @@ let mockStore = {
   closePanel: vi.fn(),
   navigateToPanel: vi.fn(),
   setCursorVariant: vi.fn(),
+  graphicsMode: 'webgl' as 'webgl' | '2d',
   experienceSettings: { transitionAnimations: true },
 };
 
@@ -57,6 +58,7 @@ describe('PlanetPanel', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockStore.activePanel = null;
+    mockStore.graphicsMode = 'webgl';
     mockStore.experienceSettings = { transitionAnimations: true };
   });
 
@@ -171,9 +173,32 @@ describe('PlanetPanel', () => {
   });
 
   it('renders with transitions disabled', async () => {
-    mockStore.activePanel = 'about';
+    mockStore.activePanel = 'skills';
     mockStore.experienceSettings = { transitionAnimations: false };
     render(<PlanetPanel />);
-    expect(await screen.findByTestId('about-panel')).toBeInTheDocument();
+    expect(await screen.findByTestId('skills-panel')).toBeInTheDocument();
+  });
+
+  it('uses the optimized composition profile only in 2D mode', async () => {
+    mockStore.activePanel = 'projects';
+    mockStore.graphicsMode = '2d';
+    const { container } = render(<PlanetPanel />);
+
+    const dialog = await screen.findByRole('dialog');
+    const overlay = container.firstChild as HTMLElement;
+    const backdrop = overlay.childNodes[0] as HTMLElement;
+    expect(overlay).toHaveClass('panel-overlay-2d');
+    expect(dialog).toHaveClass('panel-mode-2d');
+    expect(dialog).toHaveAttribute('data-graphics-mode', '2d');
+    expect(backdrop).toHaveClass('panel-backdrop');
+  });
+
+  it('preserves the standard composition profile in WebGL mode', async () => {
+    mockStore.activePanel = 'projects';
+    render(<PlanetPanel />);
+
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).not.toHaveClass('panel-mode-2d');
+    expect(dialog).toHaveAttribute('data-graphics-mode', 'webgl');
   });
 });
