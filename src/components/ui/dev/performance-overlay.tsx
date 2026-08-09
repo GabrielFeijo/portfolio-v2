@@ -121,18 +121,18 @@ export function PerformanceOverlay({ enabled = import.meta.env.DEV }: Performanc
 
   return (
     <aside
-      className="fixed right-3 bottom-3 z-[1200] w-56 rounded-xl border border-white/10 bg-black/78 px-3 py-2 font-mono text-[11px] leading-5 text-white shadow-[0_8px_18px_rgba(0,0,0,0.2)]"
+      className="fixed right-3 bottom-3 z-1200 w-56 rounded-xl border border-(--border) bg-(--overlay-backdrop) px-3 py-2 font-mono text-label leading-5 text-(--text-primary) shadow-(--shadow-performance)"
       data-testid="performance-overlay"
       aria-label="Development performance overlay"
     >
-      <div className="mb-1 flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300/90">
+      <div className="mb-1 flex items-center justify-between gap-2 text-caption font-semibold uppercase tracking-status text-(--accent-blue-bright)">
         <span>Dev Stats</span>
         <div className="flex items-center gap-2">
           <span>{(graphicsMode ?? 'unknown').toUpperCase()}</span>
           <button
             type="button"
             onClick={() => setCollapsed((value) => !value)}
-            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-white/10 text-white/80 transition-colors hover:bg-white/8 hover:text-white"
+            className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-(--border) text-(--text-secondary) transition-colors hover:bg-(--surface-interactive-strong) hover:text-(--text-primary)"
             aria-label={collapsed ? 'Expand development stats' : 'Collapse development stats'}
             aria-expanded={!collapsed}
           >
@@ -142,11 +142,11 @@ export function PerformanceOverlay({ enabled = import.meta.env.DEV }: Performanc
       </div>
 
       {!collapsed && (
-        <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5">
+        <dl className="grid grid-cols-(--layout-performance-columns) gap-x-2 gap-y-0.5">
           {summary.map(([label, value]) => (
             <Fragment key={label}>
-              <dt className="text-white/55 uppercase">{label}</dt>
-              <dd className="truncate text-white/95">{value}</dd>
+              <dt className="text-(--text-muted) uppercase">{label}</dt>
+              <dd className="truncate text-(--text-primary)">{value}</dd>
             </Fragment>
           ))}
         </dl>

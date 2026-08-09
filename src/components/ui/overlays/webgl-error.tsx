@@ -23,11 +23,11 @@ export function WebGLError({
   const isContextLost = variant === 'context_lost';
 
   return (
-    <div className="fixed inset-0 z-2000 flex h-screen w-screen items-center justify-center overflow-hidden bg-[#040611] p-5 text-[#F0F4FF] font-body-exo">
+    <div className="fixed inset-0 z-2000 flex h-screen w-screen items-center justify-center overflow-hidden bg-(--canvas-fallback) p-5 text-(--fallback-text) font-body-exo">
       <div className="scanlines" />
       <div className="vignette" />
       <div className="noise" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.18),transparent_28%),radial-gradient(circle_at_bottom,rgba(223,181,59,0.12),transparent_32%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,color-mix(in_srgb,var(--accent-gold)_18%,transparent),transparent_28%),radial-gradient(circle_at_bottom,var(--accent-surface-hover),transparent_32%)]" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -36,15 +36,15 @@ export function WebGLError({
       >
         <UISurface
           strong
-          className="flex max-h-[calc(100vh-2.5rem)] w-full max-w-160 flex-col overflow-hidden"
+          className="flex max-h-(--layout-webgl-max-height) w-full max-w-160 flex-col overflow-hidden"
         >
-          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[rgba(245,158,11,0.2)]" />
-          <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-[rgba(223,181,59,0.16)]" />
+          <div className="pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-(--accent-border)" />
+          <div className="pointer-events-none absolute -left-8 bottom-6 h-24 w-24 rounded-full border border-(--accent-surface-strong)" />
 
           <div className="relative overflow-y-auto px-6 py-7 sm:px-8 sm:py-8">
             <UIBadge
               tone="warm"
-              className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]"
+              className="mb-5 font-mono-space text-label uppercase tracking-caps-3xl"
             >
               <AlertTriangle size={14} />
               {isContextLost ? t('webgl.context_lost.badge') : t('webgl.unavailable.badge')}
@@ -58,10 +58,10 @@ export function WebGLError({
               />
 
               <div>
-                <h1 className="font-display text-[24px] font-extrabold uppercase tracking-[0.12em] text-[#FFF3E8] sm:text-[28px]">
+                <h1 className="font-display text-2xl font-extrabold uppercase tracking-caps-sm text-(--fallback-text-strong) sm:text-display-sm">
                   {isContextLost ? t('webgl.context_lost.title') : t('webgl.unavailable.title')}
                 </h1>
-                <p className="mt-3 max-w-[46ch] text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
+                <p className="mt-3 max-w-(--layout-reading-measure) text-sm leading-7 text-(--fallback-text-secondary) sm:text-body-md">
                   {isContextLost
                     ? t('webgl.context_lost.description')
                     : t('webgl.unavailable.description')}
@@ -70,12 +70,12 @@ export function WebGLError({
             </div>
 
             {isContextLost ? (
-              <UIInset className="mt-6 mb-6 border-[rgba(255,122,26,0.3)] bg-[rgba(255,60,0,0.08)] p-4 sm:p-5">
-                <div className="mb-2 flex items-center gap-2 font-mono-space text-[11.5px] font-semibold uppercase tracking-[0.24em] text-[#FF9066]">
+              <UIInset className="mt-6 mb-6 border-(--status-error-border) bg-(--status-error-surface) p-4 sm:p-5">
+                <div className="mb-2 flex items-center gap-2 font-mono-space text-label-lg font-semibold uppercase tracking-caps-2xl text-(--status-error-bright)">
                   <ShieldCheck size={14} />
                   {t('webgl.context_lost.required_action')}
                 </div>
-                <p className="text-sm font-medium leading-6 text-[#FFE4D6]">
+                <p className="text-sm font-medium leading-6 text-(--status-error-text)">
                   {t('webgl.context_lost.required_action_text')}{' '}
                   <strong>{t('webgl.context_lost.required_action_strong')}</strong>.{' '}
                   {t('webgl.context_lost.required_action_suffix')}
@@ -83,10 +83,10 @@ export function WebGLError({
               </UIInset>
             ) : (
               <UIInset className="mt-6 mb-6 p-4 sm:p-5">
-                <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.24em] text-[rgba(223,181,59,0.84)]">
+                <div className="mb-2 font-mono-space text-label uppercase tracking-caps-2xl text-(--accent-blue)">
                   {t('webgl.unavailable.whats_happening_title')}
                 </div>
-                <p className="text-sm leading-7 text-[rgba(240,244,255,0.66)]">
+                <p className="text-sm leading-7 text-(--fallback-text-muted)">
                   {t('webgl.unavailable.whats_happening_description')}
                 </p>
               </UIInset>
@@ -188,8 +188,8 @@ function FallbackTip({
   return (
     <UIInset className="p-4 text-left">
       <UIIconTile icon={Icon} tone="warm" className="mb-3" />
-      <div className="text-sm font-semibold text-[#F8FBFF]">{title}</div>
-      <p className="mt-2 text-xs leading-6 text-[rgba(240,244,255,0.6)]">{description}</p>
+      <div className="text-sm font-semibold text-(--fallback-text)">{title}</div>
+      <p className="mt-2 text-xs leading-6 text-(--fallback-text-muted)">{description}</p>
     </UIInset>
   );
 }

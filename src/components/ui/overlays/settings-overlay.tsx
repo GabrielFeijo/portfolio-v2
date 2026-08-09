@@ -106,7 +106,7 @@ export function SettingsOverlay() {
       className="fixed inset-0 z-260 flex items-center justify-center p-4 sm:p-8"
     >
       <div
-        className="absolute inset-0 bg-[rgba(2,4,12,0.78)] pointer-events-auto cursor-none"
+        className="absolute inset-0 bg-(--overlay-backdrop) pointer-events-auto cursor-none"
         onClick={closeSettings}
         onMouseEnter={() => setCursorVariant('default')}
         aria-hidden="true"
@@ -118,15 +118,15 @@ export function SettingsOverlay() {
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 20, opacity: 0, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-        className="relative max-h-[calc(100vh-2rem)] w-full max-w-5xl pointer-events-auto"
+        className="relative max-h-(--layout-overlay-max-height) w-full max-w-5xl pointer-events-auto"
         onClick={(event) => event.stopPropagation()}
       >
-        <UISurface strong className="max-h-[calc(100vh-2rem)] overflow-hidden">
+        <UISurface strong className="max-h-(--layout-overlay-max-height) overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.07] pointer-events-none"
+            className="absolute inset-0 opacity-7 pointer-events-none"
             style={{
               backgroundImage:
-                'linear-gradient(rgba(223,181,59,0.48) 1px, transparent 1px), linear-gradient(90deg, rgba(223,181,59,0.32) 1px, transparent 1px)',
+                'linear-gradient(color-mix(in srgb, var(--accent-blue) 48%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent-blue) 32%, transparent) 1px, transparent 1px)',
               backgroundSize: '28px 28px',
             }}
           />
@@ -141,20 +141,20 @@ export function SettingsOverlay() {
             <UIIconTile icon={X} />
           </button>
 
-          <div className="relative max-h-[calc(100vh-2rem)] overflow-y-auto px-5 py-6 sm:px-8 sm:py-8">
+          <div className="relative max-h-(--layout-overlay-max-height) overflow-y-auto px-5 py-6 sm:px-8 sm:py-8">
             <div className="mb-7 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
               <div>
-                <UIBadge className="mb-5 font-mono-space text-[11px] uppercase tracking-[0.28em]">
+                <UIBadge className="mb-5 font-mono-space text-label uppercase tracking-caps-3xl">
                   <Settings size={14} />
                   {t('settings.experience_controls')}
                 </UIBadge>
                 <h2
                   id="settings-overlay-title"
-                  className="font-display text-3xl font-black uppercase tracking-[0.08em] text-white sm:text-4xl"
+                  className="font-display text-3xl font-black uppercase tracking-heading text-(--text-primary) sm:text-4xl"
                 >
                   {t('settings.title')}
                 </h2>
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-[rgba(240,244,255,0.72)] sm:text-[15px]">
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-(--fallback-text-secondary) sm:text-body-md">
                   {t('settings.description')}
                 </p>
               </div>
@@ -168,19 +168,19 @@ export function SettingsOverlay() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => applyExperiencePreset(preset.id)}
                   {...linkCursor}
-                  className="ds-inset cursor-none p-4 text-left transition-colors hover:bg-[rgba(255,255,255,0.04)]"
+                  className="ds-inset cursor-none p-4 text-left transition-colors hover:bg-(--surface-interactive-hover)"
                 >
-                  <div className="font-display text-sm font-bold uppercase tracking-[0.08em] text-white">
+                  <div className="font-display text-sm font-bold uppercase tracking-heading text-(--text-primary)">
                     {preset.label}
                   </div>
-                  <p className="mt-2 text-xs leading-5 text-[rgba(240,244,255,0.62)]">
+                  <p className="mt-2 text-xs leading-5 text-(--fallback-text-muted)">
                     {preset.description}
                   </p>
                 </motion.button>
               ))}
             </div>
 
-            <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_1fr]">
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">
               <SettingsGroup icon={Zap} title={t('settings.groups.animations')}>
                 <ToggleControl
                   checked={settings.transitionAnimations}
@@ -249,20 +249,20 @@ export function SettingsOverlay() {
                   onChange={(value) => update('musicVolume', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
+                  <div className="mb-2 flex items-center gap-2 text-label font-mono-space uppercase tracking-caps-2xl text-(--accent-blue)">
                     <Volume2 size={14} />
                     {t('settings.ambient_orbital')}
                   </div>
-                  <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
+                  <p className="text-xs leading-5 text-(--fallback-text-muted)">
                     {t('settings.music_description')}
                   </p>
-                  <div className="mt-3 border-t border-[rgba(255,255,255,0.06)] pt-3 text-[10px] uppercase tracking-wider text-[rgba(240,244,255,0.45)]">
+                  <div className="mt-3 border-t border-(--border) pt-3 text-caption uppercase tracking-wider text-(--text-muted)">
                     {t('settings.music_credits', { author: 'Nikita Kondrashev' })}{' '}
                     <a
                       href="https://pixabay.com/users/leberch-42823964/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
+                      className="text-(--accent-blue) underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Nikita Kondrashev
@@ -272,7 +272,7 @@ export function SettingsOverlay() {
                       href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=509783"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[rgba(223,181,59,0.72)] underline-offset-4 hover:underline"
+                      className="text-(--accent-blue) underline-offset-4 hover:underline"
                       {...linkCursor}
                     >
                       Pixabay
@@ -317,11 +317,11 @@ export function SettingsOverlay() {
                   onChange={(value) => update('dpr', value)}
                 />
                 <UIInset className="p-4">
-                  <div className="mb-2 flex items-center gap-2 text-[11px] font-mono-space uppercase tracking-[0.24em] text-[rgba(223,181,59,0.82)]">
+                  <div className="mb-2 flex items-center gap-2 text-label font-mono-space uppercase tracking-caps-2xl text-(--accent-blue)">
                     <Gauge size={14} />
                     {t('settings.state_status')}
                   </div>
-                  <p className="text-xs leading-5 text-[rgba(240,244,255,0.66)]">
+                  <p className="text-xs leading-5 text-(--fallback-text-muted)">
                     {t('settings.state_description')}
                   </p>
                 </UIInset>
@@ -347,7 +347,7 @@ function SettingsGroup({
     <UIInset className="p-5 sm:p-6">
       <div className="mb-5 flex items-center gap-3">
         <UIIconTile icon={Icon} className="h-10 w-10" />
-        <div className="font-display text-lg font-bold uppercase tracking-[0.08em] text-white">
+        <div className="font-display text-lg font-bold uppercase tracking-heading text-(--text-primary)">
           {title}
         </div>
       </div>
@@ -362,7 +362,7 @@ function ToggleControl({ checked, disabled = false, label, onChange }: ToggleCon
     <div
       className={`flex min-h-12 cursor-none items-center justify-between gap-4 ds-inset px-4 py-3 ${disabled ? 'opacity-50' : ''}`}
     >
-      <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
+      <label htmlFor={id} className="text-sm text-(--fallback-text-readable)">
         {label}
       </label>
       <input
@@ -371,7 +371,7 @@ function ToggleControl({ checked, disabled = false, label, onChange }: ToggleCon
         checked={checked}
         disabled={disabled}
         onChange={(event) => onChange(event.target.checked)}
-        className="h-5 w-5 accent-[#dfb53b]"
+        className="h-5 w-5 accent-(--accent-blue)"
       />
     </div>
   );
@@ -384,10 +384,10 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
   return (
     <div className="ds-inset px-4 py-3">
       <div className="mb-3 flex items-center justify-between gap-4">
-        <label htmlFor={id} className="text-sm text-[rgba(240,244,255,0.78)]">
+        <label htmlFor={id} className="text-sm text-(--fallback-text-readable)">
           {label}
         </label>
-        <span className="font-mono-space text-xs text-[rgba(223,181,59,0.86)]">
+        <span className="font-mono-space text-xs text-(--accent-blue)">
           {displayValue}
           {suffix ?? ''}
         </span>
@@ -400,7 +400,7 @@ function RangeControl({ label, max, min, onChange, step, suffix, value }: RangeC
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="w-full accent-[#dfb53b]"
+        className="w-full accent-(--accent-blue)"
       />
     </div>
   );
