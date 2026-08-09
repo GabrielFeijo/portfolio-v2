@@ -27,6 +27,7 @@ let mockStoreState = {
   handlePlanetClick,
   setCursorVariant,
   experienceSettings: {
+    dpr: 1,
     planetRotation: true,
     orbitalParticles: true,
     starDensity: 1,
@@ -98,6 +99,7 @@ describe('Planet3D', () => {
       handlePlanetClick,
       setCursorVariant,
       experienceSettings: {
+        dpr: 1,
         planetRotation: true,
         orbitalParticles: true,
         starDensity: 1,
@@ -109,6 +111,14 @@ describe('Planet3D', () => {
     const planet = PLANETS[0];
     const renderer = await renderPlanet(planet);
     await advanceR3F(renderer, 5);
+    await renderer.unmount();
+  });
+
+  it('uses high-detail geometry when the configured DPR is high', async () => {
+    mockStoreState.experienceSettings.dpr = 1.6;
+    const renderer = await renderPlanet(PLANETS[0]);
+
+    await advanceR3F(renderer, 2);
     await renderer.unmount();
   });
 

@@ -33,7 +33,7 @@
     "stats": {
       "years": "Anos de experiência",
       "projects": "Projetos em destaque",
-      "stacks": "Tecnologias no ecossistema"
+      "stacks": "Tecnologias aplicadas"
     },
     "summary": [
       "Desde cedo, a curiosidade sobre como sites, sistemas e jogos funcionam foi o que me aproximou da programação. A partir de modificações em jogos e da vontade de entender o que acontecia por trás da interface, nasceu uma relação genuína com tecnologia.",
@@ -83,6 +83,51 @@
     }
   },
   "projects_items": {
+    "hookroute": {
+      "name": "HookRoute",
+      "description": "Plataforma para ingestão, auditoria e entrega assíncrona de webhooks, com implementações equivalentes em Java/Spring Boot e NestJS, worker isolado e console operacional em Next.js.",
+      "highlights": [
+        "Ingestão assíncrona com transactional outbox, filas e worker dedicado",
+        "Retries exponenciais, idempotência, DLQ, replay e circuit breaker",
+        "Segurança HMAC, observabilidade e suíte de testes com mutação"
+      ]
+    },
+    "space_portfolio_v2": {
+      "name": "Space Portfolio V2",
+      "description": "Portfólio imersivo em formato de universo espacial, combinando uma cena 3D em tempo real, navegação por planetas, design system próprio e conteúdo profissional bilíngue.",
+      "highlights": [
+        "Universo 3D navegável com planetas, câmera orbital e shaders customizados",
+        "Fallback acessível para dispositivos sem WebGL e presets de performance",
+        "Testes unitários, E2E, orçamento de bundle e internacionalização PT/EN"
+      ]
+    },
+    "mta_analytics": {
+      "name": "MTA Analytics",
+      "description": "Plataforma full stack de telemetria para servidores MTA, capaz de coletar eventos de jogadores, economia e combate e transformá-los em análises operacionais em tempo real.",
+      "highlights": [
+        "Coleta de telemetria em Lua integrada a uma API REST e WebSocket",
+        "Processamento assíncrono de eventos com BullMQ e Redis",
+        "Dashboard multi-servidor com análises econômicas e heatmaps 3D"
+      ]
+    },
+    "ping_on_place": {
+      "name": "PingOnPlace",
+      "description": "Aplicativo mobile de lembretes contextuais que monitora regiões geográficas em segundo plano e avisa o usuário quando ele chega ou sai de um local configurado.",
+      "highlights": [
+        "Geofencing nativo em segundo plano para lembretes por localização",
+        "Notificações locais, feedback háptico e mapas interativos",
+        "Funcionamento offline com persistência local e sem dependência de backend"
+      ]
+    },
+    "code_collab": {
+      "name": "Code Collab",
+      "description": "Ambiente colaborativo de programação com editor profissional no navegador, sincronização instantânea entre participantes e persistência de projetos e salas.",
+      "highlights": [
+        "Edição colaborativa de código em tempo real com Monaco Editor e Socket.IO",
+        "Salas persistentes, presença de participantes e suporte a múltiplas linguagens",
+        "Autenticação OAuth e persistência relacional com Prisma e PostgreSQL"
+      ]
+    },
     "arsenal_academy": {
       "name": "Arsenal Academy",
       "description": "Plataforma de educação empreendedora voltada para universitários, com diagnóstico personalizado, trilhas em microlearning e acompanhamento da evolução de cada usuário.",
@@ -101,33 +146,59 @@
         "Suporte a PT/EN e tema claro/escuro"
       ]
     },
+    "recife_radars": {
+      "name": "Radares Recife",
+      "description": "Mapa interativo construído com dados públicos da Prefeitura do Recife e da CTTU para consulta de radares e equipamentos de fiscalização viária.",
+      "highlights": [
+        "Integração de dados públicos com visualização geoespacial",
+        "Mapa responsivo com busca e navegação por pontos de interesse",
+        "Produto cívico publicado e acessível pela web"
+      ]
+    },
     "arsenal_innovation_lp": {
       "name": "Arsenal Inovação LP",
-      "description": "Landing page institucional para startup do Porto Digital com foco em empreendedorismo e inovação na era digital."
+      "description": "Landing page institucional desenvolvida para uma startup do Porto Digital, apresentando sua proposta de valor em empreendedorismo e inovação digital.",
+      "highlights": [
+        "Interface responsiva construída com Next.js, TypeScript e Tailwind CSS",
+        "Animações e transições de conteúdo com Framer Motion",
+        "Entrega contínua e publicação da experiência na Vercel"
+      ]
     },
     "scoordena": {
       "name": "SCoordena",
-      "description": "Gerenciador de eventos criado como projeto final do curso de backend, com foco em organização, acompanhamento e experiência intuitiva para administradores e participantes."
-    },
-    "recife_radars": {
-      "name": "Radares Recife",
-      "description": "Mapa interativo construído com dados públicos da Prefeitura do Recife para consulta de radares e câmeras de trânsito em uma interface clara e navegável."
-    },
-    "fsw_foods": {
-      "name": "FSW Foods",
-      "description": "Aplicação inspirada no iFood desenvolvida durante a Full Stack Week, unindo fluxo de pedidos, boa experiência de navegação e integração full stack."
+      "description": "Plataforma full stack para criação, organização e acompanhamento de eventos, desenvolvida como projeto de conclusão da formação avançada em backend.",
+      "highlights": [
+        "Fluxos de criação e gerenciamento de eventos para organizadores",
+        "Persistência relacional com Prisma e PostgreSQL",
+        "Interface responsiva em Next.js com publicação na Vercel"
+      ]
     },
     "react_native_99pets": {
       "name": "React Native 99Pets",
-      "description": "Aplicativo mobile para tutores de pets, conectando serviços, pet shops e logística de transporte em uma experiência simples para o usuário final."
+      "description": "Aplicativo mobile para tutores de animais, conectando serviços, pet shops e opções de transporte em uma experiência centralizada.",
+      "highlights": [
+        "Aplicação multiplataforma desenvolvida com React Native e Expo",
+        "Gerenciamento previsível do estado da aplicação com Redux",
+        "Integração com API Node.js, Express e persistência em MongoDB"
+      ]
     },
     "arsenal_project_v1": {
       "name": "Projeto Arsenal V1",
-      "description": "Primeira versão da solução da Arsenal, focada no diagnóstico automatizado do momento empreendedor e sugestão de jornada de aprendizado."
+      "description": "Primeiro MVP da solução Arsenal, criado para diagnosticar o momento empreendedor do usuário e recomendar uma jornada de aprendizagem adequada.",
+      "highlights": [
+        "Backend desenvolvido em Java e Spring com persistência MySQL",
+        "Questionário para diagnóstico automatizado do perfil empreendedor",
+        "Recomendação de jornadas de aprendizagem a partir das respostas"
+      ]
     },
     "react_todo": {
       "name": "React ToDo",
-      "description": "Gerenciador de tarefas simples e direto, criado para praticar fluxo CRUD, organização de estado e integração entre frontend e backend."
+      "description": "Gerenciador de tarefas full stack criado para consolidar operações CRUD, organização de estado e integração entre frontend e API.",
+      "highlights": [
+        "Criação, atualização, conclusão e remoção de tarefas",
+        "Frontend React com navegação estruturada pelo React Router",
+        "API em Express e Node.js integrada ao MongoDB"
+      ]
     }
   },
   "experience_items": {
@@ -218,15 +289,15 @@
       "description": "Formação concluída em Análise e Desenvolvimento de Sistemas pela Faculdade Senac com passagem pelo programa Embarque Digital.",
       "category": "Formação"
     },
-    "cloud_platform_experience": {
-      "title": "Experiência com Cloud e Plataforma",
-      "description": "Vivência prática com AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observabilidade e pipelines.",
-      "category": "Tecnologia"
+    "resilient_architecture": {
+      "title": "Arquiteturas Resilientes",
+      "description": "Soluções orientadas a eventos com filas, transactional outbox, idempotência, retries, DLQ, replay, circuit breaker e observabilidade.",
+      "category": "Engenharia"
     },
-    "web_mobile_performance": {
-      "title": "Atuação em Web e Mobile",
-      "description": "Projetos em React, Next.js e React Native, cobrindo diferentes tipos de produto e contexto de entrega.",
-      "category": "Stack"
+    "software_quality": {
+      "title": "Qualidade de Software",
+      "description": "Experiência com testes unitários, integração, componentes e E2E, incluindo testes de mutação e automação em pipelines de CI/CD.",
+      "category": "Engenharia"
     }
   },
   "certificates_items": {
@@ -238,29 +309,9 @@
       "name": "Aperfeiçoamento em Desenvolvimento Back-end",
       "description": "Curso voltado para práticas server-side e construção de aplicações robustas e escaláveis."
     },
-    "beginner_programming": {
-      "name": "Iniciante em Programação",
-      "description": "Formação inicial com fundamentos de programação e raciocínio lógico."
-    },
     "decola_tech_2nd_edition": {
       "name": "Decola Tech 2a Edicao",
       "description": "Bootcamp com foco em desenvolvimento de software e práticas do mercado."
-    },
-    "programming_logic_fundamentals": {
-      "name": "Fundamentos de Logica de Programacao",
-      "description": "Base conceitual para estruturas de decisão, repetição e resolução de problemas."
-    },
-    "html_css": {
-      "name": "HTML e CSS",
-      "description": "Fundamentos de desenvolvimento web com estrutura e estilização de interfaces."
-    },
-    "introduction_javascript": {
-      "name": "Introducao ao JavaScript",
-      "description": "Primeiros passos com JavaScript para páginas mais dinâmicas e interativas."
-    },
-    "java_programming_language": {
-      "name": "Linguagem de Programacao Java",
-      "description": "Fundamentos da linguagem Java como base para aplicações e sistemas."
     }
   },
   "contact": {
@@ -298,10 +349,13 @@
     }
   },
   "skill_groups": {
-    "general": "Habilidades gerais",
-    "ui": "Bibliotecas e UI",
-    "db": "Banco de dados e ORM",
-    "cloud": "Cloud, ferramentas e processos"
+    "languages": "Linguagens e fundamentos",
+    "frontend_ui": "Frontend, estado e UI",
+    "backend_integrations": "Backend e integrações",
+    "data_persistence": "Dados e persistência",
+    "architecture_quality": "Arquitetura e qualidade",
+    "platform_cloud": "Cloud, plataforma e observabilidade",
+    "immersive_mobile": "Web imersiva e mobile"
   },
   "settings": {
     "title": "Configurações globais",
@@ -368,7 +422,8 @@
     ]
   },
   "app": {
-    "canvas_aria": "Universo 3D interativo - portfólio de Gabriel Feijó"
+    "canvas_aria": "Universo 3D interativo - portfólio de Gabriel Feijó",
+    "document_title": "Gabriel Feijó — Desenvolvedor Full Stack"
   },
   "planet_panel": {
     "close_aria": "Fechar painel",
@@ -402,53 +457,94 @@
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "devops_platform": "DevOps e Plataforma"
+      "devops_platform": "DevOps, plataforma e qualidade"
     },
     "group_items": {
-      "general": [
-        "Trabalho em equipe",
-        "Autonomia e proatividade",
-        "Aprendizagem contínua",
-        "Comunicação",
-        "Desenvolvimento Web",
-        "Desenvolvimento Mobile"
+      "languages": [
+        "TypeScript",
+        "JavaScript",
+        "Java",
+        "SQL",
+        "Lua",
+        "HTML5",
+        "CSS3"
       ],
-      "ui": [
+      "frontend_ui": [
+        "React",
+        "Next.js",
+        "Vite",
+        "Tailwind CSS",
         "Shadcn/UI",
         "Material UI",
-        "Next UI",
-        "Bootstrap",
-        "Ant Design",
-        "Figma"
+        "Framer Motion",
+        "TanStack Query",
+        "React Hook Form",
+        "Zod",
+        "Zustand"
       ],
-      "db": [
+      "backend_integrations": [
+        "Node.js",
+        "NestJS",
+        "Spring Boot",
+        "Express",
+        "Fastify",
+        "REST / OpenAPI",
+        "WebSocket / Socket.IO",
+        "BullMQ",
+        "HMAC / JWT"
+      ],
+      "data_persistence": [
         "PostgreSQL",
         "MySQL",
         "MongoDB",
         "SQLite",
+        "Redis",
         "Prisma",
         "Sequelize",
-        "TypeORM"
+        "TypeORM",
+        "Mongoose",
+        "Flyway"
       ],
-      "cloud": [
-        "AWS EC2",
-        "AWS RDS",
-        "AWS S3",
-        "AWS Lambda",
+      "architecture_quality": [
+        "Microfrontends",
+        "Module Federation",
+        "Arquitetura orientada a eventos",
+        "Transactional Outbox",
+        "Filas e Workers",
+        "DLQ e Replay",
+        "Jest",
+        "Vitest",
+        "Playwright",
+        "Cypress",
+        "Stryker",
+        "ESLint / Biome"
+      ],
+      "platform_cloud": [
+        "Docker / Compose",
+        "AWS EC2 / RDS / S3 / Lambda",
         "CloudFront",
+        "Kubernetes",
+        "Rancher",
         "Oracle Functions",
-        "Git e GitHub",
-        "Jira",
-        "Trello",
-        "Scrum"
+        "Azure DevOps",
+        "Prometheus",
+        "Grafana / Datadog",
+        "Nginx",
+        "Vercel",
+        "Git e GitHub"
+      ],
+      "immersive_mobile": [
+        "React Native",
+        "Expo",
+        "NativeWind",
+        "Geofencing",
+        "Three.js",
+        "React Three Fiber",
+        "WebGL / GLSL",
+        "FFmpeg.wasm / WebAssembly",
+        "Canvas API",
+        "Leaflet / Google Maps"
       ]
-    },
-    "levels": {
-      "expert": "Especialista",
-      "advanced": "Avançado",
-      "proficient": "Proficiente",
-      "intermediate": "Intermediário",
-      "evolving": "Em evolução"
     }
   },
   "projects": {
@@ -463,9 +559,9 @@
   },
   "experience": {
     "types": {
-      "clt": "CLT",
-      "pj": "PJ",
-      "bolsista": "Bolsista"
+      "full_time": "CLT",
+      "contract": "PJ",
+      "scholarship": "Bolsista"
     }
   },
   "help": {
@@ -583,8 +679,6 @@
     "primary_cta": "Abrir projetos",
     "secondary_cta": "Conhecer o perfil",
     "core_label": "Mapa de navegação",
-    "bottom_hint": "Escolha uma rota para abrir um painel",
-    "bottom_hint_secondary": "Cada seção mantém o conteúdo completo e interativo do portfólio",
     "metrics": {
       "years": "Anos de experiência",
       "projects": "Projetos em destaque",

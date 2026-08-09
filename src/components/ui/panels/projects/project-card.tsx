@@ -1,14 +1,10 @@
 import type { Project } from '@/data/portfolio';
+import { getTranslatedArray } from '@/utils/i18n';
 import type { CursorVariant } from '@/types/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Code, ExternalLink } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import {
-  PanelBulletList,
-  PanelImageFrame,
-  PanelInsetCard,
-  PanelTagList,
-} from '../panel-content-primitives';
+import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives';
 import { createCursorHandlers } from '../panel-primitives';
 import { ProjectLink } from './project-link';
 
@@ -28,10 +24,10 @@ export function ProjectCard({
   transition,
 }: ProjectCardProps) {
   const { t } = useTranslation();
-  const categoryLabel = t(
-    `projects.filters.${project.category.toLowerCase().replace(/\s+/g, '_')}`,
-    { defaultValue: project.category }
-  );
+  const categoryLabel = t(`projects.filters.${project.category}`);
+  const projectName = t(`projects_items.${project.id}.name`);
+  const projectDescription = t(`projects_items.${project.id}.description`);
+  const highlights = getTranslatedArray<string>(t, `projects_items.${project.id}.highlights`);
 
   return (
     <motion.article
@@ -51,9 +47,7 @@ export function ProjectCard({
 
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
-          <h3 className="text-base font-semibold text-(--text-primary)">
-            {t(`projects_items.${project.id}.name`, { defaultValue: project.name ?? '' })}
-          </h3>
+          <h3 className="text-base font-semibold text-(--text-primary)">{projectName}</h3>
           <div className="mt-1 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
             {project.year} • {categoryLabel}
           </div>
@@ -61,12 +55,8 @@ export function ProjectCard({
       </div>
 
       <p className="mb-4 line-clamp-4 text-sm leading-7 text-(--text-secondary)">
-        {t(`projects_items.${project.id}.description`, { defaultValue: project.description ?? '' })}
+        {projectDescription}
       </p>
-
-      {project.image && (
-        <PanelImageFrame src={project.image} alt={project.name ?? ''} className="mb-4" />
-      )}
 
       <PanelTagList items={project.tech} limit={5} className="mb-4 gap-1.5" />
 
@@ -79,18 +69,12 @@ export function ProjectCard({
             className="pt-4"
             style={{ borderTop: '1px solid var(--panel-border)' }}
           >
-            {project.highlights && project.highlights.length > 0 && (
+            {highlights.length > 0 && (
               <PanelInsetCard className="mb-4">
                 <div className="mb-3 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
                   {t('common.highlights')}
                 </div>
-                <PanelBulletList
-                  items={
-                    (t(`projects_items.${project.id}.highlights`, {
-                      returnObjects: true,
-                    }) as string[]) || project.highlights
-                  }
-                />
+                <PanelBulletList items={highlights} />
               </PanelInsetCard>
             )}
 

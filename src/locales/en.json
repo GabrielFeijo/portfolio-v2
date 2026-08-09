@@ -33,7 +33,7 @@
     "stats": {
       "years": "Years of experience",
       "projects": "Featured projects",
-      "stacks": "Technologies in the ecosystem"
+      "stacks": "Applied technologies"
     },
     "summary": [
       "From an early age, curiosity about how websites, systems, and games work brought me closer to programming. Starting from game modifications and the desire to understand what happened behind the interface, a genuine relationship with technology was born.",
@@ -83,6 +83,51 @@
     }
   },
   "projects_items": {
+    "hookroute": {
+      "name": "HookRoute",
+      "description": "A platform for asynchronous webhook ingestion, auditing, and delivery, with equivalent Java/Spring Boot and NestJS implementations, an isolated worker, and an operational Next.js console.",
+      "highlights": [
+        "Asynchronous ingestion with transactional outbox, queues, and a dedicated worker",
+        "Exponential retries, idempotency, DLQ, replay, and circuit breaker",
+        "HMAC security, observability, and a mutation-tested test suite"
+      ]
+    },
+    "space_portfolio_v2": {
+      "name": "Space Portfolio V2",
+      "description": "An immersive portfolio presented as a spatial universe, combining a real-time 3D scene, planet-based navigation, a custom design system, and bilingual professional content.",
+      "highlights": [
+        "Navigable 3D universe with planets, orbital camera, and custom shaders",
+        "Accessible fallback for devices without WebGL and performance presets",
+        "Unit and E2E tests, bundle budget, and PT/EN internationalization"
+      ]
+    },
+    "mta_analytics": {
+      "name": "MTA Analytics",
+      "description": "A full-stack telemetry platform for MTA servers that collects player, economy, and combat events and turns them into real-time operational insights.",
+      "highlights": [
+        "Lua telemetry collector integrated with a REST API and WebSocket",
+        "Asynchronous event processing with BullMQ and Redis",
+        "Multi-server dashboard with economic analytics and 3D heatmaps"
+      ]
+    },
+    "ping_on_place": {
+      "name": "PingOnPlace",
+      "description": "A mobile contextual reminder app that monitors geographic regions in the background and notifies users when they enter or leave a configured location.",
+      "highlights": [
+        "Native background geofencing for location-based reminders",
+        "Local notifications, haptic feedback, and interactive maps",
+        "Offline operation with local persistence and no backend dependency"
+      ]
+    },
+    "code_collab": {
+      "name": "Code Collab",
+      "description": "A collaborative coding environment with a professional browser editor, instant synchronization between participants, and persistent projects and rooms.",
+      "highlights": [
+        "Real-time collaborative editing with Monaco Editor and Socket.IO",
+        "Persistent rooms, participant presence, and multiple language support",
+        "OAuth authentication and relational persistence with Prisma and PostgreSQL"
+      ]
+    },
     "arsenal_academy": {
       "name": "Arsenal Academy",
       "description": "Entrepreneurial education platform for university students, with personalized diagnosis, microlearning tracks, and progress tracking for each user.",
@@ -101,33 +146,59 @@
         "Support for PT/EN and light/dark themes"
       ]
     },
+    "recife_radars": {
+      "name": "Radares Recife",
+      "description": "An interactive map built with public data from Recife City Hall and CTTU for consulting speed cameras and road enforcement equipment.",
+      "highlights": [
+        "Public data integration with geospatial visualization",
+        "Responsive map with search and point-of-interest navigation",
+        "Published civic product accessible on the web"
+      ]
+    },
     "arsenal_innovation_lp": {
       "name": "Arsenal Inovação LP",
-      "description": "Institutional landing page for a Porto Digital startup focused on entrepreneurship and innovation in the digital age."
+      "description": "An institutional landing page developed for a Porto Digital startup, presenting its value proposition in entrepreneurship and digital innovation.",
+      "highlights": [
+        "Responsive interface built with Next.js, TypeScript, and Tailwind CSS",
+        "Content animations and transitions with Framer Motion",
+        "Continuous delivery and experience publishing on Vercel"
+      ]
     },
     "scoordena": {
       "name": "SCoordena",
-      "description": "Event manager created as a final project for the backend course, focused on organization, tracking, and intuitive experience for administrators and participants."
-    },
-    "recife_radars": {
-      "name": "Radares Recife",
-      "description": "Interactive map built with public data from the Recife City Hall to consult radars and traffic cameras in a clear and navigable interface."
-    },
-    "fsw_foods": {
-      "name": "FSW Foods",
-      "description": "iFood-inspired application developed during Full Stack Week, joining order flow, good navigation experience, and full stack integration."
+      "description": "A full stack platform for creating, organizing, and tracking events, developed as the final project for an advanced backend program.",
+      "highlights": [
+        "Event creation and management flows for organizers",
+        "Relational persistence with Prisma and PostgreSQL",
+        "Responsive Next.js interface deployed on Vercel"
+      ]
     },
     "react_native_99pets": {
       "name": "React Native 99Pets",
-      "description": "Mobile application for pet owners, connecting services, pet shops, and transportation logistics in a simple experience for the end user."
+      "description": "A mobile application for pet owners, connecting services, pet shops, and transportation options in a centralized experience.",
+      "highlights": [
+        "Cross-platform application developed with React Native and Expo",
+        "Predictable application state management with Redux",
+        "Integration with a Node.js and Express API backed by MongoDB"
+      ]
     },
     "arsenal_project_v1": {
-      "name": "Projeto Arsenal V1",
-      "description": "First version of the Arsenal solution, focused on automated diagnosis of the entrepreneurial moment and learning journey suggestion."
+      "name": "Arsenal Project V1",
+      "description": "The first MVP of the Arsenal solution, created to assess each user's entrepreneurial stage and recommend a suitable learning journey.",
+      "highlights": [
+        "Backend developed with Java and Spring using MySQL persistence",
+        "Questionnaire for automated entrepreneurial profile assessment",
+        "Learning journey recommendations derived from user responses"
+      ]
     },
     "react_todo": {
       "name": "React ToDo",
-      "description": "Simple and straightforward task manager, created to practice CRUD flow, state organization, and integration between frontend and backend."
+      "description": "A full stack task manager created to consolidate CRUD operations, state organization, and integration between the frontend and API.",
+      "highlights": [
+        "Task creation, updates, completion, and removal",
+        "React frontend with navigation structured by React Router",
+        "Express and Node.js API integrated with MongoDB"
+      ]
     }
   },
   "experience_items": {
@@ -218,15 +289,15 @@
       "description": "Degree completed in Systems Analysis and Development from Faculdade Senac with a stint in the Embarque Digital program.",
       "category": "Education"
     },
-    "cloud_platform_experience": {
-      "title": "Cloud and Platform Experience",
-      "description": "Practical experience with AWS, Oracle Functions, CloudFront, Kubernetes, Rancher, observability, and pipelines.",
-      "category": "Technology"
+    "resilient_architecture": {
+      "title": "Resilient Architectures",
+      "description": "Event-driven solutions with queues, transactional outbox, idempotency, retries, DLQ, replay, circuit breakers, and observability.",
+      "category": "Engineering"
     },
-    "web_mobile_performance": {
-      "title": "Web and Mobile Performance",
-      "description": "Projects in React, Next.js, and React Native, covering different types of products and delivery contexts.",
-      "category": "Stack"
+    "software_quality": {
+      "title": "Software Quality",
+      "description": "Experience with unit, integration, component, and E2E testing, including mutation testing and CI/CD pipeline automation.",
+      "category": "Engineering"
     }
   },
   "certificates_items": {
@@ -238,29 +309,9 @@
       "name": "Advanced Back-end Development",
       "description": "Course focused on server-side practices and building robust and scalable applications."
     },
-    "beginner_programming": {
-      "name": "Beginner in Programming",
-      "description": "Initial training with programming fundamentals and logical reasoning."
-    },
     "decola_tech_2nd_edition": {
       "name": "Decola Tech 2nd Edition",
       "description": "Bootcamp with a focus on software development and market practices."
-    },
-    "programming_logic_fundamentals": {
-      "name": "Fundamentals of Programming Logic",
-      "description": "Conceptual base for decision structures, repetition, and problem solving."
-    },
-    "html_css": {
-      "name": "HTML and CSS",
-      "description": "Web development fundamentals with interface structure and styling."
-    },
-    "introduction_javascript": {
-      "name": "Introduction to JavaScript",
-      "description": "First steps with JavaScript for more dynamic and interactive pages."
-    },
-    "java_programming_language": {
-      "name": "Java Programming Language",
-      "description": "Fundamentals of the Java language as a base for applications and systems."
     }
   },
   "contact": {
@@ -298,10 +349,13 @@
     }
   },
   "skill_groups": {
-    "general": "General skills",
-    "ui": "Libraries and UI",
-    "db": "Databases and ORM",
-    "cloud": "Cloud, tools, and processes"
+    "languages": "Languages and foundations",
+    "frontend_ui": "Frontend, state, and UI",
+    "backend_integrations": "Backend and integrations",
+    "data_persistence": "Data and persistence",
+    "architecture_quality": "Architecture and quality",
+    "platform_cloud": "Cloud, platform, and observability",
+    "immersive_mobile": "Immersive web and mobile"
   },
   "settings": {
     "title": "Global Settings",
@@ -368,7 +422,8 @@
     ]
   },
   "app": {
-    "canvas_aria": "Interactive 3D universe - Gabriel Feijó portfolio"
+    "canvas_aria": "Interactive 3D universe - Gabriel Feijó portfolio",
+    "document_title": "Gabriel Feijó — Full Stack Developer"
   },
   "planet_panel": {
     "close_aria": "Close panel",
@@ -402,53 +457,94 @@
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
-      "devops_platform": "DevOps and Platform"
+      "devops_platform": "DevOps, platform, and quality"
     },
     "group_items": {
-      "general": [
-        "Teamwork",
-        "Autonomy and proactivity",
-        "Continuous learning",
-        "Communication",
-        "Web Development",
-        "Mobile Development"
+      "languages": [
+        "TypeScript",
+        "JavaScript",
+        "Java",
+        "SQL",
+        "Lua",
+        "HTML5",
+        "CSS3"
       ],
-      "ui": [
+      "frontend_ui": [
+        "React",
+        "Next.js",
+        "Vite",
+        "Tailwind CSS",
         "Shadcn/UI",
         "Material UI",
-        "Next UI",
-        "Bootstrap",
-        "Ant Design",
-        "Figma"
+        "Framer Motion",
+        "TanStack Query",
+        "React Hook Form",
+        "Zod",
+        "Zustand"
       ],
-      "db": [
+      "backend_integrations": [
+        "Node.js",
+        "NestJS",
+        "Spring Boot",
+        "Express",
+        "Fastify",
+        "REST / OpenAPI",
+        "WebSocket / Socket.IO",
+        "BullMQ",
+        "HMAC / JWT"
+      ],
+      "data_persistence": [
         "PostgreSQL",
         "MySQL",
         "MongoDB",
         "SQLite",
+        "Redis",
         "Prisma",
         "Sequelize",
-        "TypeORM"
+        "TypeORM",
+        "Mongoose",
+        "Flyway"
       ],
-      "cloud": [
-        "AWS EC2",
-        "AWS RDS",
-        "AWS S3",
-        "AWS Lambda",
+      "architecture_quality": [
+        "Microfrontends",
+        "Module Federation",
+        "Event-driven architecture",
+        "Transactional Outbox",
+        "Queues and Workers",
+        "DLQ and Replay",
+        "Jest",
+        "Vitest",
+        "Playwright",
+        "Cypress",
+        "Stryker",
+        "ESLint / Biome"
+      ],
+      "platform_cloud": [
+        "Docker / Compose",
+        "AWS EC2 / RDS / S3 / Lambda",
         "CloudFront",
+        "Kubernetes",
+        "Rancher",
         "Oracle Functions",
-        "Git and GitHub",
-        "Jira",
-        "Trello",
-        "Scrum"
+        "Azure DevOps",
+        "Prometheus",
+        "Grafana / Datadog",
+        "Nginx",
+        "Vercel",
+        "Git and GitHub"
+      ],
+      "immersive_mobile": [
+        "React Native",
+        "Expo",
+        "NativeWind",
+        "Geofencing",
+        "Three.js",
+        "React Three Fiber",
+        "WebGL / GLSL",
+        "FFmpeg.wasm / WebAssembly",
+        "Canvas API",
+        "Leaflet / Google Maps"
       ]
-    },
-    "levels": {
-      "expert": "Expert",
-      "advanced": "Advanced",
-      "proficient": "Proficient",
-      "intermediate": "Intermediate",
-      "evolving": "Evolving"
     }
   },
   "projects": {
@@ -463,9 +559,9 @@
   },
   "experience": {
     "types": {
-      "clt": "Full-time",
-      "pj": "Contract",
-      "bolsista": "Scholarship"
+      "full_time": "Full-time",
+      "contract": "Contract",
+      "scholarship": "Scholarship"
     }
   },
   "help": {
@@ -583,8 +679,6 @@
     "primary_cta": "Open projects",
     "secondary_cta": "Explore profile",
     "core_label": "Navigation map",
-    "bottom_hint": "Choose a route to open a panel",
-    "bottom_hint_secondary": "Each section keeps the portfolio's full and interactive content",
     "metrics": {
       "years": "Years of experience",
       "projects": "Featured projects",

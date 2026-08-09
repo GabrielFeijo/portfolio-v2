@@ -59,25 +59,20 @@ describe('panel data fallback branches', () => {
     expect(screen.getByText('projects.filters.all')).toBeInTheDocument();
   });
 
-  it('uses the general skill group key when group index is out of range', async () => {
+  it('uses stable locale-neutral ids for complementary skill groups', async () => {
     vi.doMock('@/data/portfolio', () => ({
       SKILLS: {
         frontend: [],
         backend: [],
         devops: [],
       },
-      SKILL_GROUPS: [
-        { title: 'One', items: ['A'] },
-        { title: 'Two', items: ['B'] },
-        { title: 'Three', items: ['C'] },
-        { title: 'Four', items: ['D'] },
-        { title: 'Five', items: ['E'] },
-      ],
+      SKILL_GROUPS: [{ id: 'languages' }, { id: 'platform_cloud' }],
     }));
 
     const { SkillsPanel } = await import('@/components/ui/panels/skills-panel');
     render(<SkillsPanel />);
 
-    expect(screen.getByText('E')).toBeInTheDocument();
+    expect(screen.getByText('skill_groups.languages')).toBeInTheDocument();
+    expect(screen.getByText('skill_groups.platform_cloud')).toBeInTheDocument();
   });
 });

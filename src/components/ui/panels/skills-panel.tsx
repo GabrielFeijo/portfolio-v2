@@ -1,4 +1,5 @@
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio';
+import { getTranslatedArray } from '@/utils/i18n';
 import { motion } from 'framer-motion';
 import { Code2, Server, Sparkles, Wrench } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -93,15 +94,11 @@ export function SkillsPanel() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {SKILL_GROUPS.map((group, gi) => {
-            const groupKeys = ['general', 'ui', 'db', 'cloud'] as const;
-            const groupKey = groupKeys[gi] || 'general';
-            const title = t(`skill_groups.${groupKey}`, group.title);
-            const items =
-              (t(`skills.group_items.${groupKey}`, { returnObjects: true }) as string[]) ||
-              group.items;
+          {SKILL_GROUPS.map((group) => {
+            const title = t(`skill_groups.${group.id}`);
+            const items = getTranslatedArray<string>(t, `skills.group_items.${group.id}`);
             return (
-              <div key={group.title} className="panel-card p-5">
+              <div key={group.id} className="panel-card p-5">
                 <div className="text-sm font-semibold text-(--text-primary) mb-3">{title}</div>
                 <div className="flex flex-wrap gap-2">
                   {items.map((skill) => (

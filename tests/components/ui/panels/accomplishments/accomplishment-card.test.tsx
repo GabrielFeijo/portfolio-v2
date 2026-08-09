@@ -4,9 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 
 const mockAccomplishment = {
   id: 'acc-1',
-  title: 'Award',
-  description: 'Desc',
-  category: 'Impact',
   icon: 'Award',
   color: '#ff0000',
 };

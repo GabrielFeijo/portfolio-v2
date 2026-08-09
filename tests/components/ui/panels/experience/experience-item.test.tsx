@@ -7,13 +7,9 @@ let returnTranslatedAchievements = true;
 
 const mockExperience: Experience = {
   id: 'exp-1',
-  role: 'Dev',
   company: 'Company',
-  period: '2021-2022',
-  description: 'Desc',
-  achievements: ['A1'],
   tech: ['React'],
-  type: 'CLT',
+  type: 'full_time',
   color: 'red',
 };
 
@@ -73,7 +69,7 @@ describe('ExperienceItem', () => {
     expect(onToggle).toHaveBeenCalled();
   });
 
-  it('falls back to experience achievements when translations are unavailable', () => {
+  it('omits deliveries when the translation resource is unavailable', () => {
     returnTranslatedAchievements = false;
 
     render(
@@ -85,6 +81,6 @@ describe('ExperienceItem', () => {
       />
     );
 
-    expect(screen.getByText('A1')).toBeInTheDocument();
+    expect(screen.queryByText('common.key_deliveries')).not.toBeInTheDocument();
   });
 });

@@ -30,9 +30,11 @@ describe('AboutPanel', () => {
     expect(screen.getByText('planets.about.subtitle')).toBeInTheDocument();
   });
 
-  it('renders with fallback data when i18n returns null', () => {
+  it('omits localized collections when i18n does not return arrays', () => {
     mockReturnObjects = null;
     render(<AboutPanel />);
-    expect(screen.getByText(/curiosidade sobre como sites/)).toBeInTheDocument();
+
+    expect(screen.getByText('Gabriel Feijó')).toBeInTheDocument();
+    expect(screen.queryByText('Paragraph 1')).not.toBeInTheDocument();
   });
 });

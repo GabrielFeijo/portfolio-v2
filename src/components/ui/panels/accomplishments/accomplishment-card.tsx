@@ -33,13 +33,13 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
         </div>
 
         <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.18em] panel-eyebrow">
-          {t(`accomplishments_items.${accomplishment.id}.category`, accomplishment.category)}
+          {t(`accomplishments_items.${accomplishment.id}.category`)}
         </div>
         <h3 className="mb-2 text-base font-semibold text-(--text-primary)">
-          {t(`accomplishments_items.${accomplishment.id}.title`, accomplishment.title)}
+          {t(`accomplishments_items.${accomplishment.id}.title`)}
         </h3>
         <p className="text-sm leading-7 text-(--text-secondary)">
-          {t(`accomplishments_items.${accomplishment.id}.description`, accomplishment.description)}
+          {t(`accomplishments_items.${accomplishment.id}.description`)}
         </p>
       </div>
     </motion.article>

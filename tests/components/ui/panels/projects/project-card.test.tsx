@@ -7,16 +7,12 @@ let returnTranslatedHighlights = true;
 
 const mockProject: Project = {
   id: 'proj-1',
-  name: 'Project 1',
-  description: 'Desc',
   tech: ['React'],
-  category: 'Frontend',
+  category: 'frontend',
   year: 2023,
   color: '#000000',
-  highlights: ['H1'],
   live: 'https://live.com',
   github: 'https://github.com',
-  image: 'img.png',
   featured: true,
 };
 
@@ -45,6 +41,7 @@ describe('ProjectCard', () => {
       />
     );
     expect(screen.getByText('projects_items.proj-1.name')).toBeInTheDocument();
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
     expect(screen.queryByText('common.highlights')).not.toBeInTheDocument();
   });
 
@@ -80,7 +77,7 @@ describe('ProjectCard', () => {
     expect(onToggle).toHaveBeenCalled();
   });
 
-  it('falls back to project highlights when translations are unavailable', () => {
+  it('omits highlights when the translation resource is unavailable', () => {
     returnTranslatedHighlights = false;
 
     render(
@@ -93,6 +90,6 @@ describe('ProjectCard', () => {
       />
     );
 
-    expect(screen.getByText('H1')).toBeInTheDocument();
+    expect(screen.queryByText('common.highlights')).not.toBeInTheDocument();
   });
 });

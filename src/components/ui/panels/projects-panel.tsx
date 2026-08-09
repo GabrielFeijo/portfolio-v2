@@ -33,7 +33,7 @@ export function ProjectsPanel() {
   }, [filter]);
   const getFilterLabel = (value: ProjectFilter) => {
     if (value === ALL_PROJECTS_FILTER) return t('projects.filters.all');
-    return t(`projects.filters.${value.toLowerCase().replace(/\s+/g, '_')}`, value);
+    return t(`projects.filters.${value}`);
   };
 
   return (
