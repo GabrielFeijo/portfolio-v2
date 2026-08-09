@@ -18,19 +18,22 @@ export function ContactFormField({
 }: ContactFormFieldProps) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="font-mono-space text-[11px] uppercase tracking-[0.18em] text-(--text-secondary)">
+      <span className="font-mono-space text-label uppercase tracking-caps-lg text-(--text-secondary)">
         {label}
       </span>
       {input}
       <div className="flex min-h-5 items-start justify-between gap-3">
         <span
           id={errorId}
-          className={cn('text-xs leading-5', error ? 'text-[#FF9A52]' : 'text-(--text-muted)')}
+          className={cn(
+            'text-xs leading-5',
+            error ? 'text-(--status-error)' : 'text-(--text-muted)'
+          )}
         >
           {error ?? ''}
         </span>
         {helperText && (
-          <span className="text-[11px] leading-5 text-(--text-muted)">{helperText}</span>
+          <span className="text-label leading-5 text-(--text-muted)">{helperText}</span>
         )}
       </div>
     </label>
@@ -40,7 +43,7 @@ export function ContactFormField({
 export function getContactFieldClassName(hasError: boolean, extraClassName?: string) {
   return cn(
     'px-4 py-3 panel-input text-sm transition-colors cursor-none',
-    hasError && 'border-[#FF9A52] shadow-[0_0_0_1px_rgba(255,154,82,0.28)]',
+    hasError && 'border-(--status-error) shadow-(--shadow-error-focus)',
     extraClassName
   );
 }

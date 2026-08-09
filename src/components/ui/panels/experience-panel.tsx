@@ -24,7 +24,7 @@ export function ExperiencePanel() {
           className="absolute left-4 sm:left-6 top-0 bottom-0 w-px"
           style={{
             background:
-              'linear-gradient(180deg, var(--panel-border-strong), rgba(255,255,255,0.04))',
+              'linear-gradient(180deg, var(--panel-border-strong), var(--surface-interactive-hover))',
           }}
         />
 

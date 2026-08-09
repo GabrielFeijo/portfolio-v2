@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 describe('SkillBar', () => {
   it('renders a skill without subjective proficiency labels', () => {
-    const skill = { name: 'React', color: '#fff' };
+    const skill = { name: 'React', color: '#ffffff' };
     render(<SkillBar delay={0} skill={skill} />);
 
     expect(screen.getByText('React')).toBeInTheDocument();

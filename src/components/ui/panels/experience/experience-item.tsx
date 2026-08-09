@@ -43,13 +43,13 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
         className={`cursor-none px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
         style={{
           boxShadow: isOpen
-            ? '0 18px 40px rgba(0,0,0,0.24), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)'
+            ? '0 18px 40px color-mix(in srgb, var(--color-black) 24%, transparent), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)'
             : undefined,
         }}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <div className="mb-2 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
+            <div className="mb-2 font-mono-space text-label uppercase tracking-caps panel-eyebrow">
               {t(`experience.types.${experience.type}`)}
             </div>
             <h3 className="text-base font-semibold text-(--text-primary) sm:text-lg">
@@ -90,7 +90,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
 
               {achievements.length > 0 && (
                 <PanelInsetCard className="mb-4">
-                  <div className="mb-3 font-mono-space text-[11px] font-semibold uppercase tracking-[0.18em] panel-eyebrow">
+                  <div className="mb-3 font-mono-space text-label font-semibold uppercase tracking-caps-lg panel-eyebrow">
                     {t('common.key_deliveries')}
                   </div>
                   <PanelBulletList items={achievements} />

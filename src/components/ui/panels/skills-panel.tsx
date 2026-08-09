@@ -53,10 +53,12 @@ export function SkillsPanel() {
           <div className="flex items-center gap-3 mb-5">
             <PanelIconBadge
               icon={cat.icon}
-              style={{ background: `linear-gradient(180deg, ${cat.tone}, rgba(255,255,255,0.02))` }}
+              style={{
+                background: `linear-gradient(180deg, ${cat.tone}, var(--surface-interactive-faint))`,
+              }}
             />
             <div>
-              <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+              <div className="text-label uppercase tracking-caps-xl panel-eyebrow font-mono-space">
                 {t('common.specialty')}
               </div>
               <div className="text-lg font-semibold text-(--text-primary)">{cat.label}</div>
@@ -84,7 +86,7 @@ export function SkillsPanel() {
         <div className="flex items-center gap-3 mb-5">
           <PanelIconBadge icon={Sparkles} />
           <div>
-            <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+            <div className="text-label uppercase tracking-caps-xl panel-eyebrow font-mono-space">
               {t('common.expansion')}
             </div>
             <h3 className="text-lg font-semibold text-(--text-primary)">

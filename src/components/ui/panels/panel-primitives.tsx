@@ -70,7 +70,7 @@ export function PanelHeader({ icon: Icon, eyebrow, title, description }: PanelHe
       <div className="flex items-center gap-3">
         <PanelIconBadge icon={Icon} />
         <div>
-          <div className="text-[11px] uppercase tracking-[0.2em] panel-eyebrow font-mono-space">
+          <div className="text-label uppercase tracking-caps-xl panel-eyebrow font-mono-space">
             {eyebrow}
           </div>
           <h2 className="text-2xl font-semibold text-(--text-primary)">{title}</h2>

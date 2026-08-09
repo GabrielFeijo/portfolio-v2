@@ -20,7 +20,7 @@ describe('ContactFormField', () => {
 
   it('builds field class names for neutral and error states', () => {
     expect(getContactFieldClassName(false, 'extra')).toContain('extra');
-    expect(getContactFieldClassName(false)).not.toContain('border-[#FF9A52]');
-    expect(getContactFieldClassName(true)).toContain('border-[#FF9A52]');
+    expect(getContactFieldClassName(false)).not.toContain('border-(--status-error)');
+    expect(getContactFieldClassName(true)).toContain('border-(--status-error)');
   });
 });
