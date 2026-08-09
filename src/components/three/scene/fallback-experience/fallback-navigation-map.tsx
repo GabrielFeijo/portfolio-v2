@@ -23,7 +23,9 @@ export function FallbackNavigationMap({
           <p className="font-mono-space text-[10px] uppercase tracking-[0.2em] text-[rgba(255,214,122,0.46)]">
             {t('fallback_2d.core_label')}
           </p>
-          <strong className="mt-1 block text-base font-semibold text-[#FFF7E6]">{DEVELOPER.name}</strong>
+          <strong className="mt-1 block text-base font-semibold text-[#FFF7E6]">
+            {DEVELOPER.name}
+          </strong>
         </div>
       </div>
 

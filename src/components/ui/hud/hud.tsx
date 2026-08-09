@@ -24,11 +24,8 @@ export function HUD() {
   useEffect(() => {
     setLanguage(currentLang);
     document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
-    document.title =
-      currentLang === 'pt'
-        ? 'Gabriel Feijó — Desenvolvedor Full Stack'
-        : 'Gabriel Feijó — Full Stack Developer';
-  }, [currentLang, setLanguage]);
+    document.title = t('app.document_title');
+  }, [currentLang, setLanguage, t]);
 
   const changeLanguage = useCallback(
     (lang: 'pt' | 'en') => {
@@ -76,6 +73,7 @@ export function HUD() {
             type="button"
             onClick={() => navigateToPanel('contact')}
             {...linkCursor}
+            aria-label={t('planets.contact.name')}
             className="cursor-none inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] border border-[rgba(223,181,59,0.2)] bg-[rgba(223,181,59,0.06)] px-[15px] font-mono text-[10px] leading-none font-semibold tracking-[0.12em] text-(--text-primary) uppercase transition-all duration-180 hover:-translate-y-px hover:border-[rgba(223,181,59,0.45)] hover:bg-[rgba(223,181,59,0.12)] hover:shadow-[0_4px_12px_rgba(223,181,59,0.08)] active:translate-y-0 max-md:w-10 max-md:px-0"
           >
             <Mail size={15} />

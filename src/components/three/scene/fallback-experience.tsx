@@ -3,7 +3,6 @@ import { useSpaceStore } from '@/store/space-store';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
-import { FallbackFooter } from './fallback-experience/fallback-footer';
 import { FallbackHeader } from './fallback-experience/fallback-header';
 import { FallbackHero } from './fallback-experience/fallback-hero';
 import { FallbackNavigationMap } from './fallback-experience/fallback-navigation-map';
@@ -20,7 +19,7 @@ export function FallbackExperience() {
 
   return (
     <section
-      className="absolute inset-0 overflow-y-auto overflow-x-hidden bg-[#040611] text-[#F0F4FF]"
+      className="fallback-experience absolute inset-0 overflow-y-auto overflow-x-hidden bg-[#040611] text-[#F0F4FF]"
       data-testid="scene-2d-fallback"
       aria-label={t('fallback_2d.aria')}
     >
@@ -30,7 +29,7 @@ export function FallbackExperience() {
       </div>
 
       <div className="relative mx-auto flex min-h-full w-full max-w-6xl flex-col px-4 pt-5 pb-26 sm:px-6 sm:pt-6 sm:pb-28 lg:px-8 lg:py-8">
-        <FallbackHeader onContact={() => navigateToPanel('contact')} />
+        <FallbackHeader />
 
         <main className="grid gap-8 pt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.96fr)] lg:items-start lg:gap-10 lg:pt-10">
           <FallbackHero
@@ -39,8 +38,6 @@ export function FallbackExperience() {
           />
           <FallbackNavigationMap planets={featuredPlanets} onOpen={navigateToPanel} />
         </main>
-
-        <FallbackFooter />
       </div>
     </section>
   );

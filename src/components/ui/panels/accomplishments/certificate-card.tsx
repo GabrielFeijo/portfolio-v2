@@ -9,6 +9,8 @@ interface CertificateCardProps {
 
 export function CertificateCard({ certificate, transition }: CertificateCardProps) {
   const { t } = useTranslation();
+  const certificateName = t(`certificates_items.${certificate.id}.name`);
+  const certificateDescription = t(`certificates_items.${certificate.id}.description`);
 
   return (
     <motion.article
@@ -22,7 +24,7 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
         <div className="h-18 w-18 shrink-0 overflow-hidden flex items-center justify-center sm:h-20 sm:w-20 ">
           <img
             src={certificate.image}
-            alt={certificate.name}
+            alt={certificateName}
             className="max-h-full max-w-full object-contain"
           />
         </div>
@@ -34,17 +36,11 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
       )}
 
       <div className="min-w-0 flex-1">
-        <div className="text-base font-semibold text-(--text-primary)">
-          {t(`certificates_items.${certificate.id}.name`, certificate.name)}
-        </div>
+        <div className="text-base font-semibold text-(--text-primary)">{certificateName}</div>
         <div className="mt-1 font-mono-space text-[11px] uppercase tracking-[0.16em] panel-eyebrow">
           {certificate.issuer} • {certificate.year}
         </div>
-        {(certificate.description || t(`certificates_items.${certificate.id}.description`)) && (
-          <p className="mt-3 text-sm leading-7 text-(--text-secondary)">
-            {t(`certificates_items.${certificate.id}.description`, certificate.description || '')}
-          </p>
-        )}
+        <p className="mt-3 text-sm leading-7 text-(--text-secondary)">{certificateDescription}</p>
       </div>
     </motion.article>
   );

@@ -1,5 +1,5 @@
 import { HUD } from '@/components/ui/hud/hud';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const openSettings = vi.fn();
@@ -7,11 +7,12 @@ const setLanguage = vi.fn();
 const setCursorVariant = vi.fn();
 const navigateToPanel = vi.fn();
 let resolvedLanguage = 'en';
+const hudState = vi.hoisted(() => ({ activePanel: null as string | null }));
 
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector?: any) => {
     const state = {
-      activePanel: null,
+      activePanel: hudState.activePanel,
       navigateToPanel,
       openSettings,
       setCursorVariant,
@@ -37,6 +38,7 @@ describe('HUD', () => {
     vi.useFakeTimers();
     vi.clearAllMocks();
     resolvedLanguage = 'en';
+    hudState.activePanel = null;
   });
 
   afterEach(() => {
@@ -94,12 +96,30 @@ describe('HUD', () => {
 
   it('renders screen reader planet navigation when no panel is open', () => {
     render(<HUD />);
-    expect(screen.getByRole('navigation', { name: 'nav.planets_aria' })).toBeInTheDocument();
+    const navigation = screen.getByRole('navigation', { name: 'nav.planets_aria' });
+    expect(navigation).toBeInTheDocument();
     expect(screen.getByText('nav.sections')).toBeInTheDocument();
-    const buttons = screen.getAllByRole('button', { name: /planets\./ });
+    const buttons = within(navigation).getAllByRole('button');
     expect(buttons.length).toBeGreaterThan(0);
 
     fireEvent.click(buttons[0]);
-    expect(navigateToPanel).toHaveBeenCalled();
+    expect(navigateToPanel).toHaveBeenCalledWith('about');
+
+    fireEvent.click(screen.getByRole('button', { name: 'planets.about.name' }));
+    expect(navigateToPanel).toHaveBeenCalledWith('about');
+
+    fireEvent.click(screen.getByRole('button', { name: 'planets.contact.name' }));
+    expect(navigateToPanel).toHaveBeenCalledWith('contact');
+  });
+
+  it('marks the active section in the planet navigation', () => {
+    hudState.activePanel = 'about';
+    render(<HUD />);
+
+    const activeButton = screen
+      .getAllByRole('button')
+      .find((button) => button.getAttribute('aria-current') === 'page');
+
+    expect(activeButton).toBeDefined();
   });
 });

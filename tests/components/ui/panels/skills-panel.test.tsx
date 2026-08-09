@@ -22,9 +22,9 @@ describe('SkillsPanel', () => {
     expect(screen.getAllByText('Mocked Skill')[0]).toBeInTheDocument();
   });
 
-  it('renders correctly with fallback items', () => {
+  it('omits complementary items when translation resources are unavailable', () => {
     mockReturnObjects = null;
     render(<SkillsPanel />);
-    expect(screen.getByText('Trabalho em equipe')).toBeInTheDocument();
+    expect(screen.queryByText('Java')).not.toBeInTheDocument();
   });
 });

@@ -1,5 +1,6 @@
 import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
+import { getTranslatedArray } from '@/utils/i18n';
 import { motion } from 'framer-motion';
 import { Briefcase, Code, GraduationCap, Laptop2, Mail, MapPin, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -12,17 +13,12 @@ export function AboutPanel() {
   const setCursorVariant = useSpaceStore((state) => state.setCursorVariant);
   const { t } = useTranslation();
 
-  const stats = [
-    { label: t('developer.stats.years'), value: DEVELOPER.stats[0].value },
-    { label: t('developer.stats.projects'), value: DEVELOPER.stats[1].value },
-    { label: t('developer.stats.stacks'), value: DEVELOPER.stats[2].value },
-  ];
-
-  const summary =
-    (t('developer.summary', { returnObjects: true }) as string[]) || DEVELOPER.summary;
-  const education =
-    (t('developer.education', { returnObjects: true }) as DeveloperEducation[]) ||
-    DEVELOPER.education;
+  const stats = DEVELOPER.stats.map((stat) => ({
+    label: t(`developer.stats.${stat.id}`),
+    value: stat.value,
+  }));
+  const summary = getTranslatedArray<string>(t, 'developer.summary');
+  const education = getTranslatedArray<DeveloperEducation>(t, 'developer.education');
 
   return (
     <motion.div

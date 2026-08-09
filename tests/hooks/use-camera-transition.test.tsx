@@ -27,6 +27,26 @@ describe('useCameraTransition', () => {
     expect(setLookAt).toHaveBeenCalled();
   });
 
+  it('uses the mobile idle camera position below the panel breakpoint', () => {
+    const setLookAt = vi.fn();
+    const controlsRef = { current: { setLookAt } };
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1000);
+
+    renderHook(() =>
+      useCameraTransition({
+        activePanel: null,
+        activePlanet: null,
+        camera,
+        controlsRef: controlsRef as never,
+        planetAngles: { current: {} },
+        smooth: true,
+        viewportWidth: 480,
+      })
+    );
+
+    expect(setLookAt).toHaveBeenCalled();
+  });
+
   it('sets focused lookAt when panel is active', () => {
     const setLookAt = vi.fn();
     const controlsRef = { current: { setLookAt } };
