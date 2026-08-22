@@ -1,4 +1,5 @@
 import {
+  clearTextureCanvasCache,
   createCloudTexture,
   createGlowTexture,
   createRandom,
@@ -13,6 +14,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 describe('textures utilities', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+    clearTextureCanvasCache();
   });
 
   it('createRandom is deterministic', () => {
@@ -52,11 +54,30 @@ describe('textures utilities', () => {
     expect(glow.version).toBeGreaterThan(0);
   });
 
-  it('generates textures correctly when context is available', () => {
-    const ring = makeRingTexture('#ffffff');
-    const rock = makeRockTexture('#ffffff');
+  it('generates textures correctly when context is available and reuses cached canvas', () => {
+    const createElementSpy = vi.spyOn(document, 'createElement');
+    const ring1 = makeRingTexture('#ffffff');
+    const rock1 = makeRockTexture('#ffffff');
+    const cloud1 = createCloudTexture(10, '#00ffff');
+    const glow1 = createGlowTexture(20, '#ff00ff');
 
-    expect(ring).toBeInstanceOf(THREE.CanvasTexture);
-    expect(rock).toBeInstanceOf(THREE.CanvasTexture);
+    const elementsCreated = createElementSpy.mock.calls.length;
+
+    const ring2 = makeRingTexture('#ffffff');
+    const rock2 = makeRockTexture('#ffffff');
+    const cloud2 = createCloudTexture(10, '#00ffff');
+    const glow2 = createGlowTexture(20, '#ff00ff');
+
+    expect(createElementSpy.mock.calls.length).toBe(elementsCreated);
+    expect(ring1).toBeInstanceOf(THREE.CanvasTexture);
+    expect(rock1).toBeInstanceOf(THREE.CanvasTexture);
+    expect(ring2.image).toBe(ring1.image);
+    expect(rock2.image).toBe(rock1.image);
+    expect(cloud2.image).toBe(cloud1.image);
+    expect(glow2.image).toBe(glow1.image);
+
+    clearTextureCanvasCache();
+    makeRingTexture('#ffffff');
+    expect(createElementSpy.mock.calls.length).toBeGreaterThan(elementsCreated);
   });
 });
