@@ -53,8 +53,8 @@ float snoise(vec3 v){
 float fbm(vec3 x) {
   float v = 0.0;
   float a = 0.5;
-  vec3 shift = vec3(100);
-  for (int i = 0; i < 5; ++i) {
+  vec3 shift = vec3(100.0);
+  for (int i = 0; i < 4; ++i) {
     v += a * snoise(x);
     x = x * 2.0 + shift;
     a *= 0.5;
@@ -65,7 +65,7 @@ float fbm(vec3 x) {
 float fbm_ridged(vec3 p) {
   float f = 0.0;
   float weight = 0.5;
-  for(int i = 0; i < 4; i++){
+  for(int i = 0; i < 3; i++){
     float n = abs(snoise(p));
     n = 1.0 - n;
     n *= n;
