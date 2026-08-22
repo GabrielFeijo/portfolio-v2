@@ -26,6 +26,7 @@ const mockAudioContextMembers = {
   createBufferSource: vi.fn(() => mockSource),
   decodeAudioData: vi.fn().mockResolvedValue({}),
   resume: vi.fn().mockResolvedValue(undefined),
+  suspend: vi.fn().mockResolvedValue(undefined),
   close: vi.fn().mockResolvedValue(undefined),
   destination: {},
   currentTime: 0,
@@ -33,6 +34,12 @@ const mockAudioContextMembers = {
 };
 
 class MockAudioContext {
+  get state() {
+    return mockAudioContextMembers.state;
+  }
+  set state(value: string) {
+    mockAudioContextMembers.state = value;
+  }
   constructor() {
     Object.assign(this, mockAudioContextMembers);
   }
@@ -212,5 +219,53 @@ describe('SpaceMusic', () => {
 
     expect(consoleSpy).toHaveBeenCalledWith('SpaceMusic: audio fetch timed out');
     consoleSpy.mockRestore();
+  });
+
+  it('suspends audio context when document is hidden and resumes when visible', async () => {
+    let hidden = false;
+    vi.spyOn(document, 'hidden', 'get').mockImplementation(() => hidden);
+
+    mockStoreState.experienceSettings.musicEnabled = false;
+    const { rerender } = render(<SpaceMusic />);
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    expect(mockAudioContextMembers.suspend).not.toHaveBeenCalled();
+
+    mockStoreState.experienceSettings.musicEnabled = true;
+    await act(async () => {
+      rerender(<SpaceMusic />);
+    });
+
+    mockAudioContextMembers.state = 'running';
+    hidden = true;
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    expect(mockAudioContextMembers.suspend).toHaveBeenCalledTimes(1);
+
+    mockAudioContextMembers.state = 'suspended';
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    expect(mockAudioContextMembers.suspend).toHaveBeenCalledTimes(1);
+
+    mockAudioContextMembers.state = 'suspended';
+    hidden = false;
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    expect(mockAudioContextMembers.resume).toHaveBeenCalled();
+
+    mockAudioContextMembers.state = 'running';
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+
+    mockStoreState.experienceSettings.musicEnabled = false;
+    mockAudioContextMembers.state = 'suspended';
+    act(() => {
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
   });
 });

@@ -110,6 +110,29 @@ export function SpaceMusic() {
   }, [volume, enabled]);
 
   useEffect(() => {
+    const handleVisibility = () => {
+      const graph = graphRef.current;
+      if (!graph) return;
+
+      if (document.hidden) {
+        if (graph.context.state === 'running') {
+          void graph.context.suspend?.();
+        }
+      } else {
+        const isEnabled = useSpaceStore.getState().experienceSettings.musicEnabled;
+        if (isEnabled && graph.context.state === 'suspended') {
+          void graph.context.resume?.();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
     return () => {
       const graph = graphRef.current;
       if (graph) {
