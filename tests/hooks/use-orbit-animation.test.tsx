@@ -143,4 +143,36 @@ describe('useOrbitAnimation', () => {
     frameCb2?.({ clock: { getElapsedTime: () => 2 } }, 0.16);
     expect((atmosphereMaterial2 as any).uniforms.uIntensity.value).toBe(0.85);
   });
+
+  it('skips updates for unfocused planets while a panel is open', () => {
+    let frameCb:
+      | ((state: { clock: { getElapsedTime: () => number } }, delta: number) => void)
+      | undefined;
+    useFrameMock.mockImplementation((cb) => {
+      frameCb = cb;
+    });
+
+    const planetMaterial = {
+      uniforms: { uTime: { value: 0 }, uLightDir: { value: new THREE.Vector3(0, 0, 0) } },
+    } as any;
+
+    renderHook(() =>
+      useOrbitAnimation({
+        activePanel: 'about',
+        angleRef: { current: Object.fromEntries(PLANETS.map((p: { id: string }) => [p.id, 0])) },
+        atmosphereMaterialRef: { current: null },
+        atmosphereMeshRef: { current: null },
+        groupRef: { current: null },
+        hovered: false,
+        isActive: false,
+        meshRef: { current: null },
+        planet: PLANETS[1],
+        planetMaterialRef: { current: planetMaterial },
+        planetRotation: true,
+      })
+    );
+
+    frameCb?.({ clock: { getElapsedTime: () => 5 } }, 0.16);
+    expect(planetMaterial.uniforms.uTime.value).toBe(0);
+  });
 });

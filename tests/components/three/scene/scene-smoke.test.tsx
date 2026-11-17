@@ -15,6 +15,7 @@ let mockSettings = {
   asteroidDensity: 1,
   autoRotate: true,
   dpr: 1,
+  liteEffects: false,
   musicEnabled: false,
   musicVolume: 0,
   nebula: true,
@@ -101,6 +102,23 @@ describe('scene smoke', () => {
     });
     expect(setIsLoaded).toHaveBeenCalledWith(true);
     unmount();
+  });
+
+  it('renders lite scene variant with asteroids enabled and cancels load on early unmount', () => {
+    mockSettings = {
+      ...mockSettings,
+      asteroidDensity: 0.4,
+      liteEffects: true,
+      nebula: false,
+    };
+
+    const { container, unmount } = render(<SpaceScene />);
+    expect(container).toBeDefined();
+    unmount();
+    act(() => {
+      vi.runAllTimers();
+    });
+    expect(setIsLoaded).not.toHaveBeenCalled();
   });
 
   it('uses zero as the default orbit phase when planet data omits it', async () => {

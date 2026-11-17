@@ -1,6 +1,6 @@
 import { useSpaceStore } from '@/store/space-store';
 import { isWebGLAvailable } from '@/utils/webgl-check';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import { WebGLError } from '../../ui/overlays/webgl-error';
@@ -28,6 +28,14 @@ const WebGLScene = lazy(async () => {
       t: (key: string) => string;
     }) {
       const SpaceScene = sceneModule.SpaceScene;
+      const canvasElementRef = useRef<HTMLCanvasElement | null>(null);
+
+      useEffect(() => {
+        return () => {
+          canvasElementRef.current?.removeEventListener?.('webglcontextlost', onContextLost);
+          canvasElementRef.current = null;
+        };
+      }, [antialias, onContextLost]);
 
       return (
         <Canvas
@@ -36,10 +44,11 @@ const WebGLScene = lazy(async () => {
           className="absolute inset-0"
           camera={{ position: [0, 22, 64], fov: 58, near: 0.1, far: 2200 }}
           dpr={[1, dpr]}
-          gl={{ antialias, alpha: false, powerPreference: 'high-performance' }}
+          gl={{ antialias, alpha: false, powerPreference: 'high-performance', stencil: false }}
           shadows={shadows}
           frameloop="demand"
           onCreated={({ gl }) => {
+            canvasElementRef.current = gl.domElement;
             gl.domElement.addEventListener('webglcontextlost', onContextLost, { once: true });
           }}
         >
@@ -96,6 +105,11 @@ export default function SpaceExperience() {
     return () => window.clearTimeout(timeout);
   }, [isLoaded, setIsLoaded, webGLStatus]);
 
+  const handleContextLost = useCallback((event: Event) => {
+    event.preventDefault();
+    setWebGLStatus('context_lost');
+  }, []);
+
   if (webGLStatus === 'disabled') {
     return <FallbackExperience />;
   }
@@ -103,11 +117,6 @@ export default function SpaceExperience() {
   if (webGLStatus !== 'available') {
     return <WebGLError variant={webGLStatus} onContinue={() => setWebGLStatus('disabled')} />;
   }
-
-  const handleContextLost = (event: Event) => {
-    event.preventDefault();
-    setWebGLStatus('context_lost');
-  };
 
   return (
     <Suspense fallback={<div className="fallback-experience" aria-hidden="true" />}>

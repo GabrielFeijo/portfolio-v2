@@ -121,7 +121,7 @@ export function createCloudTexture(seed: number, color: string) {
 
   if (!canvas) {
     const rand = createRandom(seed);
-    const size = 512;
+    const size = 256;
     canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -139,7 +139,7 @@ export function createCloudTexture(seed: number, color: string) {
     for (let i = 0; i < 26; i += 1) {
       const x = size * (0.18 + rand() * 0.64);
       const y = size * (0.18 + rand() * 0.64);
-      const radius = 40 + rand() * 140;
+      const radius = 20 + rand() * 70;
       const alpha = 0.04 + rand() * 0.085;
       const stretchX = 0.8 + rand() * 0.8;
       const stretchY = 0.7 + rand() * 0.7;
@@ -161,10 +161,10 @@ export function createCloudTexture(seed: number, color: string) {
       context.restore();
     }
 
-    for (let i = 0; i < 180; i += 1) {
+    for (let i = 0; i < 120; i += 1) {
       const x = rand() * size;
       const y = rand() * size;
-      const radius = 0.4 + rand() * 1.8;
+      const radius = 0.3 + rand() * 1.0;
       context.fillStyle = toHexColor(255, 255, 255, 0.015 + rand() * 0.03);
       context.beginPath();
       context.arc(x, y, radius, 0, Math.PI * 2);
@@ -188,7 +188,7 @@ export function createGlowTexture(seed: number, color: string) {
 
   if (!canvas) {
     const rand = createRandom(seed);
-    const size = 256;
+    const size = 128;
     canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
