@@ -1,4 +1,5 @@
 export const NOISE_CHUNK = `
+uniform float uLite;
 vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 vec4 permute(vec4 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
 vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
@@ -54,18 +55,22 @@ float fbm(vec3 x) {
   float v = 0.0;
   float a = 0.5;
   vec3 shift = vec3(100.0);
+  int octaves = uLite > 0.5 ? 2 : 4;
   for (int i = 0; i < 4; ++i) {
+    if (i >= octaves) break;
     v += a * snoise(x);
     x = x * 2.0 + shift;
     a *= 0.5;
   }
-  return v;
+  return uLite > 0.5 ? v * 1.25 : v;
 }
 
 float fbm_ridged(vec3 p) {
   float f = 0.0;
   float weight = 0.5;
+  int octaves = uLite > 0.5 ? 2 : 3;
   for(int i = 0; i < 3; i++){
+    if (i >= octaves) break;
     float n = abs(snoise(p));
     n = 1.0 - n;
     n *= n;
@@ -73,6 +78,14 @@ float fbm_ridged(vec3 p) {
     weight *= 0.5;
     p *= 2.0;
   }
-  return f;
+  return uLite > 0.5 ? f * 1.17 : f;
+}
+
+vec3 domainWarp(vec3 p, vec3 o0, vec3 o1, vec3 o2) {
+  if (uLite > 0.5) {
+    float qa = fbm(p + o0);
+    return vec3(qa, qa * 0.7, -qa * 0.5);
+  }
+  return vec3(fbm(p + o0), fbm(p + o1), fbm(p + o2));
 }
 `;

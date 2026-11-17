@@ -36,7 +36,7 @@ vi.mock('@react-three/fiber', async (importOriginal) => {
       try {
         callback({ clock: { getElapsedTime: () => 0 } }, 0);
       } catch {
-        // Refs may be unavailable during registration.
+        void 0;
       }
 
       return actual.useFrame(callback, priority);
@@ -126,8 +126,13 @@ describe('ShootingStar branch edges', () => {
     expect(callback).toBeTypeOf('function');
 
     await advanceR3F(renderer, 250, 0.1);
-    callback!({ clock: { getElapsedTime: () => 10 } }, 0.1);
+    callback!({ clock: { getElapsedTime: () => 1 } }, 0.1);
+    expect((groupRef.current as { visible: boolean }).visible).toBe(true);
 
+    callback!({ clock: { getElapsedTime: () => 10 } }, 0.1);
+    expect((groupRef.current as { visible: boolean }).visible).toBe(false);
+
+    callback!({ clock: { getElapsedTime: () => 11 } }, 0.1);
     expect((groupRef.current as { visible: boolean }).visible).toBe(false);
 
     await renderer.unmount();

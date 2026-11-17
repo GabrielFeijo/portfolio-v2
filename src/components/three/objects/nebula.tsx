@@ -9,6 +9,7 @@ import * as THREE from 'three';
 type Vec3 = Vec3Tuple;
 
 function StarShell({
+  animate = true,
   count,
   radius,
   spread,
@@ -16,6 +17,7 @@ function StarShell({
   opacity,
   seed,
 }: {
+  animate?: boolean;
   count: number;
   radius: number;
   spread: number;
@@ -34,7 +36,7 @@ function StarShell({
   );
 
   useFrame((state) => {
-    if (!ref.current) return;
+    if (!animate || !ref.current) return;
 
     const time = state.clock.getElapsedTime();
     ref.current.rotation.y = time * 0.0025 + seed * 0.0001;
@@ -61,6 +63,7 @@ function StarShell({
 }
 
 function NebulaCluster({
+  animate = true,
   density,
   position,
   scale,
@@ -70,6 +73,7 @@ function NebulaCluster({
   seed,
   rotationSpeed,
 }: {
+  animate?: boolean;
   density: number;
   position: Vec3;
   scale: Vec3;
@@ -112,7 +116,7 @@ function NebulaCluster({
   }, [density, scale, seed]);
 
   useFrame((state) => {
-    if (!groupRef.current) return;
+    if (!animate || !groupRef.current) return;
 
     const time = state.clock.getElapsedTime();
     groupRef.current.rotation.y = Math.sin(time * rotationSpeed) * 0.18;
@@ -161,10 +165,11 @@ function NebulaCluster({
 }
 
 interface NebulaProps {
+  animate?: boolean;
   density: number;
 }
 
-export function Nebula({ density }: NebulaProps) {
+export function Nebula({ animate = true, density }: NebulaProps) {
   const textures = useMemo(
     () => ({
       cyanCloud: createCloudTexture(11, SCENE_COLORS.nebula.cyanCloud),
@@ -187,6 +192,7 @@ export function Nebula({ density }: NebulaProps) {
   return (
     <group>
       <StarShell
+        animate={animate}
         count={Math.max(96, Math.round(700 * density))}
         radius={520}
         spread={180}
@@ -195,6 +201,7 @@ export function Nebula({ density }: NebulaProps) {
         seed={101}
       />
       <StarShell
+        animate={animate}
         count={Math.max(48, Math.round(320 * density))}
         radius={340}
         spread={120}
@@ -204,6 +211,7 @@ export function Nebula({ density }: NebulaProps) {
       />
 
       <NebulaCluster
+        animate={animate}
         density={density}
         position={[-220, 90, -520]}
         scale={[260, 170, 90]}
@@ -214,6 +222,7 @@ export function Nebula({ density }: NebulaProps) {
         rotationSpeed={0.035}
       />
       <NebulaCluster
+        animate={animate}
         density={density}
         position={[250, -70, -610]}
         scale={[320, 210, 110]}
@@ -224,6 +233,7 @@ export function Nebula({ density }: NebulaProps) {
         rotationSpeed={0.028}
       />
       <NebulaCluster
+        animate={animate}
         density={density}
         position={[70, 150, -760]}
         scale={[410, 240, 140]}
@@ -234,6 +244,7 @@ export function Nebula({ density }: NebulaProps) {
         rotationSpeed={0.018}
       />
       <NebulaCluster
+        animate={animate}
         density={density}
         position={[40, -180, -470]}
         scale={[220, 140, 80]}

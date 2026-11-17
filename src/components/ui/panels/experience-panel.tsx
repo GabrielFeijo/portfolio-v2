@@ -1,5 +1,5 @@
 import { EXPERIENCE } from '@/data/portfolio';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { BriefcaseBusiness } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ export function ExperiencePanel() {
   const [expanded, setExpanded] = useState<string | null>(EXPERIENCE[0].id);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={BriefcaseBusiness}
         eyebrow={t('planets.experience.subtitle')}
@@ -42,6 +42,6 @@ export function ExperiencePanel() {
           })}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

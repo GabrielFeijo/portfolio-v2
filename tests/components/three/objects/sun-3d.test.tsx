@@ -6,6 +6,17 @@ import { advanceR3F } from '../../../helpers/r3f-utils';
 
 const openHelp = vi.fn();
 const setCursorVariant = vi.fn();
+let mockSunState = {
+  activePanel: null as string | null,
+  helpOpen: false,
+  settingsOpen: false,
+  openHelp,
+  setCursorVariant,
+  experienceSettings: {
+    asteroidDensity: 1,
+    liteEffects: false,
+  },
+};
 
 const sunHandlers: Partial<{
   click: (event: { stopPropagation: () => void }) => void;
@@ -17,11 +28,13 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
+vi.mock('zustand/react/shallow', () => ({
+  useShallow: (fn: unknown) => fn,
+}));
+
 vi.mock('@/store/space-store', () => ({
-  useSpaceStore: () => ({
-    openHelp,
-    setCursorVariant,
-  }),
+  useSpaceStore: (selector?: (state: typeof mockSunState) => unknown) =>
+    selector ? selector(mockSunState) : mockSunState,
 }));
 
 vi.mock('@react-three/drei', async (importOriginal) => {
@@ -59,6 +72,17 @@ vi.mock('react', async (importOriginal) => {
 describe('Sun3D', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockSunState = {
+      activePanel: null,
+      helpOpen: false,
+      settingsOpen: false,
+      openHelp,
+      setCursorVariant,
+      experienceSettings: {
+        asteroidDensity: 1,
+        liteEffects: false,
+      },
+    };
     sunHandlers.click = undefined;
     sunHandlers.enter = undefined;
     sunHandlers.leave = undefined;
@@ -98,6 +122,22 @@ describe('Sun3D', () => {
     });
     expect(setCursorVariant).toHaveBeenCalledWith('default');
 
+    await renderer.unmount();
+  });
+
+  it('uses reduced sparkles and skips flares when liteEffects is enabled', async () => {
+    mockSunState.experienceSettings = { asteroidDensity: 0, liteEffects: true };
+
+    const renderer = await create(<Sun3D />);
+    await advanceR3F(renderer, 5, 0.05);
+    await renderer.unmount();
+  });
+
+  it('pauses flares, sparkles, and sun ticks while obscured', async () => {
+    mockSunState.activePanel = 'projects';
+
+    const renderer = await create(<Sun3D />);
+    await advanceR3F(renderer, 5, 0.05);
     await renderer.unmount();
   });
 });

@@ -1,6 +1,6 @@
 import { PROJECTS, type ProjectCategory } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Layers3 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ export function ProjectsPanel() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={Layers3}
         eyebrow={t('planets.projects.subtitle')}
@@ -46,7 +46,7 @@ export function ProjectsPanel() {
       >
         <div className="mt-5 flex gap-2 flex-wrap">
           {categories.map((cat) => (
-            <motion.button
+            <m.button
               key={cat}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -67,7 +67,7 @@ export function ProjectsPanel() {
               }}
             >
               {getFilterLabel(cat)}
-            </motion.button>
+            </m.button>
           ))}
         </div>
       </PanelIntroCard>
@@ -89,6 +89,6 @@ export function ProjectsPanel() {
           );
         })}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

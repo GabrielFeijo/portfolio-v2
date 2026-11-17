@@ -10,6 +10,7 @@ export interface ExperienceSettings {
   autoRotate: boolean;
   customCursor: boolean;
   dpr: number;
+  liteEffects: boolean;
   nebula: boolean;
   musicEnabled: boolean;
   musicVolume: number;

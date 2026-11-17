@@ -27,12 +27,14 @@ declare module '@react-three/fiber' {
       uType?: number;
       uTime?: number;
       uLightDir?: THREE.Vector3;
+      uLite?: number;
     };
     sunMaterial: ShaderMaterialElement & {
       uColorPrimary?: THREE.Color;
       uColorSecondary?: THREE.Color;
       uIntensity?: number;
       uTime?: number;
+      uLite?: number;
     };
   }
 }

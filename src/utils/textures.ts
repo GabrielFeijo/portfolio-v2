@@ -43,9 +43,13 @@ export function makeRingTexture(color: string): THREE.CanvasTexture {
   let canvas = canvasCache.get(cacheKey);
 
   if (!canvas) {
+    const size = 256;
+    const center = size / 2;
+    const minRadius = Math.floor(center * 0.62);
+    const maxRadius = center - 1;
     canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 64;
+    canvas.width = size;
+    canvas.height = size;
     const context = canvas.getContext('2d');
 
     if (!context) {
@@ -53,16 +57,20 @@ export function makeRingTexture(color: string): THREE.CanvasTexture {
     }
 
     const { r, g, b } = hexToRgb(color);
-    context.clearRect(0, 0, 512, 64);
+    context.clearRect(0, 0, size, size);
+    context.lineWidth = 1.5;
 
-    for (let x = 0; x < 512; x += 1) {
-      const t = x / 512;
-      const band1 = Math.sin(t * Math.PI * 18) * 0.5 + 0.5;
-      const band2 = Math.sin(t * Math.PI * 7 + 1.2) * 0.5 + 0.5;
-      const alpha = (band1 * 0.6 + band2 * 0.3) * (1 - Math.abs(t - 0.5) * 1.5);
+    for (let radius = minRadius; radius <= maxRadius; radius += 1) {
+      const t = (radius - minRadius) / (maxRadius - minRadius);
+      const band1 = Math.sin(t * Math.PI * 12) * 0.5 + 0.5;
+      const band2 = Math.sin(t * Math.PI * 5 + 1.2) * 0.5 + 0.5;
+      const edgeFade = Math.sin(t * Math.PI);
+      const alpha = (band1 * 0.55 + band2 * 0.35 + 0.1) * edgeFade * 0.85;
 
-      context.fillStyle = toHexColor(r + 30, g + 30, b + 30, Math.max(0, alpha));
-      context.fillRect(x, 0, 1, 64);
+      context.strokeStyle = toHexColor(r + 30, g + 30, b + 30, Math.max(0, alpha));
+      context.beginPath();
+      context.arc(center, center, radius, 0, Math.PI * 2);
+      context.stroke();
     }
 
     canvasCache.set(cacheKey, canvas);
@@ -121,7 +129,7 @@ export function createCloudTexture(seed: number, color: string) {
 
   if (!canvas) {
     const rand = createRandom(seed);
-    const size = 512;
+    const size = 256;
     canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -139,7 +147,7 @@ export function createCloudTexture(seed: number, color: string) {
     for (let i = 0; i < 26; i += 1) {
       const x = size * (0.18 + rand() * 0.64);
       const y = size * (0.18 + rand() * 0.64);
-      const radius = 40 + rand() * 140;
+      const radius = 20 + rand() * 70;
       const alpha = 0.04 + rand() * 0.085;
       const stretchX = 0.8 + rand() * 0.8;
       const stretchY = 0.7 + rand() * 0.7;
@@ -161,10 +169,10 @@ export function createCloudTexture(seed: number, color: string) {
       context.restore();
     }
 
-    for (let i = 0; i < 180; i += 1) {
+    for (let i = 0; i < 120; i += 1) {
       const x = rand() * size;
       const y = rand() * size;
-      const radius = 0.4 + rand() * 1.8;
+      const radius = 0.3 + rand() * 1.0;
       context.fillStyle = toHexColor(255, 255, 255, 0.015 + rand() * 0.03);
       context.beginPath();
       context.arc(x, y, radius, 0, Math.PI * 2);
@@ -188,7 +196,7 @@ export function createGlowTexture(seed: number, color: string) {
 
   if (!canvas) {
     const rand = createRandom(seed);
-    const size = 256;
+    const size = 128;
     canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;

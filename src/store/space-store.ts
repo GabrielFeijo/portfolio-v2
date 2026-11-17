@@ -6,6 +6,7 @@ import type {
   SpaceStore,
   UiSlice,
 } from '@/types/store';
+import { detectGpuTier } from '@/utils/gpu-tier';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -57,6 +58,7 @@ export const MAX_EXPERIENCE_SETTINGS: ExperienceSettings = {
   autoRotate: true,
   customCursor: true,
   dpr: 1.6,
+  liteEffects: false,
   musicEnabled: false,
   musicVolume: 0.35,
   nebula: true,
@@ -77,6 +79,7 @@ const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
     autoRotate: true,
     customCursor: false,
     dpr: 1.3,
+    liteEffects: false,
     musicEnabled: false,
     musicVolume: 0.35,
     nebula: true,
@@ -94,6 +97,7 @@ const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
     autoRotate: false,
     customCursor: false,
     dpr: 1,
+    liteEffects: true,
     musicEnabled: false,
     musicVolume: 0.25,
     nebula: false,
@@ -111,6 +115,7 @@ const EXPERIENCE_PRESETS: Record<ExperiencePreset, ExperienceSettings> = {
     autoRotate: false,
     customCursor: false,
     dpr: 1,
+    liteEffects: true,
     musicEnabled: false,
     musicVolume: 0.2,
     nebula: false,
@@ -134,7 +139,10 @@ export function getRecommendedExperiencePreset(): ExperiencePreset {
   const cores = navigator.hardwareConcurrency || 4;
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
 
-  if (reducedMotion) return 'minimal';
+  const gpuTier = detectGpuTier();
+
+  if (reducedMotion || gpuTier === 'software') return 'minimal';
+  if (gpuTier === 'integrated') return 'performance';
   if (coarsePointer || cores <= 4 || memory <= 4) return 'performance';
   return 'balanced';
 }

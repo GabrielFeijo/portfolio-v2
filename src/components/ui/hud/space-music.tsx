@@ -4,11 +4,41 @@ import { useShallow } from 'zustand/react/shallow';
 
 interface MusicGraph {
   context: AudioContext;
+  element: HTMLAudioElement;
   master: GainNode;
-  source: AudioBufferSourceNode | null;
+  playing: boolean;
 }
 
 const MUSIC_URL = '/audio/space-music.mp3';
+
+function clearStopTimer(timerRef: { current: number | null }) {
+  if (timerRef.current === null) return;
+  window.clearTimeout(timerRef.current);
+  timerRef.current = null;
+}
+
+function suspendGraph(graph: MusicGraph) {
+  if (graph.context.state !== 'running') return;
+  void graph.context.suspend?.();
+  graph.element.pause();
+}
+
+function resumeGraphIfEnabled(graph: MusicGraph) {
+  const isEnabled = useSpaceStore.getState().experienceSettings.musicEnabled;
+  if (!isEnabled || graph.context.state !== 'suspended') return;
+  void graph.context.resume?.();
+  void graph.element.play();
+}
+
+function disposeMusicGraph(graphRef: { current: MusicGraph | null }) {
+  const graph = graphRef.current;
+  if (!graph) return;
+  graph.element.pause();
+  graph.element.removeAttribute('src');
+  graph.element.load();
+  void graph.context.close();
+  graphRef.current = null;
+}
 
 export function SpaceMusic() {
   const { enabled, volume } = useSpaceStore(
@@ -19,76 +49,62 @@ export function SpaceMusic() {
   );
 
   const graphRef = useRef<MusicGraph | null>(null);
+  const stopTimerRef = useRef<number | null>(null);
 
-  const initGraph = useCallback(async () => {
+  const initGraph = useCallback(() => {
     if (graphRef.current) return graphRef.current;
 
-    const AudioCtx = window.AudioContext;
-    const context = new AudioCtx();
+    const element = new Audio();
+    element.preload = 'none';
+    element.loop = true;
+    element.src = MUSIC_URL;
+
+    const context = new window.AudioContext();
     const master = context.createGain();
     master.gain.value = 0;
     master.connect(context.destination);
+    context.createMediaElementSource(element).connect(master);
 
-    graphRef.current = { context, master, source: null };
+    graphRef.current = { context, element, master, playing: false };
     return graphRef.current;
   }, []);
 
   const startPlayback = useCallback(async () => {
-    const graph = await initGraph();
-    if (graph.source) return;
+    clearStopTimer(stopTimerRef);
 
     try {
-      const controller = new AbortController();
-      const timeoutId = window.setTimeout(() => controller.abort(), 15_000);
-
-      let response: Response;
-      try {
-        response = await fetch(MUSIC_URL, { signal: controller.signal });
-      } finally {
-        window.clearTimeout(timeoutId);
-      }
-
-      if (!response.ok) throw new Error('Failed to fetch audio file');
-
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await graph.context.decodeAudioData(arrayBuffer);
-
-      const source = graph.context.createBufferSource();
-      source.buffer = audioBuffer;
-      source.loop = true;
-      source.connect(graph.master);
+      const graph = initGraph();
 
       if (graph.context.state === 'suspended') {
         void graph.context.resume();
       }
 
-      source.start(0);
-      graph.source = source;
+      if (!graph.playing) {
+        graph.playing = true;
+        await graph.element.play();
+      }
 
       graph.master.gain.cancelScheduledValues(graph.context.currentTime);
       graph.master.gain.linearRampToValueAtTime(volume, graph.context.currentTime + 2.5);
     } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        console.warn('SpaceMusic: audio fetch timed out');
-        return;
-      }
+      if (graphRef.current) graphRef.current.playing = false;
       console.error('SpaceMusic Error:', error);
     }
   }, [initGraph, volume]);
 
   const stopPlayback = useCallback(() => {
     const graph = graphRef.current;
-    if (!graph || !graph.source) return;
+    if (!graph || !graph.playing) return;
 
     graph.master.gain.cancelScheduledValues(graph.context.currentTime);
     graph.master.gain.linearRampToValueAtTime(0, graph.context.currentTime + 1.2);
 
-    window.setTimeout(() => {
+    stopTimerRef.current = window.setTimeout(() => {
+      stopTimerRef.current = null;
       const currentEnabled = useSpaceStore.getState().experienceSettings.musicEnabled;
       if (graphRef.current && !currentEnabled) {
-        graph.source?.stop();
-        graph.source?.disconnect();
-        graph.source = null;
+        graph.element.pause();
+        graph.playing = false;
       }
     }, 1300);
   }, []);
@@ -115,15 +131,11 @@ export function SpaceMusic() {
       if (!graph) return;
 
       if (document.hidden) {
-        if (graph.context.state === 'running') {
-          void graph.context.suspend?.();
-        }
-      } else {
-        const isEnabled = useSpaceStore.getState().experienceSettings.musicEnabled;
-        if (isEnabled && graph.context.state === 'suspended') {
-          void graph.context.resume?.();
-        }
+        suspendGraph(graph);
+        return;
       }
+
+      resumeGraphIfEnabled(graph);
     };
 
     document.addEventListener('visibilitychange', handleVisibility);
@@ -134,15 +146,8 @@ export function SpaceMusic() {
 
   useEffect(() => {
     return () => {
-      const graph = graphRef.current;
-      if (graph) {
-        if (graph.source) {
-          graph.source.stop();
-          graph.source.disconnect();
-        }
-        void graph.context.close();
-        graphRef.current = null;
-      }
+      clearStopTimer(stopTimerRef);
+      disposeMusicGraph(graphRef);
     };
   }, []);
 

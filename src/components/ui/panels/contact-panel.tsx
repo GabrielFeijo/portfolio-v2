@@ -1,6 +1,6 @@
 import { DEVELOPER } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Briefcase, Code, Globe, Mail, MapPin, MessageSquareQuote, Send } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ContactForm } from './contact/contact-form';
@@ -39,7 +39,7 @@ export function ContactPanel() {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={MessageSquareQuote}
         eyebrow={t('planets.contact.subtitle')}
@@ -73,6 +73,6 @@ export function ContactPanel() {
 
         <ContactForm setCursorVariant={setCursorVariant} />
       </PanelSection>
-    </motion.div>
+    </m.div>
   );
 }

@@ -1,6 +1,6 @@
 import type { Experience } from '@/data/portfolio';
 import { getTranslatedArray } from '@/utils/i18n';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Building2, Calendar, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives';
@@ -20,7 +20,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
   );
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, x: -16 }}
       animate={{ opacity: 1, x: 0 }}
       transition={transition}
@@ -37,7 +37,7 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
         }}
       />
 
-      <motion.article
+      <m.article
         onClick={onToggle}
         whileHover={{ x: 3 }}
         className={`cursor-none px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
@@ -67,17 +67,17 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
             </div>
           </div>
 
-          <motion.div
+          <m.div
             animate={{ rotate: isOpen ? 90 : 0 }}
             className="mt-1 shrink-0 panel-highlight-text"
           >
             <ChevronRight size={18} />
-          </motion.div>
+          </m.div>
         </div>
 
         <AnimatePresence>
           {isOpen && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -98,10 +98,10 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
               )}
 
               <PanelTagList items={experience.tech} />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
-      </motion.article>
-    </motion.div>
+      </m.article>
+    </m.div>
   );
 }

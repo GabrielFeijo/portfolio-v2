@@ -1,4 +1,5 @@
 import { SCENE_COLORS } from '@/constants/scene';
+import { useSpaceStore } from '@/store/space-store';
 import { useFrame } from '@react-three/fiber';
 import { memo, useMemo, useRef } from 'react';
 import * as THREE from 'three';
@@ -15,12 +16,19 @@ function hashString(value: string) {
 }
 
 interface SmallMoonProps {
+  active?: boolean;
   color: string;
   lightDir: THREE.Vector3;
   size: number;
 }
 
-export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: SmallMoonProps) {
+export const SmallMoon = memo(function SmallMoon({
+  active = true,
+  color,
+  lightDir,
+  size,
+}: SmallMoonProps) {
+  const liteEffects = useSpaceStore((state) => state.experienceSettings.liteEffects);
   const ref = useRef<THREE.Group | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
   const inclination = useMemo(() => {
@@ -30,6 +38,8 @@ export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: Smal
   const baseColor = useMemo(() => new THREE.Color(SCENE_COLORS.moon.base), []);
 
   useFrame((state) => {
+    if (!active) return;
+
     const group = ref.current;
     const material = materialRef.current;
     const time = state.clock.getElapsedTime();
@@ -48,18 +58,26 @@ export const SmallMoon = memo(function SmallMoon({ color, lightDir, size }: Smal
   return (
     <group ref={ref}>
       <group position={[size * 2.2, 0, 0]}>
+        {!liteEffects && (
+          <mesh>
+            <sphereGeometry args={[size * 0.22, 16, 16]} />
+            <meshBasicMaterial
+              color={color}
+              transparent
+              opacity={0.1}
+              blending={THREE.AdditiveBlending}
+            />
+          </mesh>
+        )}
         <mesh>
-          <sphereGeometry args={[size * 0.22, 16, 16]} />
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={0.1}
-            blending={THREE.AdditiveBlending}
+          <sphereGeometry args={[size * 0.18, liteEffects ? 12 : 24, liteEffects ? 12 : 24]} />
+          <aaaPlanetMaterial
+            ref={materialRef}
+            uColor={baseColor}
+            uType={0}
+            uLightDir={lightDir}
+            uLite={liteEffects ? 1 : 0}
           />
-        </mesh>
-        <mesh>
-          <sphereGeometry args={[size * 0.18, 24, 24]} />
-          <aaaPlanetMaterial ref={materialRef} uColor={baseColor} uType={0} uLightDir={lightDir} />
         </mesh>
       </group>
     </group>

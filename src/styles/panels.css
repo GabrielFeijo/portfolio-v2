@@ -318,7 +318,7 @@
     overscroll-behavior: contain;
   }
 
-  .panel-drawer>* {
+  .panel-drawer > * {
     position: relative;
     z-index: 1;
   }

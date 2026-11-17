@@ -12,6 +12,7 @@ const baseSettings = {
   autoRotate: true,
   customCursor: true,
   dpr: 1,
+  liteEffects: false,
   musicEnabled: false,
   musicVolume: 0,
   nebula: true,

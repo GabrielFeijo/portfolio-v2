@@ -24,12 +24,15 @@ let mockCamera: THREE.Camera = new THREE.PerspectiveCamera();
 let attachControlsRef = true;
 let controlsInstance: any = null;
 
+const mockInvalidate = vi.fn();
+
 vi.mock('@react-three/fiber', () => ({
   useFrame: (cb: any) => {
     mockFrameCallbacks.push(cb);
   },
   useThree: () => ({
     camera: mockCamera,
+    invalidate: mockInvalidate,
     size: { width: 1000, height: 800 },
   }),
 }));
@@ -101,6 +104,8 @@ describe('CameraController', () => {
     act(() => {
       mockFrameCallbacks.forEach((cb) => cb({}, 0.016));
     });
+
+    expect(mockInvalidate).toHaveBeenCalled();
   });
 
   it('handles settings changes and branches', () => {
@@ -120,6 +125,9 @@ describe('CameraController', () => {
     act(() => {
       mockFrameCallbacks.forEach((cb) => cb({}, 0.016));
     });
+
+    expect((mockCamera as THREE.PerspectiveCamera).fov).toBe(54);
+    expect(mockInvalidate).toHaveBeenCalled();
   });
 
   it('skips setup and frame updates when controls are not ready', () => {

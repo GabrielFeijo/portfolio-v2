@@ -16,7 +16,7 @@ vi.mock('@react-three/fiber', async (importOriginal) => {
       try {
         callback({ clock: { getElapsedTime: () => 0 } }, 0);
       } catch {
-        // Callbacks may run before refs/materials are ready; mounted frames are covered via advanceFrames.
+        void 0;
       }
 
       return actual.useFrame(callback, priority);
@@ -138,5 +138,4 @@ console.error = (...args: any[]) => {
   originalConsoleError(...args);
 };
 
-// Single Three.js instance is enforced via resolve.alias + dedupe in vitest/vite configs.
 import '@/components/three/register-materials';

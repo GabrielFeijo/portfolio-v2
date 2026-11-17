@@ -4,6 +4,7 @@ import {
   MAX_EXPERIENCE_SETTINGS,
   useSpaceStore,
 } from '@/store/space-store';
+import * as gpuTier from '@/utils/gpu-tier';
 import { act } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -173,6 +174,13 @@ describe('space-store', () => {
     } else {
       delete (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
     }
+
+    const gpuSpy = vi.spyOn(gpuTier, 'detectGpuTier');
+    gpuSpy.mockReturnValue('software');
+    expect(getRecommendedExperiencePreset()).toBe('minimal');
+    gpuSpy.mockReturnValue('integrated');
+    expect(getRecommendedExperiencePreset()).toBe('performance');
+    gpuSpy.mockRestore();
   });
 
   it('uses media-query fallbacks when matchMedia is unavailable', () => {
@@ -311,5 +319,21 @@ describe('space-store', () => {
     expect(useSpaceStore.getState().warpActive).toBe(false);
 
     vi.useRealTimers();
+  });
+});
+
+describe('lite effects presets', () => {
+  it('enables lite effects only on performance and minimal presets', () => {
+    const apply = useSpaceStore.getState().applyExperiencePreset;
+
+    for (const [preset, lite] of [
+      ['cinematic', false],
+      ['balanced', false],
+      ['performance', true],
+      ['minimal', true],
+    ] as const) {
+      act(() => apply(preset));
+      expect(useSpaceStore.getState().experienceSettings.liteEffects).toBe(lite);
+    }
   });
 });

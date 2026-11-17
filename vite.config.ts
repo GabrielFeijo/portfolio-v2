@@ -33,10 +33,6 @@ export default defineConfig(({ command }) => ({
             return 'vendor-3d'
           }
 
-          if (id.includes('framer-motion')) {
-            return 'vendor-motion'
-          }
-
           if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('/zod/')) {
             return 'vendor-form'
           }

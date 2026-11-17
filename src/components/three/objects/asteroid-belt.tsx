@@ -8,11 +8,51 @@ interface AsteroidBeltProps {
   outerRadius: number;
   count: number;
   color: string;
+  animate?: boolean;
+  lite?: boolean;
+  updateInterval?: number;
+}
+
+interface Asteroid {
+  angle: number;
+  radius: number;
+  height: number;
+  size: number;
+  speed: number;
+  rotX: number;
+  rotY: number;
+  rotSpeed: number;
 }
 
 const MATRIX_UPDATE_INTERVAL = 1 / 30;
 
-export function AsteroidBelt({ innerRadius, outerRadius, count, color }: AsteroidBeltProps) {
+function writeAsteroidMatrix(
+  mesh: THREE.InstancedMesh,
+  index: number,
+  asteroid: Asteroid,
+  yOffset: number,
+  dummy: THREE.Object3D
+) {
+  dummy.position.set(
+    Math.cos(asteroid.angle) * asteroid.radius,
+    asteroid.height + yOffset,
+    Math.sin(asteroid.angle) * asteroid.radius
+  );
+  dummy.scale.setScalar(asteroid.size);
+  dummy.rotation.set(asteroid.rotX, asteroid.rotY, 0);
+  dummy.updateMatrix();
+  mesh.setMatrixAt(index, dummy.matrix);
+}
+
+export function AsteroidBelt({
+  innerRadius,
+  outerRadius,
+  count,
+  color,
+  animate = true,
+  lite = false,
+  updateInterval = MATRIX_UPDATE_INTERVAL,
+}: AsteroidBeltProps) {
   const meshRef = useRef<THREE.InstancedMesh | null>(null);
   const frameDeltaRef = useMemo(() => ({ current: 0 }), []);
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -41,50 +81,44 @@ export function AsteroidBelt({ innerRadius, outerRadius, count, color }: Asteroi
   }, [geometry, rockTexture]);
 
   useEffect(() => {
-    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return;
+    const mesh = meshRef.current;
+    if (!mesh || typeof mesh.setMatrixAt !== 'function') return;
 
-    asteroids.forEach((a, i) => {
-      dummy.position.set(Math.cos(a.angle) * a.radius, a.height, Math.sin(a.angle) * a.radius);
-      dummy.scale.setScalar(a.size);
-      dummy.rotation.set(a.rotX, a.rotY, 0);
-      dummy.updateMatrix();
-      meshRef.current?.setMatrixAt?.(i, dummy.matrix);
-    });
+    for (let i = 0; i < asteroids.length; i += 1) {
+      writeAsteroidMatrix(mesh, i, asteroids[i], 0, dummy);
+    }
 
-    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true });
+    Object.assign(mesh.instanceMatrix ?? {}, { needsUpdate: true });
   }, [asteroids, dummy]);
 
   useFrame((_, delta) => {
-    if (!meshRef.current || typeof meshRef.current.setMatrixAt !== 'function') return;
+    const mesh = meshRef.current;
+    if (!animate || !mesh || typeof mesh.setMatrixAt !== 'function') return;
 
     frameDeltaRef.current += delta;
-    if (frameDeltaRef.current < MATRIX_UPDATE_INTERVAL) return;
+    if (frameDeltaRef.current < updateInterval) return;
 
     const elapsedDelta = frameDeltaRef.current;
     frameDeltaRef.current = 0;
 
-    asteroids.forEach((a, i) => {
+    for (let i = 0; i < asteroids.length; i += 1) {
+      const a = asteroids[i];
       a.angle += elapsedDelta * a.speed;
       a.rotX += elapsedDelta * a.rotSpeed * 0.7;
       a.rotY += elapsedDelta * a.rotSpeed;
+      writeAsteroidMatrix(mesh, i, a, Math.sin(a.angle * 3) * 0.15, dummy);
+    }
 
-      dummy.position.set(
-        Math.cos(a.angle) * a.radius,
-        a.height + Math.sin(a.angle * 3) * 0.15,
-        Math.sin(a.angle) * a.radius
-      );
-      dummy.scale.setScalar(a.size);
-      dummy.rotation.set(a.rotX, a.rotY, 0);
-      dummy.updateMatrix();
-      meshRef.current?.setMatrixAt?.(i, dummy.matrix);
-    });
-
-    Object.assign(meshRef.current.instanceMatrix ?? {}, { needsUpdate: true });
+    Object.assign(mesh.instanceMatrix ?? {}, { needsUpdate: true });
   });
 
   return (
     <instancedMesh ref={meshRef} args={[geometry, undefined, count]}>
-      <meshStandardMaterial map={rockTexture} roughness={0.95} metalness={0.05} color={color} />
+      {lite ? (
+        <meshLambertMaterial map={rockTexture} color={color} />
+      ) : (
+        <meshStandardMaterial map={rockTexture} roughness={0.95} metalness={0.05} color={color} />
+      )}
     </instancedMesh>
   );
 }

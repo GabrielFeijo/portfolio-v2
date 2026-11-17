@@ -99,4 +99,25 @@ describe('AsteroidBelt', () => {
     meshNode.instanceMatrix = originalInstanceMatrix;
     await renderer.unmount();
   });
+
+  it('skips matrix updates when animate is false and supports lite material', async () => {
+    const renderer = await create(
+      <AsteroidBelt
+        innerRadius={10}
+        outerRadius={20}
+        count={3}
+        color="#ff8800"
+        animate={false}
+        lite
+      />
+    );
+
+    const meshNode = mockMeshRef.current as any;
+    meshNode.setMatrixAt = vi.fn();
+
+    await advanceR3F(renderer, 4, 0.05);
+    expect(meshNode.setMatrixAt).not.toHaveBeenCalled();
+
+    await renderer.unmount();
+  });
 });

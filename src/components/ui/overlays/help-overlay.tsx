@@ -1,6 +1,6 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useSpaceStore } from '@/store/space-store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { BookOpen, Compass, MousePointerClick, Sparkles, X } from 'lucide-react';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ export function HelpOverlay() {
   }>;
 
   return (
-    <motion.div
+    <m.div
       role="dialog"
       aria-modal="true"
       aria-labelledby="help-overlay-title"
@@ -42,7 +42,7 @@ export function HelpOverlay() {
         aria-hidden="true"
       />
 
-      <motion.div
+      <m.div
         initial={{ y: 24, opacity: 0, scale: 0.98 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 20, opacity: 0, scale: 0.98 }}
@@ -156,8 +156,8 @@ export function HelpOverlay() {
             </aside>
           </div>
         </UISurface>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 

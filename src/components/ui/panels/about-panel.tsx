@@ -1,7 +1,7 @@
 import { DEVELOPER, type DeveloperEducation } from '@/data/portfolio';
 import { useSpaceStore } from '@/store/space-store';
 import { getTranslatedArray } from '@/utils/i18n';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Briefcase, Code, GraduationCap, Laptop2, Mail, MapPin, UserRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AboutContactButton } from './about/about-contact-button';
@@ -21,13 +21,13 @@ export function AboutPanel() {
   const education = getTranslatedArray<DeveloperEducation>(t, 'developer.education');
 
   return (
-    <motion.div
+    <m.div
       variants={panelStagger}
       initial="hidden"
       animate="visible"
       className="flex flex-col gap-8 sm:gap-10"
     >
-      <motion.section variants={panelFadeUp} className="panel-card-strong p-6 sm:p-7">
+      <m.section variants={panelFadeUp} className="panel-card-strong p-6 sm:p-7">
         <div className="relative flex gap-6 items-start flex-col sm:flex-row">
           <div className="relative shrink-0">
             <img
@@ -47,12 +47,12 @@ export function AboutPanel() {
               {t('planets.about.subtitle')}
             </PanelBadge>
 
-            <motion.h1
+            <m.h1
               variants={panelFadeUp}
               className="mt-3 text-3xl sm:text-4xl font-bold tracking-display text-(--text-primary)"
             >
               {DEVELOPER.name}
-            </motion.h1>
+            </m.h1>
 
             <div className="mt-2 flex flex-wrap gap-2 text-xs">
               <AboutInfoPill icon={Laptop2} label={t('developer.title')} />
@@ -67,9 +67,9 @@ export function AboutPanel() {
             </p>
           </div>
         </div>
-      </motion.section>
+      </m.section>
 
-      <motion.div variants={panelFadeUp} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <m.div variants={panelFadeUp} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {stats.map((stat) => (
           <div key={stat.label} className="panel-card relative overflow-hidden p-4 sm:p-5">
             <div className="text-2xl sm:text-3xl font-bold text-(--text-primary)">{stat.value}</div>
@@ -78,9 +78,9 @@ export function AboutPanel() {
             </div>
           </div>
         ))}
-      </motion.div>
+      </m.div>
 
-      <motion.div variants={panelFadeUp} className="flex gap-3 flex-wrap">
+      <m.div variants={panelFadeUp} className="flex gap-3 flex-wrap">
         <AboutContactButton
           href={DEVELOPER.github}
           label={t('contact.links.github')}
@@ -99,7 +99,7 @@ export function AboutPanel() {
           icon={Mail}
           setCursorVariant={setCursorVariant}
         />
-      </motion.div>
+      </m.div>
 
       <PanelSection
         icon={Laptop2}
@@ -137,6 +137,6 @@ export function AboutPanel() {
         <p className="text-sm text-(--text-secondary) leading-7 mb-4">{t('developer.bio')}</p>
         <PanelNotice>{t('developer.availability')}</PanelNotice>
       </PanelSection>
-    </motion.div>
+    </m.div>
   );
 }

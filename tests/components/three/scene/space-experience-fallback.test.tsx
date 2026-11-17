@@ -7,19 +7,31 @@ const setGraphicsMode = vi.fn();
 const setCursorVariant = vi.fn();
 const setExperienceSetting = vi.fn();
 let webGLAvailable = false;
+let mockAntialias = false;
+const removeEventListener = vi.fn();
 
 vi.mock('@/utils/webgl-check', () => ({ isWebGLAvailable: () => webGLAvailable }));
 vi.mock('@/components/three/register-materials', () => ({}));
 vi.mock('@/components/three/scene/space-scene', () => ({ SpaceScene: () => null }));
 vi.mock('@react-three/fiber', () => ({
-  Canvas: ({ children }: { children: ReactNode }) => <div data-testid="canvas">{children}</div>,
+  Canvas: ({ children, onCreated }: { children: ReactNode; onCreated?: (state: any) => void }) => {
+    onCreated?.({
+      gl: {
+        domElement: {
+          addEventListener: vi.fn(),
+          removeEventListener,
+        },
+      },
+    });
+    return <div data-testid="canvas">{children}</div>;
+  },
 }));
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 vi.mock('zustand/react/shallow', () => ({ useShallow: (selector: unknown) => selector }));
 vi.mock('@/store/space-store', () => ({
   useSpaceStore: (selector: (state: any) => unknown) =>
     selector({
-      experienceSettings: { antialias: false, dpr: 1, shadows: false },
+      experienceSettings: { antialias: mockAntialias, dpr: 1, shadows: false },
       isLoaded: false,
       setCursorVariant,
       setExperienceSetting,
@@ -34,6 +46,7 @@ describe('SpaceExperience compatibility mode', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     webGLAvailable = false;
+    mockAntialias = false;
   });
 
   it('releases loading and allows continuing without WebGL', async () => {
@@ -63,5 +76,17 @@ describe('SpaceExperience compatibility mode', () => {
     await act(async () => vi.advanceTimersByTime(8_000));
     expect(setIsLoaded).toHaveBeenCalledWith(true);
     vi.useRealTimers();
+  });
+
+  it('detaches context lost listener when antialias remounts the canvas', async () => {
+    webGLAvailable = true;
+    const { rerender, unmount } = render(<SpaceExperience />);
+    expect(screen.getByTestId('canvas')).toBeInTheDocument();
+
+    mockAntialias = true;
+    rerender(<SpaceExperience />);
+    expect(removeEventListener).toHaveBeenCalledWith('webglcontextlost', expect.any(Function));
+
+    unmount();
   });
 });

@@ -2,7 +2,7 @@ import { ANIMATION_SETTINGS } from '@/constants/animation';
 import { PLANETS, type PanelId } from '@/data/portfolio';
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useSpaceStore } from '@/store/space-store';
-import { motion, MotionConfig } from 'framer-motion';
+import { m, MotionConfig } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import type { ComponentType, CSSProperties } from 'react';
 import { lazy, Suspense, useCallback, useMemo, useRef } from 'react';
@@ -105,8 +105,8 @@ export function PlanetPanel() {
   if (!activePanel || !planet || !PanelContent) return null;
 
   return (
-    <MotionConfig reducedMotion="never">
-      <motion.div
+    <MotionConfig reducedMotion={panelMotionEnabled ? 'never' : 'always'}>
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -132,7 +132,7 @@ export function PlanetPanel() {
 
         <div className="flex-1" />
 
-        <motion.div
+        <m.div
           initial={{ x: '100%', opacity: 0.5 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: '100%', opacity: 0 }}
@@ -151,7 +151,7 @@ export function PlanetPanel() {
         >
           <div className="panel-drawer">
             <div className="panel-drawer-header relative shrink-0 px-5 py-5 sm:px-6 sm:py-5">
-              <motion.button
+              <m.button
                 whileTap={panelMotionEnabled ? { scale: 0.96 } : undefined}
                 onClick={closePanel}
                 {...linkCursor}
@@ -159,7 +159,7 @@ export function PlanetPanel() {
                 className="panel-close-button absolute right-5 top-4 z-10 h-10 w-10 cursor-none transition-colors hover:bg-(--surface-interactive-strong)"
               >
                 <X size={18} />
-              </motion.button>
+              </m.button>
 
               <div
                 id="planet-panel-title"
@@ -184,7 +184,7 @@ export function PlanetPanel() {
 
             <div className="panel-drawer-footer relative z-10 flex shrink-0 justify-between px-5 py-4 sm:px-6 sm:py-5">
               {prev ? (
-                <motion.button
+                <m.button
                   whileTap={panelMotionEnabled ? { scale: 0.98 } : undefined}
                   onClick={() => handleNav(prev.id)}
                   {...linkCursor}
@@ -199,13 +199,13 @@ export function PlanetPanel() {
                 >
                   <ChevronLeft size={14} />
                   <span className="opacity-80">{t(`planets.${prev.id}.name`)}</span>
-                </motion.button>
+                </m.button>
               ) : (
                 <div />
               )}
 
               {next ? (
-                <motion.button
+                <m.button
                   whileTap={panelMotionEnabled ? { scale: 0.98 } : undefined}
                   onClick={() => handleNav(next.id)}
                   {...linkCursor}
@@ -218,14 +218,14 @@ export function PlanetPanel() {
                 >
                   <span className="opacity-80">{t(`planets.${next.id}.name`)}</span>
                   <ChevronRight size={14} />
-                </motion.button>
+                </m.button>
               ) : (
                 <div />
               )}
             </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </MotionConfig>
   );
 }

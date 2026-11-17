@@ -283,32 +283,6 @@
     color: var(--accent-blue-bright);
   }
 
-  .glow-text {
-    text-shadow: 0 0 8px #dfb53b33;
-  }
-
-  .glow-subtle {
-    box-shadow: 0 0 10px #dfb53b1a;
-  }
-
-  .glass {
-    background: linear-gradient(180deg, #0f1015d1, #090a0dc2);
-    backdrop-filter: blur(var(--blur-label)) saturate(115%);
-    -webkit-backdrop-filter: blur(var(--blur-label)) saturate(115%);
-    border: var(--line-hairline) solid var(--border);
-    border-radius: var(--radius-control);
-    box-shadow: inset 0 1px 0 #ffffff0a;
-  }
-
-  .glass-strong {
-    background: linear-gradient(180deg, #12141beb, #0a0b0fe0);
-    backdrop-filter: blur(var(--blur-glass)) saturate(120%);
-    -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(120%);
-    border: var(--line-hairline) solid var(--border-strong);
-    border-radius: var(--radius-control);
-    box-shadow: inset 0 1px 0 #ffffff0d;
-  }
-
   .sr-only {
     position: absolute;
     width: var(--line-hairline);
@@ -319,4 +293,33 @@
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
+}
+
+html[data-effects='lite'] {
+  --surface-glass: #0a0c14f2;
+  --surface-glass-muted: #0a0c14f2;
+  --shadow-hud-header: none;
+  --shadow-hud-navigation: none;
+  --shadow-hud-footer: none;
+  --shadow-card: none;
+  --shadow-overlay: none;
+  --shadow-overlay-strong: none;
+}
+
+html[data-effects='lite'] * {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-effects='lite'] .vignette {
+  display: none;
+}
+
+html[data-effects='lite'] .panel-drawer,
+html[data-effects='lite'] .panel-shell,
+html[data-effects='lite'] .ds-surface,
+html[data-effects='lite'] .ds-surface-strong,
+html[data-effects='lite'] .planet-label {
+  background-color: color-mix(in srgb, #070a14 94%, transparent);
+  box-shadow: none;
 }

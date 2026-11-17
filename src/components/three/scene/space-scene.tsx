@@ -14,11 +14,25 @@ import { CameraController } from './camera-controller';
 import { FrameScheduler } from './frame-scheduler';
 
 export function SpaceScene() {
-  const { asteroidDensity, nebula, setIsLoaded, shootingStars, starDensity } = useSpaceStore(
+  const {
+    activePanel,
+    asteroidDensity,
+    helpOpen,
+    liteEffects,
+    nebula,
+    setIsLoaded,
+    settingsOpen,
+    shootingStars,
+    starDensity,
+  } = useSpaceStore(
     useShallow((state) => ({
+      activePanel: state.activePanel,
       asteroidDensity: state.experienceSettings.asteroidDensity,
+      helpOpen: state.helpOpen,
+      liteEffects: state.experienceSettings.liteEffects,
       nebula: state.experienceSettings.nebula,
       setIsLoaded: state.setIsLoaded,
+      settingsOpen: state.settingsOpen,
       shootingStars: state.experienceSettings.shootingStars,
       starDensity: state.experienceSettings.starDensity,
     }))
@@ -32,8 +46,25 @@ export function SpaceScene() {
   );
 
   useEffect(() => {
-    const timeout = window.setTimeout(() => setIsLoaded(true), ANIMATION_SETTINGS.loadingDelayMs);
-    return () => window.clearTimeout(timeout);
+    let completed = false;
+    let frameId = 0;
+
+    const completeLoad = () => {
+      if (completed) return;
+      completed = true;
+      setIsLoaded(true);
+    };
+
+    frameId = window.requestAnimationFrame(() => {
+      frameId = window.requestAnimationFrame(completeLoad);
+    });
+    const timeout = window.setTimeout(completeLoad, ANIMATION_SETTINGS.loadingDelayMs);
+
+    return () => {
+      completed = true;
+      window.clearTimeout(timeout);
+      window.cancelAnimationFrame(frameId);
+    };
   }, [setIsLoaded]);
 
   const primaryStarCount = Math.max(
@@ -47,6 +78,8 @@ export function SpaceScene() {
   const shootingStarCount = shootingStars ? Math.max(1, Math.round(4 * starDensity)) : 0;
   const innerAsteroidCount = Math.round(120 * asteroidDensity);
   const outerAsteroidCount = Math.round(48 * asteroidDensity);
+  const hasAsteroids = innerAsteroidCount + outerAsteroidCount > 0;
+  const sceneObscured = Boolean(activePanel || helpOpen || settingsOpen);
 
   const backgroundColor = useMemo(() => new THREE.Color(SCENE_SETTINGS.background), []);
 
@@ -55,31 +88,41 @@ export function SpaceScene() {
       <color attach="background" args={[backgroundColor]} />
       <FrameScheduler />
 
-      <ambientLight intensity={0.14} color={SCENE_COLORS.lighting.ambient} />
-      <hemisphereLight
-        intensity={0.22}
-        color={SCENE_COLORS.lighting.hemisphere}
-        groundColor={SCENE_COLORS.lighting.ground}
-      />
-
-      <pointLight
-        position={[110, 70, 90]}
-        intensity={0.7}
-        color={SCENE_COLORS.lighting.key}
-        distance={320}
-        decay={1.8}
-      />
-      <pointLight
-        position={[-120, -50, -70]}
-        intensity={0.28}
-        color={SCENE_COLORS.lighting.fill}
-        distance={320}
-        decay={1.9}
-      />
+      {hasAsteroids && (
+        <>
+          <ambientLight
+            intensity={liteEffects ? 0.35 : 0.14}
+            color={SCENE_COLORS.lighting.ambient}
+          />
+          {!liteEffects && (
+            <>
+              <hemisphereLight
+                intensity={0.22}
+                color={SCENE_COLORS.lighting.hemisphere}
+                groundColor={SCENE_COLORS.lighting.ground}
+              />
+              <pointLight
+                position={[110, 70, 90]}
+                intensity={0.7}
+                color={SCENE_COLORS.lighting.key}
+                distance={320}
+                decay={1.8}
+              />
+              <pointLight
+                position={[-120, -50, -70]}
+                intensity={0.28}
+                color={SCENE_COLORS.lighting.fill}
+                distance={320}
+                decay={1.9}
+              />
+            </>
+          )}
+        </>
+      )}
 
       <Stars {...SCENE_SETTINGS.primaryStars} count={primaryStarCount} fade />
       <Stars {...SCENE_SETTINGS.secondaryStars} count={secondaryStarCount} fade />
-      {nebula && <Nebula density={starDensity} />}
+      {nebula && <Nebula density={starDensity} animate={!sceneObscured} />}
 
       <Sun3D />
 
@@ -97,6 +140,9 @@ export function SpaceScene() {
           outerRadius={54}
           count={innerAsteroidCount}
           color={SCENE_COLORS.asteroids.inner}
+          animate={!sceneObscured}
+          lite={liteEffects}
+          updateInterval={liteEffects ? 1 / 15 : 1 / 30}
         />
       )}
       {outerAsteroidCount > 0 && (
@@ -105,6 +151,9 @@ export function SpaceScene() {
           outerRadius={104}
           count={outerAsteroidCount}
           color={SCENE_COLORS.asteroids.outer}
+          animate={!sceneObscured}
+          lite={liteEffects}
+          updateInterval={liteEffects ? 1 / 15 : 1 / 30}
         />
       )}
 

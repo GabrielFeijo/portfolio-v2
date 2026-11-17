@@ -48,7 +48,7 @@ export default [
       'react-hooks/set-state-in-effect': 'off',
       'react-hooks/incompatible-library': 'off',
       'react-hooks/static-components': 'off',
-      'react/no-unknown-property': ['error', { ignore: ['args', 'attach', 'position', 'rotation', 'scale', 'map', 'roughness', 'metalness', 'intensity', 'uniforms', 'transparent', 'depthWrite', 'depthTest', 'blending', 'vertexColors', 'sizeAttenuation', 'frustumCulled', 'geometry', 'material', 'side', 'uColor', 'uIntensity', 'uType', 'uLightDir', 'uTime', 'uColorPrimary', 'uColorSecondary', 'distance', 'decay', 'groundColor', 'angle', 'penumbra'] }],
+      'react/no-unknown-property': ['error', { ignore: ['args', 'attach', 'position', 'rotation', 'scale', 'map', 'roughness', 'metalness', 'intensity', 'uniforms', 'transparent', 'depthWrite', 'depthTest', 'blending', 'vertexColors', 'sizeAttenuation', 'frustumCulled', 'geometry', 'material', 'side', 'visible', 'uColor', 'uIntensity', 'uType', 'uLightDir', 'uLite', 'uTime', 'uColorPrimary', 'uColorSecondary', 'distance', 'decay', 'groundColor', 'angle', 'penumbra'] }],
     },
     settings: {
       react: {
@@ -88,7 +88,7 @@ export default [
       'react-hooks/rules-of-hooks': 'off',
       'react-hooks/exhaustive-deps': 'off',
       'no-setter-return': 'off',
-      'react/no-unknown-property': ['error', { ignore: ['args', 'attach', 'position', 'rotation', 'scale', 'map', 'roughness', 'metalness', 'intensity', 'uniforms', 'transparent', 'depthWrite', 'depthTest', 'blending', 'vertexColors', 'sizeAttenuation', 'frustumCulled', 'geometry', 'material', 'side', 'uColor', 'uIntensity', 'uType', 'uLightDir', 'uTime', 'uColorPrimary', 'uColorSecondary', 'distance', 'decay', 'groundColor', 'angle', 'penumbra'] }],
+      'react/no-unknown-property': ['error', { ignore: ['args', 'attach', 'position', 'rotation', 'scale', 'map', 'roughness', 'metalness', 'intensity', 'uniforms', 'transparent', 'depthWrite', 'depthTest', 'blending', 'vertexColors', 'sizeAttenuation', 'frustumCulled', 'geometry', 'material', 'side', 'visible', 'uColor', 'uIntensity', 'uType', 'uLightDir', 'uLite', 'uTime', 'uColorPrimary', 'uColorSecondary', 'distance', 'decay', 'groundColor', 'angle', 'penumbra'] }],
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },

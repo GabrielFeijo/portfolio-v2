@@ -55,4 +55,10 @@ describe('Nebula', () => {
     await advanceR3F(renderer, 10, 0.03);
     await renderer.unmount();
   });
+
+  it('keeps nebula static when animate is false', async () => {
+    const renderer = await create(<Nebula density={0.5} animate={false} />);
+    await advanceR3F(renderer, 5, 0.05);
+    await renderer.unmount();
+  });
 });

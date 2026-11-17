@@ -15,6 +15,12 @@ interface UsePlanetInteractionOptions {
   settings?: ExperienceSettings;
 }
 
+function clearTimerRef(timerRef: { current: number | null }) {
+  if (timerRef.current === null) return;
+  window.clearTimeout(timerRef.current);
+  timerRef.current = null;
+}
+
 export function usePlanetInteraction({
   planetId,
   handlePlanetClick,
@@ -30,15 +36,8 @@ export function usePlanetInteraction({
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const cancelPendingInteractionTimers = useCallback(() => {
-    if (warpTimeoutRef.current !== null) {
-      window.clearTimeout(warpTimeoutRef.current);
-      warpTimeoutRef.current = null;
-    }
-
-    if (panelOpenTimerRef.current !== null) {
-      window.clearTimeout(panelOpenTimerRef.current);
-      panelOpenTimerRef.current = null;
-    }
+    clearTimerRef(warpTimeoutRef);
+    clearTimerRef(panelOpenTimerRef);
   }, []);
 
   useEffect(() => {
@@ -51,42 +50,33 @@ export function usePlanetInteraction({
     (event: ThreeEvent<MouseEvent>) => {
       event.stopPropagation();
 
-      if (openPanel && setActivePlanet && setWarpActive && settings) {
-        if (panelOpenTimerRef.current !== null) {
-          window.clearTimeout(panelOpenTimerRef.current);
-          panelOpenTimerRef.current = null;
-        }
-
-        setActivePlanet(planetId);
-
-        const useTransitions = settings.transitionAnimations && !prefersReducedMotion;
-
-        if (!useTransitions) {
-          openPanel(planetId);
-          return;
-        }
-
-        if (settings.warpEffects) {
-          setWarpActive(true);
-
-          if (warpTimeoutRef.current !== null) {
-            window.clearTimeout(warpTimeoutRef.current);
-          }
-
-          warpTimeoutRef.current = window.setTimeout(() => {
-            setWarpActive(false);
-            warpTimeoutRef.current = null;
-          }, ANIMATION_SETTINGS.warpDurationMs);
-        }
-
-        panelOpenTimerRef.current = window.setTimeout(() => {
-          panelOpenTimerRef.current = null;
-          openPanel(planetId);
-        }, ANIMATION_SETTINGS.panelOpenDelayMs);
+      if (!openPanel || !setActivePlanet || !setWarpActive || !settings) {
+        handlePlanetClick?.(planetId);
         return;
       }
 
-      handlePlanetClick?.(planetId);
+      clearTimerRef(panelOpenTimerRef);
+      setActivePlanet(planetId);
+
+      const useTransitions = settings.transitionAnimations && !prefersReducedMotion;
+      if (!useTransitions) {
+        openPanel(planetId);
+        return;
+      }
+
+      if (settings.warpEffects) {
+        setWarpActive(true);
+        clearTimerRef(warpTimeoutRef);
+        warpTimeoutRef.current = window.setTimeout(() => {
+          setWarpActive(false);
+          warpTimeoutRef.current = null;
+        }, ANIMATION_SETTINGS.warpDurationMs);
+      }
+
+      panelOpenTimerRef.current = window.setTimeout(() => {
+        panelOpenTimerRef.current = null;
+        openPanel(planetId);
+      }, ANIMATION_SETTINGS.panelOpenDelayMs);
     },
     [
       handlePlanetClick,

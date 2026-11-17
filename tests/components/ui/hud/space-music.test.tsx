@@ -12,19 +12,21 @@ const mockGain = {
   },
 };
 
-const mockSource = {
-  connect: vi.fn(),
-  start: vi.fn(),
-  stop: vi.fn(),
-  disconnect: vi.fn(),
-  buffer: null,
+const mockMediaSource = { connect: vi.fn() };
+
+const mockElement = {
+  play: vi.fn().mockResolvedValue(undefined),
+  pause: vi.fn(),
+  load: vi.fn(),
+  removeAttribute: vi.fn(),
+  preload: '',
   loop: false,
+  src: '',
 };
 
 const mockAudioContextMembers = {
   createGain: vi.fn(() => mockGain),
-  createBufferSource: vi.fn(() => mockSource),
-  decodeAudioData: vi.fn().mockResolvedValue({}),
+  createMediaElementSource: vi.fn(() => mockMediaSource),
   resume: vi.fn().mockResolvedValue(undefined),
   suspend: vi.fn().mockResolvedValue(undefined),
   close: vi.fn().mockResolvedValue(undefined),
@@ -64,14 +66,14 @@ describe('SpaceMusic', () => {
     mockStoreState = { experienceSettings: { musicEnabled: true, musicVolume: 0.5 } };
     vi.stubGlobal('AudioContext', MockAudioContext);
     vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        ok: true,
-        arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
+      'Audio',
+      vi.fn(function () {
+        return mockElement;
       })
     );
     vi.useFakeTimers();
     vi.clearAllMocks();
+    mockElement.play.mockResolvedValue(undefined);
     mockAudioContextMembers.state = 'suspended';
   });
 
@@ -85,8 +87,11 @@ describe('SpaceMusic', () => {
       render(<SpaceMusic />);
     });
 
-    expect(global.fetch).toHaveBeenCalled();
-    expect(mockSource.start).toHaveBeenCalled();
+    expect(mockElement.preload).toBe('none');
+    expect(mockElement.loop).toBe(true);
+    expect(mockElement.src).toBe('/audio/space-music.mp3');
+    expect(mockMediaSource.connect).toHaveBeenCalledWith(mockGain);
+    expect(mockElement.play).toHaveBeenCalled();
     expect(mockAudioContextMembers.resume).toHaveBeenCalled();
   });
 
@@ -115,12 +120,28 @@ describe('SpaceMusic', () => {
     act(() => {
       vi.runAllTimers();
     });
-    expect(mockSource.stop).toHaveBeenCalled();
+    expect(mockElement.pause).toHaveBeenCalled();
   });
 
-  it('handles fetch errors', async () => {
+  it('handles playback errors', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
+    mockElement.play.mockRejectedValueOnce(new Error('blocked'));
+
+    await act(async () => {
+      render(<SpaceMusic />);
+    });
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
+
+  it('handles audio initialization errors before a graph is created', async () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => {
+        throw new Error('unsupported');
+      })
+    );
 
     await act(async () => {
       render(<SpaceMusic />);
@@ -178,7 +199,7 @@ describe('SpaceMusic', () => {
       rerender(<SpaceMusic />);
     });
 
-    expect(mockAudioContextMembers.createBufferSource).toHaveBeenCalledTimes(1);
+    expect(mockElement.play).toHaveBeenCalledTimes(1);
   });
 
   it('keeps the source alive when music is re-enabled before the delayed stop', async () => {
@@ -195,30 +216,7 @@ describe('SpaceMusic', () => {
       vi.runAllTimers();
     });
 
-    expect(mockSource.stop).not.toHaveBeenCalled();
-  });
-
-  it('handles fetch abort/timeout error', async () => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const fetchMock = vi.fn().mockImplementation((_url, options) => {
-      return new Promise((_, reject) => {
-        options.signal.addEventListener('abort', () => {
-          reject(new DOMException('The user aborted a request.', 'AbortError'));
-        });
-      });
-    });
-    vi.stubGlobal('fetch', fetchMock);
-
-    await act(async () => {
-      render(<SpaceMusic />);
-    });
-
-    await act(async () => {
-      vi.advanceTimersByTime(15000);
-    });
-
-    expect(consoleSpy).toHaveBeenCalledWith('SpaceMusic: audio fetch timed out');
-    consoleSpy.mockRestore();
+    expect(mockElement.pause).not.toHaveBeenCalled();
   });
 
   it('suspends audio context when document is hidden and resumes when visible', async () => {
@@ -267,5 +265,20 @@ describe('SpaceMusic', () => {
     act(() => {
       document.dispatchEvent(new Event('visibilitychange'));
     });
+  });
+
+  it('clears pending stop timer on unmount', async () => {
+    const { rerender, unmount } = render(<SpaceMusic />);
+    await act(async () => {});
+
+    mockStoreState.experienceSettings.musicEnabled = false;
+    await act(async () => {
+      rerender(<SpaceMusic />);
+    });
+
+    await act(async () => {
+      unmount();
+    });
+    expect(mockElement.pause).toHaveBeenCalled();
   });
 });

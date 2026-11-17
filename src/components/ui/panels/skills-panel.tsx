@@ -1,6 +1,6 @@
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio';
 import { getTranslatedArray } from '@/utils/i18n';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Code2, Server, Sparkles, Wrench } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PanelIconBadge, PanelIntroCard } from './panel-primitives';
@@ -34,7 +34,7 @@ export function SkillsPanel() {
   ] as const;
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={Sparkles}
         eyebrow={t('planets.skills.subtitle')}
@@ -43,7 +43,7 @@ export function SkillsPanel() {
       />
 
       {CATEGORIES.map((cat, ci) => (
-        <motion.section
+        <m.section
           key={cat.key}
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
@@ -74,10 +74,10 @@ export function SkillsPanel() {
               <SkillBar key={skill.name} skill={skill} delay={si * 0.06} />
             ))}
           </div>
-        </motion.section>
+        </m.section>
       ))}
 
-      <motion.section
+      <m.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -104,20 +104,20 @@ export function SkillsPanel() {
                 <div className="text-sm font-semibold text-(--text-primary) mb-3">{title}</div>
                 <div className="flex flex-wrap gap-2">
                   {items.map((skill) => (
-                    <motion.span
+                    <m.span
                       key={skill}
                       whileHover={{ scale: 1.04 }}
                       className="text-xs px-3 py-1.5 cursor-none panel-meta-chip transition-colors"
                     >
                       {skill}
-                    </motion.span>
+                    </m.span>
                   ))}
                 </div>
               </div>
             );
           })}
         </div>
-      </motion.section>
-    </motion.div>
+      </m.section>
+    </m.div>
   );
 }

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { AlertTriangle, AppWindow, Cpu, ExternalLink, RefreshCcw, ShieldCheck } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,12 +24,10 @@ export function WebGLError({
 
   return (
     <div className="fixed inset-0 z-2000 flex h-screen w-screen items-center justify-center overflow-hidden bg-(--canvas-fallback) p-5 text-(--fallback-text) font-body-exo">
-      <div className="scanlines" />
       <div className="vignette" />
-      <div className="noise" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,color-mix(in_srgb,var(--accent-gold)_18%,transparent),transparent_28%),radial-gradient(circle_at_bottom,var(--accent-surface-hover),transparent_32%)]" />
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
@@ -136,7 +134,7 @@ export function WebGLError({
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               {onContinue && (
-                <motion.button
+                <m.button
                   className="ds-button-primary"
                   type="button"
                   whileHover={{ scale: 1.03 }}
@@ -144,9 +142,9 @@ export function WebGLError({
                   onClick={onContinue}
                 >
                   {t('webgl.actions.continue_without_3d')}
-                </motion.button>
+                </m.button>
               )}
-              <motion.button
+              <m.button
                 className={onContinue ? 'ds-button-secondary' : 'ds-button-primary'}
                 type="button"
                 whileHover={{ scale: 1.05 }}
@@ -155,9 +153,9 @@ export function WebGLError({
               >
                 <RefreshCcw size={14} />
                 {t('webgl.actions.try_again')}
-              </motion.button>
+              </m.button>
 
-              <motion.a
+              <m.a
                 className="ds-button-secondary"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -167,11 +165,11 @@ export function WebGLError({
               >
                 <ExternalLink size={14} />
                 {t('webgl.actions.open_portfolio_v1')}
-              </motion.a>
+              </m.a>
             </div>
           </div>
         </UISurface>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

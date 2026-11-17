@@ -2,7 +2,7 @@ import { submitContactForm } from '@/lib/contact-api';
 import { contactFormSchema, type ContactFormValues } from '@/schemas/contact-form-schema';
 import type { CursorVariant } from '@/types/store';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -107,7 +107,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
         }
       />
 
-      <motion.button
+      <m.button
         type="submit"
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.98 }}
@@ -120,7 +120,7 @@ export function ContactForm({ setCursorVariant }: ContactFormProps) {
           : isSubmitting
             ? t('contact.form.sending')
             : t('contact.send_message')}
-      </motion.button>
+      </m.button>
 
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {sent && t('contact.form.sent')}

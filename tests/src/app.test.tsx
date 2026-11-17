@@ -78,7 +78,7 @@ const state = {
   activePanel: null as null | string,
   helpOpen: false,
   isLoaded: false,
-  experienceSettings: { dpr: 1, antialias: true, shadows: true },
+  experienceSettings: { dpr: 1, antialias: true, shadows: true, liteEffects: false },
   settingsOpen: false,
   setCursorVariant: vi.fn(),
   setExperienceSetting: vi.fn(),
@@ -106,6 +106,7 @@ describe('App', () => {
     state.helpOpen = false;
     state.isLoaded = false;
     state.settingsOpen = false;
+    state.experienceSettings.liteEffects = false;
     state.setIsLoaded.mockClear();
     state.setCursorVariant.mockClear();
     state.setExperienceSetting.mockClear();
@@ -190,5 +191,15 @@ describe('App', () => {
     await act(async () => vi.advanceTimersByTime(8_000));
 
     vi.useRealTimers();
+  });
+
+  it('applies lite effects attribute and exposes async motion features', async () => {
+    state.experienceSettings.liteEffects = true;
+    const { default: App } = await import('@/app');
+    const motionFeatures = await import('@/lib/motion-features');
+
+    render(<App />);
+    expect(document.documentElement.dataset.effects).toBe('lite');
+    expect(motionFeatures.default).toBeDefined();
   });
 });
