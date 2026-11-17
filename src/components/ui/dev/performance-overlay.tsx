@@ -98,6 +98,7 @@ export function PerformanceOverlay({ enabled = import.meta.env.DEV }: Performanc
       ['dpr', String(settings?.dpr ?? '-')],
       ['aa', settings?.antialias ? 'on' : 'off'],
       ['shadows', settings?.shadows ? 'on' : 'off'],
+      ['lite', settings?.liteEffects ? 'on' : 'off'],
       ['stars', String(settings?.starDensity ?? '-')],
       ['asteroids', String(settings?.asteroidDensity ?? '-')],
       ['nebula', settings?.nebula ? 'on' : 'off'],

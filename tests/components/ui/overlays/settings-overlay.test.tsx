@@ -88,6 +88,7 @@ describe('SettingsOverlay', () => {
       'settings.controls.shadows',
       'settings.controls.music',
       'settings.controls.antialias',
+      'settings.controls.lite_effects',
     ];
 
     toggles.forEach((labelTxt) => {

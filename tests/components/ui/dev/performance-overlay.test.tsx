@@ -74,6 +74,7 @@ describe('PerformanceOverlay', () => {
         asteroidDensity: 0.5,
         customCursor: true,
         dpr: 1.5,
+        liteEffects: true,
         nebula: true,
         shadows: true,
         starDensity: 0.7,
@@ -83,7 +84,7 @@ describe('PerformanceOverlay', () => {
 
     expect(screen.getByText('WEBGL')).toBeInTheDocument();
     expect(screen.getAllByText('open')).toHaveLength(2);
-    expect(screen.getAllByText('on')).toHaveLength(5);
+    expect(screen.getAllByText('on')).toHaveLength(6);
 
     const collapse = screen.getByRole('button', { name: 'Collapse development stats' });
     fireEvent.click(collapse);

@@ -401,6 +401,7 @@
       "stars": "Campo de estrelas",
       "asteroids": "Cinturão de asteroides",
       "antialias": "Antialias",
+      "lite_effects": "Efeitos leves (shaders simples, sem blur)",
       "dpr": "DPR do canvas"
     },
     "ambient_orbital": "Ambient orbital",
@@ -460,15 +461,7 @@
       "devops_platform": "DevOps, plataforma e qualidade"
     },
     "group_items": {
-      "languages": [
-        "TypeScript",
-        "JavaScript",
-        "Java",
-        "SQL",
-        "Lua",
-        "HTML5",
-        "CSS3"
-      ],
+      "languages": ["TypeScript", "JavaScript", "Java", "SQL", "Lua", "HTML5", "CSS3"],
       "frontend_ui": [
         "React",
         "Next.js",

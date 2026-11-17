@@ -1,7 +1,7 @@
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useSpaceStore } from '@/store/space-store';
 import type { ExperiencePreset, ExperienceSettings } from '@/types/store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import {
   Gauge,
@@ -96,7 +96,7 @@ export function SettingsOverlay() {
   );
 
   return (
-    <motion.div
+    <m.div
       role="dialog"
       aria-modal="true"
       aria-labelledby="settings-overlay-title"
@@ -112,7 +112,7 @@ export function SettingsOverlay() {
         aria-hidden="true"
       />
 
-      <motion.div
+      <m.div
         ref={dialogRef}
         initial={{ y: 24, opacity: 0, scale: 0.98 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -162,7 +162,7 @@ export function SettingsOverlay() {
 
             <div className="grid gap-4 md:grid-cols-4">
               {presets.map((preset) => (
-                <motion.button
+                <m.button
                   key={preset.id}
                   type="button"
                   whileTap={{ scale: 0.98 }}
@@ -176,7 +176,7 @@ export function SettingsOverlay() {
                   <p className="mt-2 text-xs leading-5 text-(--fallback-text-muted)">
                     {preset.description}
                   </p>
-                </motion.button>
+                </m.button>
               ))}
             </div>
 
@@ -308,6 +308,11 @@ export function SettingsOverlay() {
                   label={t('settings.controls.antialias')}
                   onChange={(checked) => update('antialias', checked)}
                 />
+                <ToggleControl
+                  checked={settings.liteEffects}
+                  label={t('settings.controls.lite_effects')}
+                  onChange={(checked) => update('liteEffects', checked)}
+                />
                 <RangeControl
                   label={t('settings.controls.dpr')}
                   min={1}
@@ -329,8 +334,8 @@ export function SettingsOverlay() {
             </div>
           </div>
         </UISurface>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
