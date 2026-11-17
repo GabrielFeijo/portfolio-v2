@@ -14,7 +14,7 @@ interface CameraControllerProps {
 
 export function CameraController({ planetAngles }: CameraControllerProps) {
   const controlsRef = useRef<CameraControls | null>(null);
-  const { camera, size } = useThree();
+  const { camera, invalidate, size } = useThree();
   const { activePanel, activePlanet, autoRotate, transitionAnimations, warpActive, warpEffects } =
     useSpaceStore(
       useShallow((state) => ({
@@ -66,8 +66,11 @@ export function CameraController({ planetAngles }: CameraControllerProps) {
     const lerpSpeed = warpActive && warpEffects ? 5 : activePanel ? 3 : 2;
 
     if (Math.abs(camera.fov - targetFov) > 0.01) {
-      camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, delta * lerpSpeed);
+      camera.fov = transitionAnimations
+        ? THREE.MathUtils.lerp(camera.fov, targetFov, Math.min(1, delta * lerpSpeed))
+        : targetFov;
       camera.updateProjectionMatrix();
+      invalidate();
     }
   });
 
