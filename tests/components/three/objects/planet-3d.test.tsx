@@ -218,4 +218,13 @@ describe('Planet3D', () => {
     await advanceR3F(renderer, 3);
     await renderer.unmount();
   });
+
+  it('omits atmosphere and inner ring halo when liteEffects is enabled', async () => {
+    const ringPlanet = PLANETS.find((planet) => planet.hasRings)!;
+    (mockStoreState.experienceSettings as any).liteEffects = true;
+
+    const renderer = await renderPlanet(ringPlanet);
+    await advanceR3F(renderer, 2);
+    await renderer.unmount();
+  });
 });

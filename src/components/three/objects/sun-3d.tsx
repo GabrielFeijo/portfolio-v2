@@ -15,10 +15,23 @@ interface HelpLabelStyle extends CSSProperties {
 
 export const Sun3D = memo(function Sun3D() {
   const { t } = useTranslation();
-  const { openHelp, setCursorVariant } = useSpaceStore(
+  const {
+    activePanel,
+    asteroidDensity,
+    helpOpen,
+    liteEffects,
+    openHelp,
+    setCursorVariant,
+    settingsOpen,
+  } = useSpaceStore(
     useShallow((state) => ({
+      activePanel: state.activePanel,
+      asteroidDensity: state.experienceSettings.asteroidDensity,
+      helpOpen: state.helpOpen,
+      liteEffects: Boolean(state.experienceSettings.liteEffects),
       openHelp: state.openHelp,
       setCursorVariant: state.setCursorVariant,
+      settingsOpen: state.settingsOpen,
     }))
   );
   const sunRef = useRef<THREE.Mesh | null>(null);
@@ -28,6 +41,23 @@ export const Sun3D = memo(function Sun3D() {
   const colSecondary = useMemo(() => new THREE.Color(SCENE_COLORS.sun.secondary), []);
   const labelStyle = useMemo<HelpLabelStyle>(
     () => ({ '--planet-accent': SCENE_COLORS.sun.label }),
+    []
+  );
+  const flareConfigs = useMemo(
+    () =>
+      Array.from({ length: 6 }, (_, i) => {
+        const angle = (i / 6) * Math.PI * 2;
+        const r = 4.8 + (i % 3) * 0.4;
+        return {
+          basePos: [Math.cos(angle) * r, Math.sin(angle) * r, Math.sin(angle * 0.4) * r * 0.6] as [
+            number,
+            number,
+            number,
+          ],
+          delay: i * 0.3,
+          size: 0.15 + (i % 4) * 0.08,
+        };
+      }),
     []
   );
   const handleClick = useCallback(
@@ -46,7 +76,11 @@ export const Sun3D = memo(function Sun3D() {
     setCursorVariant('default');
   }, [setCursorVariant]);
 
+  const sceneObscured = Boolean(activePanel || helpOpen || settingsOpen);
+
   useFrame((state) => {
+    if (sceneObscured) return;
+
     const sun = sunRef.current;
     const material = sunMatRef.current;
     const time = state.clock.getElapsedTime();
@@ -61,9 +95,11 @@ export const Sun3D = memo(function Sun3D() {
     }
   });
 
+  const hasAsteroids = asteroidDensity > 0;
+
   return (
     <group>
-      <Sphere args={[6.5, 32, 32]}>
+      <Sphere args={[6.5, liteEffects ? 20 : 32, liteEffects ? 20 : 32]}>
         <meshBasicMaterial
           color={SCENE_COLORS.sun.halo}
           transparent
@@ -80,100 +116,107 @@ export const Sun3D = memo(function Sun3D() {
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       >
-        <sphereGeometry args={[4.5, 56, 56]} />
+        <sphereGeometry args={[4.5, liteEffects ? 32 : 56, liteEffects ? 32 : 56]} />
         <sunMaterial
           ref={sunMatRef}
           uColorPrimary={colPrimary}
           uColorSecondary={colSecondary}
           uIntensity={4.5}
+          uLite={liteEffects ? 1 : 0}
         />
       </mesh>
 
-      {useMemo(
-        () =>
-          Array.from({ length: 6 }).map((_, i) => {
-            const angle = (i / 6) * Math.PI * 2;
-            const r = 4.8 + (i % 3) * 0.4;
-            return (
-              <SolarFlare
-                key={i}
-                basePos={[
-                  Math.cos(angle) * r,
-                  Math.sin(angle) * r,
-                  Math.sin(angle * 0.4) * r * 0.6,
-                ]}
-                delay={i * 0.3}
-                size={0.15 + (i % 4) * 0.08}
-              />
-            );
-          }),
-        []
+      {!liteEffects &&
+        flareConfigs.map((flare, i) => (
+          <SolarFlare
+            key={i}
+            active={!sceneObscured}
+            basePos={flare.basePos}
+            delay={flare.delay}
+            size={flare.size}
+          />
+        ))}
+
+      {!sceneObscured && (
+        <>
+          <Sparkles
+            count={liteEffects ? 30 : 100}
+            scale={[14, 14, 14]}
+            size={3.8}
+            speed={0.9}
+            color={SCENE_COLORS.sun.sparkleWarm}
+            opacity={0.65}
+          />
+          {!liteEffects && (
+            <Sparkles
+              count={48}
+              scale={[9, 9, 9]}
+              size={5.4}
+              speed={0.55}
+              color={SCENE_COLORS.sun.halo}
+              opacity={0.85}
+            />
+          )}
+        </>
       )}
 
-      <Sparkles
-        count={100}
-        scale={[14, 14, 14]}
-        size={3.8}
-        speed={0.9}
-        color={SCENE_COLORS.sun.sparkleWarm}
-        opacity={0.65}
-      />
-      <Sparkles
-        count={48}
-        scale={[9, 9, 9]}
-        size={5.4}
-        speed={0.55}
-        color={SCENE_COLORS.sun.halo}
-        opacity={0.85}
-      />
-
-      <Html
-        position={[0, 11, 0]}
-        transform
-        sprite
-        center
-        distanceFactor={14}
-        zIndexRange={[20, 0]}
-        pointerEvents="none"
-      >
-        <div
-          className={`planet-label planet-label-help ${hovered ? 'planet-label-hovered' : ''}`}
-          style={labelStyle}
+      {!sceneObscured && (
+        <Html
+          position={[0, 11, 0]}
+          transform
+          sprite
+          center
+          distanceFactor={14}
+          zIndexRange={[20, 0]}
+          pointerEvents="none"
         >
-          <div className="planet-label-kicker">{t('sun.help.kicker')}</div>
-          <div className="planet-label-name">{t('sun.help.name')}</div>
-          <div className="planet-label-subtitle">{t('sun.help.subtitle')}</div>
-        </div>
-      </Html>
+          <div
+            className={`planet-label planet-label-help ${hovered ? 'planet-label-hovered' : ''}`}
+            style={labelStyle}
+          >
+            <div className="planet-label-kicker">{t('sun.help.kicker')}</div>
+            <div className="planet-label-name">{t('sun.help.name')}</div>
+            <div className="planet-label-subtitle">{t('sun.help.subtitle')}</div>
+          </div>
+        </Html>
+      )}
 
-      <pointLight
-        position={[0, 0, 0]}
-        intensity={22}
-        color={SCENE_COLORS.sun.lightWarm}
-        distance={520}
-        decay={1.45}
-      />
-      <pointLight
-        position={[0, 0, 0]}
-        intensity={8}
-        color={SCENE_COLORS.sun.lightHot}
-        distance={110}
-        decay={2.4}
-      />
+      {hasAsteroids && (
+        <>
+          <pointLight
+            position={[0, 0, 0]}
+            intensity={22}
+            color={SCENE_COLORS.sun.lightWarm}
+            distance={520}
+            decay={1.45}
+          />
+          {!liteEffects && (
+            <pointLight
+              position={[0, 0, 0]}
+              intensity={8}
+              color={SCENE_COLORS.sun.lightHot}
+              distance={110}
+              decay={2.4}
+            />
+          )}
+        </>
+      )}
     </group>
   );
 });
 
 interface SolarFlareProps {
+  active: boolean;
   basePos: [number, number, number];
   delay: number;
   size: number;
 }
 
-function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
+function SolarFlare({ active, basePos, delay, size }: SolarFlareProps) {
   const ref = useRef<THREE.Mesh | null>(null);
 
   useFrame((state) => {
+    if (!active) return;
     const flare = ref.current;
     if (!flare) return;
 
@@ -189,7 +232,7 @@ function SolarFlare({ basePos, delay, size }: SolarFlareProps) {
 
   return (
     <mesh ref={ref} position={basePos}>
-      <sphereGeometry args={[size, 16, 16]} />
+      <sphereGeometry args={[size, 10, 10]} />
       <meshBasicMaterial
         color={SCENE_COLORS.sun.flare}
         transparent
@@ -225,22 +268,22 @@ export function ShootingStar() {
   useFrame((state) => {
     const t = (state.clock.getElapsedTime() + delay) % 18;
     const group = ref.current;
-    const trail = trailRef.current;
+    if (!group) return;
 
-    if (group) {
-      if (t < 2.5) {
-        const progress = t / 2.5;
-        group.position.copy(start).addScaledVector(dir, progress * 240);
-        group.visible = progress > 0.05;
-        if (trail) trail.scale.set(1, 1, 1 + progress * 35);
-      } else {
-        group.visible = false;
-      }
+    if (t >= 2.5) {
+      if (group.visible) group.visible = false;
+      return;
     }
+
+    const progress = t / 2.5;
+    group.position.copy(start).addScaledVector(dir, progress * 240);
+    group.visible = progress > 0.05;
+    const trail = trailRef.current;
+    if (trail) trail.scale.set(1, 1, 1 + progress * 35);
   });
 
   return (
-    <group ref={ref}>
+    <group ref={ref} visible={false}>
       <mesh>
         <sphereGeometry args={[0.2, 8, 8]} />
         <meshBasicMaterial

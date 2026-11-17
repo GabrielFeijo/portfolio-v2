@@ -27,7 +27,7 @@ vi.mock('@react-three/fiber', async (importOriginal) => {
       try {
         callback({ clock: { getElapsedTime: () => 0 } }, 0);
       } catch {
-        // Refs may be unavailable during registration.
+        void 0;
       }
 
       return actual.useFrame(callback, priority);

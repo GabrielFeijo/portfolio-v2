@@ -55,6 +55,7 @@ export const AAA_PlanetMaterial = shaderMaterial(
     uColor: new THREE.Color(),
     uType: 0,
     uLightDir: new THREE.Vector3(1, 0.5, 0.5).normalize(),
+    uLite: 0,
   },
   `
   varying vec2 vUv;
@@ -75,7 +76,8 @@ export const AAA_PlanetMaterial = shaderMaterial(
 
     vec3 transformed = position;
     
-    if (uType == 0 || uType == 3 || uType == 5) { 
+    if (uLite > 0.5) {
+    } else if (uType == 0 || uType == 3 || uType == 5) { 
       float disp = fbm(position * 3.0 + uTime * 0.02) * 0.02;
       transformed += normal * disp;
     } else if (uType == 2) { 
@@ -172,10 +174,13 @@ export const AAA_PlanetMaterial = shaderMaterial(
     }
     
     else if (uType == 4) { 
-      vec3 q = vec3(fbm(nPos + vec3(0.0, uTime * 0.02, 0.0)),
-                    fbm(nPos + vec3(5.2, 1.3, uTime * 0.05)),
-                    fbm(nPos + vec3(1.1, uTime * 0.03, 7.5)));
-                    
+      vec3 q = domainWarp(
+        nPos,
+        vec3(0.0, uTime * 0.02, 0.0),
+        vec3(5.2, 1.3, uTime * 0.05),
+        vec3(1.1, uTime * 0.03, 7.5)
+      );
+
       vec3 warpedPos = nPos + q * 1.5;
       warpedPos.y *= 5.0; 
       
@@ -230,6 +235,7 @@ export const SunMaterial = shaderMaterial(
     uColorPrimary: new THREE.Color(SCENE_COLORS.sun.flare),
     uColorSecondary: new THREE.Color(SCENE_COLORS.sun.secondary),
     uIntensity: 1.5,
+    uLite: 0,
   },
   `
   varying vec2 vUv;
@@ -244,7 +250,7 @@ export const SunMaterial = shaderMaterial(
     vNormal = normalize(normalMatrix * normal);
     vPosition = position;
     
-    float disp = fbm(position * 2.5 + uTime * 0.3) * 0.06;
+    float disp = uLite > 0.5 ? 0.0 : fbm(position * 2.5 + uTime * 0.3) * 0.06;
     vec3 transformed = position + normal * disp;
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
@@ -264,11 +270,13 @@ export const SunMaterial = shaderMaterial(
 
   void main() {
     vec3 nPos = normalize(vPosition);
-    
-    vec3 q = vec3(fbm(nPos + vec3(0.0, uTime * 0.1, 0.0)),
-                  fbm(nPos + vec3(5.2, 1.3, uTime * 0.1)),
-                  fbm(nPos + vec3(1.1, uTime * 0.1, 7.5)));
-                  
+    vec3 q = domainWarp(
+      nPos,
+      vec3(0.0, uTime * 0.1, 0.0),
+      vec3(5.2, 1.3, uTime * 0.1),
+      vec3(1.1, uTime * 0.1, 7.5)
+    );
+
     float noise = fbm(nPos * 4.0 + q * 2.0);
     
     vec3 color = mix(uColorSecondary, uColorPrimary, noise);
