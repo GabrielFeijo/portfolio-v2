@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 let mockGraphicsMode: 'webgl' | '2d' = 'webgl';
+let mockLiteEffects = false;
 let mockWarpActive = true;
 let mockWarpSetting = true;
 let mockRefNull = false;
@@ -12,7 +13,7 @@ vi.mock('@/store/space-store', () => ({
     selector({
       graphicsMode: mockGraphicsMode,
       warpActive: mockWarpActive,
-      experienceSettings: { warpEffects: mockWarpSetting },
+      experienceSettings: { liteEffects: mockLiteEffects, warpEffects: mockWarpSetting },
     }),
 }));
 
@@ -37,6 +38,7 @@ vi.mock('react', async () => {
 describe('WarpEffect', () => {
   beforeEach(() => {
     mockGraphicsMode = 'webgl';
+    mockLiteEffects = false;
     mockWarpActive = true;
     mockWarpSetting = true;
     mockRefNull = false;
@@ -78,6 +80,12 @@ describe('WarpEffect', () => {
 
   it('handles null canvas ref', () => {
     mockRefNull = true;
+    const { container } = render(<WarpEffect />);
+    expect(container.querySelector('canvas')).toBeInTheDocument();
+  });
+
+  it('uses reduced warp particle budget in lite effects mode', () => {
+    mockLiteEffects = true;
     const { container } = render(<WarpEffect />);
     expect(container.querySelector('canvas')).toBeInTheDocument();
   });
