@@ -65,7 +65,7 @@ export function useOrbitAnimation({
     }
 
     if (atmosphereMesh) {
-      atmosphereMesh.scale.setScalar(planet.size * 1.35 * (1 + Math.sin(time * 1.5) * 0.01));
+      atmosphereMesh.scale.setScalar(planet.size * 1.22 * (1 + Math.sin(time * 1.5) * 0.01));
     }
   });
 

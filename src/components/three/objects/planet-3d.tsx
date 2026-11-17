@@ -134,7 +134,7 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
         {!liteEffects && (
           <mesh
             ref={atmosphereRef}
-            scale={[planet.size * 1.35, planet.size * 1.35, planet.size * 1.35]}
+            scale={[planet.size * 1.22, planet.size * 1.22, planet.size * 1.22]}
           >
             <sphereGeometry args={[1, 32, 32]} />
             <advancedAtmosphereMaterial
@@ -179,13 +179,14 @@ export const Planet3D = memo(function Planet3D({ angleRef, planet }: Planet3DPro
             </mesh>
             {!liteEffects && (
               <mesh>
-                <ringGeometry args={[planet.size * 1.3, planet.size * 1.35, 64]} />
+                <ringGeometry args={[planet.size * 1.4, planet.size * 1.44, 64]} />
                 <meshBasicMaterial
                   color={planet.glowColor}
                   transparent
-                  opacity={0.3}
+                  opacity={0.14}
                   side={THREE.DoubleSide}
                   blending={THREE.AdditiveBlending}
+                  depthWrite={false}
                 />
               </mesh>
             )}

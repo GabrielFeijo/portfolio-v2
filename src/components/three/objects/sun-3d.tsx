@@ -39,6 +39,7 @@ export const Sun3D = memo(function Sun3D() {
   const [hovered, setHovered] = useState(false);
   const colPrimary = useMemo(() => new THREE.Color(SCENE_COLORS.sun.primary), []);
   const colSecondary = useMemo(() => new THREE.Color(SCENE_COLORS.sun.secondary), []);
+  const haloColor = useMemo(() => new THREE.Color(SCENE_COLORS.sun.halo), []);
   const labelStyle = useMemo<HelpLabelStyle>(
     () => ({ '--planet-accent': SCENE_COLORS.sun.label }),
     []
@@ -99,12 +100,12 @@ export const Sun3D = memo(function Sun3D() {
 
   return (
     <group>
-      <Sphere args={[6.5, liteEffects ? 20 : 32, liteEffects ? 20 : 32]}>
-        <meshBasicMaterial
-          color={SCENE_COLORS.sun.halo}
-          transparent
-          opacity={0.16}
+      <Sphere args={[6.4, liteEffects ? 20 : 32, liteEffects ? 20 : 32]}>
+        <advancedAtmosphereMaterial
+          uColor={haloColor}
+          uIntensity={0.85}
           side={THREE.BackSide}
+          transparent
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

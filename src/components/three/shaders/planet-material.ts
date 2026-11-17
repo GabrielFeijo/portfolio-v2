@@ -33,18 +33,13 @@ export const AdvancedAtmosphereMaterial = shaderMaterial(
   varying vec3 vViewDir;
   
   void main() {
-    float dotNV = dot(vNormal, vViewDir);
-    float rim = smoothstep(0.0, 1.0, 1.0 - abs(dotNV));
-    
-    float core = pow(rim, 3.0) * 1.5;
-    
-    float edge = pow(rim, 6.0) * 3.0;
+    float dotNV = abs(dot(vNormal, vViewDir));
+    float falloff = smoothstep(0.0, 0.65, dotNV);
+    float glow = pow(falloff, 2.6);
+    float alpha = clamp(glow * uIntensity * 0.42, 0.0, 0.75);
+    vec3 finalColor = uColor * (0.9 + glow * 0.6);
 
-    float alpha = clamp(core + edge, 0.0, 1.0);
-    
-    vec3 finalColor = uColor * (core + edge * 2.0);
-    
-    gl_FragColor = vec4(finalColor, alpha * uIntensity * 0.45);
+    gl_FragColor = vec4(finalColor, alpha);
   }
   `
 );
