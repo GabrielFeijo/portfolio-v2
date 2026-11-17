@@ -1,5 +1,5 @@
 import { ACCOMPLISHMENTS, CERTIFICATES } from '@/data/portfolio';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { GraduationCap, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { AccomplishmentCard } from './accomplishments/accomplishment-card';
@@ -10,7 +10,7 @@ export function AccomplishmentsPanel() {
   const { t } = useTranslation();
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
+    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-8">
       <PanelIntroCard
         icon={Trophy}
         eyebrow={t('planets.accomplishments.subtitle')}
@@ -48,6 +48,6 @@ export function AccomplishmentsPanel() {
           </div>
         </PanelSection>
       )}
-    </motion.div>
+    </m.div>
   );
 }

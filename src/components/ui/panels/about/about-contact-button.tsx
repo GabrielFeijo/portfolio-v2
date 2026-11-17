@@ -1,5 +1,5 @@
 import type { CursorVariant } from '@/types/store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { createCursorHandlers } from '../panel-primitives';
 
@@ -17,7 +17,7 @@ export function AboutContactButton({
   setCursorVariant,
 }: AboutContactButtonProps) {
   return (
-    <motion.a
+    <m.a
       href={href}
       target={href.startsWith('mailto:') ? undefined : '_blank'}
       rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
@@ -27,6 +27,6 @@ export function AboutContactButton({
     >
       <Icon size={16} />
       {label}
-    </motion.a>
+    </m.a>
   );
 }

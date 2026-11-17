@@ -1,5 +1,5 @@
 import type { CursorVariant } from '@/types/store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { PanelIconBadge, createCursorHandlers } from '../panel-primitives';
 
@@ -19,7 +19,7 @@ export function ContactLinkCard({
   setCursorVariant,
 }: ContactLinkCardProps) {
   return (
-    <motion.a
+    <m.a
       href={href}
       target={href.startsWith('mailto:') ? undefined : '_blank'}
       rel={!href.startsWith('mailto:') ? 'noopener noreferrer' : undefined}
@@ -34,6 +34,6 @@ export function ContactLinkCard({
         <div className="text-sm font-semibold text-(--text-primary)">{label}</div>
         <div className="mt-1 text-xs leading-6 text-(--text-muted)">{desc}</div>
       </div>
-    </motion.a>
+    </m.a>
   );
 }

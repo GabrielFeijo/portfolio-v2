@@ -1,5 +1,5 @@
 import type { CursorVariant } from '@/types/store';
-import { motion, type Variants } from 'framer-motion';
+import { m, type Variants } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import {
   Clock,
@@ -116,12 +116,12 @@ interface PanelSectionProps extends PanelHeaderProps {
 
 export function PanelSection({ icon, eyebrow, title, children, className }: PanelSectionProps) {
   return (
-    <motion.section variants={panelFadeUp} className={cn('panel-shell p-6 sm:p-7', className)}>
+    <m.section variants={panelFadeUp} className={cn('panel-shell p-6 sm:p-7', className)}>
       <div className="mb-5">
         <PanelHeader icon={icon} eyebrow={eyebrow} title={title} />
       </div>
       {children}
-    </motion.section>
+    </m.section>
   );
 }
 

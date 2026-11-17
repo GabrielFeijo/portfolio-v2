@@ -1,5 +1,5 @@
 import type { Accomplishment } from '@/data/portfolio';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { getLucideIcon, PanelIconBadge } from '../panel-primitives';
 
@@ -12,7 +12,7 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
   const { t } = useTranslation();
 
   return (
-    <motion.article
+    <m.article
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={transition}
@@ -42,6 +42,6 @@ export function AccomplishmentCard({ accomplishment, transition }: Accomplishmen
           {t(`accomplishments_items.${accomplishment.id}.description`)}
         </p>
       </div>
-    </motion.article>
+    </m.article>
   );
 }

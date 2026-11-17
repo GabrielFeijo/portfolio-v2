@@ -1,5 +1,5 @@
 import type { Certificate } from '@/data/portfolio';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 interface CertificateCardProps {
@@ -13,7 +13,7 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
   const certificateDescription = t(`certificates_items.${certificate.id}.description`);
 
   return (
-    <motion.article
+    <m.article
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
       transition={transition}
@@ -42,6 +42,6 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
         </div>
         <p className="mt-3 text-sm leading-7 text-(--text-secondary)">{certificateDescription}</p>
       </div>
-    </motion.article>
+    </m.article>
   );
 }

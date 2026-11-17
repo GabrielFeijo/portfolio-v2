@@ -1,7 +1,7 @@
 import type { Project } from '@/data/portfolio';
 import { getTranslatedArray } from '@/utils/i18n';
 import type { CursorVariant } from '@/types/store';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { Code, ExternalLink } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives';
@@ -30,7 +30,7 @@ export function ProjectCard({
   const highlights = getTranslatedArray<string>(t, `projects_items.${project.id}.highlights`);
 
   return (
-    <motion.article
+    <m.article
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={transition}
@@ -62,7 +62,7 @@ export function ProjectCard({
 
       <AnimatePresence>
         {isSelected && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -98,9 +98,9 @@ export function ProjectCard({
                 />
               )}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.article>
+    </m.article>
   );
 }

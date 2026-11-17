@@ -1,5 +1,5 @@
 import type { CursorVariant } from '@/types/store';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { createCursorHandlers } from '../panel-primitives';
 
@@ -19,7 +19,7 @@ export function ProjectLink({
   setCursorVariant,
 }: ProjectLinkProps) {
   return (
-    <motion.a
+    <m.a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -31,6 +31,6 @@ export function ProjectLink({
     >
       <Icon size={14} />
       {label}
-    </motion.a>
+    </m.a>
   );
 }

@@ -10,10 +10,11 @@ import { PlanetPanel } from '@/components/ui/planet-panel';
 import { ExperienceBoundary } from '@/components/three/scene/experience-boundary';
 import { useSectionHash } from '@/hooks/use-section-hash';
 import { useSpaceStore } from '@/store/space-store';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, LazyMotion } from 'framer-motion';
 import { lazy, Suspense, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
+const loadMotionFeatures = () => import('@/lib/motion-features').then((module) => module.default);
 const EXPERIENCE_LOAD_TIMEOUT_MS = 8_000;
 const SpaceExperience = lazy(() =>
   Promise.race([
@@ -28,16 +29,22 @@ const SpaceExperience = lazy(() =>
 );
 
 export default function App() {
-  const { activePanel, graphicsMode, helpOpen, isLoaded, settingsOpen } = useSpaceStore(
-    useShallow((state) => ({
-      activePanel: state.activePanel,
-      graphicsMode: state.graphicsMode,
-      helpOpen: state.helpOpen,
-      isLoaded: state.isLoaded,
-      settingsOpen: state.settingsOpen,
-    }))
-  );
+  const { activePanel, graphicsMode, helpOpen, isLoaded, liteEffects, settingsOpen } =
+    useSpaceStore(
+      useShallow((state) => ({
+        activePanel: state.activePanel,
+        graphicsMode: state.graphicsMode,
+        helpOpen: state.helpOpen,
+        isLoaded: state.isLoaded,
+        liteEffects: state.experienceSettings.liteEffects,
+        settingsOpen: state.settingsOpen,
+      }))
+    );
   useSectionHash();
+
+  useEffect(() => {
+    document.documentElement.dataset.effects = liteEffects ? 'lite' : 'full';
+  }, [liteEffects]);
 
   useEffect(() => {
     const prevent = (e: Event) => e.preventDefault();
@@ -46,25 +53,27 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative h-dvh w-screen overflow-hidden">
-      <div className="vignette" />
+    <LazyMotion features={loadMotionFeatures} strict>
+      <div className="relative h-dvh w-screen overflow-hidden">
+        <div className="vignette" />
 
-      <CustomCursor />
+        <CustomCursor />
 
-      <ExperienceBoundary>
-        <Suspense fallback={<div className="fallback-experience" aria-hidden="true" />}>
-          <SpaceExperience />
-        </Suspense>
-      </ExperienceBoundary>
+        <ExperienceBoundary>
+          <Suspense fallback={<div className="fallback-experience" aria-hidden="true" />}>
+            <SpaceExperience />
+          </Suspense>
+        </ExperienceBoundary>
 
-      <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && graphicsMode !== '2d' && <HUD />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
-      <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>
-      <SpaceMusic />
-      <WarpEffect />
-      <PerformanceOverlay />
-    </div>
+        <AnimatePresence>{!isLoaded && <LoadingScreen />}</AnimatePresence>
+        <AnimatePresence>{isLoaded && graphicsMode !== '2d' && <HUD />}</AnimatePresence>
+        <AnimatePresence>{isLoaded && activePanel && <PlanetPanel />}</AnimatePresence>
+        <AnimatePresence>{isLoaded && helpOpen && <HelpOverlay />}</AnimatePresence>
+        <AnimatePresence>{isLoaded && settingsOpen && <SettingsOverlay />}</AnimatePresence>
+        <SpaceMusic />
+        <WarpEffect />
+        <PerformanceOverlay />
+      </div>
+    </LazyMotion>
   );
 }
