@@ -25,10 +25,10 @@
     "sections": "SEÇÕES"
   },
   "developer": {
-    "title": "Desenvolvedor Full Stack",
+    "title": "AI Engineer",
     "location": "Recife, Brasil",
-    "tagline": "Engenheiro de software full stack com experiência em produtos web, arquitetura de aplicações e plataformas escaláveis.",
-    "bio": "Desenvolvedor Full Stack com foco em interfaces bem construídas, backends escaláveis e experiências digitais que unem clareza, performance e valor real.",
+    "tagline": "AI Engineer e engenheiro de software full stack, focado em Agentic SDLC, agentes de IA, RAG e plataformas escaláveis.",
+    "bio": "AI Engineer com base sólida em engenharia de software: construo agentes, skills e ferramentas que aceleram o desenvolvimento e entrego soluções confiáveis em produção.",
     "availability": "Aberto para oportunidades, colaborações e conversas sobre tecnologia.",
     "stats": {
       "years": "Anos de experiência",
@@ -37,7 +37,7 @@
     },
     "summary": [
       "Desde cedo, a curiosidade sobre como sites, sistemas e jogos funcionam foi o que me aproximou da programação. A partir de modificações em jogos e da vontade de entender o que acontecia por trás da interface, nasceu uma relação genuína com tecnologia.",
-      "Hoje atuo como desenvolvedor full stack construindo aplicações web e soluções completas, do frontend ao backend, passando por arquitetura, integrações, deploy, observabilidade e qualidade de software.",
+      "Hoje atuo como AI Engineer na CI&T, projetando e construindo soluções com Agentic SDLC, orquestrando agentes, skills e subagentes, e aplicando RAG, engenharia de contexto e evals, sem abrir mão de arquitetura, qualidade e observabilidade.",
       "Gosto de ambientes em que produto, engenharia e experiência do usuário caminham juntos. Meu objetivo é criar software útil, sólido e agradável de usar."
     ],
     "education": [
@@ -202,9 +202,20 @@
     }
   },
   "experience_items": {
+    "cit_ai": {
+      "role": "AI Engineer",
+      "period": "10/2026 — Atual",
+      "description": "Projeto e construo soluções de software usando IA como principal alavanca de desenvolvimento, integrando agentes ao ciclo de entrega por meio de Agentic SDLC e respondendo pela qualidade da aplicação em produção.",
+      "achievements": [
+        "Desenvolvimento e orquestração de agentes, skills, subagentes e ferramentas reutilizáveis pelo time",
+        "Soluções com IA aplicada: RAG, orquestração de ferramentas e arquiteturas multiagentes",
+        "Engenharia de contexto, pipelines de dados e evals para avaliar o comportamento dos agentes",
+        "Arquitetura moderna e pragmática, com foco em confiabilidade, segurança e simplicidade"
+      ]
+    },
     "cit": {
-      "role": "Desenvolvedor Full Stack",
-      "period": "12/2025 — Atual",
+      "role": "Software Engineer",
+      "period": "12/2025 — 10/2026",
       "description": "Atuação em squad responsável por soluções para uma das maiores empresas de telecomunicações do Brasil, trabalhando com microfrontends, BFF e foco em experiência do usuário.",
       "achievements": [
         "Desenvolvimento de BFFs com NestJS e TypeScript",
@@ -214,7 +225,7 @@
       ]
     },
     "loopert": {
-      "role": "Desenvolvedor Full Stack",
+      "role": "Software Engineer",
       "period": "08/2024 — 11/2025",
       "description": "Empresa especializada em soluções tecnológicas para o mercado de rádio, com foco em interfaces modernas, APIs robustas e integrações de alto impacto.",
       "achievements": [
@@ -225,7 +236,7 @@
       ]
     },
     "invoer": {
-      "role": "Desenvolvedor Full Stack",
+      "role": "Software Developer",
       "period": "07/2024 — 11/2025",
       "description": "Desenvolvimento de soluções personalizadas para projetos com foco em Business Intelligence, Data Science e Engenharia de Dados.",
       "achievements": [
@@ -236,7 +247,7 @@
       ]
     },
     "arsenal": {
-      "role": "Desenvolvedor Full Stack",
+      "role": "Software Developer",
       "period": "07/2023 — 07/2024",
       "description": "Responsável pela criação da Arsenal Academy, produto educacional focado em empreendedorismo para universitários, conduzindo frontend, backend e infraestrutura.",
       "achievements": [
@@ -247,7 +258,7 @@
       ]
     },
     "senai_facepe_project": {
-      "role": "Desenvolvedor",
+      "role": "Pesquisador de Software e Inovação (Bolsista)",
       "period": "01/2023 — 12/2023",
       "description": "Projeto de cartografia rápida para prevenção de riscos com monitoramento contínuo de encostas urbanas a partir de múltiplas fontes de dados.",
       "achievements": [
@@ -312,6 +323,18 @@
     "decola_tech_2nd_edition": {
       "name": "Decola Tech 2a Edicao",
       "description": "Bootcamp com foco em desenvolvimento de software e práticas do mercado."
+    },
+    "generative_leadership": {
+      "name": "Generative Leadership: Inspiring Adaptability in an AI World",
+      "description": "Liderança e adaptabilidade em equipes que adotam IA generativa."
+    },
+    "agentic_ai_fundamentals": {
+      "name": "Agentic AI Fundamentals: Architectures, Frameworks, and Applications",
+      "description": "Fundamentos de arquiteturas, frameworks e aplicações de IA agêntica."
+    },
+    "it_cybersecurity": {
+      "name": "Cibersegurança para Profissionais de TI",
+      "description": "Fundamentos de segurança aplicados ao dia a dia de times de tecnologia."
     }
   },
   "contact": {
@@ -355,7 +378,8 @@
     "data_persistence": "Dados e persistência",
     "architecture_quality": "Arquitetura e qualidade",
     "platform_cloud": "Cloud, plataforma e observabilidade",
-    "immersive_mobile": "Web imersiva e mobile"
+    "immersive_mobile": "Web imersiva e mobile",
+    "ai_engineering": "Engenharia de IA e agentes"
   },
   "settings": {
     "title": "Configurações globais",
@@ -412,7 +436,7 @@
   },
   "loading": {
     "label": "CARREGANDO",
-    "universe": "Universo Full Stack",
+    "universe": "Universo AI Engineering",
     "phases": [
       "SINCRONIZANDO NAVEGAÇÃO ESTELAR...",
       "CARREGANDO ARQUIVOS DE PORTFÓLIO...",
@@ -424,7 +448,7 @@
   },
   "app": {
     "canvas_aria": "Universo 3D interativo - portfólio de Gabriel Feijó",
-    "document_title": "Gabriel Feijó — Desenvolvedor Full Stack"
+    "document_title": "Gabriel Feijó — AI Engineer"
   },
   "planet_panel": {
     "close_aria": "Fechar painel",
@@ -456,6 +480,7 @@
   },
   "skills": {
     "categories": {
+      "ai": "Engenharia de IA",
       "frontend": "Frontend",
       "backend": "Backend",
       "devops_platform": "DevOps, plataforma e qualidade"
@@ -537,6 +562,17 @@
         "FFmpeg.wasm / WebAssembly",
         "Canvas API",
         "Leaflet / Google Maps"
+      ],
+      "ai_engineering": [
+        "Agentic SDLC",
+        "AI Agents e Subagentes",
+        "Skills e Harness",
+        "RAG",
+        "Context Engineering",
+        "Tool Use e Orquestração",
+        "Arquiteturas Multiagentes",
+        "Evals e Red Teaming",
+        "Foundation Models via API"
       ]
     }
   },
@@ -551,6 +587,7 @@
     }
   },
   "experience": {
+    "positions": "{{count}} posições",
     "types": {
       "full_time": "CLT",
       "contract": "PJ",

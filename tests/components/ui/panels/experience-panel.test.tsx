@@ -12,23 +12,30 @@ vi.mock('react-i18next', () => ({
 }));
 
 describe('ExperiencePanel', () => {
-  it('renders correctly and toggles items', () => {
+  it('groups same-company roles under one header and toggles items', () => {
     render(<ExperiencePanel />);
 
     expect(screen.getByText('planets.experience.subtitle')).toBeInTheDocument();
+    expect(screen.getAllByText('CI&T')).toHaveLength(1);
+    expect(screen.getByText('experience_items.cit_ai.description')).toBeInTheDocument();
+    expect(screen.queryByText('experience_items.cit.description')).not.toBeInTheDocument();
 
-    expect(screen.getByText('experience_items.cit.role')).toBeInTheDocument();
-
-    const firstRole = screen.getByText('experience_items.cit.role');
+    const citAiRole = screen.getByText('experience_items.cit_ai.role');
     act(() => {
-      firstRole.click();
+      citAiRole.click();
     });
+    expect(screen.queryByText('experience_items.cit_ai.description')).not.toBeInTheDocument();
 
-    const secondRole = screen.getByText('experience_items.loopert.role');
+    const citSweRole = screen.getByText('experience_items.cit.role');
     act(() => {
-      secondRole.click();
+      citSweRole.click();
     });
+    expect(screen.getByText('experience_items.cit.description')).toBeInTheDocument();
 
+    const loopertRole = screen.getByText('experience_items.loopert.role');
+    act(() => {
+      loopertRole.click();
+    });
     expect(screen.getByText('experience_items.loopert.description')).toBeInTheDocument();
   });
 });

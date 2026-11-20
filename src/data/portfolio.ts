@@ -12,7 +12,7 @@ export const PANEL_IDS = [
 export type PanelId = (typeof PANEL_IDS)[number];
 export type PlanetIconName = 'User' | 'Zap' | 'Hammer' | 'Clock' | 'Trophy' | 'Radio';
 export type AccomplishmentIconName = 'Trophy' | 'Rocket' | 'Zap' | 'GraduationCap' | 'Cloud';
-export type SkillCategory = 'frontend' | 'backend' | 'devops';
+export type SkillCategory = 'ai' | 'frontend' | 'backend' | 'devops';
 export const PROJECT_CATEGORIES = [
   'frontend',
   'backend',
@@ -29,6 +29,7 @@ export const SKILL_GROUP_IDS = [
   'architecture_quality',
   'platform_cloud',
   'immersive_mobile',
+  'ai_engineering',
 ] as const;
 export type SkillGroupId = (typeof SKILL_GROUP_IDS)[number];
 export const EXPERIENCE_TYPES = ['full_time', 'contract', 'scholarship'] as const;
@@ -223,6 +224,14 @@ export const PLANETS: Planet[] = [
 ];
 
 export const SKILLS: Record<SkillCategory, SkillItem[]> = {
+  ai: [
+    { name: 'Agentic SDLC', color: '#00d4ff' },
+    { name: 'AI Agents & Subagents', color: '#38bdf8' },
+    { name: 'RAG & Context Engineering', color: '#a855f7' },
+    { name: 'Multi-Agent Systems', color: '#f59e0b' },
+    { name: 'Tool Orchestration', color: '#10b981' },
+    { name: 'Evals & Red Teaming', color: '#ef4444' },
+  ],
   frontend: [
     { name: 'TypeScript', color: '#3178c6' },
     { name: 'React', color: '#61dafb' },
@@ -438,6 +447,23 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
+    id: 'cit_ai',
+    company: 'CI&T',
+    type: 'full_time',
+    tech: [
+      'Agentic SDLC',
+      'AI Agents',
+      'RAG',
+      'Context Engineering',
+      'Evals',
+      'Multi-Agent Systems',
+      'TypeScript',
+      'NestJS',
+      'React',
+    ],
+    color: '#00d4ff',
+  },
+  {
     id: 'cit',
     company: 'CI&T',
     type: 'full_time',
@@ -452,7 +478,7 @@ export const EXPERIENCE: Experience[] = [
       'Azure DevOps',
       'Microfrontends',
     ],
-    color: '#00d4ff',
+    color: '#38bdf8',
   },
   {
     id: 'loopert',
@@ -563,6 +589,24 @@ export const ACCOMPLISHMENTS: Accomplishment[] = [
 ];
 
 export const CERTIFICATES: Certificate[] = [
+  {
+    id: 'generative_leadership',
+    issuer: 'University of Michigan',
+    year: 2026,
+    color: '#ffcb05',
+  },
+  {
+    id: 'agentic_ai_fundamentals',
+    issuer: 'LinkedIn Learning',
+    year: 2026,
+    color: '#0a66c2',
+  },
+  {
+    id: 'it_cybersecurity',
+    issuer: 'LinkedIn Learning',
+    year: 2025,
+    color: '#0a66c2',
+  },
   {
     id: 'ads_degree',
     issuer: 'Faculdade Senac',

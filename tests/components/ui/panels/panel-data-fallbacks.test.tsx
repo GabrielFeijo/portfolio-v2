@@ -62,6 +62,7 @@ describe('panel data fallback branches', () => {
   it('uses stable locale-neutral ids for complementary skill groups', async () => {
     vi.doMock('@/data/portfolio', () => ({
       SKILLS: {
+        ai: [],
         frontend: [],
         backend: [],
         devops: [],
