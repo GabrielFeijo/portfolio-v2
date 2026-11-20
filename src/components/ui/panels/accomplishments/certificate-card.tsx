@@ -25,6 +25,9 @@ export function CertificateCard({ certificate, transition }: CertificateCardProp
           <img
             src={certificate.image}
             alt={certificateName}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
             className="max-h-full max-w-full object-contain"
           />
         </div>

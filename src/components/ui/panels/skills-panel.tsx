@@ -1,7 +1,7 @@
 import { SKILLS, SKILL_GROUPS } from '@/data/portfolio';
 import { getTranslatedArray } from '@/utils/i18n';
 import { m } from 'framer-motion';
-import { Code2, Server, Sparkles, Wrench } from 'lucide-react';
+import { Bot, Code2, Server, Sparkles, Wrench } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PanelIconBadge, PanelIntroCard } from './panel-primitives';
 import { SkillBar } from './skills/skill-bar';
@@ -10,6 +10,13 @@ export function SkillsPanel() {
   const { t } = useTranslation();
 
   const CATEGORIES = [
+    {
+      key: 'ai',
+      label: t('skills.categories.ai'),
+      icon: Bot,
+      skills: SKILLS.ai,
+      tone: 'color-mix(in srgb, var(--panel-accent) 20%, transparent)',
+    },
     {
       key: 'frontend',
       label: t('skills.categories.frontend'),

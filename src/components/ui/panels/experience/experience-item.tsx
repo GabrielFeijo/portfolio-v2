@@ -1,9 +1,11 @@
 import type { Experience } from '@/data/portfolio';
-import { getTranslatedArray } from '@/utils/i18n';
-import { AnimatePresence, m } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Building2, Calendar, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { PanelBulletList, PanelInsetCard, PanelTagList } from '../panel-content-primitives';
+import { cn } from '../panel-primitives';
+import { ExperienceRoleDetails } from './experience-role-details';
+import { ExperienceTimelineNode } from './experience-timeline-node';
+import { getExperienceCardClassName, getExperienceCardStyle } from './experience-timeline-styles';
 
 interface ExperienceItemProps {
   experience: Experience;
@@ -14,38 +16,17 @@ interface ExperienceItemProps {
 
 export function ExperienceItem({ experience, isOpen, onToggle, transition }: ExperienceItemProps) {
   const { t } = useTranslation();
-  const achievements = getTranslatedArray<string>(
-    t,
-    `experience_items.${experience.id}.achievements`
-  );
 
   return (
-    <m.div
-      initial={{ opacity: 0, x: -16 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={transition}
-      className="relative pl-10 sm:pl-16"
-    >
-      <div
-        className="absolute left-2.25 top-7 z-10 h-3.5 w-3.5 rounded-full border-2 transition-all duration-300 sm:left-4.25"
-        style={{
-          background: isOpen ? 'var(--panel-accent)' : 'var(--deep-space)',
-          borderColor: 'var(--panel-accent)',
-          boxShadow: isOpen
-            ? '0 0 20px color-mix(in srgb, var(--panel-glow) 40%, transparent)'
-            : 'none',
-        }}
-      />
-
+    <ExperienceTimelineNode isActive={isOpen} transition={transition}>
       <m.article
         onClick={onToggle}
         whileHover={{ x: 3 }}
-        className={`cursor-none px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6 ${isOpen ? 'panel-card-strong' : 'panel-card'}`}
-        style={{
-          boxShadow: isOpen
-            ? '0 18px 40px color-mix(in srgb, var(--color-black) 24%, transparent), 0 0 34px color-mix(in srgb, var(--panel-glow) 12%, transparent)'
-            : undefined,
-        }}
+        className={cn(
+          'cursor-none px-5 py-5 transition-all duration-200 sm:px-6 sm:py-6',
+          getExperienceCardClassName(isOpen)
+        )}
+        style={getExperienceCardStyle(isOpen)}
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
@@ -75,33 +56,8 @@ export function ExperienceItem({ experience, isOpen, onToggle, transition }: Exp
           </m.div>
         </div>
 
-        <AnimatePresence>
-          {isOpen && (
-            <m.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.28 }}
-              className="overflow-hidden"
-            >
-              <p className="mb-4 mt-4 text-sm leading-7 text-(--text-secondary)">
-                {t(`experience_items.${experience.id}.description`)}
-              </p>
-
-              {achievements.length > 0 && (
-                <PanelInsetCard className="mb-4">
-                  <div className="mb-3 font-mono-space text-label font-semibold uppercase tracking-caps-lg panel-eyebrow">
-                    {t('common.key_deliveries')}
-                  </div>
-                  <PanelBulletList items={achievements} />
-                </PanelInsetCard>
-              )}
-
-              <PanelTagList items={experience.tech} />
-            </m.div>
-          )}
-        </AnimatePresence>
+        <ExperienceRoleDetails experience={experience} isOpen={isOpen} />
       </m.article>
-    </m.div>
+    </ExperienceTimelineNode>
   );
 }
